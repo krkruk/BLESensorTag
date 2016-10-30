@@ -48,7 +48,7 @@ public class BLeDiscoveryService extends Service {
             bundle.putParcelable(EXTRA_BLE_DEVICE, device);
             bundle.putInt(EXTRA_BLE_DEVICE_RSSI, rssi);
             bundle.putByteArray(EXTRA_BLE_DEVICE_SCAN_DATA, scanRecord);
-            sendLocalBroadcast(ACTION_BLE_DEVICE_FOUND, bundle);
+            send_local_broadcast(ACTION_BLE_DEVICE_FOUND, bundle);
         }
     };
 
@@ -73,7 +73,7 @@ public class BLeDiscoveryService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         this.localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        doesHandleBle();
+        does_handle_ble();
         return binder;
     }
 
@@ -103,7 +103,7 @@ public class BLeDiscoveryService extends Service {
         if(!isScanning) {
             isScanning = true;
             scanHandler.postDelayed(stopScanning, scanPeriod);
-            sendLocalBroadcast(ACTION_BLE_DISCOVERY_STARTED);
+            send_local_broadcast(ACTION_BLE_DISCOVERY_STARTED);
             return btAdapter.startLeScan(leScanCallback);
         }
 
@@ -122,32 +122,32 @@ public class BLeDiscoveryService extends Service {
         if( btAdapter != null ) {
             btAdapter.stopLeScan(leScanCallback);
             if( sendBroadcast )
-                sendLocalBroadcast(ACTION_BLE_DISCOVERY_STOPPED);
+                send_local_broadcast(ACTION_BLE_DISCOVERY_STOPPED);
         }
         scanHandler.removeCallbacks(stopScanning);
     }
 
     public boolean isScanning() { return isScanning; }
 
-    private boolean doesHandleBle() {
+    private boolean does_handle_ble() {
         if( !getPackageManager().hasSystemFeature(
                 PackageManager.FEATURE_BLUETOOTH_LE))
         {
             Toast.makeText(this, R.string.toast_ble_not_supported,
                     Toast.LENGTH_LONG).show();
-            sendLocalBroadcast(ACTION_BLE_NOT_SUPPORTED);
+            send_local_broadcast(ACTION_BLE_NOT_SUPPORTED);
             return false;
         }
         return true;
     }
 
-    private void sendLocalBroadcast(String action)
+    private void send_local_broadcast(String action)
     {
         final Intent intent = new Intent(action);
         localBroadcastManager.sendBroadcast(intent);
     }
 
-    private void sendLocalBroadcast(String action, Bundle data)
+    private void send_local_broadcast(String action, Bundle data)
     {
         final Intent intent = new Intent(action);
         intent.putExtras(data);

@@ -18,8 +18,6 @@ public class MainActivity extends Activity {
             "pl.projektorion.krzysztof.blesensortag.tag.BLE_DISCOVERY_FRAGMENT";
 
     private Fragment bleDiscovery;
-    private View view;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +26,7 @@ public class MainActivity extends Activity {
         negotiate_fragment();
     }
 
-    void negotiate_fragment()
+    private void negotiate_fragment()
     {
         FragmentManager fm = getFragmentManager();
         bleDiscovery = fm.findFragmentByTag(BLE_DISCOVERY_FRAGMENT_TAG);

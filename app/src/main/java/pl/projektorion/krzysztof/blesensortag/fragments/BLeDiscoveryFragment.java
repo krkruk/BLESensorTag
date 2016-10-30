@@ -49,7 +49,6 @@ public class BLeDiscoveryFragment extends Fragment {
     private LocalBroadcastManager localBroadcastManager;
     private boolean isServiceBound = false;
 
-    private Menu menu;
     private MenuItem scanButton;
 
     //callbacks
@@ -114,7 +113,7 @@ public class BLeDiscoveryFragment extends Fragment {
         }
     };
 
-    private AdapterView.OnItemClickListener bleDeviceListListener =
+    private AdapterView.OnItemClickListener onBLeDeviceItemClickListener =
             new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -157,11 +156,6 @@ public class BLeDiscoveryFragment extends Fragment {
         init_data_containers();
         init_broadcast_receivers();
         init_bind_services();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     @Override
@@ -233,7 +227,6 @@ public class BLeDiscoveryFragment extends Fragment {
 
     private void init_menu(Menu menu)
     {
-        this.menu = menu;
         this.scanButton = menu.findItem(R.id.action_ble_scan);
         if(bLeDiscoveryService.isScanning())
             set_mode_stop_scanning();
@@ -262,7 +255,7 @@ public class BLeDiscoveryFragment extends Fragment {
     {
         deviceList = (ListView) view.findViewById(R.id.listview_ble_devices_found);
         deviceList.setAdapter(bleDiscoveryAdapter);
-        deviceList.setOnItemClickListener(bleDeviceListListener);
+        deviceList.setOnItemClickListener(onBLeDeviceItemClickListener);
     }
 
     private void kill_broadcast_receivers()

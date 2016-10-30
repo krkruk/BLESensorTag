@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.models.BLeDeviceModel;
@@ -86,9 +87,8 @@ public class BLeDiscoveryAdapter extends BaseAdapter {
         holder.deviceName.setText(btDevice.getName());
         holder.setDeviceRssiValue(tempData.getRssi());
         holder.deviceAddress.setText(btDevice.getAddress());
-//        String textData = new String(tempData.getBroadcastData(),
-//                Charset.defaultCharset());
-        String textData = tempData.getBroadcastData().toString();
+
+        final String textData = tempData.getBroadcastData().toString();
         holder.deviceData.setText(textData);
         return view;
     }
