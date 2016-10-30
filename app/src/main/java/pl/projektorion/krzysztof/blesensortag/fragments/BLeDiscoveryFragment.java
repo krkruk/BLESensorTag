@@ -140,7 +140,7 @@ public class BLeDiscoveryFragment extends Fragment {
         init_android_framework();
         init_data_containers();
         init_broadcast_receivers();
-        init_bind_services();
+        init_bound_services();
     }
 
     @Override
@@ -163,7 +163,7 @@ public class BLeDiscoveryFragment extends Fragment {
     @Override
     public void onDestroy() {
         kill_broadcast_receivers();
-        kill_bind_services();
+        kill_bound_services();
         super.onDestroy();
     }
 
@@ -238,7 +238,7 @@ public class BLeDiscoveryFragment extends Fragment {
         localBroadcastManager.registerReceiver(bleDiscoveryServiceReceiver, localFilter);
     }
 
-    private void init_bind_services()
+    private void init_bound_services()
     {
         final Intent startBLEDiscoveryService = new Intent(appContext,
                 BLeDiscoveryService.class);
@@ -265,7 +265,7 @@ public class BLeDiscoveryFragment extends Fragment {
         localBroadcastManager.unregisterReceiver(bleDiscoveryServiceReceiver);
     }
 
-    private void kill_bind_services()
+    private void kill_bound_services()
     {
         appContext.unbindService(localServiceConnection);
     }
