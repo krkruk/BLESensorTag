@@ -15,8 +15,11 @@ public class BLeServiceScannerActivity extends Activity {
     public final static String EXTRA_BLE_DEVICE =
             "pl.projektorion.krzysztof.blesensortag.bleservicescanneractivity.extra.BLE_DEVICE";
 
+    private final static String TAG_SERVICE_SCANNER_TAG =
+            "pl.projektorion.krzysztof.blesensortag.fragments.BLeServiceScannerFragment.tag.SERVICE.SCANNER";
+
     private BluetoothDevice bleDevice;
-    private BLeServiceScannerFragment serviceScannerFragment;
+    private Fragment serviceScannerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +38,15 @@ public class BLeServiceScannerActivity extends Activity {
 
     private void negotiate_service_scanner_fragment()
     {
-        FragmentManager fragManager = getFragmentManager();
-        FragmentTransaction fragTransaction = fragManager.beginTransaction();
-        serviceScannerFragment = BLeServiceScannerFragment.newInstance(bleDevice);
-        fragTransaction.replace(R.id.ble_service_scanner_fragment_container,
-                serviceScannerFragment);
-        fragTransaction.commit();
+        FragmentManager fm = getFragmentManager();
+        serviceScannerFragment = fm.findFragmentByTag(TAG_SERVICE_SCANNER_TAG);
+        if( serviceScannerFragment == null ) {
+            FragmentTransaction ft = fm.beginTransaction();
+            serviceScannerFragment = BLeServiceScannerFragment.newInstance(bleDevice);
+            ft.add(serviceScannerFragment, TAG_SERVICE_SCANNER_TAG);
+            ft.replace(R.id.ble_service_scanner_fragment_container,
+                    serviceScannerFragment);
+            ft.commit();
+        }
     }
 }

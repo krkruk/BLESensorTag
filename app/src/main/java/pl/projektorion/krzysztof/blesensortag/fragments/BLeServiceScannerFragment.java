@@ -27,7 +27,6 @@ public class BLeServiceScannerFragment extends Fragment {
             "pl.projektorion.krzysztof.blesensortag.bleservicescannerfragment.extra.BLE_DEVICE";
 
     private View view;
-    private Context context;
     private Context appContext;
     private BluetoothDevice bleDevice;
     private TextView labelDeviceName;
@@ -39,26 +38,21 @@ public class BLeServiceScannerFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        init_android_framework();
+        retrieve_incoming_data();
+        assert_ble_device_exists();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_ble_service_scanner, container, false);
-        return view;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        appContext = getActivity().getApplicationContext();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        retrieve_incoming_data();
-        assert_ble_device_exists();
-        init_android_framework();
         init_widgets();
         init_label_values();
+        return view;
     }
 
     public static BLeServiceScannerFragment newInstance(BluetoothDevice device) {
@@ -67,6 +61,12 @@ public class BLeServiceScannerFragment extends Fragment {
         BLeServiceScannerFragment fragment = new BLeServiceScannerFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private void init_android_framework()
+    {
+        setRetainInstance(true);
+        this.appContext = getActivity().getApplicationContext();
     }
 
     private void retrieve_incoming_data()
@@ -78,20 +78,11 @@ public class BLeServiceScannerFragment extends Fragment {
     private void assert_ble_device_exists()
     {
         if( bleDevice == null ) {
-            final Activity activityContext = getActivity();
-            activityContext.finish();
+            final Activity activity = getActivity();
+            activity.finish();
             Toast.makeText(appContext,
                     R.string.toast_ble_service_scan_device_not_passed,
                     Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void init_android_framework()
-    {
-        try {
-            this.context = this.view.getContext();
-        } catch (NullPointerException e) {
-            Log.d(Constant.BLESERV_ERR_TAG, Constant.CONTEXT_ERR);
         }
     }
 

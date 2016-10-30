@@ -133,6 +133,16 @@ public class BLeDiscoveryFragment extends Fragment {
     public BLeDiscoveryFragment() {
     }
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        init_android_framework();
+        init_data_containers();
+        init_broadcast_receivers();
+        init_bind_services();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -149,14 +159,6 @@ public class BLeDiscoveryFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        init_android_framework();
-        init_data_containers();
-        init_broadcast_receivers();
-        init_bind_services();
-    }
 
     @Override
     public void onDestroy() {
@@ -205,6 +207,25 @@ public class BLeDiscoveryFragment extends Fragment {
         getActivity().finish();
     }
 
+    private void init_android_framework()
+    {
+        setRetainInstance(true);
+
+        final Activity activity = getActivity();
+        try {
+            this.appContext = activity.getApplicationContext();
+        } catch (NullPointerException e) {
+            Log.d(Constant.BLEDEV_ERR_TAG, Constant.CONTEXT_ERR);
+            activity.finish();
+        }
+    }
+
+    private void init_data_containers()
+    {
+        bleDeviceList = new ArrayList<>();
+        bleDiscoveryAdapter = new BLeDiscoveryAdapter(appContext, null);
+    }
+
     private void init_broadcast_receivers()
     {
         final IntentFilter localFilter = new IntentFilter();
@@ -225,37 +246,18 @@ public class BLeDiscoveryFragment extends Fragment {
                 Context.BIND_AUTO_CREATE);
     }
 
-    private void init_menu(Menu menu)
-    {
-        this.scanButton = menu.findItem(R.id.action_ble_scan);
-        if(bLeDiscoveryService.isScanning())
-            set_mode_stop_scanning();
-    }
-
-    private void init_android_framework()
-    {
-        setRetainInstance(true);
-
-        final Activity activity = getActivity();
-        try {
-            this.appContext = activity.getApplicationContext();
-        } catch (NullPointerException e) {
-            Log.d(Constant.BLEDEV_ERR_TAG, Constant.CONTEXT_ERR);
-            activity.finish();
-        }
-    }
-
-    private void init_data_containers()
-    {
-        bleDeviceList = new ArrayList<>();
-        bleDiscoveryAdapter = new BLeDiscoveryAdapter(appContext, null);
-    }
-
     private void init_widgets()
     {
         deviceList = (ListView) view.findViewById(R.id.listview_ble_devices_found);
         deviceList.setAdapter(bleDiscoveryAdapter);
         deviceList.setOnItemClickListener(onBLeDeviceItemClickListener);
+    }
+
+    private void init_menu(Menu menu)
+    {
+        this.scanButton = menu.findItem(R.id.action_ble_scan);
+        if(bLeDiscoveryService.isScanning())
+            set_mode_stop_scanning();
     }
 
     private void kill_broadcast_receivers()
