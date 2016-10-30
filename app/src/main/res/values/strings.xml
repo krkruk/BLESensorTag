@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">BLESensorTag</string>
+
+    <!--Toasts-->
+    <string name="toast_ble_not_supported">BLE is not supported. The app is to be closed.</string>
+    <string name="toast_ble_must_be_enabled">BLE must be enabled. The app is to be closed.</string>
+    <string name="toast_ble_scanning_started">Scanning started.</string>
+    <string name="toast_ble_scanning_stopped">Scanning stopped.</string>
+    <string name="toast_ble_service_scan_device_not_passed">
+        Internal error. The activity cannot be started.</string>
+
+    <!--Actions-->
+    <string name="action_ble_scan_start_label">Scan</string>
+    <string name="action_ble_scan_stop_label">Stop</string>
+
+</resources>
