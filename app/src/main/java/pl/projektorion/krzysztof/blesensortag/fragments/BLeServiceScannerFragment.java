@@ -27,10 +27,9 @@ import android.widget.Toast;
 import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.R;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeDiscoveryService;
+import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapter;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeServiceScannerService;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.receivers.BLeServiceReceiver;
-import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +48,7 @@ public class BLeServiceScannerFragment extends Fragment {
     private TextView labelDeviceName;
     private TextView labelDeviceAddress;
     private ExpandableListView deviceServicesDisplayWidget;
+    private BLeServiceScannerAdapter serviceScannerAdapter;
 
     private BLeServiceScannerService scannerService;
     private ServiceConnection scannerServiceConnection = new ServiceConnection() {
@@ -78,11 +78,11 @@ public class BLeServiceScannerFragment extends Fragment {
             {
                 Log.i("TAG", "---DISCONNECTED");
             }
-            else if(BLeServiceScannerService.ACTION_BLE_DEVICES_FOUND.equals(action))
+            else if(BLeServiceScannerService.ACTION_BLE_SERVICES_FOUND.equals(action))
             {
                 List<BluetoothGattService> services = scannerService.getServices();
-                for(BluetoothGattService service : services)
-                    Log.i("Service", service.toString());
+                serviceScannerAdapter.addGroupData(services);
+                serviceScannerAdapter.notifyDataSetChanged();
             }
         }
     };
@@ -104,6 +104,7 @@ public class BLeServiceScannerFragment extends Fragment {
         init_android_framework();
         retrieve_incoming_data();
         assert_ble_device_exists();
+        init_adapters();
         init_bound_services();
         init_broadcast_receivers();
     }
@@ -156,6 +157,11 @@ public class BLeServiceScannerFragment extends Fragment {
         }
     }
 
+    private void init_adapters()
+    {
+        serviceScannerAdapter = new BLeServiceScannerAdapter(appContext, null);
+    }
+
     private void init_bound_services()
     {
         final Intent scanService = new Intent(appContext, BLeServiceScannerService.class);
@@ -171,7 +177,7 @@ public class BLeServiceScannerFragment extends Fragment {
         IntentFilter filter = new IntentFilter();
         filter.addAction(BLeServiceScannerService.ACTION_BLE_CONNECTED);
         filter.addAction(BLeServiceScannerService.ACTION_BLE_DISCONNECTED);
-        filter.addAction(BLeServiceScannerService.ACTION_BLE_DEVICES_FOUND);
+        filter.addAction(BLeServiceScannerService.ACTION_BLE_SERVICES_FOUND);
         broadcastManager = LocalBroadcastManager.getInstance(appContext);
         broadcastManager.registerReceiver(statusReceiver, filter);
     }
@@ -188,6 +194,7 @@ public class BLeServiceScannerFragment extends Fragment {
     {
         labelDeviceName.setText(bleDevice.getName());
         labelDeviceAddress.setText(bleDevice.getAddress());
+        deviceServicesDisplayWidget.setAdapter(serviceScannerAdapter);
     }
 
     private void kill_bound_services()

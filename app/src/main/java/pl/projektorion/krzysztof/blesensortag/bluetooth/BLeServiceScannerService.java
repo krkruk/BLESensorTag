@@ -8,7 +8,6 @@ import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.os.ResultReceiver;
@@ -24,8 +23,8 @@ public class BLeServiceScannerService extends Service {
     public static final String EXTRA_BLE_DEVICE =
             "pl.projektorion.krzysztof.blesensortag.bluetooth.extra.BLE_DEVICE";
 
-    public static final String ACTION_BLE_DEVICES_FOUND =
-            "pl.projektorion.krzysztof.blesensortag.bluetooth.action.BLE_DEVICES_FOUND";
+    public static final String ACTION_BLE_SERVICES_FOUND =
+            "pl.projektorion.krzysztof.blesensortag.bluetooth.action.BLE_SERVICES_FOUND";
 
     public static final String ACTION_BLE_CONNECTED =
             "pl.projektorion.krzysztof.blesensortag.bluetooth.action.BLE_CONNECTED";
@@ -44,7 +43,6 @@ public class BLeServiceScannerService extends Service {
     private BluetoothGattCallback bLeGattCallbacks = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            Log.i("Callback", "Connection status changed");
             if( status == BluetoothGatt.GATT_SUCCESS )
             {
                 String state = newState == BluetoothGatt.STATE_CONNECTED
@@ -55,7 +53,7 @@ public class BLeServiceScannerService extends Service {
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-            send_update(ACTION_BLE_DEVICES_FOUND);
+            send_update(ACTION_BLE_SERVICES_FOUND);
         }
     };
 
