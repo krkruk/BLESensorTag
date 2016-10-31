@@ -1,6 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.fragments;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattService;
@@ -20,11 +21,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapter;
@@ -47,8 +50,9 @@ public class BLeServiceScannerFragment extends Fragment {
     private LocalBroadcastManager broadcastManager;
     private TextView labelDeviceName;
     private TextView labelDeviceAddress;
-    private ExpandableListView deviceServicesDisplayWidget;
-    private BLeServiceScannerAdapter serviceScannerAdapter;
+    private ListView serviceWidgetList;
+    private BLeServiceScannerAdapter serviceWidgetAdapter;
+
 
     private BLeServiceScannerService scannerService;
     private ServiceConnection scannerServiceConnection = new ServiceConnection() {
@@ -57,6 +61,8 @@ public class BLeServiceScannerFragment extends Fragment {
             scannerService = ((BLeServiceScannerService.BLeServiceScannerBinder) service)
                     .getService();
             scannerService.connect();
+            display_status(R.string.status_connecting);
+
         }
 
         @Override
@@ -68,21 +74,25 @@ public class BLeServiceScannerFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            Log.i("ACTION", action);
             if(BLeServiceScannerService.ACTION_BLE_CONNECTED.equals(action))
             {
+                display_status(R.string.status_connected);
                 scannerService.discoverServices();
-                Log.i("TAG", "+++CONNECTED");
+                display_status(R.string.status_ble_service_scanning);
             }
             else if(BLeServiceScannerService.ACTION_BLE_DISCONNECTED.equals(action))
             {
-                Log.i("TAG", "---DISCONNECTED");
+                display_status(R.string.status_disconnected);
             }
             else if(BLeServiceScannerService.ACTION_BLE_SERVICES_FOUND.equals(action))
             {
+                display_status(R.string.status_ble_services_found);
                 List<BluetoothGattService> services = scannerService.getServices();
-                serviceScannerAdapter.addGroupData(services);
-                serviceScannerAdapter.notifyDataSetChanged();
+                final List<String> uuids = new ArrayList<>();
+                for(BluetoothGattService service : services)
+                    uuids.add(service.getUuid().toString());
+                serviceWidgetAdapter.expand(uuids);
+                serviceWidgetAdapter.notifyDataSetChanged();
             }
         }
     };
@@ -159,7 +169,7 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private void init_adapters()
     {
-        serviceScannerAdapter = new BLeServiceScannerAdapter(appContext, null);
+        serviceWidgetAdapter = new BLeServiceScannerAdapter(appContext, null);
     }
 
     private void init_bound_services()
@@ -186,15 +196,15 @@ public class BLeServiceScannerFragment extends Fragment {
     {
         labelDeviceAddress = (TextView) view.findViewById(R.id.label_current_device_address);
         labelDeviceName = (TextView) view.findViewById(R.id.label_current_device_name);
-        deviceServicesDisplayWidget = (ExpandableListView)
-                view.findViewById(R.id.expandablelistview_device_services);
+        serviceWidgetList = (ListView) view.findViewById(R.id.listview_device_services);
+        serviceWidgetList.setAdapter(serviceWidgetAdapter);
     }
 
     private void init_label_values()
     {
         labelDeviceName.setText(bleDevice.getName());
         labelDeviceAddress.setText(bleDevice.getAddress());
-        deviceServicesDisplayWidget.setAdapter(serviceScannerAdapter);
+
     }
 
     private void kill_bound_services()
@@ -205,5 +215,43 @@ public class BLeServiceScannerFragment extends Fragment {
     private void kill_broadcast_receivers()
     {
         broadcastManager.unregisterReceiver(statusReceiver);
+    }
+
+    private void display_status(String status)
+    {
+        final ActionBar actionBar = getActivity().getActionBar();
+        final int timeout = 2000;
+        try {
+            actionBar.setTitle(status);
+        } catch (NullPointerException e)
+        {
+            return;
+        }
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                actionBar.setTitle(R.string.app_name);
+            }
+        }, timeout);
+    }
+
+    private void display_status(int resId)
+    {
+        final ActionBar actionBar = getActivity().getActionBar();
+        final int timeout = 2000;
+        try {
+            actionBar.setTitle(resId);
+        } catch (NullPointerException e)
+        {
+            return;
+        }
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                actionBar.setTitle(R.string.app_name);
+            }
+        }, timeout);
     }
 }

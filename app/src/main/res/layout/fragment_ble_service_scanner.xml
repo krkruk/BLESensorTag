@@ -8,17 +8,14 @@
     <TextView
         android:id="@+id/label_current_device_name"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:gravity="center"
     />
 
     <TextView
         android:id="@+id/label_current_device_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
     />
 
     <View
@@ -29,11 +26,18 @@
         android:layout_marginBottom="5dp"
     />
 
-    <ExpandableListView
-        android:id="@+id/expandablelistview_device_services"
+    <ListView
+        android:id="@+id/listview_device_services"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="14"
+        android:layout_weight="1"
+    />
+
+    <FrameLayout
+        android:id="@+id/data_presentation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
     />
 
 </LinearLayout>

@@ -13,4 +13,11 @@
     <string name="action_ble_scan_start_label">Scan</string>
     <string name="action_ble_scan_stop_label">Stop</string>
 
+    <!--Status messages-->
+    <string name="status_connecting">Connecting</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_ble_service_scanning">Service scan pending.</string>
+    <string name="status_ble_services_found">Services found.</string>
+
 </resources>
