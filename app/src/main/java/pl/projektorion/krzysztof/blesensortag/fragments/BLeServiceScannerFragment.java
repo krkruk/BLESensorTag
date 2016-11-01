@@ -46,8 +46,6 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private View view;
     private Context appContext;
-    private TextView labelDeviceName;
-    private TextView labelDeviceAddress;
     private ListView serviceWidgetList;
     private BLeServiceScannerAdapter serviceWidgetAdapter;
 
@@ -58,7 +56,6 @@ public class BLeServiceScannerFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            Log.i("Fragment", action);
 
             if(BLeGattClientService.ACTION_GATT_CONNECTED.equals(action))
             {
@@ -95,7 +92,6 @@ public class BLeServiceScannerFragment extends Fragment {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-
         }
     };
 
@@ -119,7 +115,6 @@ public class BLeServiceScannerFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_ble_service_scanner, container, false);
         init_widgets();
-        init_label_values();
         return view;
     }
 
@@ -187,17 +182,8 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private void init_widgets()
     {
-        labelDeviceAddress = (TextView) view.findViewById(R.id.label_current_device_address);
-        labelDeviceName = (TextView) view.findViewById(R.id.label_current_device_name);
         serviceWidgetList = (ListView) view.findViewById(R.id.listview_device_services);
         serviceWidgetList.setAdapter(serviceWidgetAdapter);
-    }
-
-    private void init_label_values()
-    {
-        labelDeviceName.setText(bleDevice.getName());
-        labelDeviceAddress.setText(bleDevice.getAddress());
-
     }
 
     private void kill_bound_services()

@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.FragmentManager;
+import android.widget.TextView;
 
 import pl.projektorion.krzysztof.blesensortag.fragments.BLeServiceScannerFragment;
 
@@ -21,13 +22,25 @@ public class BLeServiceScannerActivity extends Activity {
     private BluetoothDevice bleDevice;
     private Fragment serviceScannerFragment;
 
+    private TextView labelDeviceName;
+    private TextView labelDeviceUuid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ble_service_scanner);
 
         retrieve_intent_data();
+        load_saved_instance(savedInstanceState);
         negotiate_service_scanner_fragment();
+        init_widgets();
+        init_widgets_data();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(EXTRA_BLE_DEVICE, bleDevice);
     }
 
     private void retrieve_intent_data()
@@ -48,5 +61,28 @@ public class BLeServiceScannerActivity extends Activity {
                     serviceScannerFragment);
             ft.commit();
         }
+    }
+
+    private void load_saved_instance(Bundle savedInstanceState)
+    {
+        if( savedInstanceState == null )
+            return;
+
+        bleDevice = savedInstanceState.getParcelable(EXTRA_BLE_DEVICE);
+    }
+
+    private void init_widgets()
+    {
+        labelDeviceName = (TextView) findViewById(R.id.label_current_device_name);
+        labelDeviceUuid = (TextView) findViewById(R.id.label_current_device_address);
+    }
+
+    private void init_widgets_data()
+    {
+        if( bleDevice == null )
+            return;
+
+        labelDeviceName.setText(bleDevice.getName());
+        labelDeviceUuid.setText(bleDevice.getAddress());
     }
 }

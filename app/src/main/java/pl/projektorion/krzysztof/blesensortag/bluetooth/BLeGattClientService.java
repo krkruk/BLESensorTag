@@ -49,6 +49,7 @@ public class BLeGattClientService extends Service {
     private LocalBroadcastManager broadcaster;
 
 
+
     /**
      * Bluetooth Low Energy implementation of API callbacks
      */
@@ -81,7 +82,6 @@ public class BLeGattClientService extends Service {
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-            Log.i("Service", "All discvoerd");
             if( status == BluetoothGatt.GATT_SUCCESS )
                 update_state(ACTION_GATT_SERVICES_DISCOVERED);
         }
@@ -152,12 +152,22 @@ public class BLeGattClientService extends Service {
             Log.d("Service", "No device to connect available");
             return;
         }
+        if( gattClient != null ) {
+            gattClient.connect();
+            return;
+        }
         gattClient = bleDevice.connectGatt(appContext, true, bleCallbacks);
+    }
+
+    public void disconnect()
+    {
+        if( gattClient == null )
+            return;
+        gattClient.disconnect();
     }
 
     public boolean discoverServices()
     {
-        Log.i("Service", "Request to start discovering");
         if( gattClient != null )
             return gattClient.discoverServices();
         return false;
@@ -174,8 +184,11 @@ public class BLeGattClientService extends Service {
 
     private void retrieve_intent_data(Intent intent)
     {
-        if( bleDevice == null )
+        if( bleDevice == null ) {
             bleDevice = intent.getParcelableExtra(EXTRA_BLE_DEVICE);
+            if(bleDevice == null)
+                throw new NullPointerException(Constant.NO_INTENT_DATA_ERR);
+        }
     }
 
     private void init_broadcast_receivers()

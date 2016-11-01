@@ -5,39 +5,9 @@
     tools:context="pl.projektorion.krzysztof.blesensortag.fragments.BLeServiceScannerFragment"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/label_current_device_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-    />
-
-    <TextView
-        android:id="@+id/label_current_device_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-    />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-    />
-
     <ListView
         android:id="@+id/listview_device_services"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
     />
-
-    <FrameLayout
-        android:id="@+id/data_presentation"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-    />
-
 </LinearLayout>
