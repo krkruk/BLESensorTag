@@ -27,12 +27,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapter;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeServiceScannerService;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.receivers.BLeServiceReceiver;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,65 +40,62 @@ public class BLeServiceScannerFragment extends Fragment {
     public final static String EXTRA_BLE_DEVICE =
             "pl.projektorion.krzysztof.blesensortag.bleservicescannerfragment.extra.BLE_DEVICE";
 
-    final private Handler handler = new Handler(Looper.getMainLooper());
-    private BLeServiceReceiver serviceDataReceiver = new BLeServiceReceiver(handler);
+
+    private BluetoothDevice bleDevice;
+    private BLeGattClientService gattService;
+
     private View view;
     private Context appContext;
-    private BluetoothDevice bleDevice;
-    private LocalBroadcastManager broadcastManager;
     private TextView labelDeviceName;
     private TextView labelDeviceAddress;
     private ListView serviceWidgetList;
     private BLeServiceScannerAdapter serviceWidgetAdapter;
 
+    final private Handler handler = new Handler(Looper.getMainLooper());
+    private LocalBroadcastManager broadcaster;
 
-    private BLeServiceScannerService scannerService;
-    private ServiceConnection scannerServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            scannerService = ((BLeServiceScannerService.BLeServiceScannerBinder) service)
-                    .getService();
-            scannerService.connect();
-            display_status(R.string.status_connecting);
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-        }
-    };
-
-    private BroadcastReceiver statusReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver serviceGattReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if(BLeServiceScannerService.ACTION_BLE_CONNECTED.equals(action))
+            Log.i("Fragment", action);
+
+            if(BLeGattClientService.ACTION_GATT_CONNECTED.equals(action))
             {
                 display_status(R.string.status_connected);
-                scannerService.discoverServices();
-                display_status(R.string.status_ble_service_scanning);
+                gattService.discoverServices();
             }
-            else if(BLeServiceScannerService.ACTION_BLE_DISCONNECTED.equals(action))
+            else if(BLeGattClientService.ACTION_GATT_CONNECTING.equals(action))
+            {
+                display_status(R.string.status_connecting);
+            }
+            else if(BLeGattClientService.ACTION_GATT_DISCONNECTED.equals(action))
             {
                 display_status(R.string.status_disconnected);
             }
-            else if(BLeServiceScannerService.ACTION_BLE_SERVICES_FOUND.equals(action))
+            else if(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
             {
-                display_status(R.string.status_ble_services_found);
-                List<BluetoothGattService> services = scannerService.getServices();
-                final List<String> uuids = new ArrayList<>();
+                List<BluetoothGattService> services = gattService.getServices();
+                List<String> servicesString = new ArrayList<>();
                 for(BluetoothGattService service : services)
-                    uuids.add(service.getUuid().toString());
-                serviceWidgetAdapter.expand(uuids);
+                    servicesString.add(service.getUuid().toString());
+                serviceWidgetAdapter.expand(servicesString);
                 serviceWidgetAdapter.notifyDataSetChanged();
             }
         }
     };
 
-    private BLeServiceReceiver.ReceiverListener serviceDataListener =
-            new BLeServiceReceiver.ReceiverListener() {
+    private ServiceConnection gattServiceConnection = new ServiceConnection() {
         @Override
-        public void onReceiveResult(int resultCode, Bundle resultData) {
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            gattService = ((BLeGattClientService.BLeGattClientBinder) service)
+                    .getService();
+            gattService.connect();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
         }
     };
 
@@ -115,8 +110,8 @@ public class BLeServiceScannerFragment extends Fragment {
         retrieve_incoming_data();
         assert_ble_device_exists();
         init_adapters();
-        init_bound_services();
         init_broadcast_receivers();
+        init_bound_services();
     }
 
     @Override
@@ -147,7 +142,6 @@ public class BLeServiceScannerFragment extends Fragment {
     {
         setRetainInstance(true);
         this.appContext = getActivity().getApplicationContext();
-        serviceDataReceiver.setListener(serviceDataListener);
     }
 
     private void retrieve_incoming_data()
@@ -174,22 +168,21 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private void init_bound_services()
     {
-        final Intent scanService = new Intent(appContext, BLeServiceScannerService.class);
-        scanService.putExtra(BLeServiceScannerService.EXTRA_RESULT_RECEIVER,
-                serviceDataReceiver);
-        scanService.putExtra(BLeServiceScannerService.EXTRA_BLE_DEVICE, bleDevice);
-        appContext.bindService(scanService,
-                scannerServiceConnection, Context.BIND_AUTO_CREATE);
+        Intent initGatt = new Intent(appContext, BLeGattClientService.class);
+        initGatt.putExtra(BLeGattClientService.EXTRA_BLE_DEVICE, bleDevice);
+        appContext.bindService(initGatt, gattServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     private void init_broadcast_receivers()
     {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(BLeServiceScannerService.ACTION_BLE_CONNECTED);
-        filter.addAction(BLeServiceScannerService.ACTION_BLE_DISCONNECTED);
-        filter.addAction(BLeServiceScannerService.ACTION_BLE_SERVICES_FOUND);
-        broadcastManager = LocalBroadcastManager.getInstance(appContext);
-        broadcastManager.registerReceiver(statusReceiver, filter);
+        IntentFilter serviceFilter = new IntentFilter();
+        serviceFilter.addAction(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED);
+        serviceFilter.addAction(BLeGattClientService.ACTION_GATT_CONNECTED);
+        serviceFilter.addAction(BLeGattClientService.ACTION_GATT_CONNECTING);
+        serviceFilter.addAction(BLeGattClientService.ACTION_GATT_DISCONNECTED);
+
+        broadcaster = LocalBroadcastManager.getInstance(appContext);
+        broadcaster.registerReceiver(serviceGattReceiver, serviceFilter);
     }
 
     private void init_widgets()
@@ -209,31 +202,12 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private void kill_bound_services()
     {
-        appContext.unbindService(scannerServiceConnection);
+        appContext.unbindService(gattServiceConnection);
     }
 
     private void kill_broadcast_receivers()
     {
-        broadcastManager.unregisterReceiver(statusReceiver);
-    }
-
-    private void display_status(String status)
-    {
-        final ActionBar actionBar = getActivity().getActionBar();
-        final int timeout = 2000;
-        try {
-            actionBar.setTitle(status);
-        } catch (NullPointerException e)
-        {
-            return;
-        }
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                actionBar.setTitle(R.string.app_name);
-            }
-        }, timeout);
+        broadcaster.unregisterReceiver(serviceGattReceiver);
     }
 
     private void display_status(int resId)

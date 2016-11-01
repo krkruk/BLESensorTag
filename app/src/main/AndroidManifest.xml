@@ -27,9 +27,9 @@
         <activity android:name=".BLeServiceScannerActivity" />
 
         <service
-            android:name=".bluetooth.BLeServiceScannerService"
+            android:name=".bluetooth.BLeGattClientService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="true"></service>
     </application>
 
 </manifest>
