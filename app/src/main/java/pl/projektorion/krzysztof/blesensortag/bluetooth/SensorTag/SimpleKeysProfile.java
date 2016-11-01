@@ -1,15 +1,13 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeDescriptorWriteCommand;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotificationEnableCommand;
-import pl.projektorion.krzysztof.blesensortag.constants.Constant;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotificationDisableWriteCommand;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotificationEnableWriteCommand;
 
 
 /**
@@ -24,25 +22,27 @@ public class SimpleKeysProfile {
 
     private BLeGattIO gattClient;
     private BluetoothGattService service;
+    private boolean isNotifying;
 
     public SimpleKeysProfile(BLeGattIO gattClient) {
         this.gattClient = gattClient;
-
+        this.isNotifying = false;
         service = getService();
     }
 
     public void enableNotification(boolean state)
     {
+        if( isNotifying == state ) return;
+        isNotifying = state;
+
         service = getService();
         if(service == null) return;
-        BluetoothGattCharacteristic notify = service.getCharacteristic(SIMPLE_KEY_DATA);
-        if(notify == null) return;
-        BluetoothGattDescriptor enable = notify.getDescriptor(
-                Constant.CLIENT_CHARACTERISTIC_CONFIGURATION_UUID);
-        enable.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+        final BluetoothGattCharacteristic notify = service.getCharacteristic(SIMPLE_KEY_DATA);
 
-        gattClient.add(new BLeNotificationEnableCommand(gattClient, notify, state));
-        gattClient.add(new BLeDescriptorWriteCommand(gattClient, enable));
+        if( state )
+            gattClient.add(new BLeNotificationEnableWriteCommand(gattClient, notify));
+        else
+            gattClient.add(new BLeNotificationDisableWriteCommand(gattClient, notify));
     }
 
     private BluetoothGattService getService()

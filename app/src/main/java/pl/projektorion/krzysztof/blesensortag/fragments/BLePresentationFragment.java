@@ -71,7 +71,6 @@ public class BLePresentationFragment extends Fragment
     @Override
     public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic,
                                      int status) {
-
     }
 
     @Override
