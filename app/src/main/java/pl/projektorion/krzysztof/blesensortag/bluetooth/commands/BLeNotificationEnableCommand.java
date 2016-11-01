@@ -4,12 +4,13 @@ import android.bluetooth.BluetoothGattCharacteristic;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
 import pl.projektorion.krzysztof.blesensortag.utils.Command;
+import pl.projektorion.krzysztof.blesensortag.utils.CommandAbstract;
 
 /**
  * Created by krzysztof on 01.11.16.
  */
 
-public class BLeNotificationEnableCommand implements Command {
+public class BLeNotificationEnableCommand extends CommandAbstract {
     private BLeGattIO gattClient;
     private BluetoothGattCharacteristic dataCharacteristic;
     private boolean state;
@@ -34,6 +35,11 @@ public class BLeNotificationEnableCommand implements Command {
         if( gattClient == null || dataCharacteristic == null )
             return;
         gattClient.setNotificationEnable(dataCharacteristic, state);
+    }
+
+    @Override
+    public boolean autoContinue() {
+        return true;
     }
 
     private void init(BLeGattIO gattClient, BluetoothGattCharacteristic dataCharacteristic,

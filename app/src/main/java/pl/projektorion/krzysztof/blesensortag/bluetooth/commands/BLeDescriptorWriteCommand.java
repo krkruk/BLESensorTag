@@ -1,16 +1,16 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.commands;
 
-import android.bluetooth.BluetoothGattCharacteristic;
+
 import android.bluetooth.BluetoothGattDescriptor;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.utils.Command;
+import pl.projektorion.krzysztof.blesensortag.utils.CommandAbstract;
 
 /**
  * Created by krzysztof on 01.11.16.
  */
 
-public class BLeDescriptorWriteCommand implements Command {
+public class BLeDescriptorWriteCommand extends CommandAbstract {
     private BLeGattIO gattClient;
     private BluetoothGattDescriptor dataDescriptor;
 

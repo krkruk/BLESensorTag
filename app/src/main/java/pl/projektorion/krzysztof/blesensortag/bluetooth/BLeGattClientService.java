@@ -19,6 +19,8 @@ import java.util.Locale;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
+import pl.projektorion.krzysztof.blesensortag.utils.CommandAbstract;
+import pl.projektorion.krzysztof.blesensortag.utils.CommandExecutor;
 
 public class BLeGattClientService extends Service
     implements BLeGattIO {
@@ -50,6 +52,7 @@ public class BLeGattClientService extends Service
     private Binder binder = new BLeGattClientBinder();
     private LocalBroadcastManager broadcaster;
 
+    private CommandExecutor cmdExecutor;
 
 
     /**
@@ -100,6 +103,7 @@ public class BLeGattClientService extends Service
                                           BluetoothGattCharacteristic characteristic, int status) {
             if( callbacks != null )
                 callbacks.onCharacteristicWrite(gatt, characteristic, status);
+            cmdExecutor.nextExecute();
         }
 
         @Override
@@ -121,6 +125,7 @@ public class BLeGattClientService extends Service
                                       BluetoothGattDescriptor descriptor, int status) {
             if( callbacks != null )
                 callbacks.onDescriptorWrite(gatt, descriptor, status);
+            cmdExecutor.nextExecute();
         }
     };
 
@@ -133,6 +138,7 @@ public class BLeGattClientService extends Service
         super.onCreate();
         init_android_framework();
         init_broadcast_receivers();
+        init_objects();
     }
 
     @Override
@@ -183,6 +189,11 @@ public class BLeGattClientService extends Service
     public List<BluetoothGattService> getServices() { return gattClient.getServices(); }
 
     @Override
+    public void add(CommandAbstract cmd) {
+        cmdExecutor.add(cmd);
+    }
+
+    @Override
     public BluetoothGattService getService(UUID service) { return gattClient.getService(service); }
 
     @Override
@@ -227,6 +238,11 @@ public class BLeGattClientService extends Service
     private void init_broadcast_receivers()
     {
         broadcaster = LocalBroadcastManager.getInstance(appContext);
+    }
+
+    private void init_objects()
+    {
+        cmdExecutor = new CommandExecutor();
     }
 
     void update_state(String action)

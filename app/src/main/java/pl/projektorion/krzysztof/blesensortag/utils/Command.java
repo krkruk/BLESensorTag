@@ -5,5 +5,8 @@ package pl.projektorion.krzysztof.blesensortag.utils;
  */
 
 public interface Command {
+    /**
+     * Execute a command
+     */
     void execute();
 }

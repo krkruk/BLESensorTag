@@ -56,7 +56,7 @@ public class BLeServiceScannerFragment extends Fragment {
     private BroadcastReceiver serviceGattReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
+            final String action = intent.getAction();
 
             if(BLeGattClientService.ACTION_GATT_CONNECTED.equals(action))
             {

@@ -4,14 +4,17 @@ package pl.projektorion.krzysztof.blesensortag.fragments;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ import android.view.ViewGroup;
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientCallback;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientService;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysProfile;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +35,7 @@ public class BLePresentationFragment extends Fragment
     private Context appContext;
 
     private BLeGattClientService gattClient;
+    private LocalBroadcastManager broadcaster;
 
 
     private ServiceConnection gattServiceConnection = new ServiceConnection() {
@@ -47,6 +52,19 @@ public class BLePresentationFragment extends Fragment
         }
     };
 
+    private BroadcastReceiver serviceGattReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
+            {
+                SimpleKeysProfile profile = new SimpleKeysProfile(gattClient);
+                profile.enableNotification(true);
+            }
+        }
+    };
+
     public BLePresentationFragment() {
     }
 
@@ -59,7 +77,6 @@ public class BLePresentationFragment extends Fragment
     @Override
     public void onCharacteristicWrite(BluetoothGatt gatt,
                                       BluetoothGattCharacteristic characteristic, int status) {
-
     }
 
     @Override
@@ -76,13 +93,13 @@ public class BLePresentationFragment extends Fragment
     @Override
     public void onDescriptorWrite(BluetoothGatt gatt,
                                   BluetoothGattDescriptor descriptor, int status) {
-
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init_android_framework();
+        init_broadcast_receivers();
         init_bound_services();
     }
 
@@ -93,16 +110,41 @@ public class BLePresentationFragment extends Fragment
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        kill_bound_services();
+        kill_broadcast_receivers();
+        super.onDestroy();
+    }
+
     private void init_android_framework()
     {
         appContext = getActivity().getApplicationContext();
         setRetainInstance(true);
     }
 
+    private void init_broadcast_receivers()
+    {
+        broadcaster = LocalBroadcastManager.getInstance(appContext);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED);
+        broadcaster.registerReceiver(serviceGattReceiver, filter);
+    }
+
     private void init_bound_services()
     {
         Intent gattServiceReq = new Intent(appContext, BLeGattClientService.class);
         appContext.bindService(gattServiceReq, gattServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    private void kill_bound_services()
+    {
+        appContext.unbindService(gattServiceConnection);
+    }
+
+    private void kill_broadcast_receivers()
+    {
+        broadcaster.unregisterReceiver(serviceGattReceiver);
     }
 
 }
