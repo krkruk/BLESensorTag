@@ -7,6 +7,8 @@ import android.bluetooth.BluetoothGattService;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeDescriptorWriteCommand;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotificationEnableCommand;
 
 /**
  * Created by krzysztof on 01.11.16.
@@ -33,12 +35,18 @@ public class SimpleKeysProfile {
         service = getService();
         if(service == null) return;
         BluetoothGattCharacteristic notif = service.getCharacteristic(SIMPLE_KEY_DATA);
-        gattClient.setNotificationEnable(notif, state);
         if(notif == null) return;
         BluetoothGattDescriptor enable = notif.getDescriptor(SIMPLE_KEY_DESCRIPTOR);
         enable.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+
+        BLeNotificationEnableCommand notifyCmd = new BLeNotificationEnableCommand(gattClient,
+                notif, state);
+        BLeDescriptorWriteCommand enableCmd = new BLeDescriptorWriteCommand(gattClient,
+                enable);
+
+        notifyCmd.execute();
         try{Thread.sleep(350);}catch (InterruptedException e) {return;}
-        gattClient.writeDescriptor(enable);
+        enableCmd.execute();
     }
 
     private BluetoothGattService getService()

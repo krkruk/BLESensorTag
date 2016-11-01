@@ -192,8 +192,17 @@ public class BLeGattClientService extends Service
     }
 
     @Override
-    public void writeDescriptor(BluetoothGattDescriptor d) {
-        gattClient.writeDescriptor(d);
+    public boolean writeDescriptor(BluetoothGattDescriptor d) {
+        if( gattClient == null )
+            return false;
+        return gattClient.writeDescriptor(d);
+    }
+
+    @Override
+    public boolean writeCharacteristic(BluetoothGattCharacteristic c) {
+        if( gattClient == null )
+            return false;
+        return gattClient.writeCharacteristic(c);
     }
 
     public void setCallbacks(BLeGattClientCallback callbacks)
