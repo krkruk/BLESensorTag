@@ -20,7 +20,8 @@ import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 
-public class BLeGattClientService extends Service {
+public class BLeGattClientService extends Service
+    implements BLeGattIO {
 
     public static final String EXTRA_BLE_DEVICE =
             "pl.projektorion.krzysztof.blesensortag.bluetooth.extra.BLE_DEVICE";
@@ -44,6 +45,7 @@ public class BLeGattClientService extends Service {
 
     private BluetoothDevice bleDevice;
     private BluetoothGatt gattClient;
+    private BLeGattClientCallback callbacks;
 
     private Binder binder = new BLeGattClientBinder();
     private LocalBroadcastManager broadcaster;
@@ -89,31 +91,36 @@ public class BLeGattClientService extends Service {
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt,
                                          BluetoothGattCharacteristic characteristic, int status) {
-            super.onCharacteristicRead(gatt, characteristic, status);
+            if( callbacks != null )
+                callbacks.onCharacteristicRead(gatt, characteristic, status);
         }
 
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt,
                                           BluetoothGattCharacteristic characteristic, int status) {
-            super.onCharacteristicWrite(gatt, characteristic, status);
+            if( callbacks != null )
+                callbacks.onCharacteristicWrite(gatt, characteristic, status);
         }
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
-            super.onCharacteristicChanged(gatt, characteristic);
+            if( callbacks != null )
+                callbacks.onCharacteristicChanged(gatt, characteristic);
         }
 
         @Override
         public void onDescriptorRead(BluetoothGatt gatt,
                                      BluetoothGattDescriptor descriptor, int status) {
-            super.onDescriptorRead(gatt, descriptor, status);
+            if( callbacks != null )
+                callbacks.onDescriptorRead(gatt, descriptor, status);
         }
 
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt,
                                       BluetoothGattDescriptor descriptor, int status) {
-            super.onDescriptorWrite(gatt, descriptor, status);
+            if( callbacks != null )
+                callbacks.onDescriptorWrite(gatt, descriptor, status);
         }
     };
 
@@ -175,7 +182,24 @@ public class BLeGattClientService extends Service {
 
     public List<BluetoothGattService> getServices() { return gattClient.getServices(); }
 
+    @Override
     public BluetoothGattService getService(UUID service) { return gattClient.getService(service); }
+
+    @Override
+    public boolean setNotificationEnable(BluetoothGattCharacteristic c, boolean state)
+    {
+        return gattClient.setCharacteristicNotification(c, state);
+    }
+
+    @Override
+    public void writeDescriptor(BluetoothGattDescriptor d) {
+        gattClient.writeDescriptor(d);
+    }
+
+    public void setCallbacks(BLeGattClientCallback callbacks)
+    {
+        this.callbacks = callbacks;
+    }
 
     private void init_android_framework()
     {
@@ -208,4 +232,6 @@ public class BLeGattClientService extends Service {
             return BLeGattClientService.this;
         }
     }
+
+
 }

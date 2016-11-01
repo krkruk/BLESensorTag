@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.app.FragmentManager;
 import android.widget.TextView;
 
+import pl.projektorion.krzysztof.blesensortag.fragments.BLePresentationFragment;
 import pl.projektorion.krzysztof.blesensortag.fragments.BLeServiceScannerFragment;
 
 public class BLeServiceScannerActivity extends Activity {
@@ -16,11 +17,15 @@ public class BLeServiceScannerActivity extends Activity {
     public final static String EXTRA_BLE_DEVICE =
             "pl.projektorion.krzysztof.blesensortag.bleservicescanneractivity.extra.BLE_DEVICE";
 
-    private final static String TAG_SERVICE_SCANNER_TAG =
-            "pl.projektorion.krzysztof.blesensortag.fragments.BLeServiceScannerFragment.tag.SERVICE.SCANNER";
+    private final static String TAG_SERVICE_SCANNER =
+            "pl.projektorion.krzysztof.blesensortag.fragments.BLeServiceScannerFragment.tag.SERVICE_SCANNER";
+
+    private final static String TAG_BLE_PRESENTATION =
+            "pl.projektorion.krzysztof.blesensortag.fragments.BLeServiceScannerFragment.tag.BLE_PRESENTATION";
 
     private BluetoothDevice bleDevice;
     private Fragment serviceScannerFragment;
+    private Fragment presentationBleFragment;
 
     private TextView labelDeviceName;
     private TextView labelDeviceUuid;
@@ -52,13 +57,23 @@ public class BLeServiceScannerActivity extends Activity {
     private void negotiate_service_scanner_fragment()
     {
         FragmentManager fm = getFragmentManager();
-        serviceScannerFragment = fm.findFragmentByTag(TAG_SERVICE_SCANNER_TAG);
+        serviceScannerFragment = fm.findFragmentByTag(TAG_SERVICE_SCANNER);
         if( serviceScannerFragment == null ) {
             FragmentTransaction ft = fm.beginTransaction();
             serviceScannerFragment = BLeServiceScannerFragment.newInstance(bleDevice);
-            ft.add(serviceScannerFragment, TAG_SERVICE_SCANNER_TAG);
+            ft.add(serviceScannerFragment, TAG_SERVICE_SCANNER);
             ft.replace(R.id.ble_service_scanner_fragment_container,
                     serviceScannerFragment);
+            ft.commit();
+        }
+
+        presentationBleFragment = fm.findFragmentByTag(TAG_BLE_PRESENTATION);
+        if( presentationBleFragment == null )
+        {
+            presentationBleFragment = new BLePresentationFragment();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.add(presentationBleFragment, TAG_BLE_PRESENTATION);
+            ft.replace(R.id.ble_presentation_container, presentationBleFragment);
             ft.commit();
         }
     }
