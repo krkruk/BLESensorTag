@@ -2,6 +2,7 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
+import android.os.Bundle;
 import android.util.Log;
 
 import java.util.Locale;
@@ -12,6 +13,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInter
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotificationDisableWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotificationEnableWriteCommand;
+import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 
 
 /**
@@ -19,13 +21,13 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotification
  */
 
 public class SimpleKeysProfile
-    implements GenericGattProfileInterface, GenericGattObserverInterface {
+    implements GenericGattProfileInterface {
     public static final UUID SIMPLE_KEY_SERVICE =
             UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb");
     public static final UUID SIMPLE_KEY_DATA =
             UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb");
 
-
+    private static final String APP_NAME = ProfileName.SIMPLE_KEY_PROFILE;
 
     private BLeGattIO gattClient;
     private BluetoothGattService service;
@@ -35,22 +37,23 @@ public class SimpleKeysProfile
 
     public SimpleKeysProfile(BLeGattIO gattClient) {
         this.gattClient = gattClient;
-        this.isNotifying = false;
-        this.service = getService();
-        this.data = new SimpleKeysData();
+        init();
+    }
+
+    public static SimpleKeysProfile newInstance(BLeGattIO gattClient) {
+        return new SimpleKeysProfile(gattClient);
     }
 
     @Override
-    public void enableNotification(boolean state)
-    {
-        if( isNotifying == state ) return;
+    public void enableNotification(boolean state) {
+        if (isNotifying == state) return;
         isNotifying = state;
 
         service = getService();
-        if(service == null) return;
+        if (service == null) return;
         final BluetoothGattCharacteristic notify = service.getCharacteristic(SIMPLE_KEY_DATA);
 
-        if( state )
+        if (state)
             gattClient.add(new BLeNotificationEnableWriteCommand(gattClient, notify));
         else
             gattClient.add(new BLeNotificationDisableWriteCommand(gattClient, notify));
@@ -58,17 +61,21 @@ public class SimpleKeysProfile
 
     /**
      * Empty.
+     *
      * @param state Does not concern.
      */
     @Override
-    public void enableMeasurement(boolean state) {}
+    public void enableMeasurement(boolean state) {
+    }
 
     /**
      * Empty. React to an event.
+     *
      * @param input Does not concern.
      */
     @Override
-    public void configurePeriod(int input) {}
+    public void configurePeriod(int input) {
+    }
 
     @Override
     public byte[] getRawData() {
@@ -78,6 +85,11 @@ public class SimpleKeysProfile
     @Override
     public Object getData() {
         return data;
+    }
+
+    @Override
+    public String getName() {
+        return APP_NAME;
     }
 
     @Override
@@ -94,6 +106,13 @@ public class SimpleKeysProfile
 
         Log.i("Keys", String.format(Locale.ENGLISH, "LeftBTN: %d, RightBTN: %d, ReedRelay: %d",
                 leftButton, rightButton, reedRelay));
+    }
+
+    private void init()
+    {
+        this.isNotifying = false;
+        this.service = getService();
+        this.data = new SimpleKeysData();
     }
 
     private BluetoothGattService getService()
