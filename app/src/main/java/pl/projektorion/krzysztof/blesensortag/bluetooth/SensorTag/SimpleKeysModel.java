@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.util.Log;
 
 import java.util.Locale;
+import java.util.Observable;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
@@ -14,7 +15,8 @@ import static pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleK
  * Created by krzysztof on 02.11.16.
  */
 
-public class SimpleKeysModel implements GenericGattObserverInterface {
+public class SimpleKeysModel extends Observable
+        implements GenericGattObserverInterface {
     private SimpleKeysData data;
 
     public SimpleKeysModel() {
@@ -39,11 +41,9 @@ public class SimpleKeysModel implements GenericGattObserverInterface {
     @Override
     public void updateCharacteristic(BluetoothGattCharacteristic characteristic) {
         data = new SimpleKeysData(characteristic);
-        final int leftButton = data.getValue(SimpleKeysData.ATTRIBUTE_LEFT_BUTTON);
-        final int rightButton = data.getValue(SimpleKeysData.ATTRIBUTE_RIGHT_BUTTON);
-        final int reedRelay = data.getValue(SimpleKeysData.ATTRIBUTE_REED_RELAY);
-
-        Log.i("Keys", String.format(Locale.ENGLISH, "LeftBTN: %d, RightBTN: %d, ReedRelay: %d",
-                leftButton, rightButton, reedRelay));
+        
+        setChanged();
+        notifyObservers(data);
+        clearChanged();
     }
 }

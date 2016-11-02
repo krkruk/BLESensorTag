@@ -1,6 +1,8 @@
 package pl.projektorion.krzysztof.blesensortag.fragments;
 
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
@@ -12,6 +14,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
@@ -26,6 +29,8 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.R;
@@ -37,6 +42,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattProfileFac
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
+import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SimpleKeysFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -117,7 +123,7 @@ public class BLePresentationFragment extends Fragment
         @Override
         public void onReceive(Context context, Intent intent) {
             String uuid = intent.getStringExtra(BLeServiceScannerFragment.EXTRA_BLE_SERVICE_UUID);
-            Toast.makeText(appContext, uuid, Toast.LENGTH_LONG).show();
+            negotiate_data_presentation_fragment();
         }
     };
 
@@ -233,6 +239,20 @@ public class BLePresentationFragment extends Fragment
         }
 
         factory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysFactory(gattClient));
+    }
+
+    private void negotiate_data_presentation_fragment()
+    {
+        Fragment fragment = new SimpleKeysFragment();
+        final Observable model = (Observable) gattModels.get(SimpleKeysProfile.SIMPLE_KEY_DATA);
+        model.addObserver((Observer) fragment);
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.present_ble_data, fragment);
+        ft.addToBackStack(null);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
     }
 
 }
