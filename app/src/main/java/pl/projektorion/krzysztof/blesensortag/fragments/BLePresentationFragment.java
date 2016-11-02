@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import java.util.UUID;
+
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientCallback;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientService;
@@ -37,6 +39,7 @@ public class BLePresentationFragment extends Fragment
     private BLeGattClientService gattClient;
     private LocalBroadcastManager broadcaster;
 
+    private SimpleKeysProfile simpleKeysProfile;
 
     private ServiceConnection gattServiceConnection = new ServiceConnection() {
         @Override
@@ -59,8 +62,8 @@ public class BLePresentationFragment extends Fragment
 
             if(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
             {
-                SimpleKeysProfile profile = new SimpleKeysProfile(gattClient);
-                profile.enableNotification(true);
+                simpleKeysProfile = new SimpleKeysProfile(gattClient);
+                simpleKeysProfile.enableNotification(true);
             }
         }
     };
@@ -81,6 +84,9 @@ public class BLePresentationFragment extends Fragment
     @Override
     public void onCharacteristicChanged(BluetoothGatt gatt,
                                         BluetoothGattCharacteristic characteristic) {
+        final UUID dataChangedUuid = characteristic.getUuid();
+        if(dataChangedUuid.equals(simpleKeysProfile.getDataUuid()))
+            simpleKeysProfile.updateCharacteristic(characteristic);
     }
 
     @Override
