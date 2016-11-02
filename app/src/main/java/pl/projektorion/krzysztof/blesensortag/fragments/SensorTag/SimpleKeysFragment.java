@@ -28,12 +28,14 @@ public class SimpleKeysFragment extends Fragment
     private TextView labelReedRelay;
 
     private Handler handler;
+    private Observable modelObservable;
 
     public SimpleKeysFragment() {
     }
 
     @Override
     public void update(Observable o, Object arg) {
+        modelObservable = o;
         final SimpleKeysData data = (SimpleKeysData) arg;
         final int leftButton = data.getValue(SimpleKeysData.ATTRIBUTE_LEFT_BUTTON);
         final int rightButton = data.getValue(SimpleKeysData.ATTRIBUTE_RIGHT_BUTTON);
@@ -56,6 +58,14 @@ public class SimpleKeysFragment extends Fragment
         handler = new Handler();
         init_widgets();
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        if( modelObservable != null )
+            modelObservable.deleteObserver(this);
+        Log.i("Frag", "Deleted from observable");
+        super.onDestroy();
     }
 
     private void init_widgets()

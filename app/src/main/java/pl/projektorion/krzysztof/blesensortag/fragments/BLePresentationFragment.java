@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
@@ -23,14 +22,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.R;
@@ -42,7 +39,8 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattProfileFac
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
-import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SimpleKeysFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SensorTagFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SimpleKeysFragmentFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,11 +55,14 @@ public class BLePresentationFragment extends Fragment
     private LocalBroadcastManager broadcaster;
 
 
-    private GattProfileFactory factory;
+    private GattProfileFactory profileFactory;
     private Map<UUID, GenericGattProfileInterface> gattProfiles;
     private Map<UUID, GenericGattObserverInterface> gattModels;
-//    private Map<String, UUID>
 
+    private SensorTagFragmentFactory fragmentFactory;
+
+    private UUID currentUuidDisplayed;
+    private Fragment currentFragment;
 
     /**
      * Connection with a bound BLE service.
@@ -73,7 +74,7 @@ public class BLePresentationFragment extends Fragment
                     .getService();
             gattClient.setCallbacks(BLePresentationFragment.this);
 
-            populate_factory();
+            populate_profile_factory();
         }
 
         @Override
@@ -94,36 +95,17 @@ public class BLePresentationFragment extends Fragment
             {
                 create_and_assign_factory();
                 enable_all_notifications();
+                populate_fragment_factory();
             }
-        }
-
-        private void create_and_assign_factory()
-        {
-            List<BluetoothGattService> services = gattClient.getServices();
-
-            for(BluetoothGattService service : services)
-            {
-                final UUID serviceUuid = service.getUuid();
-                final GenericGattProfileInterface profile = factory.createProfile(serviceUuid);
-                final GenericGattObserverInterface observer = factory.createObserver(serviceUuid);
-                final UUID dataUuid = observer.getDataUuid();
-                gattProfiles.put(dataUuid, profile);
-                gattModels.put(dataUuid, observer);
-            }
-        }
-
-        private void enable_all_notifications()
-        {
-            for(GenericGattProfileInterface profile : gattProfiles.values())
-                profile.enableNotification(true);
         }
     };
 
     private BroadcastReceiver serviceSelected = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String uuid = intent.getStringExtra(BLeServiceScannerFragment.EXTRA_BLE_SERVICE_UUID);
-            negotiate_data_presentation_fragment();
+            final String uuid = intent.getStringExtra(BLeServiceScannerFragment.EXTRA_BLE_SERVICE_UUID);
+            final UUID serviceUuid = UUID.fromString(uuid);
+            negotiate_data_presentation_fragment(serviceUuid);
         }
     };
 
@@ -192,9 +174,11 @@ public class BLePresentationFragment extends Fragment
 
     private void init_objects()
     {
-        factory = new GattProfileFactory();
+        profileFactory = new GattProfileFactory();
         gattProfiles = new HashMap<>();
         gattModels = new HashMap<>();
+
+        fragmentFactory = new SensorTagFragmentFactory();
     }
 
     private void init_broadcast_receivers()
@@ -231,28 +215,72 @@ public class BLePresentationFragment extends Fragment
      * Each ProfileFactory will createProfile a profile based on Service Key passed
      * into a map.
      */
-    private void populate_factory()
+    private void populate_profile_factory()
     {
-        if( factory == null ) {
+        if( profileFactory == null ) {
             Log.d(Constant.BLPF_ERR, Constant.POPULATION_ERR);
             return;
         }
 
-        factory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysFactory(gattClient));
+        profileFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysFactory(gattClient));
     }
 
-    private void negotiate_data_presentation_fragment()
+
+    private void create_and_assign_factory()
     {
-        Fragment fragment = new SimpleKeysFragment();
-        final Observable model = (Observable) gattModels.get(SimpleKeysProfile.SIMPLE_KEY_DATA);
-        model.addObserver((Observer) fragment);
+        List<BluetoothGattService> services = gattClient.getServices();
+
+        for(BluetoothGattService service : services)
+        {
+            final UUID serviceUuid = service.getUuid();
+            final GenericGattProfileInterface profile = profileFactory.createProfile(serviceUuid);
+            final GenericGattObserverInterface observer = profileFactory.createObserver(serviceUuid);
+            final UUID dataUuid = observer.getDataUuid();
+            gattProfiles.put(dataUuid, profile);
+            gattModels.put(dataUuid, observer);
+        }
+    }
+
+    private void enable_all_notifications()
+    {
+        for(GenericGattProfileInterface profile : gattProfiles.values())
+            profile.enableNotification(true);
+    }
+
+    private void populate_fragment_factory()
+    {
+        if( fragmentFactory == null ){
+            Log.d(Constant.BLPF_ERR, Constant.POPULATION_ERR);
+            return;
+        }
+
+        Observable simpleKeyModel = (Observable) gattModels.get(SimpleKeysProfile.SIMPLE_KEY_DATA);
+        fragmentFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE,
+                new SimpleKeysFragmentFactory(simpleKeyModel));
+    }
+
+    private void negotiate_data_presentation_fragment(UUID serviceUuid)
+    {
+        Log.i("Present", "Negotiate fragment");
+        if( serviceUuid.equals(currentUuidDisplayed) )
+            return;
+        Log.i("Present", "man in the middle");
+        Fragment fragment = fragmentFactory.create(serviceUuid);
+        if( fragment == null )
+            return;
+        Log.i("Present", "Create a new fragment");
+        currentUuidDisplayed = serviceUuid;
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        if( currentFragment != null )
+            ft.remove(currentFragment);
         ft.replace(R.id.present_ble_data, fragment);
         ft.addToBackStack(null);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
+
+        currentFragment = fragment;
     }
 
 }
