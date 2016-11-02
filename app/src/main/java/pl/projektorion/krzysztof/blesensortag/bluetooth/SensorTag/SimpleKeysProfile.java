@@ -33,15 +33,11 @@ public class SimpleKeysProfile
     private BluetoothGattService service;
 
     private boolean isNotifying;
-    private SimpleKeysData data;
+
 
     public SimpleKeysProfile(BLeGattIO gattClient) {
         this.gattClient = gattClient;
         init();
-    }
-
-    public static SimpleKeysProfile newInstance(BLeGattIO gattClient) {
-        return new SimpleKeysProfile(gattClient);
     }
 
     @Override
@@ -65,8 +61,7 @@ public class SimpleKeysProfile
      * @param state Does not concern.
      */
     @Override
-    public void enableMeasurement(boolean state) {
-    }
+    public void enableMeasurement(boolean state) {}
 
     /**
      * Empty. React to an event.
@@ -74,45 +69,17 @@ public class SimpleKeysProfile
      * @param input Does not concern.
      */
     @Override
-    public void configurePeriod(int input) {
-    }
-
-    @Override
-    public byte[] getRawData() {
-        return data.getRawData();
-    }
-
-    @Override
-    public Object getData() {
-        return data;
-    }
+    public void configurePeriod(int input) {}
 
     @Override
     public String getName() {
         return APP_NAME;
     }
 
-    @Override
-    public UUID getDataUuid() {
-        return SIMPLE_KEY_DATA;
-    }
-
-    @Override
-    public void updateCharacteristic(BluetoothGattCharacteristic characteristic) {
-        data = new SimpleKeysData(characteristic);
-        final int leftButton = data.getValue(SimpleKeysData.ATTRIBUTE_LEFT_BUTTON);
-        final int rightButton = data.getValue(SimpleKeysData.ATTRIBUTE_RIGHT_BUTTON);
-        final int reedRelay = data.getValue(SimpleKeysData.ATTRIBUTE_REED_RELAY);
-
-        Log.i("Keys", String.format(Locale.ENGLISH, "LeftBTN: %d, RightBTN: %d, ReedRelay: %d",
-                leftButton, rightButton, reedRelay));
-    }
-
     private void init()
     {
         this.isNotifying = false;
         this.service = getService();
-        this.data = new SimpleKeysData();
     }
 
     private BluetoothGattService getService()

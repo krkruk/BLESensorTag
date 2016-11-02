@@ -23,4 +23,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--Button label-->
+    <string name="label_button_left">Left button: </string>
+    <string name="label_button_right">Right button: </string>
+    <string name="label_reed_relay">Reed relay: </string>
 </resources>

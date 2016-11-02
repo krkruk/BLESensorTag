@@ -4,7 +4,7 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth;
  * Created by krzysztof on 02.11.16.
  */
 
-public interface GenericGattProfileInterface extends GenericGattObserverInterface {
+public interface GenericGattProfileInterface{
 
     /**
      * Enables notifications on a BLE device. See child classes for
@@ -24,20 +24,6 @@ public interface GenericGattProfileInterface extends GenericGattObserverInterfac
      * @param input See child classes.
      */
     void configurePeriod(int input);
-
-    /**
-     * Get unprocessed data received from the BLE device
-     * @return Byte array data set.
-     */
-    byte[] getRawData();
-
-    /**
-     * Get processed data from the BLE device. The data is
-     * embraced into a profile data container.
-     * @return Return Object. Must be then casted into
-     * a proper object
-     */
-    Object getData();
 
     /**
      * Get a name of the Profile

@@ -1,5 +1,6 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
 
 /**
@@ -7,5 +8,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterf
  */
 
 public interface ProfileFactory {
-    GenericGattProfileInterface create();
+    GenericGattProfileInterface createProfile();
+
+    GenericGattObserverInterface createObserver();
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
 
 /**
@@ -24,10 +25,19 @@ public class GattProfileFactory {
         } catch (Exception e){}
     }
 
-    public GenericGattProfileInterface create(UUID serviceUuid) {
+    public GenericGattProfileInterface createProfile(UUID serviceUuid) {
         ProfileFactory factory = methodFactories.get(serviceUuid);
         if( factory != null )
-            return factory.create();
+            return factory.createProfile();
+        else
+            return new NullProfile();
+    }
+
+    public GenericGattObserverInterface createObserver(UUID serviceUuid)
+    {
+        ProfileFactory factory = methodFactories.get(serviceUuid);
+        if( factory != null )
+            return factory.createObserver();
         else
             return new NullProfile();
     }

@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,13 @@ public class BLeServiceScannerFragment extends Fragment {
 
     public final static String EXTRA_BLE_DEVICE =
             "pl.projektorion.krzysztof.blesensortag.bleservicescannerfragment.extra.BLE_DEVICE";
+
+
+    public final static String ACTION_BLE_SERVICE_CLICKED =
+            "pl.projektorion.krzysztof.blesensortag.bleservicescannerfragment.action.SERVICE_CLICKED";
+
+    public final static String EXTRA_BLE_SERVICE_UUID =
+            "pl.projektorion.krzysztof.blesensortag.bleservicescannerfragment.extra.BLE_SERVICE_UUID";
 
 
     private BluetoothDevice bleDevice;
@@ -93,6 +101,17 @@ public class BLeServiceScannerFragment extends Fragment {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+        }
+    };
+
+    AdapterView.OnItemClickListener serviceListListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            String strUuid = (String)serviceWidgetAdapter.getItem(position);
+
+            Intent bleServiceClicked = new Intent(ACTION_BLE_SERVICE_CLICKED);
+            bleServiceClicked.putExtra(EXTRA_BLE_SERVICE_UUID, strUuid);
+            broadcaster.sendBroadcast(bleServiceClicked);
         }
     };
 
@@ -185,6 +204,7 @@ public class BLeServiceScannerFragment extends Fragment {
     {
         serviceWidgetList = (ListView) view.findViewById(R.id.listview_device_services);
         serviceWidgetList.setAdapter(serviceWidgetAdapter);
+        serviceWidgetList.setOnItemClickListener(serviceListListener);
     }
 
     private void kill_bound_services()

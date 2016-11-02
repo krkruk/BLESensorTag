@@ -26,4 +26,18 @@ public interface GenericGattObserverInterface {
      * @return {@link} UUID for comparison
      */
     UUID getDataUuid();
+
+    /**
+     * Get unprocessed data received from the BLE device
+     * @return Byte array data set.
+     */
+    byte[] getRawData();
+
+    /**
+     * Get processed data from the BLE device. The data is
+     * embraced into a profile data container.
+     * @return Return Object. Must be then casted into
+     * a proper object
+     */
+    Object getData();
 }

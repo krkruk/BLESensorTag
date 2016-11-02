@@ -20,20 +20,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientCallback;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientService;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 
@@ -52,6 +53,8 @@ public class BLePresentationFragment extends Fragment
 
     private GattProfileFactory factory;
     private Map<UUID, GenericGattProfileInterface> gattProfiles;
+    private Map<UUID, GenericGattObserverInterface> gattModels;
+//    private Map<String, UUID>
 
 
     /**
@@ -94,9 +97,12 @@ public class BLePresentationFragment extends Fragment
 
             for(BluetoothGattService service : services)
             {
-                final GenericGattProfileInterface profile = factory.create(service.getUuid());
-                final UUID dataUuid = profile.getDataUuid();
+                final UUID serviceUuid = service.getUuid();
+                final GenericGattProfileInterface profile = factory.createProfile(serviceUuid);
+                final GenericGattObserverInterface observer = factory.createObserver(serviceUuid);
+                final UUID dataUuid = observer.getDataUuid();
                 gattProfiles.put(dataUuid, profile);
+                gattModels.put(dataUuid, observer);
             }
         }
 
@@ -104,6 +110,14 @@ public class BLePresentationFragment extends Fragment
         {
             for(GenericGattProfileInterface profile : gattProfiles.values())
                 profile.enableNotification(true);
+        }
+    };
+
+    private BroadcastReceiver serviceSelected = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String uuid = intent.getStringExtra(BLeServiceScannerFragment.EXTRA_BLE_SERVICE_UUID);
+            Toast.makeText(appContext, uuid, Toast.LENGTH_LONG).show();
         }
     };
 
@@ -124,13 +138,13 @@ public class BLePresentationFragment extends Fragment
     public void onCharacteristicChanged(BluetoothGatt gatt,
                                         BluetoothGattCharacteristic characteristic) {
         final UUID dataChangedUuid = characteristic.getUuid();
-        final GenericGattProfileInterface profile;
+        final GenericGattObserverInterface observer;
 
         try {
-            profile = gattProfiles.get(dataChangedUuid);
+            observer = gattModels.get(dataChangedUuid);
         } catch (NullPointerException|ClassCastException e) { return; }
 
-        profile.updateCharacteristic(characteristic);
+        observer.updateCharacteristic(characteristic);
     }
 
     @Override
@@ -174,14 +188,19 @@ public class BLePresentationFragment extends Fragment
     {
         factory = new GattProfileFactory();
         gattProfiles = new HashMap<>();
+        gattModels = new HashMap<>();
     }
 
     private void init_broadcast_receivers()
     {
+        IntentFilter serviceFilter = new IntentFilter();
+        serviceFilter.addAction(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED);
+        IntentFilter serviceSelectedFilter = new IntentFilter();
+        serviceSelectedFilter.addAction(BLeServiceScannerFragment.ACTION_BLE_SERVICE_CLICKED);
+
         broadcaster = LocalBroadcastManager.getInstance(appContext);
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED);
-        broadcaster.registerReceiver(serviceGattReceiver, filter);
+        broadcaster.registerReceiver(serviceGattReceiver, serviceFilter);
+        broadcaster.registerReceiver(serviceSelected, serviceSelectedFilter);
     }
 
     private void init_bound_services()
@@ -197,12 +216,13 @@ public class BLePresentationFragment extends Fragment
 
     private void kill_broadcast_receivers()
     {
+        broadcaster.unregisterReceiver(serviceSelected);
         broadcaster.unregisterReceiver(serviceGattReceiver);
     }
 
     /**
      * Populate GattProfileFactory with ProfileFactories.
-     * Each ProfileFactory will create a profile based on Service Key passed
+     * Each ProfileFactory will createProfile a profile based on Service Key passed
      * into a map.
      */
     private void populate_factory()
@@ -212,7 +232,7 @@ public class BLePresentationFragment extends Fragment
             return;
         }
 
-        factory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeyFactory(gattClient));
+        factory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysFactory(gattClient));
     }
 
 }
