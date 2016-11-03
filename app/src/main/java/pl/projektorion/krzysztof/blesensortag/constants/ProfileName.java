@@ -6,4 +6,5 @@ package pl.projektorion.krzysztof.blesensortag.constants;
 
 public interface ProfileName {
     String SIMPLE_KEY_PROFILE = "Simple Key Profile";
+    String BAROMETRIC_PRESSURE_PROFILE = "Barometric Pressure Profile";
 }

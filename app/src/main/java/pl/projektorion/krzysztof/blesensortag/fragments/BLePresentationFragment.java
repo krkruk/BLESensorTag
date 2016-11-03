@@ -29,12 +29,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.UUID;
+import java.util.concurrent.Executor;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientCallback;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientService;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressureFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysProfile;
@@ -95,7 +98,9 @@ public class BLePresentationFragment extends Fragment
             {
                 create_and_assign_factory();
                 enable_all_notifications();
+                enable_all_measurements();
                 populate_fragment_factory();
+                Log.i("GATT", String.format("gattProfile length: %d", gattProfiles.size()));
             }
         }
     };
@@ -132,6 +137,7 @@ public class BLePresentationFragment extends Fragment
             observer = gattModels.get(dataChangedUuid);
         } catch (NullPointerException|ClassCastException e) { return; }
 
+        if(observer != null)
         observer.updateCharacteristic(characteristic);
     }
 
@@ -223,6 +229,8 @@ public class BLePresentationFragment extends Fragment
         }
 
         profileFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysFactory(gattClient));
+        profileFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+                new BarometricPressureFactory(gattClient));
     }
 
 
@@ -245,6 +253,12 @@ public class BLePresentationFragment extends Fragment
     {
         for(GenericGattProfileInterface profile : gattProfiles.values())
             profile.enableNotification(true);
+    }
+
+    private void enable_all_measurements()
+    {
+        for(GenericGattProfileInterface profile : gattProfiles.values())
+            profile.enableMeasurement(true);
     }
 
     private void populate_fragment_factory()

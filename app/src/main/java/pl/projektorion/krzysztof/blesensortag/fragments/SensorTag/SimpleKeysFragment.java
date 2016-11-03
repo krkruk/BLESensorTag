@@ -14,6 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import pl.projektorion.krzysztof.blesensortag.R;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.AbstractProfileData;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysData;
 
 /**
@@ -36,7 +37,7 @@ public class SimpleKeysFragment extends Fragment
     @Override
     public void update(Observable o, Object arg) {
         modelObservable = o;
-        final SimpleKeysData data = (SimpleKeysData) arg;
+        final AbstractProfileData data = (AbstractProfileData) arg;
         final int leftButton = data.getValue(SimpleKeysData.ATTRIBUTE_LEFT_BUTTON);
         final int rightButton = data.getValue(SimpleKeysData.ATTRIBUTE_RIGHT_BUTTON);
         final int reedRelay = data.getValue(SimpleKeysData.ATTRIBUTE_REED_RELAY);

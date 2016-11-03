@@ -1,6 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.util.Log;
 
 /**
  * Created by krzysztof on 02.11.16.
@@ -9,7 +10,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 /**
  * The class parses and returns processed values for Simple Keys Profile
  */
-public class SimpleKeysData {
+public class SimpleKeysData extends AbstractProfileData {
     /**
      * Access state of the left button.
      */
@@ -46,29 +47,27 @@ public class SimpleKeysData {
     private static final int DATA_AT_POINT = 0;
 
 
-    private byte[] data;
-
     private byte leftButtonState = 0;
     private byte rightButtonState = 0;
     private byte reedRelayState = 0;
 
 
     public SimpleKeysData() {
-        this.data = new byte[0];
+        super();
     }
 
     public SimpleKeysData(byte[] data) {
-        this.data = data;
-        assert_data_correct_length();
+        super(data);
         parse();
     }
 
     public SimpleKeysData(BluetoothGattCharacteristic characteristic) {
-        this.data = characteristic.getValue();
-        assert_data_correct_length();
+        super(characteristic);
         parse();
+        Log.i("SKeyData", String.format("Left %d, right %d", leftButtonState, rightButtonState));
     }
 
+    @Override
     public int getValue(int sensorAttribute)
     {
         switch (sensorAttribute)
@@ -84,17 +83,7 @@ public class SimpleKeysData {
         }
     }
 
-    public byte[] getRawData()
-    {
-        return data;
-    }
-
-    protected void assert_data_correct_length() throws ArrayIndexOutOfBoundsException
-    {
-        if( data.length <= DATA_AT_POINT)
-            throw new ArrayIndexOutOfBoundsException("Incorrect data array");
-    }
-
+    @Override
     protected void parse()
     {
         byte processedData = data[DATA_AT_POINT];
