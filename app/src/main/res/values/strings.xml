@@ -27,8 +27,12 @@
     <string name="label_button_left">Left button: </string>
     <string name="label_button_right">Right button: </string>
     <string name="label_reed_relay">Reed relay: </string>
+
     <string name="label_barometric_pressure">Barometric pressure</string>
     <string name="label_barometric_pressure_unit">hPa</string>
     <string name="label_temperature">Temperature</string>
-    <string name="label_temperature_unit">Centigrades</string>
+    <string name="label_temperature_unit">Centigrade</string>
+
+    <string name="label_ambient_temperature">Ambient temperature: </string>
+    <string name="label_object_temperature">Object temperature: </string>
 </resources>

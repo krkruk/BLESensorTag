@@ -17,6 +17,7 @@ public class BarometricPressureModel extends Observable
     BarometricPressureData barometricPressureData;
 
     public BarometricPressureModel() {
+        barometricPressureData = new BarometricPressureData();
     }
 
     @Override
@@ -35,7 +36,7 @@ public class BarometricPressureModel extends Observable
 
     @Override
     public byte[] getRawData() {
-        return new byte[0];
+        return barometricPressureData.getRawData();
     }
 
     @Override

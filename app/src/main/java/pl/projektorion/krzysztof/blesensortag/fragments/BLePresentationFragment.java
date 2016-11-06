@@ -41,11 +41,15 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPres
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureModelFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BarometricPressureFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.IRTemperatureFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SensorTagFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SimpleKeysFragmentFactory;
 
@@ -235,8 +239,10 @@ public class BLePresentationFragment extends Fragment
         }
 
         profileFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysProfileFactory(gattClient));
-        profileFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new BarometricPressureProfileFactory(gattClient));
+//        profileFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+//                new BarometricPressureProfileFactory(gattClient));
+        profileFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
+                new IRTemperatureProfileFactory(gattClient));
     }
 
     private void populate_model_factory()
@@ -247,8 +253,10 @@ public class BLePresentationFragment extends Fragment
         }
 
         modelFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysModelFactory());
-        modelFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new BarometricPressureModelFactory());
+//        modelFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+//                new BarometricPressureModelFactory());
+        modelFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
+                new IRTemperatureModelFactory());
     }
 
     private void create_and_assign_factory()
@@ -288,10 +296,16 @@ public class BLePresentationFragment extends Fragment
         Observable simpleKeyModel = (Observable) gattModels.get(SimpleKeysProfile.SIMPLE_KEY_DATA);
         fragmentFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE,
                 new SimpleKeysFragmentFactory(simpleKeyModel));
+
         Observable barometricPressureModel = (Observable) gattModels.get(
                 BarometricPressureProfile.BAROMETRIC_PRESSURE_DATA);
         fragmentFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
                 new BarometricPressureFragmentFactory(barometricPressureModel));
+
+        Observable irTemperatureModel = (Observable) gattModels.get(
+                IRTemperatureProfile.IR_TEMPERATURE_DATA);
+        fragmentFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
+                new IRTemperatureFragmentFactory(irTemperatureModel));
     }
 
     private void negotiate_data_presentation_fragment(UUID serviceUuid)
