@@ -14,6 +14,15 @@ public class ByteOperation {
         return byteBuffer.getInt();
     }
 
+    public static byte[] intToBytes(int data)
+    {
+        final int INT_SIZE = 4;
+        byte[] buffer = new byte[INT_SIZE];
+        for(int i = 0; i < INT_SIZE; i++)
+            buffer[i] = (byte) (data >>((INT_SIZE-1-i)*8) );
+        return buffer;
+    }
+
     public static byte[] littleToBigEndian(byte[] littleEndian)
     {
         byte[] bigEndian = new byte[littleEndian.length];

@@ -55,6 +55,11 @@ public class SimpleKeysProfile
             gattClient.add(new BLeNotificationDisableWriteCommand(gattClient, notify));
     }
 
+    @Override
+    public boolean isNotifying() {
+        return isNotifying;
+    }
+
     /**
      * Empty.
      *
@@ -62,6 +67,11 @@ public class SimpleKeysProfile
      */
     @Override
     public void enableMeasurement(int state) {}
+
+    @Override
+    public int isMeasuring() {
+        return -1;
+    }
 
     /**
      * Empty. React to an event.

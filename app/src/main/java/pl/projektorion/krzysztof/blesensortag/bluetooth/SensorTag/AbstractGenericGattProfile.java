@@ -53,6 +53,11 @@ public abstract class AbstractGenericGattProfile implements GenericGattProfileIn
             gattClient.add(new BLeNotificationDisableWriteCommand(gattClient, notify));
     }
 
+    @Override
+    public boolean isNotifying() {
+        return isNotifying;
+    }
+
     /**
      * Enable remote SensorTag sensor.
      * @param state True to enable sensor. False otherwise.
@@ -70,6 +75,11 @@ public abstract class AbstractGenericGattProfile implements GenericGattProfileIn
         final BluetoothGattCharacteristic measure = service.getCharacteristic(get_config_uuid());
         measure.setValue(cmd);
         gattClient.add(new BLeCharacteristicWriteCommand(gattClient, measure));
+    }
+
+    @Override
+    public int isMeasuring() {
+        return isMeasuring ? ENABLE_ALL_MEASUREMENTS : DISABLE_ALL_MEASUREMENTS;
     }
 
     /**
