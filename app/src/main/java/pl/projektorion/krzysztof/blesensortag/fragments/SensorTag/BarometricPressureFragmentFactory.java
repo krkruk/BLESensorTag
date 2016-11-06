@@ -3,19 +3,18 @@ package pl.projektorion.krzysztof.blesensortag.fragments.SensorTag;
 import android.app.Fragment;
 
 import java.util.Observable;
-import java.util.Observer;
 
 /**
- * Created by krzysztof on 02.11.16.
+ * Created by krzysztof on 06.11.16.
  */
 
-public class SimpleKeysFragmentFactory extends AbstractFragmentFactory {
-    public SimpleKeysFragmentFactory(Observable observable) {
+public class BarometricPressureFragmentFactory extends AbstractFragmentFactory {
+    public BarometricPressureFragmentFactory(Observable observable) {
         super(observable);
     }
 
     @Override
     protected Fragment create_new_fragment() {
-        return new SimpleKeysFragment();
+        return new BarometricPressureFragment();
     }
 }

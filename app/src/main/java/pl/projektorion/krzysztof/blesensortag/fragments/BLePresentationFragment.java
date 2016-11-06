@@ -35,6 +35,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientCallback;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientService;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfile;
@@ -44,6 +45,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.Sim
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
+import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BarometricPressureFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SensorTagFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SimpleKeysFragmentFactory;
 
@@ -286,6 +288,10 @@ public class BLePresentationFragment extends Fragment
         Observable simpleKeyModel = (Observable) gattModels.get(SimpleKeysProfile.SIMPLE_KEY_DATA);
         fragmentFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE,
                 new SimpleKeysFragmentFactory(simpleKeyModel));
+        Observable barometricPressureModel = (Observable) gattModels.get(
+                BarometricPressureProfile.BAROMETRIC_PRESSURE_DATA);
+        fragmentFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+                new BarometricPressureFragmentFactory(barometricPressureModel));
     }
 
     private void negotiate_data_presentation_fragment(UUID serviceUuid)
@@ -300,12 +306,12 @@ public class BLePresentationFragment extends Fragment
         Log.i("Present", "Create a new fragment");
         currentUuidDisplayed = serviceUuid;
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         if( currentFragment != null )
             ft.remove(currentFragment);
         ft.replace(R.id.present_ble_data, fragment);
-        ft.addToBackStack(null);
+//        ft.addToBackStack(null);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
 
