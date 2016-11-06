@@ -4,14 +4,17 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.util.Log;
 
 
+import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
+
+
 /**
  * Created by krzysztof on 03.11.16.
  */
 
 public class BarometricPressureData extends AbstractProfileData {
     private static final int EXPECTED_ARRAY_SIZE = 6;
-    private int pressure = 0;
-    private int temperature = 0;
+    private float pressure = 0;
+    private float temperature = 0;
 
     public BarometricPressureData() {
         super();
@@ -25,7 +28,7 @@ public class BarometricPressureData extends AbstractProfileData {
     public BarometricPressureData(BluetoothGattCharacteristic characteristic) {
         super(characteristic);
         parse();
-        Log.i("Bar", String.format("Temp %d, Pressure: %d", temperature, pressure));
+        Log.i("Bar", String.format("Temp %f, Pressure: %f", temperature, pressure));
     }
 
     @Override
@@ -40,9 +43,11 @@ public class BarometricPressureData extends AbstractProfileData {
             return;
         }
 
-        pressure = data[5]<<2 | data[4]<<1 | data[3];
-        temperature = data[2]<<2 | data[1]<<1 | data[0];
+        byte[] bigEndianData = ByteOperation.littleToBigEndian(data);
+        byte[] pressDat = new byte[4]; System.arraycopy(bigEndianData, 0, pressDat, 0, 3);
+        byte[] tempDat = new byte[4]; System.arraycopy(bigEndianData, 3, tempDat, 0, 3);
 
-        pressure *= 0.01; temperature *= 0.01;
+        pressure = (ByteOperation.bytesToInt(pressDat)>>8) * 0.01f;
+        temperature = (ByteOperation.bytesToInt(tempDat)>>8) * 0.01f;
     }
 }

@@ -33,7 +33,7 @@ public abstract class AbstractProfileData implements ProfileData {
 
     protected void assert_data_correct_length() throws ArrayIndexOutOfBoundsException
     {
-        if( data.length <= 0)
+        if( data.length <= 0 )
             throw new ArrayIndexOutOfBoundsException("Incorrect data array");
     }
 }

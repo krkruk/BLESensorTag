@@ -22,7 +22,6 @@ public class BarometricPressureModel extends Observable
 
     @Override
     public void updateCharacteristic(BluetoothGattCharacteristic characteristic) {
-        Log.i("Bar", characteristic.toString());
         barometricPressureData = new BarometricPressureData(characteristic);
     }
 
