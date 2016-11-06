@@ -239,8 +239,8 @@ public class BLePresentationFragment extends Fragment
         }
 
         profileFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysProfileFactory(gattClient));
-//        profileFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-//                new BarometricPressureProfileFactory(gattClient));
+        profileFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+                new BarometricPressureProfileFactory(gattClient));
         profileFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
                 new IRTemperatureProfileFactory(gattClient));
     }
@@ -253,8 +253,8 @@ public class BLePresentationFragment extends Fragment
         }
 
         modelFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysModelFactory());
-//        modelFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-//                new BarometricPressureModelFactory());
+        modelFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+                new BarometricPressureModelFactory());
         modelFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
                 new IRTemperatureModelFactory());
     }
@@ -283,7 +283,7 @@ public class BLePresentationFragment extends Fragment
     private void enable_all_measurements()
     {
         for(GenericGattProfileInterface profile : gattProfiles.values())
-            profile.enableMeasurement(true);
+            profile.enableMeasurement(GenericGattProfileInterface.ENABLE_ALL_MEASUREMENTS);
     }
 
     private void populate_fragment_factory()

@@ -58,14 +58,15 @@ public abstract class AbstractGenericGattProfile implements GenericGattProfileIn
      * @param state True to enable sensor. False otherwise.
      */
     @Override
-    public void enableMeasurement(boolean state) {
-        if( isMeasuring == state ) return;
-        isMeasuring = state;
+    public void enableMeasurement(int state) {
+        final boolean requestState = state == ENABLE_ALL_MEASUREMENTS;
+        if( isMeasuring == requestState ) return;
+        isMeasuring = requestState;
 
         service = get_service();
         if( service == null ) return;
 
-        final byte[] cmd = state ? CONFIG_ENABLE : CONFIG_DISABLE;
+        final byte[] cmd = requestState ? CONFIG_ENABLE : CONFIG_DISABLE;
         final BluetoothGattCharacteristic measure = service.getCharacteristic(get_config_uuid());
         measure.setValue(cmd);
         gattClient.add(new BLeCharacteristicWriteCommand(gattClient, measure));

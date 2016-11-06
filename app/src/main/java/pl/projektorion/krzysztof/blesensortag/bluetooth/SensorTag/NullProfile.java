@@ -23,7 +23,7 @@ public class NullProfile implements GenericGattProfileInterface {
     public void enableNotification(boolean state) {}
 
     @Override
-    public void enableMeasurement(boolean state) {}
+    public void enableMeasurement(int state) {}
 
     @Override
     public void configurePeriod(byte input) {}

@@ -5,6 +5,8 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth;
  */
 
 public interface GenericGattProfileInterface{
+    int ENABLE_ALL_MEASUREMENTS = 0xffffffff;
+    int DISABLE_ALL_MEASUREMENTS = 0x00;
 
     /**
      * Enables notifications on a BLE device. See child classes for
@@ -14,10 +16,11 @@ public interface GenericGattProfileInterface{
     void enableNotification(boolean state);
 
     /**
-     * Enables sensor measurements.
-     * @param state True to enable sensor. False otherwise.
+     * Enable sensor measurements.
+     * @param state 1 to enable sensor. 0 otherwise. Other values
+     *              may be specify if the device needs it.
      */
-    void enableMeasurement(boolean state);
+    void enableMeasurement(int state);
 
     /**
      * Configure a notification update time period.

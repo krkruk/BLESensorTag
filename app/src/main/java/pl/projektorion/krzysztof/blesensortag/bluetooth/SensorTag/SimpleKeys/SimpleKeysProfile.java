@@ -61,7 +61,7 @@ public class SimpleKeysProfile
      * @param state Does not concern.
      */
     @Override
-    public void enableMeasurement(boolean state) {}
+    public void enableMeasurement(int state) {}
 
     /**
      * Empty. React to an event.
