@@ -1,9 +1,10 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.util.Log;
 
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.AbstractProfileData;
 import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
 
 

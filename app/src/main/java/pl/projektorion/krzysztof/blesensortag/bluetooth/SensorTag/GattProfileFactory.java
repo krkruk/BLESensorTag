@@ -32,13 +32,4 @@ public class GattProfileFactory {
         else
             return new NullProfile();
     }
-
-    public GenericGattObserverInterface createObserver(UUID serviceUuid)
-    {
-        ProfileFactory factory = methodFactories.get(serviceUuid);
-        if( factory != null )
-            return factory.createObserver();
-        else
-            return new NullProfile();
-    }
 }

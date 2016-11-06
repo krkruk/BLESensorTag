@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
@@ -30,18 +29,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.UUID;
-import java.util.concurrent.Executor;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientCallback;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientService;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressureFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressureProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureModelFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysModelFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SensorTagFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SimpleKeysFragmentFactory;
@@ -60,6 +61,7 @@ public class BLePresentationFragment extends Fragment
 
 
     private GattProfileFactory profileFactory;
+    private GattModelFactory modelFactory;
     private Map<UUID, GenericGattProfileInterface> gattProfiles;
     private Map<UUID, GenericGattObserverInterface> gattModels;
 
@@ -79,6 +81,7 @@ public class BLePresentationFragment extends Fragment
             gattClient.setCallbacks(BLePresentationFragment.this);
 
             populate_profile_factory();
+            populate_model_factory();
         }
 
         @Override
@@ -181,6 +184,7 @@ public class BLePresentationFragment extends Fragment
     private void init_objects()
     {
         profileFactory = new GattProfileFactory();
+        modelFactory = new GattModelFactory();
         gattProfiles = new HashMap<>();
         gattModels = new HashMap<>();
 
@@ -228,11 +232,22 @@ public class BLePresentationFragment extends Fragment
             return;
         }
 
-        profileFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysFactory(gattClient));
+        profileFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysProfileFactory(gattClient));
         profileFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new BarometricPressureFactory(gattClient));
+                new BarometricPressureProfileFactory(gattClient));
     }
 
+    private void populate_model_factory()
+    {
+        if( modelFactory == null ){
+            Log.d(Constant.BLPF_ERR, Constant.POPULATION_ERR);
+            return;
+        }
+
+        modelFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysModelFactory());
+        modelFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+                new BarometricPressureModelFactory());
+    }
 
     private void create_and_assign_factory()
     {
@@ -242,7 +257,7 @@ public class BLePresentationFragment extends Fragment
         {
             final UUID serviceUuid = service.getUuid();
             final GenericGattProfileInterface profile = profileFactory.createProfile(serviceUuid);
-            final GenericGattObserverInterface observer = profileFactory.createObserver(serviceUuid);
+            final GenericGattObserverInterface observer = modelFactory.createObserver(serviceUuid);
             final UUID dataUuid = observer.getDataUuid();
             gattProfiles.put(dataUuid, profile);
             gattModels.put(dataUuid, observer);

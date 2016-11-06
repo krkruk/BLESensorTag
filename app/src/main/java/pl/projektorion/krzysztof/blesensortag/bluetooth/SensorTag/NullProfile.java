@@ -12,7 +12,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterf
  * Created by krzysztof on 02.11.16.
  */
 
-public class NullProfile implements GenericGattProfileInterface, GenericGattObserverInterface {
+public class NullProfile implements GenericGattProfileInterface {
     public NullProfile() {
     }
 
@@ -29,17 +29,5 @@ public class NullProfile implements GenericGattProfileInterface, GenericGattObse
     public void configurePeriod(byte input) {}
 
     @Override
-    public byte[] getRawData() { return new byte[0]; }
-
-    @Override
-    public Object getData() { return null; }
-
-    @Override
     public String getName() { return ""; }
-
-    @Override
-    public void updateCharacteristic(BluetoothGattCharacteristic characteristic) { }
-
-    @Override
-    public UUID getDataUuid() { return UUID.randomUUID(); }
 }

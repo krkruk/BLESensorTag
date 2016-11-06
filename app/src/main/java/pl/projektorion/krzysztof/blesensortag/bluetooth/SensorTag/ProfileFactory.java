@@ -9,6 +9,4 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterf
 
 public interface ProfileFactory {
     GenericGattProfileInterface createProfile();
-
-    GenericGattObserverInterface createObserver();
 }

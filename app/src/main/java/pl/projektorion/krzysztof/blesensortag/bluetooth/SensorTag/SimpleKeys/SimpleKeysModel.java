@@ -1,15 +1,11 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.util.Log;
 
-import java.util.Locale;
 import java.util.Observable;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
-
-import static pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeysProfile.SIMPLE_KEY_DATA;
 
 /**
  * Created by krzysztof on 02.11.16.
@@ -35,7 +31,7 @@ public class SimpleKeysModel extends Observable
 
     @Override
     public UUID getDataUuid() {
-        return SIMPLE_KEY_DATA;
+        return SimpleKeysProfile.SIMPLE_KEY_DATA;
     }
 
     @Override

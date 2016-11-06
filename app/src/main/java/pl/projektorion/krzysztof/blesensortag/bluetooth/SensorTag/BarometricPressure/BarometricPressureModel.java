@@ -1,7 +1,6 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.util.Log;
 
 import java.util.Observable;
 import java.util.UUID;
@@ -23,6 +22,10 @@ public class BarometricPressureModel extends Observable
     @Override
     public void updateCharacteristic(BluetoothGattCharacteristic characteristic) {
         barometricPressureData = new BarometricPressureData(characteristic);
+
+        setChanged();
+        notifyObservers(barometricPressureData);
+        clearChanged();
     }
 
     @Override
