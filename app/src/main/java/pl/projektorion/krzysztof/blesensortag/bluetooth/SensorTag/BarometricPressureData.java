@@ -12,6 +12,10 @@ import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
  */
 
 public class BarometricPressureData extends AbstractProfileData {
+    public static final int ATTRIBUTE_CENTIGRADE = 0x00;
+
+    public static final int ATTRIBUTE_PRESSURE_hPa = 0x01;
+
     private static final int EXPECTED_ARRAY_SIZE = 6;
     private float pressure = 0;
     private float temperature = 0;
@@ -32,8 +36,16 @@ public class BarometricPressureData extends AbstractProfileData {
     }
 
     @Override
-    public int getValue(int sensorAttribute) {
-        return 0;
+    public double getValue(int sensorAttribute) {
+        switch (sensorAttribute)
+        {
+            case ATTRIBUTE_CENTIGRADE:
+                return temperature;
+            case ATTRIBUTE_PRESSURE_hPa:
+                return pressure;
+            default:
+                return -1;
+        }
     }
 
     @Override

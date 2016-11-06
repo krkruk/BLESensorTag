@@ -38,9 +38,9 @@ public class SimpleKeysFragment extends Fragment
     public void update(Observable o, Object arg) {
         modelObservable = o;
         final AbstractProfileData data = (AbstractProfileData) arg;
-        final int leftButton = data.getValue(SimpleKeysData.ATTRIBUTE_LEFT_BUTTON);
-        final int rightButton = data.getValue(SimpleKeysData.ATTRIBUTE_RIGHT_BUTTON);
-        final int reedRelay = data.getValue(SimpleKeysData.ATTRIBUTE_REED_RELAY);
+        final int leftButton = (int) data.getValue(SimpleKeysData.ATTRIBUTE_LEFT_BUTTON);
+        final int rightButton = (int) data.getValue(SimpleKeysData.ATTRIBUTE_RIGHT_BUTTON);
+        final int reedRelay = (int) data.getValue(SimpleKeysData.ATTRIBUTE_REED_RELAY);
 
         handler.post(new Runnable() {
             @Override

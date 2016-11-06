@@ -68,7 +68,7 @@ public class SimpleKeysData extends AbstractProfileData {
     }
 
     @Override
-    public int getValue(int sensorAttribute)
+    public double getValue(int sensorAttribute)
     {
         switch (sensorAttribute)
         {

@@ -5,6 +5,6 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag;
  */
 
 public interface ProfileData {
-    int getValue(int sensorAttribute);
+    double getValue(int sensorAttribute);
     byte[] getRawData();
 }
