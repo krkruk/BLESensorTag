@@ -74,7 +74,16 @@ public class BarometricPressureProfile implements GenericGattProfileInterface {
     }
 
     @Override
-    public void configurePeriod(int input) {
+    public void configurePeriod(byte input) {
+        Log.i("Config", "Period configured started");
+        service = getService();
+        if( service == null ) return;
+        if( input < (byte) 10) return;
+
+        final BluetoothGattCharacteristic period = service.getCharacteristic(BAROMETRIC_PRESSURE_PERIOD);
+        period.setValue(new byte[] { input });
+        gattClient.add(new BLeCharacteristicWriteCommand(gattClient, period));
+        Log.i("Config", "Period configured");
     }
 
     @Override

@@ -23,7 +23,7 @@ public interface GenericGattProfileInterface{
      * Configure a notification update time period.
      * @param input See child classes.
      */
-    void configurePeriod(int input);
+    void configurePeriod(byte input);
 
     /**
      * Get a name of the Profile

@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
@@ -100,7 +101,6 @@ public class BLePresentationFragment extends Fragment
                 enable_all_notifications();
                 enable_all_measurements();
                 populate_fragment_factory();
-                Log.i("GATT", String.format("gattProfile length: %d", gattProfiles.size()));
             }
         }
     };

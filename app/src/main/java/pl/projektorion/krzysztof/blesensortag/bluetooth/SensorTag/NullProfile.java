@@ -26,7 +26,7 @@ public class NullProfile implements GenericGattProfileInterface, GenericGattObse
     public void enableMeasurement(boolean state) {}
 
     @Override
-    public void configurePeriod(int input) {}
+    public void configurePeriod(byte input) {}
 
     @Override
     public byte[] getRawData() { return new byte[0]; }
