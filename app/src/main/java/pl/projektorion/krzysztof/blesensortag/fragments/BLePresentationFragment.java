@@ -41,6 +41,9 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPres
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityModelFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileFactory;
@@ -250,6 +253,7 @@ public class BLePresentationFragment extends Fragment
         profileFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
                 new IRTemperatureProfileFactory(gattClient));
         profileFactory.put(MovementProfile.MOVEMENT_SERVICE, new MovementProfileFactory(gattClient));
+        profileFactory.put(HumidityProfile.HUMIDITY_SERVICE, new HumidityProfileFactory(gattClient));
     }
 
     private void populate_model_factory()
@@ -265,6 +269,7 @@ public class BLePresentationFragment extends Fragment
         modelFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
                 new IRTemperatureModelFactory());
         modelFactory.put(MovementProfile.MOVEMENT_SERVICE, new MovementModelFactory());
+        modelFactory.put(HumidityProfile.HUMIDITY_SERVICE, new HumidityModelFactory());
     }
 
     private void create_and_assign_factory()
@@ -337,7 +342,6 @@ public class BLePresentationFragment extends Fragment
         if( currentFragment != null )
             ft.remove(currentFragment);
         ft.replace(R.id.present_ble_data, fragment);
-//        ft.addToBackStack(null);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
 

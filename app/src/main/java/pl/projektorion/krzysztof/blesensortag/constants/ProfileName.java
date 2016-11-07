@@ -9,4 +9,5 @@ public interface ProfileName {
     String BAROMETRIC_PRESSURE_PROFILE = "Barometric Pressure Profile";
     String IR_TEMPERATURE_PROFILE = "IR Temperature Sensor";
     String MOVEMENT_PROFILE = "Movement Sensor";
+    String HUMIDITY_PROFILE = "Humidity Sensor";
 }
