@@ -44,6 +44,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattProfileFac
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfileFactory;
@@ -53,6 +54,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.Sim
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BarometricPressureFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.IRTemperatureFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.MovementFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SensorTagFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SimpleKeysFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
@@ -312,6 +314,10 @@ public class BLePresentationFragment extends Fragment
                 IRTemperatureProfile.IR_TEMPERATURE_DATA);
         fragmentFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
                 new IRTemperatureFragmentFactory(irTemperatureModel));
+
+        Observable movementModel = (Observable) gattModels.get(MovementProfile.MOVEMENT_DATA);
+        fragmentFactory.put(MovementProfile.MOVEMENT_SERVICE,
+                new MovementFragmentFactory(movementModel));
     }
 
     private void negotiate_data_presentation_fragment(UUID serviceUuid)

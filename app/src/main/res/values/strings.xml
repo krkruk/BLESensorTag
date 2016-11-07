@@ -35,4 +35,9 @@
 
     <string name="label_ambient_temperature">Ambient temperature: </string>
     <string name="label_object_temperature">Object temperature: </string>
+
+    <string name="label_accelerometer">Accelerometer (X : Y : Z ): </string>
+    <string name="label_magnetometer">Magnetometer (X : Y : Z ): </string>
+    <string name="label_gyroscope">Gyroscope (X : Y : Z ): </string>
+
 </resources>
