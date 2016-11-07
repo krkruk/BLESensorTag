@@ -51,6 +51,9 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.Movem
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorModelFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfile;
@@ -248,13 +251,15 @@ public class BLePresentationFragment extends Fragment
             return;
         }
 
-        profileFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysProfileFactory(gattClient));
-        profileFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new BarometricPressureProfileFactory(gattClient));
-        profileFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
-                new IRTemperatureProfileFactory(gattClient));
-        profileFactory.put(MovementProfile.MOVEMENT_SERVICE, new MovementProfileFactory(gattClient));
-        profileFactory.put(HumidityProfile.HUMIDITY_SERVICE, new HumidityProfileFactory(gattClient));
+//        profileFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysProfileFactory(gattClient));
+//        profileFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+//                new BarometricPressureProfileFactory(gattClient));
+//        profileFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
+//                new IRTemperatureProfileFactory(gattClient));
+//        profileFactory.put(MovementProfile.MOVEMENT_SERVICE, new MovementProfileFactory(gattClient));
+//        profileFactory.put(HumidityProfile.HUMIDITY_SERVICE, new HumidityProfileFactory(gattClient));
+        profileFactory.put(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
+                new OpticalSensorProfileFactory(gattClient));
     }
 
     private void populate_model_factory()
@@ -264,13 +269,15 @@ public class BLePresentationFragment extends Fragment
             return;
         }
 
-        modelFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysModelFactory());
-        modelFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new BarometricPressureModelFactory());
-        modelFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
-                new IRTemperatureModelFactory());
-        modelFactory.put(MovementProfile.MOVEMENT_SERVICE, new MovementModelFactory());
-        modelFactory.put(HumidityProfile.HUMIDITY_SERVICE, new HumidityModelFactory());
+//        modelFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysModelFactory());
+//        modelFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+//                new BarometricPressureModelFactory());
+//        modelFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
+//                new IRTemperatureModelFactory());
+//        modelFactory.put(MovementProfile.MOVEMENT_SERVICE, new MovementModelFactory());
+//        modelFactory.put(HumidityProfile.HUMIDITY_SERVICE, new HumidityModelFactory());
+        modelFactory.put(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
+                new OpticalSensorModelFactory());
     }
 
     private void create_and_assign_factory()

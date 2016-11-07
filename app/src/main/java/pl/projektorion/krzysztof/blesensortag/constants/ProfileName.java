@@ -10,4 +10,5 @@ public interface ProfileName {
     String IR_TEMPERATURE_PROFILE = "IR Temperature Sensor";
     String MOVEMENT_PROFILE = "Movement Sensor";
     String HUMIDITY_PROFILE = "Humidity Sensor";
+    String OPTICAL_SENSOR_PROFILE = "Optical Sensor";
 }
