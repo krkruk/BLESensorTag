@@ -44,7 +44,9 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattProfileFac
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfile;
@@ -245,6 +247,7 @@ public class BLePresentationFragment extends Fragment
                 new BarometricPressureProfileFactory(gattClient));
         profileFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
                 new IRTemperatureProfileFactory(gattClient));
+        profileFactory.put(MovementProfile.MOVEMENT_SERVICE, new MovementProfileFactory(gattClient));
     }
 
     private void populate_model_factory()
@@ -259,6 +262,7 @@ public class BLePresentationFragment extends Fragment
                 new BarometricPressureModelFactory());
         modelFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
                 new IRTemperatureModelFactory());
+        modelFactory.put(MovementProfile.MOVEMENT_SERVICE, new MovementModelFactory());
     }
 
     private void create_and_assign_factory()

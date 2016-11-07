@@ -29,6 +29,20 @@ public abstract class AbstractProfileData implements ProfileData {
         return data;
     }
 
+    @Override
+    public void setValue(byte[] value) {
+        this.data = value;
+        assert_data_correct_length();
+        parse();
+    }
+
+    @Override
+    public void setValue(BluetoothGattCharacteristic characteristic) {
+        this.data = characteristic.getValue();
+        assert_data_correct_length();
+        parse();
+    }
+
     protected abstract void parse();
 
     protected void assert_data_correct_length() throws ArrayIndexOutOfBoundsException

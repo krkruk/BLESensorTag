@@ -23,6 +23,13 @@ public class ByteOperation {
         return buffer;
     }
 
+    public static short bytesToShort(byte[] data)
+    {
+        if( data.length != 2 ) return -1;
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+        return byteBuffer.getShort();
+    }
+
     public static byte[] littleToBigEndian(byte[] littleEndian)
     {
         byte[] bigEndian = new byte[littleEndian.length];

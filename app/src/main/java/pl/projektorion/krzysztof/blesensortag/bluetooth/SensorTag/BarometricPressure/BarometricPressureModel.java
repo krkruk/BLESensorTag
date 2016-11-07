@@ -17,6 +17,7 @@ public class BarometricPressureModel extends Observable
     BarometricPressureData barometricPressureData;
 
     public BarometricPressureModel() {
+        super();
         barometricPressureData = new BarometricPressureData();
     }
 

@@ -15,6 +15,7 @@ public class IRTemperatureModel extends Observable implements GenericGattObserve
     private IRTemperatureData irData;
 
     public IRTemperatureModel() {
+        super();
         irData = new IRTemperatureData();
     }
 

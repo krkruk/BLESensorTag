@@ -16,6 +16,7 @@ public class SimpleKeysModel extends Observable
     private SimpleKeysData data;
 
     public SimpleKeysModel() {
+        super();
         this.data = new SimpleKeysData();
     }
 
