@@ -13,6 +13,7 @@ import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
  */
 
 public class OpticalSensorData extends AbstractProfileData {
+    public static final int ATTRIBUTE_LIGHT_INTENSITY_LUX = 0x01;
 
     private static final short EXPECTED_ARRAY_SIZE = 2;
 
@@ -44,7 +45,12 @@ public class OpticalSensorData extends AbstractProfileData {
 
     @Override
     public double getValue(int sensorAttribute) {
-        return 0;
+        switch (sensorAttribute)
+        {
+            case ATTRIBUTE_LIGHT_INTENSITY_LUX:
+                return lightIntensity;
+            default: return -1;
+        }
     }
 
     private double compute_light_intensity(short rawLightIntensity)

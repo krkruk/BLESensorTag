@@ -43,4 +43,7 @@
     <string name="label_humidity">Humidity</string>
     <string name="label_humidity_unit">%</string>
 
+    <string name="label_light_intensity">Light intensity</string>
+    <string name="label_light_intensity_unit">LUX</string>
+
 </resources>

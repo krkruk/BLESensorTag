@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.R;
@@ -62,6 +63,7 @@ import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BarometricPres
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.HumidityFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.IRTemperatureFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.MovementFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.OpticalSensorFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SensorTagFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SimpleKeysFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
@@ -251,13 +253,13 @@ public class BLePresentationFragment extends Fragment
             return;
         }
 
-//        profileFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysProfileFactory(gattClient));
-//        profileFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-//                new BarometricPressureProfileFactory(gattClient));
-//        profileFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
-//                new IRTemperatureProfileFactory(gattClient));
-//        profileFactory.put(MovementProfile.MOVEMENT_SERVICE, new MovementProfileFactory(gattClient));
-//        profileFactory.put(HumidityProfile.HUMIDITY_SERVICE, new HumidityProfileFactory(gattClient));
+        profileFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysProfileFactory(gattClient));
+        profileFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+                new BarometricPressureProfileFactory(gattClient));
+        profileFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
+                new IRTemperatureProfileFactory(gattClient));
+        profileFactory.put(MovementProfile.MOVEMENT_SERVICE, new MovementProfileFactory(gattClient));
+        profileFactory.put(HumidityProfile.HUMIDITY_SERVICE, new HumidityProfileFactory(gattClient));
         profileFactory.put(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
                 new OpticalSensorProfileFactory(gattClient));
     }
@@ -269,13 +271,13 @@ public class BLePresentationFragment extends Fragment
             return;
         }
 
-//        modelFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysModelFactory());
-//        modelFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-//                new BarometricPressureModelFactory());
-//        modelFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
-//                new IRTemperatureModelFactory());
-//        modelFactory.put(MovementProfile.MOVEMENT_SERVICE, new MovementModelFactory());
-//        modelFactory.put(HumidityProfile.HUMIDITY_SERVICE, new HumidityModelFactory());
+        modelFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE, new SimpleKeysModelFactory());
+        modelFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+                new BarometricPressureModelFactory());
+        modelFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
+                new IRTemperatureModelFactory());
+        modelFactory.put(MovementProfile.MOVEMENT_SERVICE, new MovementModelFactory());
+        modelFactory.put(HumidityProfile.HUMIDITY_SERVICE, new HumidityModelFactory());
         modelFactory.put(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
                 new OpticalSensorModelFactory());
     }
@@ -335,6 +337,11 @@ public class BLePresentationFragment extends Fragment
         Observable humidityModel = (Observable) gattModels.get(HumidityProfile.HUMIDITY_DATA);
         fragmentFactory.put(HumidityProfile.HUMIDITY_SERVICE,
                 new HumidityFragmentFactory(humidityModel));
+
+        Observable opticalSensorModel = (Observable)
+                gattModels.get(OpticalSensorProfile.OPTICAL_SENSOR_DATA);
+        fragmentFactory.put(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
+                new OpticalSensorFragmentFactory(opticalSensorModel));
     }
 
     private void negotiate_data_presentation_fragment(UUID serviceUuid)
