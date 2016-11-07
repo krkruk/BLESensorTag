@@ -56,6 +56,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.Sim
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BarometricPressureFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.HumidityFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.IRTemperatureFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.MovementFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SensorTagFragmentFactory;
@@ -323,6 +324,10 @@ public class BLePresentationFragment extends Fragment
         Observable movementModel = (Observable) gattModels.get(MovementProfile.MOVEMENT_DATA);
         fragmentFactory.put(MovementProfile.MOVEMENT_SERVICE,
                 new MovementFragmentFactory(movementModel));
+
+        Observable humidityModel = (Observable) gattModels.get(HumidityProfile.HUMIDITY_DATA);
+        fragmentFactory.put(HumidityProfile.HUMIDITY_SERVICE,
+                new HumidityFragmentFactory(humidityModel));
     }
 
     private void negotiate_data_presentation_fragment(UUID serviceUuid)

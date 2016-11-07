@@ -40,4 +40,7 @@
     <string name="label_magnetometer">Magnetometer (X : Y : Z ): </string>
     <string name="label_gyroscope">Gyroscope (X : Y : Z ): </string>
 
+    <string name="label_humidity">Humidity</string>
+    <string name="label_humidity_unit">%</string>
+
 </resources>
