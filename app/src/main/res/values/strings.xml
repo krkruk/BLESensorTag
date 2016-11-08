@@ -46,4 +46,6 @@
     <string name="label_light_intensity">Light intensity</string>
     <string name="label_light_intensity_unit">LUX</string>
 
+    <string name="label_gap_device_name">Device name:</string>
+
 </resources>

@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
@@ -29,12 +30,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Set;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceData;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientCallback;
@@ -61,6 +64,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKey
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfileNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysNotifyProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
+import pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.GAPServiceFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BarometricPressureFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.HumidityFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.IRTemperatureFragmentFactory;
@@ -87,6 +91,9 @@ public class BLePresentationFragment extends Fragment
     private Map<UUID, GenericGattNotifyProfileInterface> gattProfiles;
     private Map<UUID, GenericGattNotifyModelInterface> gattModels;
 
+    private Map<UUID, GenericGattReadProfileInterface> readProfiles;
+    private Map<UUID, GenericGattReadModelInterface> readModels;
+
     private SensorTagFragmentFactory fragmentFactory;
 
     private UUID currentUuidDisplayed;
@@ -102,8 +109,10 @@ public class BLePresentationFragment extends Fragment
                     .getService();
             gattClient.setCallbacks(BLePresentationFragment.this);
 
-            populate_profile_factory();
-            populate_model_factory();
+            populate_profile_notify_factory();
+            populate_model_notify_factory();
+            populate_profile_read_factory();
+            populate_model_read_factory();
         }
 
         @Override
@@ -123,8 +132,8 @@ public class BLePresentationFragment extends Fragment
             if(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
             {
                 create_and_assign_factory();
-//                enable_all_notifications();
-//                enable_all_measurements();
+                enable_all_notifications();
+                enable_all_measurements();
                 populate_fragment_factory();
             }
         }
@@ -135,9 +144,8 @@ public class BLePresentationFragment extends Fragment
         public void onReceive(Context context, Intent intent) {
             final String uuid = intent.getStringExtra(BLeServiceScannerFragment.EXTRA_BLE_SERVICE_UUID);
             final UUID serviceUuid = UUID.fromString(uuid);
-//            negotiate_data_presentation_fragment(serviceUuid);
-            GenericGattReadProfileInterface devName = new GAPServiceReadProfile(gattClient);
-            devName.demandReadCharacteristics(GenericGattReadProfileInterface.ATTRIBUTE_ALL);
+            negotiate_data_presentation_fragment(serviceUuid);
+            demand_read_values(serviceUuid);
         }
     };
 
@@ -147,16 +155,8 @@ public class BLePresentationFragment extends Fragment
     @Override
     public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic,
                                      int status) {
-        GAPServiceReadModel model = new GAPServiceReadModel();
-        HashSet<GAPServiceReadModel> models = new HashSet<>();
-        models.add(model);
-        for( GAPServiceReadModel m : models) {
-            if (m.hasCharacteristic(characteristic)) {
-                model.updateCharacteristic(characteristic);
-                final String devName = ((GAPServiceData) model.getData()).getValue(GAPServiceData.ATTRIBUTE_DEVICE_NAME);
-                Log.i("GAT", devName);
-            }
-        }
+        if( status == BluetoothGatt.GATT_SUCCESS )
+            update_read_value(characteristic);
     }
 
     @Override
@@ -221,6 +221,8 @@ public class BLePresentationFragment extends Fragment
         modelFactory = new GattModelFactory();
         gattProfiles = new HashMap<>();
         gattModels = new HashMap<>();
+        readProfiles = new HashMap<>();
+        readModels = new HashMap<>();
 
         fragmentFactory = new SensorTagFragmentFactory();
     }
@@ -259,7 +261,7 @@ public class BLePresentationFragment extends Fragment
      * Each ProfileNotifyFactory will createProfile a profile based on Service Key passed
      * into a map.
      */
-    private void populate_profile_factory()
+    private void populate_profile_notify_factory()
     {
         if( profileFactory == null ) {
             Log.d(Constant.BLPF_ERR, Constant.POPULATION_ERR);
@@ -277,7 +279,7 @@ public class BLePresentationFragment extends Fragment
                 new OpticalSensorProfileNotifyFactory(gattClient));
     }
 
-    private void populate_model_factory()
+    private void populate_model_notify_factory()
     {
         if( modelFactory == null ){
             Log.d(Constant.BLPF_ERR, Constant.POPULATION_ERR);
@@ -293,6 +295,16 @@ public class BLePresentationFragment extends Fragment
         modelFactory.put(HumidityNotifyProfile.HUMIDITY_SERVICE, new HumidityModelNotifyFactory());
         modelFactory.put(OpticalSensorNotifyProfile.OPTICAL_SENSOR_SERVICE,
                 new OpticalSensorModelNotifyFactory());
+    }
+
+    private void populate_profile_read_factory()
+    {
+        readProfiles.put( GAPServiceReadProfile.GAP_SERVICE, new GAPServiceReadProfile(gattClient) );
+    }
+
+    private void populate_model_read_factory()
+    {
+        readModels.put( GAPServiceReadProfile.GAP_SERVICE, new GAPServiceReadModel() );
     }
 
     private void create_and_assign_factory()
@@ -355,6 +367,27 @@ public class BLePresentationFragment extends Fragment
                 gattModels.get(OpticalSensorNotifyProfile.OPTICAL_SENSOR_DATA);
         fragmentFactory.put(OpticalSensorNotifyProfile.OPTICAL_SENSOR_SERVICE,
                 new OpticalSensorFragmentFactory(opticalSensorModel));
+
+        Observable gapServiceModel = (Observable) readModels.get(GAPServiceReadProfile.GAP_SERVICE);
+        fragmentFactory.put(GAPServiceReadProfile.GAP_SERVICE,
+                new GAPServiceFragmentFactory(gapServiceModel));
+    }
+
+    private void demand_read_values(UUID valueUuid)
+    {
+        for( GenericGattReadProfileInterface profile : readProfiles.values() )
+        {
+            if( profile.isService(valueUuid) )
+                profile.demandReadCharacteristics(GenericGattReadProfileInterface.ATTRIBUTE_ALL);
+        }
+    }
+
+    private void update_read_value(BluetoothGattCharacteristic characteristic)
+    {
+        for (GenericGattReadModelInterface model : readModels.values() ) {
+            if (model.hasCharacteristic(characteristic))
+                model.updateCharacteristic(characteristic);
+        }
     }
 
     private void negotiate_data_presentation_fragment(UUID serviceUuid)

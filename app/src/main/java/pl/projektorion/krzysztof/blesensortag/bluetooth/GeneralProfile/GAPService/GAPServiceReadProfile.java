@@ -30,7 +30,7 @@ public class GAPServiceReadProfile implements GenericGattReadProfileInterface {
 
     public GAPServiceReadProfile(BLeGattIO gattIO) {
         this.gattIO = gattIO;
-        this.service = getService();
+        this.service = null;
     }
 
     @Override
@@ -53,6 +53,11 @@ public class GAPServiceReadProfile implements GenericGattReadProfileInterface {
     @Override
     public String getName() {
         return APP_NAME;
+    }
+
+    @Override
+    public boolean isService(UUID serviceUuid) {
+        return GAP_SERVICE.equals(serviceUuid);
     }
 
     private BluetoothGattService getService()
