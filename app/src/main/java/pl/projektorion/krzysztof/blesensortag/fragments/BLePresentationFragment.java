@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -34,30 +35,30 @@ import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceData;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattReadProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientCallback;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientService;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureModelFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureModelNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfileNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GattModelFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GattProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityModelFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GattModelFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GattProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityModelNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureModelFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureModelNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementModelFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementModelNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorModelFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorModelNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysModelFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysModelNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfileNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysNotifyProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BarometricPressureFragmentFactory;
@@ -147,11 +148,14 @@ public class BLePresentationFragment extends Fragment
     public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic,
                                      int status) {
         GAPServiceReadModel model = new GAPServiceReadModel();
-        if( model.hasCharacteristic(characteristic) )
-        {
-            model.updateCharacteristic(characteristic);
-            final String devName = ((GAPServiceData) model.getData()).getValue(GAPServiceData.ATTRIBUTE_DEVICE_NAME);
-            Log.i("GAT", devName);
+        HashSet<GAPServiceReadModel> models = new HashSet<>();
+        models.add(model);
+        for( GAPServiceReadModel m : models) {
+            if (m.hasCharacteristic(characteristic)) {
+                model.updateCharacteristic(characteristic);
+                final String devName = ((GAPServiceData) model.getData()).getValue(GAPServiceData.ATTRIBUTE_DEVICE_NAME);
+                Log.i("GAT", devName);
+            }
         }
     }
 
@@ -252,7 +256,7 @@ public class BLePresentationFragment extends Fragment
 
     /**
      * Populate GattProfileFactory with ProfileFactories.
-     * Each ProfileFactory will createProfile a profile based on Service Key passed
+     * Each ProfileNotifyFactory will createProfile a profile based on Service Key passed
      * into a map.
      */
     private void populate_profile_factory()
@@ -262,15 +266,15 @@ public class BLePresentationFragment extends Fragment
             return;
         }
 
-        profileFactory.put(SimpleKeysNotifyProfile.SIMPLE_KEY_SERVICE, new SimpleKeysProfileFactory(gattClient));
+        profileFactory.put(SimpleKeysNotifyProfile.SIMPLE_KEY_SERVICE, new SimpleKeysProfileNotifyFactory(gattClient));
         profileFactory.put(BarometricPressureNotifyProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new BarometricPressureProfileFactory(gattClient));
+                new BarometricPressureProfileNotifyFactory(gattClient));
         profileFactory.put(IRTemperatureNotifyProfile.IR_TEMPERATURE_SERVICE,
-                new IRTemperatureProfileFactory(gattClient));
-        profileFactory.put(MovementNotifyProfile.MOVEMENT_SERVICE, new MovementProfileFactory(gattClient));
-        profileFactory.put(HumidityNotifyProfile.HUMIDITY_SERVICE, new HumidityProfileFactory(gattClient));
+                new IRTemperatureProfileNotifyFactory(gattClient));
+        profileFactory.put(MovementNotifyProfile.MOVEMENT_SERVICE, new MovementProfileNotifyFactory(gattClient));
+        profileFactory.put(HumidityNotifyProfile.HUMIDITY_SERVICE, new HumidityProfileNotifyFactory(gattClient));
         profileFactory.put(OpticalSensorNotifyProfile.OPTICAL_SENSOR_SERVICE,
-                new OpticalSensorProfileFactory(gattClient));
+                new OpticalSensorProfileNotifyFactory(gattClient));
     }
 
     private void populate_model_factory()
@@ -280,15 +284,15 @@ public class BLePresentationFragment extends Fragment
             return;
         }
 
-        modelFactory.put(SimpleKeysNotifyProfile.SIMPLE_KEY_SERVICE, new SimpleKeysModelFactory());
+        modelFactory.put(SimpleKeysNotifyProfile.SIMPLE_KEY_SERVICE, new SimpleKeysModelNotifyFactory());
         modelFactory.put(BarometricPressureNotifyProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new BarometricPressureModelFactory());
+                new BarometricPressureModelNotifyFactory());
         modelFactory.put(IRTemperatureNotifyProfile.IR_TEMPERATURE_SERVICE,
-                new IRTemperatureModelFactory());
-        modelFactory.put(MovementNotifyProfile.MOVEMENT_SERVICE, new MovementModelFactory());
-        modelFactory.put(HumidityNotifyProfile.HUMIDITY_SERVICE, new HumidityModelFactory());
+                new IRTemperatureModelNotifyFactory());
+        modelFactory.put(MovementNotifyProfile.MOVEMENT_SERVICE, new MovementModelNotifyFactory());
+        modelFactory.put(HumidityNotifyProfile.HUMIDITY_SERVICE, new HumidityModelNotifyFactory());
         modelFactory.put(OpticalSensorNotifyProfile.OPTICAL_SENSOR_SERVICE,
-                new OpticalSensorModelFactory());
+                new OpticalSensorModelNotifyFactory());
     }
 
     private void create_and_assign_factory()

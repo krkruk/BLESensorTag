@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,13 +9,13 @@ import java.util.UUID;
  */
 
 public class GattProfileFactory {
-    private Map<UUID, ProfileFactory> methodFactories;
+    private Map<UUID, ProfileNotifyFactory> methodFactories;
 
     public GattProfileFactory() {
         this.methodFactories = new HashMap<>();
     }
 
-    public void put(UUID serviceUuid, ProfileFactory factory)
+    public void put(UUID serviceUuid, ProfileNotifyFactory factory)
     {
         try {
             this.methodFactories.put(serviceUuid, factory);
@@ -23,7 +23,7 @@ public class GattProfileFactory {
     }
 
     public GenericGattNotifyProfileInterface createProfile(UUID serviceUuid) {
-        ProfileFactory factory = methodFactories.get(serviceUuid);
+        ProfileNotifyFactory factory = methodFactories.get(serviceUuid);
         if( factory != null )
             return factory.createProfile();
         else

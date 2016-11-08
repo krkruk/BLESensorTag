@@ -1,17 +1,17 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.ProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileNotifyFactory;
 
 /**
  * Created by krzysztof on 02.11.16.
  */
 
-public class SimpleKeysProfileFactory implements ProfileFactory {
+public class SimpleKeysProfileNotifyFactory implements ProfileNotifyFactory {
     BLeGattIO gattClient;
 
-    public SimpleKeysProfileFactory(BLeGattIO gattClient) {
+    public SimpleKeysProfileNotifyFactory(BLeGattIO gattClient) {
         this.gattClient = gattClient;
     }
 

@@ -14,7 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import pl.projektorion.krzysztof.blesensortag.R;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractProfileData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.AbstractProfileData;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysData;
 
 /**

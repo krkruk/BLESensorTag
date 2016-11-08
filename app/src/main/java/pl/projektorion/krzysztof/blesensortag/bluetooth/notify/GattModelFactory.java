@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,13 +9,13 @@ import java.util.UUID;
  */
 
 public class GattModelFactory {
-    private Map<UUID, ModelFactory> methodFactories;
+    private Map<UUID, ModelNotifyFactory> methodFactories;
 
     public GattModelFactory() {
         this.methodFactories = new HashMap<>();
     }
 
-    public void put(UUID serviceUuid, ModelFactory factory)
+    public void put(UUID serviceUuid, ModelNotifyFactory factory)
     {
         try {
             this.methodFactories.put(serviceUuid, factory);
@@ -23,9 +23,9 @@ public class GattModelFactory {
     }
 
     public GenericGattNotifyModelInterface createObserver(UUID serviceUuid) {
-        ModelFactory model = methodFactories.get(serviceUuid);
+        ModelNotifyFactory model = methodFactories.get(serviceUuid);
         if( model == null )
-            return new NullModel();
+            return new NullNotifyModel();
         return model.createObserver();
     }
 }

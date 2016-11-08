@@ -5,7 +5,7 @@ import android.util.Log;
 
 import java.util.Locale;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractProfileData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.AbstractProfileData;
 import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
 
 /**

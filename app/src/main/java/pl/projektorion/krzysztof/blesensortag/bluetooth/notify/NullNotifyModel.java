@@ -1,17 +1,20 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyModelInterface;
+
 /**
  * Created by krzysztof on 06.11.16.
  */
 
-public class NullModel implements GenericGattNotifyModelInterface {
-    public NullModel() {}
+public class NullNotifyModel implements GenericGattNotifyModelInterface {
+    public NullNotifyModel() {}
 
-    public NullModel(BLeGattIO gattClient) {}
+    public NullNotifyModel(BLeGattIO gattClient) {}
 
     @Override
     public void updateCharacteristic(BluetoothGattCharacteristic characteristic) {}

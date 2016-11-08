@@ -2,7 +2,7 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPServi
 
 import android.bluetooth.BluetoothGattCharacteristic;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.ProfileStringData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.read.ProfileStringData;
 
 /**
  * Created by krzysztof on 08.11.16.

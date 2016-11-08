@@ -2,9 +2,12 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPServi
 
 import android.bluetooth.BluetoothGattCharacteristic;
 
+import java.util.HashSet;
 import java.util.Observable;
+import java.util.Set;
+import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattReadModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
 
 /**
  * Created by krzysztof on 08.11.16.
@@ -14,9 +17,13 @@ public class GAPServiceReadModel extends Observable
         implements GenericGattReadModelInterface {
 
     private GAPServiceData data;
+    private Set<UUID> characteristicUuids;
+
     public GAPServiceReadModel() {
         super();
-        data = new GAPServiceData();
+        this.data = new GAPServiceData();
+        this.characteristicUuids = new HashSet<>();
+        this.characteristicUuids.add(GAPServiceReadProfile.GAP_DEVICE_NAME);
     }
 
     @Override
@@ -30,7 +37,7 @@ public class GAPServiceReadModel extends Observable
 
     @Override
     public boolean hasCharacteristic(BluetoothGattCharacteristic characteristic) {
-        return characteristic.getUuid().equals(GAPServiceReadProfile.GAP_DEVICE_NAME);
+        return characteristicUuids.contains(characteristic.getUuid());
     }
 
     @Override

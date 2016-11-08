@@ -15,7 +15,7 @@ import java.util.Observer;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementData;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.ProfileData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileData;
 
 /**
  * A simple {@link Fragment} subclass.

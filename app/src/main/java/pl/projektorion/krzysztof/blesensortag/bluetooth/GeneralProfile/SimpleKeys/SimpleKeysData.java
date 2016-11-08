@@ -3,7 +3,7 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKe
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.util.Log;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractProfileData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.AbstractProfileData;
 
 /**
  * Created by krzysztof on 02.11.16.

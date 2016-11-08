@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.read;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 

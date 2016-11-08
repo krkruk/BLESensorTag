@@ -1,4 +1,7 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
+
+import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyProfileInterface;
 
 /**
  * Created by krzysztof on 02.11.16.
