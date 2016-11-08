@@ -1,6 +1,6 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.ModelFactory;
 
 /**
@@ -11,7 +11,7 @@ public class SimpleKeysModelFactory implements ModelFactory {
     public SimpleKeysModelFactory() {}
 
     @Override
-    public GenericGattObserverInterface createObserver() {
+    public GenericGattNotifyModelInterface createObserver() {
         return new SimpleKeysModel();
     }
 }

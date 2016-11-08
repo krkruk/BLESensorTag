@@ -5,13 +5,13 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.util.Observable;
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyModelInterface;
 
 /**
  * Created by krzysztof on 06.11.16.
  */
 
-public class IRTemperatureModel extends Observable implements GenericGattObserverInterface {
+public class IRTemperatureModel extends Observable implements GenericGattNotifyModelInterface {
     private IRTemperatureData irData;
 
     public IRTemperatureModel() {
@@ -30,7 +30,7 @@ public class IRTemperatureModel extends Observable implements GenericGattObserve
 
     @Override
     public UUID getDataUuid() {
-        return IRTemperatureProfile.IR_TEMPERATURE_DATA;
+        return IRTemperatureNotifyProfile.IR_TEMPERATURE_DATA;
     }
 
     @Override

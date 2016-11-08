@@ -53,7 +53,8 @@ public class BLeGattClientService extends Service
     private Binder binder = new BLeGattClientBinder();
     private LocalBroadcastManager broadcaster;
 
-    private CommandExecutor cmdExecutor;
+    private CommandExecutor cmdWriteExecutor;
+    private CommandExecutor cmdReadExecutor;
 
 
     /**
@@ -97,6 +98,7 @@ public class BLeGattClientService extends Service
                                          BluetoothGattCharacteristic characteristic, int status) {
             if( callbacks != null )
                 callbacks.onCharacteristicRead(gatt, characteristic, status);
+            cmdReadExecutor.nextExecute();
         }
 
         @Override
@@ -104,7 +106,7 @@ public class BLeGattClientService extends Service
                                           BluetoothGattCharacteristic characteristic, int status) {
             if( callbacks != null )
                 callbacks.onCharacteristicWrite(gatt, characteristic, status);
-            cmdExecutor.nextExecute();
+            cmdWriteExecutor.nextExecute();
         }
 
         @Override
@@ -119,6 +121,7 @@ public class BLeGattClientService extends Service
                                      BluetoothGattDescriptor descriptor, int status) {
             if( callbacks != null )
                 callbacks.onDescriptorRead(gatt, descriptor, status);
+            cmdReadExecutor.nextExecute();
         }
 
         @Override
@@ -126,7 +129,7 @@ public class BLeGattClientService extends Service
                                       BluetoothGattDescriptor descriptor, int status) {
             if( callbacks != null )
                 callbacks.onDescriptorWrite(gatt, descriptor, status);
-            cmdExecutor.nextExecute();
+            cmdWriteExecutor.nextExecute();
         }
     };
 
@@ -190,8 +193,13 @@ public class BLeGattClientService extends Service
     public List<BluetoothGattService> getServices() { return gattClient.getServices(); }
 
     @Override
-    public void add(CommandAbstract cmd) {
-        cmdExecutor.add(cmd);
+    public void addWrite(CommandAbstract cmd) {
+        cmdWriteExecutor.add(cmd);
+    }
+
+    @Override
+    public void addRead(CommandAbstract cmd) {
+        cmdReadExecutor.add(cmd);
     }
 
     @Override
@@ -215,6 +223,20 @@ public class BLeGattClientService extends Service
         if( gattClient == null )
             return false;
         return gattClient.writeCharacteristic(c);
+    }
+
+    @Override
+    public boolean readCharacteristic(BluetoothGattCharacteristic c) {
+        if( gattClient == null )
+            return false;
+        return gattClient.readCharacteristic(c);
+    }
+
+    @Override
+    public boolean readDescriptor(BluetoothGattDescriptor d) {
+        if( gattClient == null )
+            return false;
+        return gattClient.readDescriptor(d);
     }
 
     public void setCallbacks(BLeGattClientCallback callbacks)
@@ -243,7 +265,8 @@ public class BLeGattClientService extends Service
 
     private void init_objects()
     {
-        cmdExecutor = new CommandExecutor();
+        cmdWriteExecutor = new CommandExecutor();
+        cmdReadExecutor = new CommandExecutor();
     }
 
     void update_state(String action)

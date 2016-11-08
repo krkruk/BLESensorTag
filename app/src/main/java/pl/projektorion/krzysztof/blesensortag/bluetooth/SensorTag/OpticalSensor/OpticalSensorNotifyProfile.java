@@ -5,14 +5,14 @@ import android.bluetooth.BluetoothGattService;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattNotifyProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 
 /**
  * Created by krzysztof on 07.11.16.
  */
 
-public class OpticalSensorProfile extends AbstractGenericGattProfile {
+public class OpticalSensorNotifyProfile extends AbstractGenericGattNotifyProfile {
     public static final UUID OPTICAL_SENSOR_SERVICE =
             UUID.fromString("f000aa70-0451-4000-b000-000000000000");
     public static final UUID OPTICAL_SENSOR_DATA =
@@ -24,7 +24,7 @@ public class OpticalSensorProfile extends AbstractGenericGattProfile {
 
     private static final String APP_NAME = ProfileName.OPTICAL_SENSOR_PROFILE;
 
-    public OpticalSensorProfile(BLeGattIO gattClient) {
+    public OpticalSensorNotifyProfile(BLeGattIO gattClient) {
         super(gattClient);
     }
 

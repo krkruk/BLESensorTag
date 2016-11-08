@@ -5,14 +5,13 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.util.Observable;
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyModelInterface;
 
 /**
  * Created by krzysztof on 07.11.16.
  */
 
-public class MovementModel extends Observable implements GenericGattObserverInterface {
+public class MovementModel extends Observable implements GenericGattNotifyModelInterface {
     private MovementData movementData;
     private int accelerometerRange = 0;
 
@@ -33,7 +32,7 @@ public class MovementModel extends Observable implements GenericGattObserverInte
 
     @Override
     public UUID getDataUuid() {
-        return MovementProfile.MOVEMENT_DATA;
+        return MovementNotifyProfile.MOVEMENT_DATA;
     }
 
     @Override

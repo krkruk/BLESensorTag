@@ -1,6 +1,6 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.ModelFactory;
 
 /**
@@ -11,7 +11,7 @@ public class OpticalSensorModelFactory implements ModelFactory {
     public OpticalSensorModelFactory() {}
 
     @Override
-    public GenericGattObserverInterface createObserver() {
+    public GenericGattNotifyModelInterface createObserver() {
         return new OpticalSensorModel();
     }
 }

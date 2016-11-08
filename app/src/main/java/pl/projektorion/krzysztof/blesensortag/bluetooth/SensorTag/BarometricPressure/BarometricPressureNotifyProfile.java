@@ -4,14 +4,14 @@ import android.bluetooth.BluetoothGattService;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattNotifyProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 
 /**
  * Created by krzysztof on 03.11.16.
  */
 
-public class BarometricPressureProfile extends AbstractGenericGattProfile {
+public class BarometricPressureNotifyProfile extends AbstractGenericGattNotifyProfile {
     public static final UUID BAROMETRIC_PRESSURE_SERVICE =
             UUID.fromString("f000aa40-0451-4000-b000-000000000000");
     public static final UUID BAROMETRIC_PRESSURE_DATA =
@@ -23,7 +23,7 @@ public class BarometricPressureProfile extends AbstractGenericGattProfile {
 
     private static final String APP_NAME = ProfileName.BAROMETRIC_PRESSURE_PROFILE;
 
-    public BarometricPressureProfile(BLeGattIO gattClient) {
+    public BarometricPressureNotifyProfile(BLeGattIO gattClient) {
         super(gattClient);
     }
 

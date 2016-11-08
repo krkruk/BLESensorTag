@@ -5,14 +5,14 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.util.Observable;
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.ProfileData;
 
 /**
  * Created by krzysztof on 07.11.16.
  */
 
-public class OpticalSensorModel extends Observable implements GenericGattObserverInterface {
+public class OpticalSensorModel extends Observable implements GenericGattNotifyModelInterface {
     private ProfileData opticalSensorData;
 
     public OpticalSensorModel() {
@@ -31,7 +31,7 @@ public class OpticalSensorModel extends Observable implements GenericGattObserve
 
     @Override
     public UUID getDataUuid() {
-        return OpticalSensorProfile.OPTICAL_SENSOR_DATA;
+        return OpticalSensorNotifyProfile.OPTICAL_SENSOR_DATA;
     }
 
     @Override

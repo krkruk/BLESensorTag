@@ -5,14 +5,14 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.util.Observable;
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyModelInterface;
 
 /**
  * Created by krzysztof on 03.11.16.
  */
 
 public class BarometricPressureModel extends Observable
-        implements GenericGattObserverInterface {
+        implements GenericGattNotifyModelInterface {
 
     BarometricPressureData barometricPressureData;
 
@@ -32,7 +32,7 @@ public class BarometricPressureModel extends Observable
 
     @Override
     public UUID getDataUuid() {
-        return BarometricPressureProfile.BAROMETRIC_PRESSURE_DATA;
+        return BarometricPressureNotifyProfile.BAROMETRIC_PRESSURE_DATA;
     }
 
     @Override

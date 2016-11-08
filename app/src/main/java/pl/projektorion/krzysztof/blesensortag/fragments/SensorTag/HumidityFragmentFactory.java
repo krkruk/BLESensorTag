@@ -4,6 +4,8 @@ import android.app.Fragment;
 
 import java.util.Observable;
 
+import pl.projektorion.krzysztof.blesensortag.fragments.AbstractFragmentFactory;
+
 /**
  * Created by krzysztof on 07.11.16.
  */

@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothGattService;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattNotifyProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeCharacteristicWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
@@ -15,7 +15,7 @@ import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
  * Created by krzysztof on 06.11.16.
  */
 
-public class MovementProfile extends AbstractGenericGattProfile {
+public class MovementNotifyProfile extends AbstractGenericGattNotifyProfile {
     public static final UUID MOVEMENT_SERVICE =
             UUID.fromString("f000aa80-0451-4000-b000-000000000000");
     public static final UUID MOVEMENT_DATA =
@@ -42,7 +42,7 @@ public class MovementProfile extends AbstractGenericGattProfile {
     private static final String APP_NAME = ProfileName.MOVEMENT_PROFILE;
     private int enableMeasurementStatus = DISABLE_ALL_MEASUREMENTS;
 
-    public MovementProfile(BLeGattIO gattClient) {
+    public MovementNotifyProfile(BLeGattIO gattClient) {
         super(gattClient);
     }
 
@@ -83,7 +83,7 @@ public class MovementProfile extends AbstractGenericGattProfile {
         BluetoothGattCharacteristic measurement = service.getCharacteristic(get_config_uuid());
         measurement.setValue(cmd);
 
-        gattClient.add(new BLeCharacteristicWriteCommand(gattClient, measurement));
+        gattClient.addWrite(new BLeCharacteristicWriteCommand(gattClient, measurement));
     }
 
     @Override

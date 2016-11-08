@@ -4,14 +4,11 @@ import android.bluetooth.BluetoothGattCharacteristic;
 
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
-
 /**
  * Created by krzysztof on 06.11.16.
  */
 
-public class NullModel implements GenericGattObserverInterface {
+public class NullModel implements GenericGattNotifyModelInterface {
     public NullModel() {}
 
     public NullModel(BLeGattIO gattClient) {}

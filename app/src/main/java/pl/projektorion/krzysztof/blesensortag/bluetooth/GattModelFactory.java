@@ -22,7 +22,7 @@ public class GattModelFactory {
         } catch (Exception e){}
     }
 
-    public GenericGattObserverInterface createObserver(UUID serviceUuid) {
+    public GenericGattNotifyModelInterface createObserver(UUID serviceUuid) {
         ModelFactory model = methodFactories.get(serviceUuid);
         if( model == null )
             return new NullModel();

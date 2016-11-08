@@ -22,11 +22,11 @@ public class GattProfileFactory {
         } catch (Exception e){}
     }
 
-    public GenericGattProfileInterface createProfile(UUID serviceUuid) {
+    public GenericGattNotifyProfileInterface createProfile(UUID serviceUuid) {
         ProfileFactory factory = methodFactories.get(serviceUuid);
         if( factory != null )
             return factory.createProfile();
         else
-            return new NullProfile();
+            return new NullNotifyProfile();
     }
 }

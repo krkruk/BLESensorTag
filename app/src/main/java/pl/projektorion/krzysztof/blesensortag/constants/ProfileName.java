@@ -11,4 +11,6 @@ public interface ProfileName {
     String MOVEMENT_PROFILE = "Movement Sensor";
     String HUMIDITY_PROFILE = "Humidity Sensor";
     String OPTICAL_SENSOR_PROFILE = "Optical Sensor";
+
+    String GAP_SERVICE_PROFILE = "GAP Service Profile";
 }

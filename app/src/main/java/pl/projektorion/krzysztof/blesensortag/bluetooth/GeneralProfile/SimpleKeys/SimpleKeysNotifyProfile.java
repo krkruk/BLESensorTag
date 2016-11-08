@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothGattService;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotificationDisableWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotificationEnableWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
@@ -16,8 +16,8 @@ import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
  * Created by krzysztof on 01.11.16.
  */
 
-public class SimpleKeysProfile
-    implements GenericGattProfileInterface {
+public class SimpleKeysNotifyProfile
+    implements GenericGattNotifyProfileInterface {
     public static final UUID SIMPLE_KEY_SERVICE =
             UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb");
     public static final UUID SIMPLE_KEY_DATA =
@@ -31,7 +31,7 @@ public class SimpleKeysProfile
     private boolean isNotifying;
 
 
-    public SimpleKeysProfile(BLeGattIO gattClient) {
+    public SimpleKeysNotifyProfile(BLeGattIO gattClient) {
         this.gattClient = gattClient;
         init();
     }
@@ -46,9 +46,9 @@ public class SimpleKeysProfile
         final BluetoothGattCharacteristic notify = service.getCharacteristic(SIMPLE_KEY_DATA);
 
         if (state)
-            gattClient.add(new BLeNotificationEnableWriteCommand(gattClient, notify));
+            gattClient.addWrite(new BLeNotificationEnableWriteCommand(gattClient, notify));
         else
-            gattClient.add(new BLeNotificationDisableWriteCommand(gattClient, notify));
+            gattClient.addWrite(new BLeNotificationDisableWriteCommand(gattClient, notify));
     }
 
     @Override

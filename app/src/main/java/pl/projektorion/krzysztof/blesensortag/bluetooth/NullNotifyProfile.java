@@ -1,17 +1,14 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
-
 /**
  * Created by krzysztof on 02.11.16.
  */
 
-public class NullProfile implements GenericGattProfileInterface {
-    public NullProfile() {
+public class NullNotifyProfile implements GenericGattNotifyProfileInterface {
+    public NullNotifyProfile() {
     }
 
-    public NullProfile(BLeGattIO gattClient) {
+    public NullNotifyProfile(BLeGattIO gattClient) {
     }
 
     @Override

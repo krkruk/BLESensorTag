@@ -2,7 +2,6 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.commands;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
-import android.util.Log;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
@@ -32,8 +31,8 @@ public class BLeNotificationEnableWriteCommand extends CommandAbstract {
                 Constant.CLIENT_CHARACTERISTIC_CONFIGURATION_UUID);
         enable.setValue(notificationValue);
 
-        gattClient.add(new BLeNotificationSettingCommand(gattClient, dataCharacteristic, state));
-        gattClient.add(new BLeDescriptorWriteCommand(gattClient, enable));
+        gattClient.addWrite(new BLeNotificationSettingCommand(gattClient, dataCharacteristic, state));
+        gattClient.addWrite(new BLeDescriptorWriteCommand(gattClient, enable));
     }
 
     @Override

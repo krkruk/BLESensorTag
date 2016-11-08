@@ -5,8 +5,6 @@ import android.bluetooth.BluetoothGattService;
 
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeCharacteristicWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotificationDisableWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotificationEnableWriteCommand;
@@ -15,7 +13,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotification
  * Created by krzysztof on 06.11.16.
  */
 
-public abstract class AbstractGenericGattProfile implements GenericGattProfileInterface {
+public abstract class AbstractGenericGattNotifyProfile implements GenericGattNotifyProfileInterface {
     protected static final byte[] CONFIG_ENABLE = {0x01};
     protected static final byte[] CONFIG_DISABLE = {0x00};
 
@@ -25,7 +23,7 @@ public abstract class AbstractGenericGattProfile implements GenericGattProfileIn
     private boolean isNotifying;
     private boolean isMeasuring;
 
-    public AbstractGenericGattProfile(BLeGattIO gattClient) {
+    public AbstractGenericGattNotifyProfile(BLeGattIO gattClient) {
         this.gattClient = gattClient;
         this.service = get_service();
         this.isMeasuring = false;
@@ -48,9 +46,9 @@ public abstract class AbstractGenericGattProfile implements GenericGattProfileIn
         final BluetoothGattCharacteristic notify = service.getCharacteristic(get_data_uuid());
 
         if (state)
-            gattClient.add(new BLeNotificationEnableWriteCommand(gattClient, notify));
+            gattClient.addWrite(new BLeNotificationEnableWriteCommand(gattClient, notify));
         else
-            gattClient.add(new BLeNotificationDisableWriteCommand(gattClient, notify));
+            gattClient.addWrite(new BLeNotificationDisableWriteCommand(gattClient, notify));
     }
 
     @Override
@@ -74,7 +72,7 @@ public abstract class AbstractGenericGattProfile implements GenericGattProfileIn
         final byte[] cmd = requestState ? CONFIG_ENABLE : CONFIG_DISABLE;
         final BluetoothGattCharacteristic measure = service.getCharacteristic(get_config_uuid());
         measure.setValue(cmd);
-        gattClient.add(new BLeCharacteristicWriteCommand(gattClient, measure));
+        gattClient.addWrite(new BLeCharacteristicWriteCommand(gattClient, measure));
     }
 
     @Override
@@ -95,7 +93,7 @@ public abstract class AbstractGenericGattProfile implements GenericGattProfileIn
 
         final BluetoothGattCharacteristic period = service.getCharacteristic(get_period_uuid());
         period.setValue(new byte[] { input });
-        gattClient.add(new BLeCharacteristicWriteCommand(gattClient, period));
+        gattClient.addWrite(new BLeCharacteristicWriteCommand(gattClient, period));
     }
 
     /**

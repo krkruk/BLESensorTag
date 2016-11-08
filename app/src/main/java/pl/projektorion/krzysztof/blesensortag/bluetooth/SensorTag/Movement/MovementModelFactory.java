@@ -1,6 +1,6 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.ModelFactory;
 
 /**
@@ -11,7 +11,7 @@ public class MovementModelFactory implements ModelFactory {
     public MovementModelFactory() {}
 
     @Override
-    public GenericGattObserverInterface createObserver() {
+    public GenericGattNotifyModelInterface createObserver() {
         return new MovementModel();
     }
 }

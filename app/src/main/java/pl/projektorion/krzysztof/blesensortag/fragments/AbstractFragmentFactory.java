@@ -1,9 +1,11 @@
-package pl.projektorion.krzysztof.blesensortag.fragments.SensorTag;
+package pl.projektorion.krzysztof.blesensortag.fragments;
 
 import android.app.Fragment;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.FragmentFactory;
 
 /**
  * Created by krzysztof on 06.11.16.

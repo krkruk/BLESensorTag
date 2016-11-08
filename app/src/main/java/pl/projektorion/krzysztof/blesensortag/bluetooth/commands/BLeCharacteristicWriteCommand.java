@@ -28,11 +28,6 @@ public class BLeCharacteristicWriteCommand extends CommandAbstract {
     }
 
     @Override
-    public boolean autoContinue() {
-        return super.autoContinue();
-    }
-
-    @Override
     public void execute() {
         if( gattClient == null || characteristic == null )
             return;

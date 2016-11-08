@@ -4,7 +4,7 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth;
  * Created by krzysztof on 02.11.16.
  */
 
-public interface GenericGattProfileInterface{
+public interface GenericGattNotifyProfileInterface {
     int ENABLE_ALL_MEASUREMENTS = Integer.MAX_VALUE;
     int DISABLE_ALL_MEASUREMENTS = Integer.MIN_VALUE;
 
@@ -17,7 +17,7 @@ public interface GenericGattProfileInterface{
 
     /**
      * Return value whether device is notifying
-     * @return Boolean, true if it is notyfying, false otherwise
+     * @return Boolean, true if it is notifying, false otherwise
      */
     boolean isNotifying();
 

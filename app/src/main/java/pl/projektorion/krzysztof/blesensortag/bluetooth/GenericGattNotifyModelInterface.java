@@ -13,7 +13,7 @@ import java.util.UUID;
 /**
  * Observer pattern for SensorTag profiles. Here: interface for an observer
  */
-public interface GenericGattObserverInterface {
+public interface GenericGattNotifyModelInterface {
 
     /**
      * Update Characteristic

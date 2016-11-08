@@ -1,7 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.ProfileFactory;
 
 /**
@@ -16,7 +16,7 @@ public class BarometricPressureProfileFactory implements ProfileFactory {
     }
 
     @Override
-    public GenericGattProfileInterface createProfile() {
-        return new BarometricPressureProfile(gattClient);
+    public GenericGattNotifyProfileInterface createProfile() {
+        return new BarometricPressureNotifyProfile(gattClient);
     }
 }

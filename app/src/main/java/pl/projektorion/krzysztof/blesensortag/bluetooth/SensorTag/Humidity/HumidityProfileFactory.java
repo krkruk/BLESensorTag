@@ -1,7 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.ProfileFactory;
 
 /**
@@ -16,7 +16,7 @@ public class HumidityProfileFactory implements ProfileFactory {
     }
 
     @Override
-    public GenericGattProfileInterface createProfile() {
-        return new HumidityProfile(gattIO);
+    public GenericGattNotifyProfileInterface createProfile() {
+        return new HumidityNotifyProfile(gattIO);
     }
 }

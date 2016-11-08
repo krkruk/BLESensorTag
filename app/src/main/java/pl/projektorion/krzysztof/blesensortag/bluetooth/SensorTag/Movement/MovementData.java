@@ -116,8 +116,8 @@ public class MovementData extends AbstractProfileData {
 
     /**
      * Set accelerometer range. See http://processors.wiki.ti.com/index.php/CC2650_SensorTag_User's_Guide#Configuration_2
-     * Default value is {@link MovementProfile}::ACC_RANGE_2G
-     * @param range {@link MovementProfile}
+     * Default value is {@link MovementNotifyProfile}::ACC_RANGE_2G
+     * @param range {@link MovementNotifyProfile}
      * *ACC_RANGE_2G
      * *ACC_RANGE_4G
      * *ACC_RANGE_8G
@@ -125,7 +125,7 @@ public class MovementData extends AbstractProfileData {
      */
     public void setAccelerometerRange(int range)
     {
-        accRange = (range & MovementProfile.ACC_RANGE_CHECK_MASK);
+        accRange = (range & MovementNotifyProfile.ACC_RANGE_CHECK_MASK);
     }
 
     /**
@@ -165,13 +165,13 @@ public class MovementData extends AbstractProfileData {
     {
         switch (accRange)
         {
-            case MovementProfile.ACC_RANGE_2G:
+            case MovementNotifyProfile.ACC_RANGE_2G:
                 return (accValue * 1.0f) / (32_768.0f*0.5f);
-            case MovementProfile.ACC_RANGE_4G:
+            case MovementNotifyProfile.ACC_RANGE_4G:
                 return (accValue * 1.0f) / (32_768.0f*0.25f);
-            case MovementProfile.ACC_RANGE_8G:
+            case MovementNotifyProfile.ACC_RANGE_8G:
                 return (accValue * 1.0f) / (32_768.0f*0.125f);
-            case MovementProfile.ACC_RANGE_16G:
+            case MovementNotifyProfile.ACC_RANGE_16G:
                 return (accValue * 1.0f) / (32_768.0f/16.0f);
             default: return -1.0f;
         }

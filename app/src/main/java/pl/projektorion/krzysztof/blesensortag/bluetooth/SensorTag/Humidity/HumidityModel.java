@@ -5,14 +5,14 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.util.Observable;
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattNotifyModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.ProfileData;
 
 /**
  * Created by krzysztof on 07.11.16.
  */
 
-public class HumidityModel extends Observable implements GenericGattObserverInterface {
+public class HumidityModel extends Observable implements GenericGattNotifyModelInterface {
     private ProfileData humidityData;
 
     public HumidityModel() {
@@ -30,7 +30,7 @@ public class HumidityModel extends Observable implements GenericGattObserverInte
 
     @Override
     public UUID getDataUuid() {
-        return HumidityProfile.HUMIDITY_DATA;
+        return HumidityNotifyProfile.HUMIDITY_DATA;
     }
 
     @Override
