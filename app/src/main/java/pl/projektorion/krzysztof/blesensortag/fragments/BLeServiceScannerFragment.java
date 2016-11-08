@@ -29,7 +29,7 @@ import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapter;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientService;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientService;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.service;
 
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.utils.CommandAbstract;
 import pl.projektorion.krzysztof.blesensortag.utils.CommandExecutor;

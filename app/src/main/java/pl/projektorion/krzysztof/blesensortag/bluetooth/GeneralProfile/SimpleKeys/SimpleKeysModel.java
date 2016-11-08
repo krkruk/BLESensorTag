@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 

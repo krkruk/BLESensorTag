@@ -2,12 +2,11 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
-import android.util.Log;
 
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.AbstractGenericGattProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeCharacteristicWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;

@@ -1,11 +1,8 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag;
+package pl.projektorion.krzysztof.blesensortag.bluetooth;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
 
 /**
  * Created by krzysztof on 02.11.16.

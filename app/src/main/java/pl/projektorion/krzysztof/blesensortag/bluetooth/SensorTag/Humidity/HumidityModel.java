@@ -6,7 +6,7 @@ import java.util.Observable;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ProfileData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.ProfileData;
 
 /**
  * Created by krzysztof on 07.11.16.

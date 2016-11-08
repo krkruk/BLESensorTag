@@ -1,15 +1,11 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
-import android.os.Bundle;
-import android.util.Log;
 
-import java.util.Locale;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotificationDisableWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotificationEnableWriteCommand;

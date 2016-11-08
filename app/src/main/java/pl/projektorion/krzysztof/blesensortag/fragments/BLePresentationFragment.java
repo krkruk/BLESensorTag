@@ -28,36 +28,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.R;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientCallback;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattClientService;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientCallback;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientService;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattObserverInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattModelFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.GattProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GattModelFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GattProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysModelFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.SimpleKeys.SimpleKeysProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysModelFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BarometricPressureFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.HumidityFragmentFactory;
@@ -66,7 +63,6 @@ import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.MovementFragme
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.OpticalSensorFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SensorTagFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SimpleKeysFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
 
 /**
  * A simple {@link Fragment} subclass.

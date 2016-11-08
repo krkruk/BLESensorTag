@@ -20,14 +20,14 @@
         </activity>
 
         <service
-            android:name=".bluetooth.BLeDiscoveryService"
+            android:name=".bluetooth.service.BLeDiscoveryService"
             android:enabled="true"
             android:exported="false" />
 
         <activity android:name=".BLeServiceScannerActivity" />
 
         <service
-            android:name=".bluetooth.BLeGattClientService"
+            android:name=".bluetooth.service.BLeGattClientService"
             android:enabled="true"
             android:exported="true"></service>
     </application>

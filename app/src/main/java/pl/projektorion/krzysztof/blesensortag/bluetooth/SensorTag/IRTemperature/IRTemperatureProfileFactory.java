@@ -2,7 +2,7 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.ProfileFactory;
 
 /**
  * Created by krzysztof on 06.11.16.

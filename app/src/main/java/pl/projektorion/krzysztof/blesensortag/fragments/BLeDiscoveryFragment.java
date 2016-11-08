@@ -30,7 +30,7 @@ import java.util.List;
 import pl.projektorion.krzysztof.blesensortag.BLeServiceScannerActivity;
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.BLeDiscoveryAdapter;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeDiscoveryService;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeDiscoveryService;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.models.BLeDeviceModel;
 
