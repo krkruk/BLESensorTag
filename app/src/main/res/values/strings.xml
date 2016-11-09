@@ -47,5 +47,12 @@
     <string name="label_light_intensity_unit">LUX</string>
 
     <string name="label_gap_device_name">Device name:</string>
+    <string name="label_system_id">System ID:</string>
+    <string name="label_model_number">Model number:</string>
+    <string name="label_serial_number">Serial number:</string>
+    <string name="label_firmware_rev">Firmware revision:</string>
+    <string name="label_hardware_rev">Hardware revision:</string>
+    <string name="label_software_rev">Software revision:</string>
+    <string name="label_manufacturer_name">Manufacturer:</string>
 
 </resources>

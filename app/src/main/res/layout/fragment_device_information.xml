@@ -1,0 +1,149 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.DeviceInformationFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_system_id"
+        />
+
+        <TextView
+            android:id="@+id/system_id_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_model_number"
+        />
+
+        <TextView
+            android:id="@+id/model_number_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_serial_number"
+        />
+
+        <TextView
+            android:id="@+id/serial_number_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_firmware_rev"
+        />
+
+        <TextView
+            android:id="@+id/firmware_rev_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_hardware_rev"
+        />
+
+        <TextView
+            android:id="@+id/harware_rev_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_software_rev"
+        />
+
+        <TextView
+            android:id="@+id/software_rev_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_manufacturer_name"
+        />
+
+        <TextView
+            android:id="@+id/manufacturer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+    </LinearLayout>
+
+
+</LinearLayout>

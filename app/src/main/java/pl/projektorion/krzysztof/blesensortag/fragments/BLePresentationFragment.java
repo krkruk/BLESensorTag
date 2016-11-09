@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
@@ -26,17 +25,14 @@ import android.view.ViewGroup;
 
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
-import java.util.Set;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceData;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
@@ -66,6 +62,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKey
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfileNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysNotifyProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
+import pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.DeviceInformationFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.GAPServiceFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BarometricPressureFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.HumidityFragmentFactory;
@@ -73,7 +70,7 @@ import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.IRTemperatureF
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.MovementFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.OpticalSensorFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SensorTagFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SimpleKeysFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.SimpleKeysFragmentFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -134,8 +131,8 @@ public class BLePresentationFragment extends Fragment
             if(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
             {
                 create_and_assign_factory();
-//                enable_all_notifications();
-//                enable_all_measurements();
+                enable_all_notifications();
+                enable_all_measurements();
                 populate_fragment_factory();
             }
         }
@@ -377,6 +374,11 @@ public class BLePresentationFragment extends Fragment
         Observable gapServiceModel = (Observable) readModels.get(GAPServiceReadProfile.GAP_SERVICE);
         fragmentFactory.put(GAPServiceReadProfile.GAP_SERVICE,
                 new GAPServiceFragmentFactory(gapServiceModel));
+
+        Observable deviceInfoModel = (Observable) readModels.get(
+                DeviceInformationReadProfile.DEVICE_INFORMATION_SERVICE);
+        fragmentFactory.put(DeviceInformationReadProfile.DEVICE_INFORMATION_SERVICE,
+                new DeviceInformationFragmentFactory(deviceInfoModel));
     }
 
     private void demand_read_values(UUID valueUuid)
