@@ -13,4 +13,5 @@ public interface ProfileName {
     String OPTICAL_SENSOR_PROFILE = "Optical Sensor";
 
     String GAP_SERVICE_PROFILE = "GAP Service Profile";
+    String DEVICE_INFORMATION_PROFILE = "Device Information Service Profile";
 }

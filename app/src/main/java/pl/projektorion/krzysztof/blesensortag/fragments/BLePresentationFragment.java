@@ -34,6 +34,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.R;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadModel;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceData;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadProfile;
@@ -132,8 +134,8 @@ public class BLePresentationFragment extends Fragment
             if(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
             {
                 create_and_assign_factory();
-                enable_all_notifications();
-                enable_all_measurements();
+//                enable_all_notifications();
+//                enable_all_measurements();
                 populate_fragment_factory();
             }
         }
@@ -300,11 +302,15 @@ public class BLePresentationFragment extends Fragment
     private void populate_profile_read_factory()
     {
         readProfiles.put( GAPServiceReadProfile.GAP_SERVICE, new GAPServiceReadProfile(gattClient) );
+        readProfiles.put( DeviceInformationReadProfile.DEVICE_INFORMATION_SERVICE,
+                new DeviceInformationReadProfile(gattClient) );
     }
 
     private void populate_model_read_factory()
     {
         readModels.put( GAPServiceReadProfile.GAP_SERVICE, new GAPServiceReadModel() );
+        readModels.put( DeviceInformationReadProfile.DEVICE_INFORMATION_SERVICE,
+                new DeviceInformationReadModel() );
     }
 
     private void create_and_assign_factory()
