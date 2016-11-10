@@ -35,6 +35,9 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInf
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlReadModel;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlReadProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlRequest;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileNotifyFactory;
@@ -301,6 +304,8 @@ public class BLePresentationFragment extends Fragment
         readProfiles.put( GAPServiceReadProfile.GAP_SERVICE, new GAPServiceReadProfile(gattClient) );
         readProfiles.put( DeviceInformationReadProfile.DEVICE_INFORMATION_SERVICE,
                 new DeviceInformationReadProfile(gattClient) );
+        readProfiles.put(ConnectionControlReadProfile.CONNECTION_CONTROL_SERVICE,
+                new ConnectionControlReadProfile(gattClient));
     }
 
     private void populate_model_read_factory()
@@ -308,6 +313,8 @@ public class BLePresentationFragment extends Fragment
         readModels.put( GAPServiceReadProfile.GAP_SERVICE, new GAPServiceReadModel() );
         readModels.put( DeviceInformationReadProfile.DEVICE_INFORMATION_SERVICE,
                 new DeviceInformationReadModel() );
+        readModels.put( ConnectionControlReadProfile.CONNECTION_CONTROL_SERVICE,
+                new ConnectionControlReadModel() );
     }
 
     private void create_and_assign_factory()
@@ -385,8 +392,9 @@ public class BLePresentationFragment extends Fragment
     {
         for( GenericGattReadProfileInterface profile : readProfiles.values() )
         {
-            if( profile.isService(valueUuid) )
+            if( profile.isService(valueUuid) ) {
                 profile.demandReadCharacteristics(GenericGattReadProfileInterface.ATTRIBUTE_ALL);
+            }
         }
     }
 

@@ -39,4 +39,15 @@ public class ByteOperation {
 
         return bigEndian;
     }
+
+    public static byte[] bigToLittleEndian(byte[] bigEndian)
+    {
+        final int BIG_ENDIAN_LENGTH = bigEndian.length;
+        byte[] littleEndian = new byte[BIG_ENDIAN_LENGTH];
+        int ii = 0;
+        for(int i = BIG_ENDIAN_LENGTH - 1; i >= 0; i--)
+            littleEndian[ii++] = bigEndian[i];
+
+        return littleEndian;
+    }
 }

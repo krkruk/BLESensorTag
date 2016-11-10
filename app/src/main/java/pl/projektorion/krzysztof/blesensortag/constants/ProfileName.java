@@ -14,4 +14,5 @@ public interface ProfileName {
 
     String GAP_SERVICE_PROFILE = "GAP Service Profile";
     String DEVICE_INFORMATION_PROFILE = "Device Information Service Profile";
+    String CONNECTION_CONTROL_PROFILE = "Connection Control Service Profile";
 }
