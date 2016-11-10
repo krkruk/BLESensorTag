@@ -37,7 +37,6 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPServic
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlReadModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlReadProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlRequest;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileNotifyFactory;
@@ -68,6 +67,7 @@ import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.DeviceInformationFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.GAPServiceFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BarometricPressureFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.ConnectionControlFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.HumidityFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.IRTemperatureFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.MovementFragmentFactory;
@@ -386,6 +386,11 @@ public class BLePresentationFragment extends Fragment
                 DeviceInformationReadProfile.DEVICE_INFORMATION_SERVICE);
         fragmentFactory.put(DeviceInformationReadProfile.DEVICE_INFORMATION_SERVICE,
                 new DeviceInformationFragmentFactory(deviceInfoModel));
+
+        Observable connControlModel = (Observable) readModels.get(
+                ConnectionControlReadProfile.CONNECTION_CONTROL_SERVICE);
+        fragmentFactory.put(ConnectionControlReadProfile.CONNECTION_CONTROL_SERVICE,
+                new ConnectionControlFragmentFactory(connControlModel));
     }
 
     private void demand_read_values(UUID valueUuid)

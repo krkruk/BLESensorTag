@@ -55,4 +55,8 @@
     <string name="label_software_rev">Software revision:</string>
     <string name="label_manufacturer_name">Manufacturer:</string>
 
+    <string name="label_connection_interval">Connection interval:</string>
+    <string name="label_slave_latency">Slave latency:</string>
+    <string name="label_supervision_timeout">Supervision timeout:</string>
+
 </resources>
