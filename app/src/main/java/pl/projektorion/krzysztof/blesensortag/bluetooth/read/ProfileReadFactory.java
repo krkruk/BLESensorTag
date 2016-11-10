@@ -5,5 +5,10 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.read;
  */
 
 public interface ProfileReadFactory {
+
+    /**
+     * Factory Method Pattern that creates {@link GenericGattReadProfileInterface}
+     * @return {@link GenericGattReadModelInterface}
+     */
     GenericGattReadProfileInterface createProfile();
 }

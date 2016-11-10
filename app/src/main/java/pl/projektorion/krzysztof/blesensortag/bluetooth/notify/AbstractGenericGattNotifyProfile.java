@@ -26,7 +26,6 @@ public abstract class AbstractGenericGattNotifyProfile implements GenericGattNot
 
     public AbstractGenericGattNotifyProfile(BLeGattIO gattClient) {
         this.gattClient = gattClient;
-        this.service = get_service();
         this.isMeasuring = false;
         this.isNotifying = false;
     }
@@ -95,6 +94,11 @@ public abstract class AbstractGenericGattNotifyProfile implements GenericGattNot
         final BluetoothGattCharacteristic period = service.getCharacteristic(get_period_uuid());
         period.setValue(new byte[] { input });
         gattClient.addWrite(new BLeCharacteristicWriteCommand(gattClient, period));
+    }
+
+    @Override
+    public UUID getDataUuid() {
+        return get_data_uuid();
     }
 
     /**

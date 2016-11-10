@@ -55,7 +55,7 @@ public class BLeServiceScannerExpandableAdapter extends BaseExpandableListAdapte
         if( convertView == null )
         {
             view = inflater.inflate(R.layout.adapter_group_ble_service_scanner, null);
-            container.serviceName = (TextView) view.findViewById(R.id.scan_service_name);
+            container.serviceName = (TextView) view.findViewById(R.id.scan_service_name_state);
             container.serviceUuid = (TextView) view.findViewById(R.id.scan_service_uuid);
             view.setTag(container);
         }

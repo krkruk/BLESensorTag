@@ -18,12 +18,14 @@ import pl.projektorion.krzysztof.blesensortag.R;
 
 public class BLeServiceScannerAdapter extends BaseAdapter {
 
-    List<String> namesOfServices;
+    List<BLeServiceScannerAdapterDataContainer> namesOfServices;
     LayoutInflater inflater;
 
-    public BLeServiceScannerAdapter(Context context, List<String> namesOfServices) {
+    public BLeServiceScannerAdapter(Context context,
+                                    List<BLeServiceScannerAdapterDataContainer> namesOfServices) {
         super();
-        this.namesOfServices = namesOfServices == null ? new ArrayList<String>() : namesOfServices;
+        this.namesOfServices = namesOfServices == null ?
+                new ArrayList<BLeServiceScannerAdapterDataContainer>() : namesOfServices;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -50,30 +52,33 @@ public class BLeServiceScannerAdapter extends BaseAdapter {
         if( convertView == null )
         {
             view = inflater.inflate(R.layout.adapter_ble_service_scanner, null);
-            container.serviceName = (TextView) view.findViewById(R.id.scan_service_name_list);
+            container.serviceName = (TextView) view.findViewById(R.id.scan_service_name_state);
+            container.serviceUuid = (TextView) view.findViewById(R.id.scan_service_uuid_state);
             view.setTag(container);
         }
         else
             container = (ServiceScannerWidgetsContainer) view.getTag();
 
-        final String label = namesOfServices.get(position);
+        final BLeServiceScannerAdapterDataContainer label = namesOfServices.get(position);
 
-        container.serviceName.setText(label);
+        container.serviceName.setText(label.getServiceName());
+        container.serviceUuid.setText(label.getServiceUuid().toString());
 
         return view;
     }
 
-    public void add(String data)
+    public void add(BLeServiceScannerAdapterDataContainer data)
     {
         namesOfServices.add(data);
     }
 
-    public void expand(List<String> data)
+    public void expand(List<BLeServiceScannerAdapterDataContainer> data)
     {
         namesOfServices.addAll(data);
     }
 
     private class ServiceScannerWidgetsContainer {
         TextView serviceName;
+        TextView serviceUuid;
     }
 }

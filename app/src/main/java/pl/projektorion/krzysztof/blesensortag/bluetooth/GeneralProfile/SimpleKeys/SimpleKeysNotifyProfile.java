@@ -82,10 +82,14 @@ public class SimpleKeysNotifyProfile
         return APP_NAME;
     }
 
+    @Override
+    public UUID getDataUuid() {
+        return SIMPLE_KEY_DATA;
+    }
+
     private void init()
     {
         this.isNotifying = false;
-        this.service = getService();
     }
 
     private BluetoothGattService getService()

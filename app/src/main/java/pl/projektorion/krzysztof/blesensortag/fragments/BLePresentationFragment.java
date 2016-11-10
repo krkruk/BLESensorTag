@@ -88,12 +88,10 @@ public class BLePresentationFragment extends Fragment
     private LocalBroadcastManager broadcaster;
 
 
-    private GattProfileFactory profileFactory;
+
     private GattModelFactory modelFactory;
-    private Map<UUID, GenericGattNotifyProfileInterface> gattProfiles;
     private Map<UUID, GenericGattNotifyModelInterface> gattModels;
 
-    private Map<UUID, GenericGattReadProfileInterface> readProfiles;
     private Map<UUID, GenericGattReadModelInterface> readModels;
 
     private SensorTagFragmentFactory fragmentFactory;
@@ -111,9 +109,7 @@ public class BLePresentationFragment extends Fragment
                     .getService();
             gattClient.setCallbacks(BLePresentationFragment.this);
 
-            populate_profile_notify_factory();
             populate_model_notify_factory();
-            populate_profile_read_factory();
             populate_model_read_factory();
         }
 
@@ -134,8 +130,6 @@ public class BLePresentationFragment extends Fragment
             if(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
             {
                 create_and_assign_factory();
-                enable_all_notifications();
-                enable_all_measurements();
                 populate_fragment_factory();
             }
         }
@@ -147,7 +141,6 @@ public class BLePresentationFragment extends Fragment
             final String uuid = intent.getStringExtra(BLeServiceScannerFragment.EXTRA_BLE_SERVICE_UUID);
             final UUID serviceUuid = UUID.fromString(uuid);
             negotiate_data_presentation_fragment(serviceUuid);
-            demand_read_values(serviceUuid);
         }
     };
 
@@ -219,11 +212,8 @@ public class BLePresentationFragment extends Fragment
 
     private void init_objects()
     {
-        profileFactory = new GattProfileFactory();
         modelFactory = new GattModelFactory();
-        gattProfiles = new HashMap<>();
         gattModels = new HashMap<>();
-        readProfiles = new HashMap<>();
         readModels = new HashMap<>();
 
         fragmentFactory = new SensorTagFragmentFactory();
@@ -258,29 +248,6 @@ public class BLePresentationFragment extends Fragment
         broadcaster.unregisterReceiver(serviceGattReceiver);
     }
 
-    /**
-     * Populate GattProfileFactory with ProfileFactories.
-     * Each ProfileNotifyFactory will createProfile a profile based on Service Key passed
-     * into a map.
-     */
-    private void populate_profile_notify_factory()
-    {
-        if( profileFactory == null ) {
-            Log.d(Constant.BLPF_ERR, Constant.POPULATION_ERR);
-            return;
-        }
-
-        profileFactory.put(SimpleKeysNotifyProfile.SIMPLE_KEY_SERVICE, new SimpleKeysProfileNotifyFactory(gattClient));
-        profileFactory.put(BarometricPressureNotifyProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new BarometricPressureProfileNotifyFactory(gattClient));
-        profileFactory.put(IRTemperatureNotifyProfile.IR_TEMPERATURE_SERVICE,
-                new IRTemperatureProfileNotifyFactory(gattClient));
-        profileFactory.put(MovementNotifyProfile.MOVEMENT_SERVICE, new MovementProfileNotifyFactory(gattClient));
-        profileFactory.put(HumidityNotifyProfile.HUMIDITY_SERVICE, new HumidityProfileNotifyFactory(gattClient));
-        profileFactory.put(OpticalSensorNotifyProfile.OPTICAL_SENSOR_SERVICE,
-                new OpticalSensorProfileNotifyFactory(gattClient));
-    }
-
     private void populate_model_notify_factory()
     {
         if( modelFactory == null ){
@@ -299,14 +266,7 @@ public class BLePresentationFragment extends Fragment
                 new OpticalSensorModelNotifyFactory());
     }
 
-    private void populate_profile_read_factory()
-    {
-        readProfiles.put( GAPServiceReadProfile.GAP_SERVICE, new GAPServiceReadProfile(gattClient) );
-        readProfiles.put( DeviceInformationReadProfile.DEVICE_INFORMATION_SERVICE,
-                new DeviceInformationReadProfile(gattClient) );
-        readProfiles.put(ConnectionControlReadProfile.CONNECTION_CONTROL_SERVICE,
-                new ConnectionControlReadProfile(gattClient));
-    }
+
 
     private void populate_model_read_factory()
     {
@@ -324,24 +284,10 @@ public class BLePresentationFragment extends Fragment
         for(BluetoothGattService service : services)
         {
             final UUID serviceUuid = service.getUuid();
-            final GenericGattNotifyProfileInterface profile = profileFactory.createProfile(serviceUuid);
             final GenericGattNotifyModelInterface observer = modelFactory.createObserver(serviceUuid);
             final UUID dataUuid = observer.getDataUuid();
-            gattProfiles.put(dataUuid, profile);
             gattModels.put(dataUuid, observer);
         }
-    }
-
-    private void enable_all_notifications()
-    {
-        for(GenericGattNotifyProfileInterface profile : gattProfiles.values())
-            profile.enableNotification(true);
-    }
-
-    private void enable_all_measurements()
-    {
-        for(GenericGattNotifyProfileInterface profile : gattProfiles.values())
-            profile.enableMeasurement(GenericGattNotifyProfileInterface.ENABLE_ALL_MEASUREMENTS);
     }
 
     private void populate_fragment_factory()
@@ -391,16 +337,6 @@ public class BLePresentationFragment extends Fragment
                 ConnectionControlReadProfile.CONNECTION_CONTROL_SERVICE);
         fragmentFactory.put(ConnectionControlReadProfile.CONNECTION_CONTROL_SERVICE,
                 new ConnectionControlFragmentFactory(connControlModel));
-    }
-
-    private void demand_read_values(UUID valueUuid)
-    {
-        for( GenericGattReadProfileInterface profile : readProfiles.values() )
-        {
-            if( profile.isService(valueUuid) ) {
-                profile.demandReadCharacteristics(GenericGattReadProfileInterface.ATTRIBUTE_ALL);
-            }
-        }
     }
 
     private void update_read_value(BluetoothGattCharacteristic characteristic)

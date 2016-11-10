@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,34 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapter;
+import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapterDataContainer;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlReadProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GattProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientService;
+import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,6 +82,10 @@ public class BLeServiceScannerFragment extends Fragment {
     final private Handler handler = new Handler(Looper.getMainLooper());
     private LocalBroadcastManager broadcaster;
 
+    private GattProfileFactory profileFactory;
+    private Map<UUID, GenericGattNotifyProfileInterface> gattProfiles;
+    private Map<UUID, GenericGattReadProfileInterface> readProfiles;
+
     private BroadcastReceiver serviceGattReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -66,6 +94,9 @@ public class BLeServiceScannerFragment extends Fragment {
             if(BLeGattClientService.ACTION_GATT_CONNECTED.equals(action))
             {
                 display_status(R.string.status_connected);
+                populate_profile_notify_factory();
+                populate_profile_read_factory();
+
                 gattService.discoverServices();
             }
             else if(BLeGattClientService.ACTION_GATT_CONNECTING.equals(action))
@@ -78,12 +109,10 @@ public class BLeServiceScannerFragment extends Fragment {
             }
             else if(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
             {
-                List<BluetoothGattService> services = gattService.getServices();
-                List<String> servicesString = new ArrayList<>();
-                for(BluetoothGattService service : services)
-                    servicesString.add(service.getUuid().toString());
-                serviceWidgetAdapter.expand(servicesString);
-                serviceWidgetAdapter.notifyDataSetChanged();
+                final List<BluetoothGattService> services = gattService.getServices();
+                create_profile_factories(services);
+                enable_all_notifications();
+                enable_all_measurements();
             }
         }
     };
@@ -104,11 +133,15 @@ public class BLeServiceScannerFragment extends Fragment {
     AdapterView.OnItemClickListener serviceListListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String strUuid = (String)serviceWidgetAdapter.getItem(position);
+            final BLeServiceScannerAdapterDataContainer strUuid =
+                    (BLeServiceScannerAdapterDataContainer)serviceWidgetAdapter.getItem(position);
 
+            final UUID serviceUuid = strUuid.getServiceUuid();
             Intent bleServiceClicked = new Intent(ACTION_BLE_SERVICE_CLICKED);
-            bleServiceClicked.putExtra(EXTRA_BLE_SERVICE_UUID, strUuid);
+            bleServiceClicked.putExtra(EXTRA_BLE_SERVICE_UUID,
+                    serviceUuid.toString());
             broadcaster.sendBroadcast(bleServiceClicked);
+            demand_read_values(serviceUuid);
         }
     };
 
@@ -123,6 +156,7 @@ public class BLeServiceScannerFragment extends Fragment {
         retrieve_incoming_data();
         assert_ble_device_exists();
         init_adapters();
+        init_objects();
         init_broadcast_receivers();
         init_bound_services();
     }
@@ -148,6 +182,80 @@ public class BLeServiceScannerFragment extends Fragment {
         BLeServiceScannerFragment fragment = new BLeServiceScannerFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    /**
+     * Populate GattProfileFactory with ProfileFactories.
+     * Each ProfileNotifyFactory will createProfile a profile based on Service Key passed
+     * into a map.
+     */
+    private void populate_profile_notify_factory()
+    {
+        if( profileFactory == null ) {
+            Log.d(Constant.BLPF_ERR, Constant.POPULATION_ERR);
+            return;
+        }
+
+        profileFactory.put(SimpleKeysNotifyProfile.SIMPLE_KEY_SERVICE,
+                new SimpleKeysProfileNotifyFactory(gattService));
+        profileFactory.put(BarometricPressureNotifyProfile.BAROMETRIC_PRESSURE_SERVICE,
+                new BarometricPressureProfileNotifyFactory(gattService));
+        profileFactory.put(IRTemperatureNotifyProfile.IR_TEMPERATURE_SERVICE,
+                new IRTemperatureProfileNotifyFactory(gattService));
+        profileFactory.put(MovementNotifyProfile.MOVEMENT_SERVICE,
+                new MovementProfileNotifyFactory(gattService));
+        profileFactory.put(HumidityNotifyProfile.HUMIDITY_SERVICE,
+                new HumidityProfileNotifyFactory(gattService));
+        profileFactory.put(OpticalSensorNotifyProfile.OPTICAL_SENSOR_SERVICE,
+                new OpticalSensorProfileNotifyFactory(gattService));
+    }
+
+    private void populate_profile_read_factory()
+    {
+        readProfiles.put( GAPServiceReadProfile.GAP_SERVICE, new GAPServiceReadProfile(gattService) );
+        readProfiles.put( DeviceInformationReadProfile.DEVICE_INFORMATION_SERVICE,
+                new DeviceInformationReadProfile(gattService) );
+        readProfiles.put(ConnectionControlReadProfile.CONNECTION_CONTROL_SERVICE,
+                new ConnectionControlReadProfile(gattService));
+    }
+
+    private void create_profile_factories(List<BluetoothGattService> services)
+    {
+        for(BluetoothGattService service : services)
+        {
+            final UUID serviceUuid = service.getUuid();
+            final GenericGattNotifyProfileInterface profile = profileFactory
+                    .createProfile(serviceUuid);
+            final GenericGattReadProfileInterface readProfile =
+                    readProfiles.get(serviceUuid);
+            String profileName = profile.getName();
+
+            /*
+            This is just awful... Need to find a common interface, join it
+            and then apply it. But for now - break :)
+             */
+            if( readProfile != null )
+                profileName = readProfile.getName();
+            else
+                gattProfiles.put(serviceUuid, profile);
+
+            serviceWidgetAdapter.add(new BLeServiceScannerAdapterDataContainer(
+                    profileName, serviceUuid));
+        }
+        serviceWidgetAdapter.notifyDataSetChanged();
+    }
+
+
+    private void enable_all_notifications()
+    {
+        for(GenericGattNotifyProfileInterface profile : gattProfiles.values())
+            profile.enableNotification(true);
+    }
+
+    private void enable_all_measurements()
+    {
+        for(GenericGattNotifyProfileInterface profile : gattProfiles.values())
+            profile.enableMeasurement(GenericGattNotifyProfileInterface.ENABLE_ALL_MEASUREMENTS);
     }
 
     private void init_android_framework()
@@ -178,11 +286,11 @@ public class BLeServiceScannerFragment extends Fragment {
         serviceWidgetAdapter = new BLeServiceScannerAdapter(appContext, null);
     }
 
-    private void init_bound_services()
+    private void init_objects()
     {
-        Intent initGatt = new Intent(appContext, BLeGattClientService.class);
-        initGatt.putExtra(BLeGattClientService.EXTRA_BLE_DEVICE, bleDevice);
-        appContext.bindService(initGatt, gattServiceConnection, Context.BIND_AUTO_CREATE);
+        profileFactory = new GattProfileFactory();
+        gattProfiles = new HashMap<>();
+        readProfiles = new HashMap<>();
     }
 
     private void init_broadcast_receivers()
@@ -195,6 +303,13 @@ public class BLeServiceScannerFragment extends Fragment {
 
         broadcaster = LocalBroadcastManager.getInstance(appContext);
         broadcaster.registerReceiver(serviceGattReceiver, serviceFilter);
+    }
+
+    private void init_bound_services()
+    {
+        Intent initGatt = new Intent(appContext, BLeGattClientService.class);
+        initGatt.putExtra(BLeGattClientService.EXTRA_BLE_DEVICE, bleDevice);
+        appContext.bindService(initGatt, gattServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     private void init_widgets()
@@ -212,6 +327,16 @@ public class BLeServiceScannerFragment extends Fragment {
     private void kill_broadcast_receivers()
     {
         broadcaster.unregisterReceiver(serviceGattReceiver);
+    }
+
+    private void demand_read_values(UUID valueUuid)
+    {
+        for( GenericGattReadProfileInterface profile : readProfiles.values() )
+        {
+            if( profile.isService(valueUuid) ) {
+                profile.demandReadCharacteristics(GenericGattReadProfileInterface.ATTRIBUTE_ALL);
+            }
+        }
     }
 
     private void display_status(int resId)

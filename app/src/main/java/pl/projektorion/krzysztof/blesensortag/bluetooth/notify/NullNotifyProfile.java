@@ -1,5 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
 
+import java.util.UUID;
+
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyProfileInterface;
 
@@ -35,4 +37,15 @@ public class NullNotifyProfile implements GenericGattNotifyProfileInterface {
 
     @Override
     public String getName() { return ""; }
+
+    /**
+     * Get data {@link UUID}. This method can be utilized to detect
+     * whether the profile is legit.
+     * @return null if NullObject, some value defined in subclasses of
+     * {@link GenericGattNotifyProfileInterface}
+     */
+    @Override
+    public UUID getDataUuid() {
+        return null;
+    }
 }

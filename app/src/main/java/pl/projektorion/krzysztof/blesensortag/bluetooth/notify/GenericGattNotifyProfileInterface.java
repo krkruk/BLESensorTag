@@ -1,5 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
 
+import java.util.UUID;
+
 /**
  * Created by krzysztof on 02.11.16.
  */
@@ -46,4 +48,10 @@ public interface GenericGattNotifyProfileInterface {
      * @return String name
      */
     String getName();
+
+    /**
+     * Get UUID that contains data
+     * @return {@link} UUID for comparison
+     */
+    UUID getDataUuid();
 }
