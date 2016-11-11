@@ -52,6 +52,11 @@ public class MovementNotifyProfile extends AbstractGenericGattNotifyProfile {
     }
 
     @Override
+    protected UUID get_service_uuid() {
+        return MOVEMENT_SERVICE;
+    }
+
+    @Override
     protected UUID get_data_uuid() {
         return MOVEMENT_DATA;
     }

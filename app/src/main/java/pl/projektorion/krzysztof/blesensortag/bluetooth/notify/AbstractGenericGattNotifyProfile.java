@@ -101,12 +101,24 @@ public abstract class AbstractGenericGattNotifyProfile implements GenericGattNot
         return get_data_uuid();
     }
 
+    @Override
+    public boolean isService(UUID serviceUuid) {
+        final UUID instanceService = get_service_uuid();
+        return instanceService.equals(serviceUuid);
+    }
+
     /**
      * Get {@link BluetoothGattService}
      * @return {@link BluetoothGattService}, may return null.
      * See the reference for more details.
      */
     protected abstract BluetoothGattService get_service();
+
+    /**
+     * Get {@link UUID} of the service
+     * @return Service UUID
+     */
+    protected abstract UUID get_service_uuid();
 
     /**
      * Get UUID that is responsible for reading/writing values

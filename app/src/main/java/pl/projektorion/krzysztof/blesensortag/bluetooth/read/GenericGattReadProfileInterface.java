@@ -2,11 +2,13 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.read;
 
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
+
 /**
  * Created by krzysztof on 08.11.16.
  */
 
-public interface GenericGattReadProfileInterface {
+public interface GenericGattReadProfileInterface extends GenericGattProfileInterface{
     /**
      * Demand all attributes the service has.
      */
@@ -18,18 +20,4 @@ public interface GenericGattReadProfileInterface {
      * @param attributeToBeRead int - attribute(s) to be read
      */
     void demandReadCharacteristics(int attributeToBeRead);
-
-    /**
-     * Get human-friendly name of the service
-     * @return {@link String} human-friendly name
-     */
-    String getName();
-
-    /**
-     * Check whether {@param serviceUuid} {@link UUID }is the same as
-     * one represented by the object.
-     * @param serviceUuid {@link UUID} of the service to be compared
-     * @return boolean - true if matches, false otherwise
-     */
-    boolean isService(UUID serviceUuid);
 }

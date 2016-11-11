@@ -39,6 +39,11 @@ public class BarometricPressureNotifyProfile extends AbstractGenericGattNotifyPr
     }
 
     @Override
+    protected UUID get_service_uuid() {
+        return BAROMETRIC_PRESSURE_SERVICE;
+    }
+
+    @Override
     protected UUID get_data_uuid() {
         return BAROMETRIC_PRESSURE_DATA;
     }

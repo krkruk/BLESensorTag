@@ -2,11 +2,13 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
 
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
+
 /**
  * Created by krzysztof on 02.11.16.
  */
 
-public interface GenericGattNotifyProfileInterface {
+public interface GenericGattNotifyProfileInterface extends GenericGattProfileInterface {
     int ENABLE_ALL_MEASUREMENTS = Integer.MAX_VALUE;
     int DISABLE_ALL_MEASUREMENTS = Integer.MIN_VALUE;
 
@@ -42,12 +44,6 @@ public interface GenericGattNotifyProfileInterface {
      * @param input See child classes.
      */
     void configurePeriod(byte input);
-
-    /**
-     * Get a name of the Profile
-     * @return String name
-     */
-    String getName();
 
     /**
      * Get UUID that contains data

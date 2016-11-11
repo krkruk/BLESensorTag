@@ -156,12 +156,10 @@ public class BLePresentationFragment extends Fragment
         final UUID dataChangedUuid = characteristic.getUuid();
         final GenericGattNotifyModelInterface observer;
 
-        try {
-            observer = gattModels.get(dataChangedUuid);
-        } catch (NullPointerException|ClassCastException e) { return; }
+        observer = gattModels.get(dataChangedUuid);
 
         if(observer != null)
-        observer.updateCharacteristic(characteristic);
+            observer.updateCharacteristic(characteristic);
     }
 
     @Override

@@ -83,6 +83,11 @@ public class SimpleKeysNotifyProfile
     }
 
     @Override
+    public boolean isService(UUID serviceUuid) {
+        return SIMPLE_KEY_SERVICE.equals(serviceUuid);
+    }
+
+    @Override
     public UUID getDataUuid() {
         return SIMPLE_KEY_DATA;
     }

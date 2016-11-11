@@ -38,6 +38,11 @@ public class NullNotifyProfile implements GenericGattNotifyProfileInterface {
     @Override
     public String getName() { return ""; }
 
+    @Override
+    public boolean isService(UUID serviceUuid) {
+        return false;
+    }
+
     /**
      * Get data {@link UUID}. This method can be utilized to detect
      * whether the profile is legit.

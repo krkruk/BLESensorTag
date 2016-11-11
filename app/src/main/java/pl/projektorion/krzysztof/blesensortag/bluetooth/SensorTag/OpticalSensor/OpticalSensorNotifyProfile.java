@@ -34,6 +34,11 @@ public class OpticalSensorNotifyProfile extends AbstractGenericGattNotifyProfile
     }
 
     @Override
+    protected UUID get_service_uuid() {
+        return OPTICAL_SENSOR_SERVICE;
+    }
+
+    @Override
     protected UUID get_data_uuid() {
         return OPTICAL_SENSOR_DATA;
     }

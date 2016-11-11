@@ -25,7 +25,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,22 +33,26 @@ import java.util.UUID;
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapter;
 import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapterDataContainer;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlReadProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfileNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfileNotifyFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GattProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientService;
@@ -82,9 +85,8 @@ public class BLeServiceScannerFragment extends Fragment {
     final private Handler handler = new Handler(Looper.getMainLooper());
     private LocalBroadcastManager broadcaster;
 
-    private GattProfileFactory profileFactory;
-    private Map<UUID, GenericGattNotifyProfileInterface> gattProfiles;
-    private Map<UUID, GenericGattReadProfileInterface> readProfiles;
+    private GenericGattProfileFactory profileFactory;
+    private Map<UUID, GenericGattProfileInterface> gattProfiles;
 
     private BroadcastReceiver serviceGattReceiver = new BroadcastReceiver() {
         @Override
@@ -197,26 +199,26 @@ public class BLeServiceScannerFragment extends Fragment {
         }
 
         profileFactory.put(SimpleKeysNotifyProfile.SIMPLE_KEY_SERVICE,
-                new SimpleKeysProfileNotifyFactory(gattService));
+                new SimpleKeysGenericProfileFactory(gattService));
         profileFactory.put(BarometricPressureNotifyProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new BarometricPressureProfileNotifyFactory(gattService));
+                new BarometricPressureGenericProfileFactory(gattService));
         profileFactory.put(IRTemperatureNotifyProfile.IR_TEMPERATURE_SERVICE,
-                new IRTemperatureProfileNotifyFactory(gattService));
+                new IRTemperatureGenericProfileFactory(gattService));
         profileFactory.put(MovementNotifyProfile.MOVEMENT_SERVICE,
-                new MovementProfileNotifyFactory(gattService));
+                new MovementGenericProfileFactory(gattService));
         profileFactory.put(HumidityNotifyProfile.HUMIDITY_SERVICE,
-                new HumidityProfileNotifyFactory(gattService));
+                new HumidityGenericProfileFactory(gattService));
         profileFactory.put(OpticalSensorNotifyProfile.OPTICAL_SENSOR_SERVICE,
-                new OpticalSensorProfileNotifyFactory(gattService));
+                new OpticalSensorGenericProfileFactory(gattService));
     }
 
     private void populate_profile_read_factory()
     {
-        readProfiles.put( GAPServiceReadProfile.GAP_SERVICE, new GAPServiceReadProfile(gattService) );
-        readProfiles.put( DeviceInformationReadProfile.DEVICE_INFORMATION_SERVICE,
-                new DeviceInformationReadProfile(gattService) );
-        readProfiles.put(ConnectionControlReadProfile.CONNECTION_CONTROL_SERVICE,
-                new ConnectionControlReadProfile(gattService));
+        profileFactory.put( GAPServiceReadProfile.GAP_SERVICE, new GAPServiceGenericProfileFactory(gattService) );
+        profileFactory.put( DeviceInformationReadProfile.DEVICE_INFORMATION_SERVICE,
+                new DeviceInformationGenericProfileFactory(gattService) );
+        profileFactory.put(ConnectionControlReadProfile.CONNECTION_CONTROL_SERVICE,
+                new ConnectionControlGenericProfileFactory(gattService));
     }
 
     private void create_profile_factories(List<BluetoothGattService> services)
@@ -224,23 +226,12 @@ public class BLeServiceScannerFragment extends Fragment {
         for(BluetoothGattService service : services)
         {
             final UUID serviceUuid = service.getUuid();
-            final GenericGattNotifyProfileInterface profile = profileFactory
+            final GenericGattProfileInterface profile = profileFactory
                     .createProfile(serviceUuid);
-            final GenericGattReadProfileInterface readProfile =
-                    readProfiles.get(serviceUuid);
-            String profileName = profile.getName();
 
-            /*
-            This is just awful... Need to find a common interface, join it
-            and then apply it. But for now - break :)
-             */
-            if( readProfile != null )
-                profileName = readProfile.getName();
-            else
-                gattProfiles.put(serviceUuid, profile);
-
+            gattProfiles.put(serviceUuid, profile);
             serviceWidgetAdapter.add(new BLeServiceScannerAdapterDataContainer(
-                    profileName, serviceUuid));
+                    profile.getName(), serviceUuid));
         }
         serviceWidgetAdapter.notifyDataSetChanged();
     }
@@ -248,14 +239,18 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private void enable_all_notifications()
     {
-        for(GenericGattNotifyProfileInterface profile : gattProfiles.values())
-            profile.enableNotification(true);
+        for(GenericGattProfileInterface profile : gattProfiles.values())
+            if( profile instanceof GenericGattNotifyProfileInterface )
+                ((GenericGattNotifyProfileInterface)profile).enableNotification(true);
     }
 
     private void enable_all_measurements()
     {
-        for(GenericGattNotifyProfileInterface profile : gattProfiles.values())
-            profile.enableMeasurement(GenericGattNotifyProfileInterface.ENABLE_ALL_MEASUREMENTS);
+        for(GenericGattProfileInterface profile : gattProfiles.values())
+            if( profile instanceof GenericGattNotifyProfileInterface )
+                ((GenericGattNotifyProfileInterface)profile)
+                        .enableMeasurement(
+                                GenericGattNotifyProfileInterface.ENABLE_ALL_MEASUREMENTS);
     }
 
     private void init_android_framework()
@@ -288,9 +283,8 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private void init_objects()
     {
-        profileFactory = new GattProfileFactory();
+        profileFactory = new GenericGattProfileFactory();
         gattProfiles = new HashMap<>();
-        readProfiles = new HashMap<>();
     }
 
     private void init_broadcast_receivers()
@@ -331,10 +325,12 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private void demand_read_values(UUID valueUuid)
     {
-        for( GenericGattReadProfileInterface profile : readProfiles.values() )
+        for( GenericGattProfileInterface profile : gattProfiles.values() )
         {
-            if( profile.isService(valueUuid) ) {
-                profile.demandReadCharacteristics(GenericGattReadProfileInterface.ATTRIBUTE_ALL);
+            if( profile instanceof GenericGattReadProfileInterface
+            && profile.isService(valueUuid) ) {
+                ((GenericGattReadProfileInterface)profile)
+                        .demandReadCharacteristics(GenericGattReadProfileInterface.ATTRIBUTE_ALL);
             }
         }
     }

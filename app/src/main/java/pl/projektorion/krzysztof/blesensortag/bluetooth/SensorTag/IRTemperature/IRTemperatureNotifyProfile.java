@@ -40,6 +40,11 @@ public class IRTemperatureNotifyProfile extends AbstractGenericGattNotifyProfile
     }
 
     @Override
+    protected UUID get_service_uuid() {
+        return IR_TEMPERATURE_SERVICE;
+    }
+
+    @Override
     protected UUID get_data_uuid() {
         return IR_TEMPERATURE_DATA;
     }

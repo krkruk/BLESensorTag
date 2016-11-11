@@ -34,6 +34,11 @@ public class HumidityNotifyProfile extends AbstractGenericGattNotifyProfile {
     }
 
     @Override
+    protected UUID get_service_uuid() {
+        return HUMIDITY_SERVICE;
+    }
+
+    @Override
     protected UUID get_data_uuid() {
         return HUMIDITY_DATA;
     }
