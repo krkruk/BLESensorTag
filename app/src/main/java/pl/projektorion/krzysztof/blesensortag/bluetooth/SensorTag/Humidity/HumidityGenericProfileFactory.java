@@ -17,6 +17,6 @@ public class HumidityGenericProfileFactory implements GenericProfileFactory {
 
     @Override
     public GenericGattProfileInterface createProfile() {
-        return new HumidityNotifyProfile(gattIO);
+        return new HumidityProfile(gattIO);
     }
 }

@@ -30,7 +30,7 @@ public class IRTemperatureModel extends Observable implements GenericGattNotifyM
 
     @Override
     public UUID getDataUuid() {
-        return IRTemperatureNotifyProfile.IR_TEMPERATURE_DATA;
+        return IRTemperatureProfile.IR_TEMPERATURE_DATA;
     }
 
     @Override

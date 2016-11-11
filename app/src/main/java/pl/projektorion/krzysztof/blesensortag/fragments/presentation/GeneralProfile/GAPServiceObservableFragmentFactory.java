@@ -4,14 +4,14 @@ import android.app.Fragment;
 
 import java.util.Observable;
 
-import pl.projektorion.krzysztof.blesensortag.fragments.AbstractFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.AbstractObservableFragmentFactory;
 
 /**
  * Created by krzysztof on 08.11.16.
  */
 
-public class GAPServiceFragmentFactory extends AbstractFragmentFactory {
-    public GAPServiceFragmentFactory(Observable observable) {
+public class GAPServiceObservableFragmentFactory extends AbstractObservableFragmentFactory {
+    public GAPServiceObservableFragmentFactory(Observable observable) {
         super(observable);
     }
 

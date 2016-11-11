@@ -14,7 +14,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeNotification
  * Created by krzysztof on 06.11.16.
  */
 
-public abstract class AbstractGenericGattNotifyProfile implements GenericGattNotifyProfileInterface {
+public abstract class AbstractNotifyGattProfile implements NotifyGattProfileInterface {
     protected static final byte[] CONFIG_ENABLE = {0x01};
     protected static final byte[] CONFIG_DISABLE = {0x00};
 
@@ -24,7 +24,7 @@ public abstract class AbstractGenericGattNotifyProfile implements GenericGattNot
     private boolean isNotifying;
     private boolean isMeasuring;
 
-    public AbstractGenericGattNotifyProfile(BLeGattIO gattClient) {
+    public AbstractNotifyGattProfile(BLeGattIO gattClient) {
         this.gattClient = gattClient;
         this.isMeasuring = false;
         this.isNotifying = false;

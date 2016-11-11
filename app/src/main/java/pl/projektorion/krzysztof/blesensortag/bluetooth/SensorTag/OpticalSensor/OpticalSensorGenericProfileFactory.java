@@ -17,6 +17,6 @@ public class OpticalSensorGenericProfileFactory implements GenericProfileFactory
 
     @Override
     public GenericGattProfileInterface createProfile() {
-        return new OpticalSensorNotifyProfile(gattIO);
+        return new OpticalSensorProfile(gattIO);
     }
 }

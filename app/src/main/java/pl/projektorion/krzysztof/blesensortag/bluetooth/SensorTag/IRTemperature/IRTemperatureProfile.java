@@ -5,14 +5,14 @@ import android.bluetooth.BluetoothGattService;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.AbstractGenericGattNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.AbstractNotifyGattProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 
 /**
  * Created by krzysztof on 06.11.16.
  */
 
-public class IRTemperatureNotifyProfile extends AbstractGenericGattNotifyProfile {
+public class IRTemperatureProfile extends AbstractNotifyGattProfile {
     public static final UUID IR_TEMPERATURE_SERVICE =
             UUID.fromString("f000aa00-0451-4000-b000-000000000000");
     public static final UUID IR_TEMPERATURE_DATA =
@@ -24,7 +24,7 @@ public class IRTemperatureNotifyProfile extends AbstractGenericGattNotifyProfile
 
     private static final String APP_NAME = ProfileName.IR_TEMPERATURE_PROFILE;
 
-    public IRTemperatureNotifyProfile(BLeGattIO gattClient) {
+    public IRTemperatureProfile(BLeGattIO gattClient) {
         super(gattClient);
     }
 

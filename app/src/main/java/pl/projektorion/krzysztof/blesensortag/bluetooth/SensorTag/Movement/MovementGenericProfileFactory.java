@@ -17,6 +17,6 @@ public class MovementGenericProfileFactory implements GenericProfileFactory {
 
     @Override
     public GenericGattProfileInterface createProfile() {
-        return new MovementNotifyProfile(gattIO);
+        return new MovementProfile(gattIO);
     }
 }

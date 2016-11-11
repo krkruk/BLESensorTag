@@ -32,7 +32,7 @@ public class BarometricPressureModel extends Observable
 
     @Override
     public UUID getDataUuid() {
-        return BarometricPressureNotifyProfile.BAROMETRIC_PRESSURE_DATA;
+        return BarometricPressureProfile.BAROMETRIC_PRESSURE_DATA;
     }
 
     @Override

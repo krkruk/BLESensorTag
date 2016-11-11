@@ -3,6 +3,8 @@ package pl.projektorion.krzysztof.blesensortag.fragments.app;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
@@ -11,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Path;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
@@ -33,30 +36,40 @@ import java.util.UUID;
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapter;
 import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapterDataContainer;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysGenericProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureGenericProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlReadProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityGenericProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureGenericProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementGenericProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorGenericProfileFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientService;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
+import pl.projektorion.krzysztof.blesensortag.fragments.BLeFragmentsFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.config.BarometricPressureNotifyConfigFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.config.HumidityNotifyConfigFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.config.IRTemperatureNotifyConfigFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.config.MovementNotifyConfigFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.config.NotifyProfileConfigFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.config.NotifyProfileConfigInterface;
+import pl.projektorion.krzysztof.blesensortag.fragments.config.NullConfigFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.config.OpticalSensorNotifyFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.config.SimpleKeysNotifyConfigFragmentFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -87,6 +100,10 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private GenericGattProfileFactory profileFactory;
     private Map<UUID, GenericGattProfileInterface> gattProfiles;
+    private BLeFragmentsFactory configFragFactory;
+
+    private Fragment currentConfigFragment = null;
+    private UUID currentProfile = UUID.randomUUID();
 
     private BroadcastReceiver serviceGattReceiver = new BroadcastReceiver() {
         @Override
@@ -113,8 +130,9 @@ public class BLeServiceScannerFragment extends Fragment {
             {
                 final List<BluetoothGattService> services = gattService.getServices();
                 create_profile_factories(services);
-                enable_all_notifications();
-                enable_all_measurements();
+                populate_config_fragment_factory();
+//                enable_all_notifications();
+//                enable_all_measurements();
             }
         }
     };
@@ -132,18 +150,42 @@ public class BLeServiceScannerFragment extends Fragment {
         }
     };
 
-    AdapterView.OnItemClickListener serviceListListener = new AdapterView.OnItemClickListener() {
+    private AdapterView.OnItemClickListener serviceListListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             final BLeServiceScannerAdapterDataContainer strUuid =
                     (BLeServiceScannerAdapterDataContainer)serviceWidgetAdapter.getItem(position);
-
             final UUID serviceUuid = strUuid.getServiceUuid();
+
+            if( currentProfile.equals(serviceUuid) )
+                return;
+            currentProfile = serviceUuid;
+
             Intent bleServiceClicked = new Intent(ACTION_BLE_SERVICE_CLICKED);
             bleServiceClicked.putExtra(EXTRA_BLE_SERVICE_UUID,
                     serviceUuid.toString());
             broadcaster.sendBroadcast(bleServiceClicked);
             demand_read_values(serviceUuid);
+        }
+    };
+
+    private AdapterView.OnItemLongClickListener serviceListLongClickListener =
+            new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            final BLeServiceScannerAdapterDataContainer strUuid =
+                    (BLeServiceScannerAdapterDataContainer)serviceWidgetAdapter.getItem(position);
+            final UUID serviceUuid = strUuid.getServiceUuid();
+
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            currentConfigFragment = configFragFactory.create(serviceUuid);
+            if( currentConfigFragment == null )
+                currentConfigFragment = new NullConfigFragment();
+            ft.replace(R.id.temporary_fragment, currentConfigFragment);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.commit();
+            return true;
         }
     };
 
@@ -198,17 +240,17 @@ public class BLeServiceScannerFragment extends Fragment {
             return;
         }
 
-        profileFactory.put(SimpleKeysNotifyProfile.SIMPLE_KEY_SERVICE,
+        profileFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE,
                 new SimpleKeysGenericProfileFactory(gattService));
-        profileFactory.put(BarometricPressureNotifyProfile.BAROMETRIC_PRESSURE_SERVICE,
+        profileFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
                 new BarometricPressureGenericProfileFactory(gattService));
-        profileFactory.put(IRTemperatureNotifyProfile.IR_TEMPERATURE_SERVICE,
+        profileFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
                 new IRTemperatureGenericProfileFactory(gattService));
-        profileFactory.put(MovementNotifyProfile.MOVEMENT_SERVICE,
+        profileFactory.put(MovementProfile.MOVEMENT_SERVICE,
                 new MovementGenericProfileFactory(gattService));
-        profileFactory.put(HumidityNotifyProfile.HUMIDITY_SERVICE,
+        profileFactory.put(HumidityProfile.HUMIDITY_SERVICE,
                 new HumidityGenericProfileFactory(gattService));
-        profileFactory.put(OpticalSensorNotifyProfile.OPTICAL_SENSOR_SERVICE,
+        profileFactory.put(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
                 new OpticalSensorGenericProfileFactory(gattService));
     }
 
@@ -236,21 +278,48 @@ public class BLeServiceScannerFragment extends Fragment {
         serviceWidgetAdapter.notifyDataSetChanged();
     }
 
+    private void populate_config_fragment_factory()
+    {
+        GenericGattProfileInterface buffer
+                = gattProfiles.get(SimpleKeysProfile.SIMPLE_KEY_SERVICE);
+        configFragFactory.put(SimpleKeysProfile.SIMPLE_KEY_SERVICE,
+                new SimpleKeysNotifyConfigFragmentFactory(buffer));
+
+        buffer = gattProfiles.get(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE);
+        configFragFactory.put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+                new BarometricPressureNotifyConfigFragmentFactory(buffer));
+
+        buffer = gattProfiles.get(IRTemperatureProfile.IR_TEMPERATURE_SERVICE);
+        configFragFactory.put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
+                new IRTemperatureNotifyConfigFragmentFactory(buffer));
+
+        buffer = gattProfiles.get(MovementProfile.MOVEMENT_SERVICE);
+        configFragFactory.put(MovementProfile.MOVEMENT_SERVICE,
+                new MovementNotifyConfigFragmentFactory(buffer));
+
+        buffer = gattProfiles.get(HumidityProfile.HUMIDITY_SERVICE);
+        configFragFactory.put(HumidityProfile.HUMIDITY_SERVICE,
+                new HumidityNotifyConfigFragmentFactory(buffer));
+
+        buffer = gattProfiles.get(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE);
+        configFragFactory.put(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
+                new OpticalSensorNotifyFragmentFactory(buffer));
+    }
 
     private void enable_all_notifications()
     {
         for(GenericGattProfileInterface profile : gattProfiles.values())
-            if( profile instanceof GenericGattNotifyProfileInterface )
-                ((GenericGattNotifyProfileInterface)profile).enableNotification(true);
+            if( profile instanceof NotifyGattProfileInterface )
+                ((NotifyGattProfileInterface)profile).enableNotification(true);
     }
 
     private void enable_all_measurements()
     {
         for(GenericGattProfileInterface profile : gattProfiles.values())
-            if( profile instanceof GenericGattNotifyProfileInterface )
-                ((GenericGattNotifyProfileInterface)profile)
+            if( profile instanceof NotifyGattProfileInterface )
+                ((NotifyGattProfileInterface)profile)
                         .enableMeasurement(
-                                GenericGattNotifyProfileInterface.ENABLE_ALL_MEASUREMENTS);
+                                NotifyGattProfileInterface.ENABLE_ALL_MEASUREMENTS);
     }
 
     private void init_android_framework()
@@ -285,6 +354,7 @@ public class BLeServiceScannerFragment extends Fragment {
     {
         profileFactory = new GenericGattProfileFactory();
         gattProfiles = new HashMap<>();
+        configFragFactory = new BLeFragmentsFactory();
     }
 
     private void init_broadcast_receivers()
@@ -311,6 +381,7 @@ public class BLeServiceScannerFragment extends Fragment {
         serviceWidgetList = (ListView) view.findViewById(R.id.listview_device_services);
         serviceWidgetList.setAdapter(serviceWidgetAdapter);
         serviceWidgetList.setOnItemClickListener(serviceListListener);
+        serviceWidgetList.setOnItemLongClickListener(serviceListLongClickListener);
     }
 
     private void kill_bound_services()

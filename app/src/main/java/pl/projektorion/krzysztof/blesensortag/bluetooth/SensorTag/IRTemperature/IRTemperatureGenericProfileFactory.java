@@ -17,6 +17,6 @@ public class IRTemperatureGenericProfileFactory implements GenericProfileFactory
 
     @Override
     public GenericGattProfileInterface createProfile() {
-        return new IRTemperatureNotifyProfile(gattIO);
+        return new IRTemperatureProfile(gattIO);
     }
 }

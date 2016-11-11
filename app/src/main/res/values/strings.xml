@@ -59,4 +59,9 @@
     <string name="label_slave_latency">Slave latency:</string>
     <string name="label_supervision_timeout">Supervision timeout:</string>
 
+    <string name="label_config_notification">Notification</string>
+    <string name="label_config_measurement">Measurements</string>
+    <string name="label_config_period">Update period</string>
+
+    <string name="label_no_configuration_provided">Hey, dude! No config, read only&#8230;</string>
 </resources>

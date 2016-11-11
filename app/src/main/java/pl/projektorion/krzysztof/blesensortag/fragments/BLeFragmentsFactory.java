@@ -12,10 +12,10 @@ import pl.projektorion.krzysztof.blesensortag.fragments.FragmentFactory;
  * Created by krzysztof on 02.11.16.
  */
 
-public class BLePresentationFragmentsFactory {
+public class BLeFragmentsFactory {
     private Map<UUID, FragmentFactory> factoryObjects;
 
-    public BLePresentationFragmentsFactory() {
+    public BLeFragmentsFactory() {
         this.factoryObjects = new HashMap<>();
     }
 

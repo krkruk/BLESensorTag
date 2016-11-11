@@ -32,7 +32,7 @@ public class SimpleKeysModel extends Observable
 
     @Override
     public UUID getDataUuid() {
-        return SimpleKeysNotifyProfile.SIMPLE_KEY_DATA;
+        return SimpleKeysProfile.SIMPLE_KEY_DATA;
     }
 
     @Override

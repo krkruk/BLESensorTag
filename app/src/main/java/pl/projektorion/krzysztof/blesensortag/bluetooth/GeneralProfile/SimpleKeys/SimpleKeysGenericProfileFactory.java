@@ -17,6 +17,6 @@ public class SimpleKeysGenericProfileFactory implements GenericProfileFactory {
 
     @Override
     public GenericGattProfileInterface createProfile() {
-        return new SimpleKeysNotifyProfile(gattIO);
+        return new SimpleKeysProfile(gattIO);
     }
 }

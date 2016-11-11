@@ -32,7 +32,7 @@ public class MovementModel extends Observable implements GenericGattNotifyModelI
 
     @Override
     public UUID getDataUuid() {
-        return MovementNotifyProfile.MOVEMENT_DATA;
+        return MovementProfile.MOVEMENT_DATA;
     }
 
     @Override

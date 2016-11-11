@@ -1,7 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileNotifyFactory;
 
 /**
@@ -16,7 +16,7 @@ public class MovementProfileNotifyFactory implements ProfileNotifyFactory {
     }
 
     @Override
-    public GenericGattNotifyProfileInterface createProfile() {
-        return new MovementNotifyProfile(gattIO);
+    public NotifyGattProfileInterface createProfile() {
+        return new MovementProfile(gattIO);
     }
 }

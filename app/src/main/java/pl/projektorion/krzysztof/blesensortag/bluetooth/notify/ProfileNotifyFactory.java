@@ -5,5 +5,5 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
  */
 
 public interface ProfileNotifyFactory {
-    GenericGattNotifyProfileInterface createProfile();
+    NotifyGattProfileInterface createProfile();
 }

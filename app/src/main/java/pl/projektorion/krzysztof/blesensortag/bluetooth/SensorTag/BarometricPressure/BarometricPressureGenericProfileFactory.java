@@ -17,6 +17,6 @@ public class BarometricPressureGenericProfileFactory implements GenericProfileFa
 
     @Override
     public GenericGattProfileInterface createProfile() {
-        return new BarometricPressureNotifyProfile(gattIO);
+        return new BarometricPressureProfile(gattIO);
     }
 }

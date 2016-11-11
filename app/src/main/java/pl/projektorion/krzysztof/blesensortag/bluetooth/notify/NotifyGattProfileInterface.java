@@ -8,7 +8,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterf
  * Created by krzysztof on 02.11.16.
  */
 
-public interface GenericGattNotifyProfileInterface extends GenericGattProfileInterface {
+public interface NotifyGattProfileInterface extends GenericGattProfileInterface {
     int ENABLE_ALL_MEASUREMENTS = Integer.MAX_VALUE;
     int DISABLE_ALL_MEASUREMENTS = Integer.MIN_VALUE;
 

@@ -30,7 +30,7 @@ public class HumidityModel extends Observable implements GenericGattNotifyModelI
 
     @Override
     public UUID getDataUuid() {
-        return HumidityNotifyProfile.HUMIDITY_DATA;
+        return HumidityProfile.HUMIDITY_DATA;
     }
 
     @Override

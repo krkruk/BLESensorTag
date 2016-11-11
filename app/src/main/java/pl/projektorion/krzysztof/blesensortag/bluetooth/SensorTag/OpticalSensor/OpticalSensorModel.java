@@ -31,7 +31,7 @@ public class OpticalSensorModel extends Observable implements GenericGattNotifyM
 
     @Override
     public UUID getDataUuid() {
-        return OpticalSensorNotifyProfile.OPTICAL_SENSOR_DATA;
+        return OpticalSensorProfile.OPTICAL_SENSOR_DATA;
     }
 
     @Override

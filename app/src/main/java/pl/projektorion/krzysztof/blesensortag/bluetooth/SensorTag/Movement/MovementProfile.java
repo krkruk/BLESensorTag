@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothGattService;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.AbstractGenericGattNotifyProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.AbstractNotifyGattProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeCharacteristicWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
@@ -15,7 +15,7 @@ import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
  * Created by krzysztof on 06.11.16.
  */
 
-public class MovementNotifyProfile extends AbstractGenericGattNotifyProfile {
+public class MovementProfile extends AbstractNotifyGattProfile {
     public static final UUID MOVEMENT_SERVICE =
             UUID.fromString("f000aa80-0451-4000-b000-000000000000");
     public static final UUID MOVEMENT_DATA =
@@ -42,7 +42,7 @@ public class MovementNotifyProfile extends AbstractGenericGattNotifyProfile {
     private static final String APP_NAME = ProfileName.MOVEMENT_PROFILE;
     private int enableMeasurementStatus = DISABLE_ALL_MEASUREMENTS;
 
-    public MovementNotifyProfile(BLeGattIO gattClient) {
+    public MovementProfile(BLeGattIO gattClient) {
         super(gattClient);
     }
 

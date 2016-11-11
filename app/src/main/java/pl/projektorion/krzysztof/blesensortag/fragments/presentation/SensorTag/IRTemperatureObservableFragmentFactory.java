@@ -4,14 +4,14 @@ import android.app.Fragment;
 
 import java.util.Observable;
 
-import pl.projektorion.krzysztof.blesensortag.fragments.AbstractFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.AbstractObservableFragmentFactory;
 
 /**
  * Created by krzysztof on 06.11.16.
  */
 
-public class IRTemperatureFragmentFactory extends AbstractFragmentFactory {
-    public IRTemperatureFragmentFactory(Observable observable) {
+public class IRTemperatureObservableFragmentFactory extends AbstractObservableFragmentFactory {
+    public IRTemperatureObservableFragmentFactory(Observable observable) {
         super(observable);
     }
 

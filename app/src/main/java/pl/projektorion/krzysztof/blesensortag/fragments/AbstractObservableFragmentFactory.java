@@ -9,10 +9,10 @@ import java.util.Observer;
  * Created by krzysztof on 06.11.16.
  */
 
-public abstract class AbstractFragmentFactory implements FragmentFactory {
+public abstract class AbstractObservableFragmentFactory implements FragmentFactory {
     protected Observable observable;
 
-    public AbstractFragmentFactory(Observable observable) {
+    public AbstractObservableFragmentFactory(Observable observable) {
         this.observable = observable;
     }
 
