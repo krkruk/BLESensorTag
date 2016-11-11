@@ -4,13 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
-import android.view.View;
 
-import pl.projektorion.krzysztof.blesensortag.fragments.BLeDiscoveryFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.app.BLeDiscoveryFragment;
 
 public class MainActivity extends Activity {
 

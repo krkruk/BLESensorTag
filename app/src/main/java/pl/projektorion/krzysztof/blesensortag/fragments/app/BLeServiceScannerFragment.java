@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.fragments;
+package pl.projektorion.krzysztof.blesensortag.fragments.app;
 
 
 import android.app.ActionBar;

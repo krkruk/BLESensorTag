@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.app.FragmentManager;
 import android.widget.TextView;
 
-import pl.projektorion.krzysztof.blesensortag.fragments.BLePresentationFragment;
-import pl.projektorion.krzysztof.blesensortag.fragments.BLeServiceScannerFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.BLePresentationFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.app.BLeServiceScannerFragment;
 
 public class BLeServiceScannerActivity extends Activity {
 
@@ -18,10 +18,10 @@ public class BLeServiceScannerActivity extends Activity {
             "pl.projektorion.krzysztof.blesensortag.bleservicescanneractivity.extra.BLE_DEVICE";
 
     private final static String TAG_SERVICE_SCANNER =
-            "pl.projektorion.krzysztof.blesensortag.fragments.BLeServiceScannerFragment.tag.SERVICE_SCANNER";
+            "pl.projektorion.krzysztof.blesensortag.fragments.app.BLeServiceScannerFragment.tag.SERVICE_SCANNER";
 
     private final static String TAG_BLE_PRESENTATION =
-            "pl.projektorion.krzysztof.blesensortag.fragments.BLeServiceScannerFragment.tag.BLE_PRESENTATION";
+            "pl.projektorion.krzysztof.blesensortag.fragments.app.BLeServiceScannerFragment.tag.BLE_PRESENTATION";
 
     private BluetoothDevice bleDevice;
     private Fragment serviceScannerFragment;

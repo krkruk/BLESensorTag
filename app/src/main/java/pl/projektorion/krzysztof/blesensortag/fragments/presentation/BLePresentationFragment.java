@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.fragments;
+package pl.projektorion.krzysztof.blesensortag.fragments.presentation;
 
 
 import android.app.FragmentManager;
@@ -55,16 +55,17 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysModelNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysNotifyProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
-import pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.DeviceInformationFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.GAPServiceFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BarometricPressureFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.ConnectionControlFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.HumidityFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.IRTemperatureFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.MovementFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.OpticalSensorFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BLeFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.SimpleKeysFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.BLePresentationFragmentsFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.app.BLeServiceScannerFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformationFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.GAPServiceFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.BarometricPressureFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.ConnectionControlFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.HumidityFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.IRTemperatureFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.MovementFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.OpticalSensorFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.SimpleKeysFragmentFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,7 +86,7 @@ public class BLePresentationFragment extends Fragment
 
     private Map<UUID, GenericGattReadModelInterface> readModels;
 
-    private BLeFragmentFactory fragmentFactory;
+    private BLePresentationFragmentsFactory fragmentFactory;
 
     private UUID currentUuidDisplayed;
     private Fragment currentFragment;
@@ -205,7 +206,7 @@ public class BLePresentationFragment extends Fragment
         gattModels = new HashMap<>();
         readModels = new HashMap<>();
 
-        fragmentFactory = new BLeFragmentFactory();
+        fragmentFactory = new BLePresentationFragmentsFactory();
     }
 
     private void init_broadcast_receivers()

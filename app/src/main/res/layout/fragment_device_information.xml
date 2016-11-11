@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.DeviceInformationFragment"
+    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformationFragment"
     android:orientation="vertical">
 
     <LinearLayout

@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.fragments.SensorTag;
+package pl.projektorion.krzysztof.blesensortag.fragments;
 
 import android.app.Fragment;
 
@@ -6,14 +6,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.fragments.FragmentFactory;
+
 /**
  * Created by krzysztof on 02.11.16.
  */
 
-public class BLeFragmentFactory {
+public class BLePresentationFragmentsFactory {
     private Map<UUID, FragmentFactory> factoryObjects;
 
-    public BLeFragmentFactory() {
+    public BLePresentationFragmentsFactory() {
         this.factoryObjects = new HashMap<>();
     }
 
