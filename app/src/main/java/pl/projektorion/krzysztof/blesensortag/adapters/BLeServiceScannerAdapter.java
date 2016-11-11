@@ -18,14 +18,14 @@ import pl.projektorion.krzysztof.blesensortag.R;
 
 public class BLeServiceScannerAdapter extends BaseAdapter {
 
-    List<BLeServiceScannerAdapterDataContainer> namesOfServices;
+    List<BLeServiceScannerAdapterGroupDataContainer> namesOfServices;
     LayoutInflater inflater;
 
     public BLeServiceScannerAdapter(Context context,
-                                    List<BLeServiceScannerAdapterDataContainer> namesOfServices) {
+                                    List<BLeServiceScannerAdapterGroupDataContainer> namesOfServices) {
         super();
         this.namesOfServices = namesOfServices == null ?
-                new ArrayList<BLeServiceScannerAdapterDataContainer>() : namesOfServices;
+                new ArrayList<BLeServiceScannerAdapterGroupDataContainer>() : namesOfServices;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -59,7 +59,7 @@ public class BLeServiceScannerAdapter extends BaseAdapter {
         else
             container = (ServiceScannerWidgetsContainer) view.getTag();
 
-        final BLeServiceScannerAdapterDataContainer label = namesOfServices.get(position);
+        final BLeServiceScannerAdapterGroupDataContainer label = namesOfServices.get(position);
 
         container.serviceName.setText(label.getServiceName());
         container.serviceUuid.setText(label.getServiceUuid().toString());
@@ -67,12 +67,12 @@ public class BLeServiceScannerAdapter extends BaseAdapter {
         return view;
     }
 
-    public void add(BLeServiceScannerAdapterDataContainer data)
+    public void add(BLeServiceScannerAdapterGroupDataContainer data)
     {
         namesOfServices.add(data);
     }
 
-    public void expand(List<BLeServiceScannerAdapterDataContainer> data)
+    public void expand(List<BLeServiceScannerAdapterGroupDataContainer> data)
     {
         namesOfServices.addAll(data);
     }

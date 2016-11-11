@@ -26,6 +26,11 @@ public class BLeFragmentsFactory {
         } catch (Exception e){}
     }
 
+    public FragmentFactory get(UUID uuid)
+    {
+        return factoryObjects.get(uuid);
+    }
+
     public Fragment create(UUID uuid)
     {
         FragmentFactory fragmentFactory = factoryObjects.get(uuid);

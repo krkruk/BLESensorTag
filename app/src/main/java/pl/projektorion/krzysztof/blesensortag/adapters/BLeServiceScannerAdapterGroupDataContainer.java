@@ -6,11 +6,11 @@ import java.util.UUID;
  * Created by krzysztof on 10.11.16.
  */
 
-public class BLeServiceScannerAdapterDataContainer {
+public class BLeServiceScannerAdapterGroupDataContainer {
     private UUID serviceUuid;
     private String serviceName;
 
-    public BLeServiceScannerAdapterDataContainer(String serviceName, UUID serviceUuid) {
+    public BLeServiceScannerAdapterGroupDataContainer(String serviceName, UUID serviceUuid) {
         this.serviceName = serviceName;
         this.serviceUuid = serviceUuid;
     }

@@ -13,7 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.graphics.Path;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
@@ -25,17 +24,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapter;
-import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapterDataContainer;
+import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapterGroupDataContainer;
+import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerExpandableAdapter;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadProfile;
@@ -61,12 +63,11 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadProf
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientService;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.fragments.BLeFragmentsFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.FragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.BarometricPressureNotifyConfigFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.HumidityNotifyConfigFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.IRTemperatureNotifyConfigFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.MovementNotifyConfigFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.config.NotifyProfileConfigFragment;
-import pl.projektorion.krzysztof.blesensortag.fragments.config.NotifyProfileConfigInterface;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.NullConfigFragment;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.OpticalSensorNotifyFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.SimpleKeysNotifyConfigFragmentFactory;
@@ -92,8 +93,10 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private View view;
     private Context appContext;
-    private ListView serviceWidgetList;
-    private BLeServiceScannerAdapter serviceWidgetAdapter;
+//    private ListView serviceWidgetList;
+    private ExpandableListView serviceWidgetExpandableList;
+//    private BLeServiceScannerAdapter serviceWidgetAdapter;
+    private BLeServiceScannerExpandableAdapter serviceWidgetExpandableAdapter;
 
     final private Handler handler = new Handler(Looper.getMainLooper());
     private LocalBroadcastManager broadcaster;
@@ -128,11 +131,13 @@ public class BLeServiceScannerFragment extends Fragment {
             }
             else if(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
             {
+                serviceWidgetExpandableAdapter.clear();
                 final List<BluetoothGattService> services = gattService.getServices();
                 create_profile_factories(services);
                 populate_config_fragment_factory();
 //                enable_all_notifications();
 //                enable_all_measurements();
+                populate_adapter();
             }
         }
     };
@@ -150,44 +155,66 @@ public class BLeServiceScannerFragment extends Fragment {
         }
     };
 
-    private AdapterView.OnItemClickListener serviceListListener = new AdapterView.OnItemClickListener() {
+//    private AdapterView.OnItemClickListener serviceListListener = new AdapterView.OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            final BLeServiceScannerAdapterGroupDataContainer strUuid =
+//                    (BLeServiceScannerAdapterGroupDataContainer)serviceWidgetAdapter.getItem(position);
+//            final UUID serviceUuid = strUuid.getServiceUuid();
+//
+//            if( currentProfile.equals(serviceUuid) )
+//                return;
+//            currentProfile = serviceUuid;
+//
+//            Intent bleServiceClicked = new Intent(ACTION_BLE_SERVICE_CLICKED);
+//            bleServiceClicked.putExtra(EXTRA_BLE_SERVICE_UUID,
+//                    serviceUuid.toString());
+//            broadcaster.sendBroadcast(bleServiceClicked);
+//            demand_read_values(serviceUuid);
+//        }
+//    };
+//
+//    private AdapterView.OnItemLongClickListener serviceListLongClickListener =
+//            new AdapterView.OnItemLongClickListener() {
+//        @Override
+//        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//            final BLeServiceScannerAdapterGroupDataContainer strUuid =
+//                    (BLeServiceScannerAdapterGroupDataContainer)serviceWidgetAdapter.getItem(position);
+//            final UUID serviceUuid = strUuid.getServiceUuid();
+//
+//            FragmentManager fm = getFragmentManager();
+//            FragmentTransaction ft = fm.beginTransaction();
+//            currentConfigFragment = configFragFactory.create(serviceUuid);
+//            if( currentConfigFragment == null )
+//                currentConfigFragment = new NullConfigFragment();
+//            ft.replace(R.id.temporary_fragment, currentConfigFragment);
+//            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//            ft.commit();
+//            return true;
+//        }
+//    };
+
+    private ExpandableListView.OnGroupExpandListener expandListener =
+            new ExpandableListView.OnGroupExpandListener() {
+                int previousGroup = -1;
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            final BLeServiceScannerAdapterDataContainer strUuid =
-                    (BLeServiceScannerAdapterDataContainer)serviceWidgetAdapter.getItem(position);
-            final UUID serviceUuid = strUuid.getServiceUuid();
+        public void onGroupExpand(int groupPosition) {
+            BLeServiceScannerAdapterGroupDataContainer data =
+                    (BLeServiceScannerAdapterGroupDataContainer)
+                            serviceWidgetExpandableAdapter.getGroup(groupPosition);
+            if( (previousGroup != -1) && (groupPosition != previousGroup) )
+                serviceWidgetExpandableList.collapseGroup(previousGroup);
+            previousGroup = groupPosition;
 
-            if( currentProfile.equals(serviceUuid) )
-                return;
-            currentProfile = serviceUuid;
-
+            final UUID uuid = data.getServiceUuid();
             Intent bleServiceClicked = new Intent(ACTION_BLE_SERVICE_CLICKED);
             bleServiceClicked.putExtra(EXTRA_BLE_SERVICE_UUID,
-                    serviceUuid.toString());
+                    uuid.toString());
             broadcaster.sendBroadcast(bleServiceClicked);
-            demand_read_values(serviceUuid);
+            demand_read_values(uuid);
         }
     };
 
-    private AdapterView.OnItemLongClickListener serviceListLongClickListener =
-            new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            final BLeServiceScannerAdapterDataContainer strUuid =
-                    (BLeServiceScannerAdapterDataContainer)serviceWidgetAdapter.getItem(position);
-            final UUID serviceUuid = strUuid.getServiceUuid();
-
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            currentConfigFragment = configFragFactory.create(serviceUuid);
-            if( currentConfigFragment == null )
-                currentConfigFragment = new NullConfigFragment();
-            ft.replace(R.id.temporary_fragment, currentConfigFragment);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            ft.commit();
-            return true;
-        }
-    };
 
     public BLeServiceScannerFragment() {
     }
@@ -272,10 +299,10 @@ public class BLeServiceScannerFragment extends Fragment {
                     .createProfile(serviceUuid);
 
             gattProfiles.put(serviceUuid, profile);
-            serviceWidgetAdapter.add(new BLeServiceScannerAdapterDataContainer(
-                    profile.getName(), serviceUuid));
+//            serviceWidgetAdapter.add(new BLeServiceScannerAdapterGroupDataContainer(
+//                    profile.getName(), serviceUuid));
         }
-        serviceWidgetAdapter.notifyDataSetChanged();
+//        serviceWidgetAdapter.notifyDataSetChanged();
     }
 
     private void populate_config_fragment_factory()
@@ -304,6 +331,25 @@ public class BLeServiceScannerFragment extends Fragment {
         buffer = gattProfiles.get(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE);
         configFragFactory.put(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
                 new OpticalSensorNotifyFragmentFactory(buffer));
+    }
+
+    private void populate_adapter()
+    {
+        Map<BLeServiceScannerAdapterGroupDataContainer, FragmentFactory> dataEntries
+                = new HashMap<>();
+
+        for(UUID uuid : gattProfiles.keySet())
+        {
+            final GenericGattProfileInterface profile = gattProfiles.get(uuid);
+            final String name = profile.getName();
+            if( !name.equals("") ) {
+                final BLeServiceScannerAdapterGroupDataContainer data =
+                        new BLeServiceScannerAdapterGroupDataContainer(name, uuid);
+                dataEntries.put(data, configFragFactory.get(uuid));
+            }
+        }
+        serviceWidgetExpandableAdapter.extend(dataEntries);
+        serviceWidgetExpandableAdapter.notifyDataSetChanged();
     }
 
     private void enable_all_notifications()
@@ -347,7 +393,9 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private void init_adapters()
     {
-        serviceWidgetAdapter = new BLeServiceScannerAdapter(appContext, null);
+//        serviceWidgetAdapter = new BLeServiceScannerAdapter(appContext, null);
+        serviceWidgetExpandableAdapter = new BLeServiceScannerExpandableAdapter(appContext,
+                null, getFragmentManager());
     }
 
     private void init_objects()
@@ -378,10 +426,14 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private void init_widgets()
     {
-        serviceWidgetList = (ListView) view.findViewById(R.id.listview_device_services);
-        serviceWidgetList.setAdapter(serviceWidgetAdapter);
-        serviceWidgetList.setOnItemClickListener(serviceListListener);
-        serviceWidgetList.setOnItemLongClickListener(serviceListLongClickListener);
+//        serviceWidgetList = (ListView) view.findViewById(R.id.listview_device_services);
+//        serviceWidgetList.setAdapter(serviceWidgetAdapter);
+//        serviceWidgetList.setOnItemClickListener(serviceListListener);
+//        serviceWidgetList.setOnItemLongClickListener(serviceListLongClickListener);
+
+        serviceWidgetExpandableList = (ExpandableListView) view.findViewById(R.id.listview_device_services);
+        serviceWidgetExpandableList.setAdapter(serviceWidgetExpandableAdapter);
+        serviceWidgetExpandableList.setOnGroupExpandListener(expandListener);
     }
 
     private void kill_bound_services()

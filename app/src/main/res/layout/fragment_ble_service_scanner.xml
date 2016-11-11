@@ -5,15 +5,8 @@
     tools:context="pl.projektorion.krzysztof.blesensortag.fragments.app.BLeServiceScannerFragment"
     android:orientation="vertical">
 
-    <ListView
+    <ExpandableListView
         android:id="@+id/listview_device_services"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-    />
-
-    <FrameLayout
-        android:id="@+id/temporary_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
