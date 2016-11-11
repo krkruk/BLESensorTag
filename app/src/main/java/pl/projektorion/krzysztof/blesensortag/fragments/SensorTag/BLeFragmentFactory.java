@@ -10,10 +10,10 @@ import java.util.UUID;
  * Created by krzysztof on 02.11.16.
  */
 
-public class SensorTagFragmentFactory {
+public class BLeFragmentFactory {
     private Map<UUID, FragmentFactory> factoryObjects;
 
-    public SensorTagFragmentFactory() {
+    public BLeFragmentFactory() {
         this.factoryObjects = new HashMap<>();
     }
 

@@ -38,30 +38,21 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPServic
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlReadModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlReadProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfileNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientCallback;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientService;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureModelNotifyFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfileNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureNotifyProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GattModelFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GattProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityModelNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfileNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureModelNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureNotifyProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementModelNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfileNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorModelNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorNotifyProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfileNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysModelNotifyFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfileNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysNotifyProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.DeviceInformationFragmentFactory;
@@ -72,7 +63,7 @@ import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.HumidityFragme
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.IRTemperatureFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.MovementFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.OpticalSensorFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.SensorTagFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.SensorTag.BLeFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.GeneralProfile.SimpleKeysFragmentFactory;
 
 /**
@@ -94,7 +85,7 @@ public class BLePresentationFragment extends Fragment
 
     private Map<UUID, GenericGattReadModelInterface> readModels;
 
-    private SensorTagFragmentFactory fragmentFactory;
+    private BLeFragmentFactory fragmentFactory;
 
     private UUID currentUuidDisplayed;
     private Fragment currentFragment;
@@ -216,7 +207,7 @@ public class BLePresentationFragment extends Fragment
         gattModels = new HashMap<>();
         readModels = new HashMap<>();
 
-        fragmentFactory = new SensorTagFragmentFactory();
+        fragmentFactory = new BLeFragmentFactory();
     }
 
     private void init_broadcast_receivers()
