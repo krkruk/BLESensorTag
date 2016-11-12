@@ -5,13 +5,14 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.util.Observable;
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyModelInterface;
 
 /**
  * Created by krzysztof on 02.11.16.
  */
 
-public class SimpleKeysModel extends Observable
+public class SimpleKeysModel extends AbstractGenericGattModel
         implements GenericGattNotifyModelInterface {
     private SimpleKeysData data;
 
@@ -36,11 +37,7 @@ public class SimpleKeysModel extends Observable
     }
 
     @Override
-    public void updateCharacteristic(BluetoothGattCharacteristic characteristic) {
-        data = new SimpleKeysData(characteristic);
-        
-        setChanged();
-        notifyObservers(data);
-        clearChanged();
+    protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
+        return new SimpleKeysData(characteristic);
     }
 }

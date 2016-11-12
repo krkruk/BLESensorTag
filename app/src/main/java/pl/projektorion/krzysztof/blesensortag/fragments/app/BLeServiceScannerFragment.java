@@ -42,13 +42,25 @@ import pl.projektorion.krzysztof.blesensortag.data.BLeDataProfileFactory;
  */
 public class BLeServiceScannerFragment extends Fragment {
 
+    /**
+     * {@link BLeServiceScannerFragment} expects to obtain an extra {@link BluetoothDevice}
+     * being passed via {@link BLeServiceScannerFragment#newInstance(BluetoothDevice)}
+     */
     public final static String EXTRA_BLE_DEVICE =
             "pl.projektorion.krzysztof.blesensortag.bleservicescannerfragment.extra.BLE_DEVICE";
 
 
+    /**
+     * Emitted only when the user clicks the element. The effect should be handled externally.
+     */
     public final static String ACTION_BLE_SERVICE_CLICKED =
             "pl.projektorion.krzysztof.blesensortag.bleservicescannerfragment.action.SERVICE_CLICKED";
 
+    /**
+     * Associated with {@link BLeServiceScannerFragment#ACTION_BLE_SERVICE_CLICKED}.
+     * Each intent contains String value of clicked UUID. The action can be therefore
+     * handled externally.
+     */
     public final static String EXTRA_BLE_SERVICE_UUID =
             "pl.projektorion.krzysztof.blesensortag.bleservicescannerfragment.extra.BLE_SERVICE_UUID";
 

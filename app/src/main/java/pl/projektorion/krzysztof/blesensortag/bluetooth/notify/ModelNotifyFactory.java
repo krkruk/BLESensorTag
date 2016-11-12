@@ -5,5 +5,5 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
  */
 
 public interface ModelNotifyFactory {
-    GenericGattNotifyModelInterface createObserver();
+    GenericGattNotifyModelInterface createModel();
 }

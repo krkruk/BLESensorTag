@@ -7,13 +7,14 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
 
 /**
  * Created by krzysztof on 08.11.16.
  */
 
-public class GAPServiceReadModel extends Observable
+public class GAPServiceReadModel extends AbstractGenericGattModel
         implements GenericGattReadModelInterface {
 
     private GAPServiceData data;
@@ -27,15 +28,6 @@ public class GAPServiceReadModel extends Observable
     }
 
     @Override
-    public void updateCharacteristic(BluetoothGattCharacteristic characteristic) {
-        data = new GAPServiceData(characteristic);
-
-        setChanged();
-        notifyObservers(data);
-        clearChanged();
-    }
-
-    @Override
     public boolean hasCharacteristic(BluetoothGattCharacteristic characteristic) {
         return characteristicUuids.contains(characteristic.getUuid());
     }
@@ -43,5 +35,10 @@ public class GAPServiceReadModel extends Observable
     @Override
     public Object getData() {
         return data;
+    }
+
+    @Override
+    protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
+        return new GAPServiceData(characteristic);
     }
 }

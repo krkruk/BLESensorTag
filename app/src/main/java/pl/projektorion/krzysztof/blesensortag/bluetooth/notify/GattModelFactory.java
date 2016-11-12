@@ -26,6 +26,6 @@ public class GattModelFactory {
         ModelNotifyFactory model = methodFactories.get(serviceUuid);
         if( model == null )
             return new NullNotifyModel();
-        return model.createObserver();
+        return model.createModel();
     }
 }

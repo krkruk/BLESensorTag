@@ -7,6 +7,7 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.ProfileStringData;
 
@@ -22,7 +23,7 @@ import static pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.De
  * Created by krzysztof on 09.11.16.
  */
 
-public class DeviceInformationReadModel extends Observable
+public class DeviceInformationReadModel extends AbstractGenericGattModel
         implements GenericGattReadModelInterface {
     private Set<UUID> attributeUuids;
     private ProfileStringData deviceInfoData;
@@ -34,14 +35,6 @@ public class DeviceInformationReadModel extends Observable
     }
 
     @Override
-    public void updateCharacteristic(BluetoothGattCharacteristic characteristic) {
-        deviceInfoData.setValue(characteristic);
-        setChanged();
-        notifyObservers(deviceInfoData);
-        clearChanged();
-    }
-
-    @Override
     public boolean hasCharacteristic(BluetoothGattCharacteristic characteristic) {
         return attributeUuids.contains(characteristic.getUuid());
     }
@@ -49,6 +42,12 @@ public class DeviceInformationReadModel extends Observable
     @Override
     public Object getData() {
         return null;
+    }
+
+    @Override
+    protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
+        deviceInfoData.setValue(characteristic);
+        return deviceInfoData;
     }
 
     private void init()

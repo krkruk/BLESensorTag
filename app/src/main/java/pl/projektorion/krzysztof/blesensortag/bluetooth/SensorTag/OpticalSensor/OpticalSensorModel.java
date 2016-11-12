@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.util.Observable;
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileData;
 
@@ -12,21 +13,13 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileData;
  * Created by krzysztof on 07.11.16.
  */
 
-public class OpticalSensorModel extends Observable implements GenericGattNotifyModelInterface {
+public class OpticalSensorModel extends AbstractGenericGattModel
+        implements GenericGattNotifyModelInterface {
     private ProfileData opticalSensorData;
 
     public OpticalSensorModel() {
         super();
         opticalSensorData = new OpticalSensorData();
-    }
-
-    @Override
-    public void updateCharacteristic(BluetoothGattCharacteristic characteristic) {
-        opticalSensorData = new OpticalSensorData(characteristic);
-
-        setChanged();
-        notifyObservers(opticalSensorData);
-        clearChanged();
     }
 
     @Override
@@ -42,5 +35,10 @@ public class OpticalSensorModel extends Observable implements GenericGattNotifyM
     @Override
     public Object getData() {
         return opticalSensorData;
+    }
+
+    @Override
+    protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
+        return new OpticalSensorData(characteristic);
     }
 }

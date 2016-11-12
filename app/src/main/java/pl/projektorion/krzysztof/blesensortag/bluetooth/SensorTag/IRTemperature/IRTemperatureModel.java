@@ -5,27 +5,20 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.util.Observable;
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyModelInterface;
 
 /**
  * Created by krzysztof on 06.11.16.
  */
 
-public class IRTemperatureModel extends Observable implements GenericGattNotifyModelInterface {
+public class IRTemperatureModel extends AbstractGenericGattModel
+        implements GenericGattNotifyModelInterface {
     private IRTemperatureData irData;
 
     public IRTemperatureModel() {
         super();
         irData = new IRTemperatureData();
-    }
-
-    @Override
-    public void updateCharacteristic(BluetoothGattCharacteristic characteristic) {
-        irData = new IRTemperatureData(characteristic);
-
-        setChanged();
-        notifyObservers(irData);
-        clearChanged();
     }
 
     @Override
@@ -41,5 +34,10 @@ public class IRTemperatureModel extends Observable implements GenericGattNotifyM
     @Override
     public Object getData() {
         return irData;
+    }
+
+    @Override
+    protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
+        return new IRTemperatureData(characteristic);
     }
 }

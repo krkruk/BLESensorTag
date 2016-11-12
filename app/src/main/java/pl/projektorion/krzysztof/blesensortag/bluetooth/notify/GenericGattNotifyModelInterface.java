@@ -5,6 +5,8 @@ import android.bluetooth.BluetoothGattDescriptor;
 
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattModelInterface;
+
 /**
  * Created by krzysztof on 02.11.16.
  */
@@ -13,7 +15,7 @@ import java.util.UUID;
 /**
  * Observer pattern for SensorTag profiles. Here: interface for an observer
  */
-public interface GenericGattNotifyModelInterface {
+public interface GenericGattNotifyModelInterface extends GenericGattModelInterface {
 
     /**
      * Update Characteristic
@@ -32,12 +34,4 @@ public interface GenericGattNotifyModelInterface {
      * @return Byte array data set.
      */
     byte[] getRawData();
-
-    /**
-     * Get processed data from the BLE device. The data is
-     * embraced into a profile data container.
-     * @return Return Object. Must be then casted into
-     * a proper object
-     */
-    Object getData();
 }

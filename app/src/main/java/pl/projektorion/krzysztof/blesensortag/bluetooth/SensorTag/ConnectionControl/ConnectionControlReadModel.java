@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 
 import java.util.Observable;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileData;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
 
@@ -11,21 +12,13 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadMode
  * Created by krzysztof on 10.11.16.
  */
 
-public class ConnectionControlReadModel extends Observable
+public class ConnectionControlReadModel extends AbstractGenericGattModel
         implements GenericGattReadModelInterface {
 
     private ProfileData data;
 
     public ConnectionControlReadModel() {
         this.data = new ConnectionControlData();
-    }
-
-    @Override
-    public void updateCharacteristic(BluetoothGattCharacteristic characteristic) {
-        data = new ConnectionControlData(characteristic);
-        setChanged();
-        notifyObservers(data);
-        clearChanged();
     }
 
     @Override
@@ -37,5 +30,10 @@ public class ConnectionControlReadModel extends Observable
     @Override
     public Object getData() {
         return data;
+    }
+
+    @Override
+    protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
+        return new ConnectionControlData(characteristic);
     }
 }
