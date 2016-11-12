@@ -2,6 +2,7 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
+import android.util.Log;
 
 import java.util.UUID;
 
@@ -89,7 +90,7 @@ public abstract class AbstractNotifyGattProfile implements NotifyGattProfileInte
     public void configurePeriod(byte input) {
         service = get_service();
         if( service == null ) return;
-        if( input < (byte) 10) return;
+        if( (input&0xff) < 0xA) return;
 
         final BluetoothGattCharacteristic period = service.getCharacteristic(get_period_uuid());
         period.setValue(new byte[] { input });

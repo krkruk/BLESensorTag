@@ -3,6 +3,7 @@ package pl.projektorion.krzysztof.blesensortag.fragments.config;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,12 +66,12 @@ public class NotifyProfileConfigFragment extends Fragment
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            if( progress < PERIOD_MIN_VALUE ) {
-                periodSeekBar.setProgress(PERIOD_MIN_VALUE);
+            if( progress < PERIOD_MIN_VALUE )
                 progress = PERIOD_MIN_VALUE;
-            }
+
             if( profile != null )
-                profile.configurePeriod((byte) progress);
+                profile.configurePeriod( ((byte) progress) );
+            periodSeekBar.setProgress(progress);
         }
     };
 

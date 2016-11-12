@@ -31,7 +31,7 @@ import pl.projektorion.krzysztof.blesensortag.fragments.config.NullConfigFragmen
 
 public class BLeServiceScannerExpandableAdapter extends BaseExpandableListAdapter {
 
-    private Map<BLeServiceScannerAdapterGroupDataContainer, FragmentFactory> services;
+    private Map<BLeServiceScannerAdapterGroupDataContainer, Fragment> services;
     private List<BLeServiceScannerAdapterGroupDataContainer> groupData;
     private Context context;
     private LayoutInflater inflater;
@@ -39,12 +39,12 @@ public class BLeServiceScannerExpandableAdapter extends BaseExpandableListAdapte
 
     public BLeServiceScannerExpandableAdapter(
             Context context,
-            Map<BLeServiceScannerAdapterGroupDataContainer, FragmentFactory> services,
+            Map<BLeServiceScannerAdapterGroupDataContainer, Fragment> services,
             FragmentManager fm) {
         super();
         this.context = context;
         this.services = services == null ?
-                new LinkedHashMap<BLeServiceScannerAdapterGroupDataContainer, FragmentFactory>()
+                new LinkedHashMap<BLeServiceScannerAdapterGroupDataContainer, Fragment>()
                 : services;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.fm = fm;
@@ -132,10 +132,8 @@ public class BLeServiceScannerExpandableAdapter extends BaseExpandableListAdapte
         else
             container = (ServiceScannerChildWidgetContainer) view.getTag();
 
-        final FragmentFactory factory = (FragmentFactory) getChild(groupPosition, childPosition);
+        Fragment frag = (Fragment) getChild(groupPosition, childPosition);
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new NullConfigFragment();
-        if( factory != null ) frag = factory.create();
         if( frag == null ) frag = new NullConfigFragment();
         ft.replace(R.id.child_fragment_container, frag);
         ft.commit();
@@ -148,7 +146,7 @@ public class BLeServiceScannerExpandableAdapter extends BaseExpandableListAdapte
         return true;
     }
 
-    public void extend(Map<BLeServiceScannerAdapterGroupDataContainer, FragmentFactory> services)
+    public void extend(Map<BLeServiceScannerAdapterGroupDataContainer, Fragment> services)
     {
         this.services.putAll(services);
         update_group_data();
