@@ -106,8 +106,8 @@ public class BLeServiceScannerFragment extends Fragment {
                 final List<BluetoothGattService> services = gattService.getServices();
                 create_profile_factories(services);
                 populate_config_fragment_factory();
-                enable_all_notifications();
-                enable_all_measurements();
+//                enable_all_notifications();
+//                enable_all_measurements();
                 populate_adapter();
             }
         }
