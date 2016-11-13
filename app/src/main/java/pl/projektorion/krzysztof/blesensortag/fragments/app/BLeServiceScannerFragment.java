@@ -161,6 +161,7 @@ public class BLeServiceScannerFragment extends Fragment {
     public BLeServiceScannerFragment() {
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,6 +173,17 @@ public class BLeServiceScannerFragment extends Fragment {
         init_objects();
         init_broadcast_receivers();
         init_bound_services();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        /*
+         * This is an ugly solution but it works...
+         */
+        if( serviceWidgetExpandableAdapter != null )
+            serviceWidgetExpandableAdapter.onActivityRecreated(getFragmentManager());
     }
 
     @Override

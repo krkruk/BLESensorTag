@@ -157,6 +157,11 @@ public class BLeServiceScannerExpandableAdapter extends BaseExpandableListAdapte
         services.clear();
         groupData.clear();
     }
+
+    public void onActivityRecreated(FragmentManager fm) {
+        this.fm = fm;
+    }
+
     private void update_group_data()
     {
         this.groupData = new ArrayList<>(this.services.keySet());
