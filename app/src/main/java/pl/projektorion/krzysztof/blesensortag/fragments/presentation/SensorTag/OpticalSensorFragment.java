@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -22,12 +23,20 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileData;
  */
 public class OpticalSensorFragment extends Fragment
     implements Observer {
+    private static final String ACTION_BULB_STATE =
+            "pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.OpticalSesnorFragment.action.BULB_STATE";
+    private static final String ACTION_LIGHT_INTENSITY =
+            "pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.OpticalSesnorFragment.action.LIGHT_INTENSITY";
 
     private View view;
     private TextView labelLightIntensity;
+    private ImageView imgLightBulb;
 
     private Observable observable;
     private Handler handler;
+
+    private boolean bulbState = true;
+    private double lightIntensity = 0.0f;
 
     public OpticalSensorFragment() {}
 
@@ -35,15 +44,26 @@ public class OpticalSensorFragment extends Fragment
     public void update(Observable o, Object arg) {
         observable = o;
         ProfileData data = (ProfileData) arg;
-        final double lightIntensity = data.getValue(OpticalSensorData.ATTRIBUTE_LIGHT_INTENSITY_LUX);
+        lightIntensity = data.getValue(OpticalSensorData.ATTRIBUTE_LIGHT_INTENSITY_LUX);
+        bulbState = lightIntensity > 0;
 
         handler.post(new Runnable() {
             @Override
             public void run() {
-                labelLightIntensity.setText(String.format(Locale.ENGLISH,
-                        "%.02f", lightIntensity));
+                labelLightIntensity.setText(d_to_str(lightIntensity));
+                set_bulb_image(bulbState);
             }
         });
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        handler = new Handler();
+        if(savedInstanceState != null){
+            bulbState = savedInstanceState.getBoolean(ACTION_BULB_STATE, false);
+            lightIntensity = savedInstanceState.getDouble(ACTION_LIGHT_INTENSITY, 0.0f);
+        }
     }
 
     @Override
@@ -51,8 +71,14 @@ public class OpticalSensorFragment extends Fragment
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_optical_sensor, container, false);
         init_widgets();
-        handler = new Handler();
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(ACTION_BULB_STATE, bulbState);
+        outState.putDouble(ACTION_LIGHT_INTENSITY, lightIntensity);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -65,6 +91,20 @@ public class OpticalSensorFragment extends Fragment
     private void init_widgets()
     {
         labelLightIntensity = (TextView) view.findViewById(R.id.light_intensity_status);
+        imgLightBulb = (ImageView) view.findViewById(R.id.light_bulb_img);
+
+        labelLightIntensity.setText(d_to_str(lightIntensity));
+        set_bulb_image(bulbState);
     }
 
+    private void set_bulb_image(boolean bulbOn)
+    {
+        final int res = bulbOn ? R.drawable.light_bulb_on : R.drawable.light_bulb_off;
+        imgLightBulb.setImageResource(res);
+    }
+
+    private String d_to_str(double value)
+    {
+        return String.format(Locale.ENGLISH, "%.2f", value);
+    }
 }
