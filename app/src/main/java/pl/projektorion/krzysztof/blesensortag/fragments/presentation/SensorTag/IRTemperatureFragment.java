@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,7 @@ public class IRTemperatureFragment extends DoubleChartFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = super.onCreateView(inflater, container, savedInstanceState);
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
         return view;
     }
 

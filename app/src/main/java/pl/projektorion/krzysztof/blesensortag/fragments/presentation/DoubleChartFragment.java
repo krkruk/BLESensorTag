@@ -64,7 +64,7 @@ public abstract class DoubleChartFragment extends Fragment {
     {
         apply_upper_chart_new_value(data);
         upperDescription = upperChart.getDescription();
-        upperDescription.setText(value_to_string(data, get_upper_measure_unit()));
+        upperDescription.setText(value_to_string(data, isAdded() ? get_upper_measure_unit() : ""));
         upperDescription.setTextSize(get_description_font_size());
         upperChart.invalidate();
     }
@@ -73,17 +73,17 @@ public abstract class DoubleChartFragment extends Fragment {
     {
         apply_lower_chart_new_value(data);
         lowerDescription = lowerChart.getDescription();
-        lowerDescription.setText(value_to_string(data, get_lower_measure_unit()));
+        lowerDescription.setText(value_to_string(data, isAdded() ? get_lower_measure_unit() : ""));
         lowerDescription.setTextSize(get_description_font_size());
         lowerChart.invalidate();
     }
 
     private void init_objects()
     {
-        upperDataSet = new LineDataSet(generate_init_values(), get_upper_title());
+        upperDataSet = new LineDataSet(generate_init_values(), isAdded() ? get_upper_title() : "");
         upperData = new LineData(upperDataSet);
 
-        lowerDataSet = new LineDataSet(generate_init_values(), get_lower_title());
+        lowerDataSet = new LineDataSet(generate_init_values(), isAdded() ? get_lower_title() : "");
         lowerData = new LineData(lowerDataSet);
     }
 
@@ -158,7 +158,7 @@ public abstract class DoubleChartFragment extends Fragment {
 
     private String value_to_string(float value, String unit)
     {
-        return String.format(Locale.getDefault(), "%.1f %s",
+        return String.format(Locale.getDefault(), "%.2f %s",
                 value,
                 unit);
     }

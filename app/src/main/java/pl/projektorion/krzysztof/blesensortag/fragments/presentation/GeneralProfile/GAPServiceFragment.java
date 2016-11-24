@@ -4,6 +4,7 @@ package pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralPro
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Fragment;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,7 @@ public class GAPServiceFragment extends Fragment
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_gap_service, container, false);
         init_widgets();
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
         return view;
     }
 
