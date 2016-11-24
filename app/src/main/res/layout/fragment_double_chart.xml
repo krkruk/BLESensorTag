@@ -9,6 +9,9 @@
         android:id="@+id/upper_chart_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/black"
+        android:layout_gravity="center"
     />
 
     <com.github.mikephil.charting.charts.LineChart
@@ -22,6 +25,9 @@
         android:id="@+id/lower_chart_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/black"
+        android:layout_gravity="center"
     />
 
     <com.github.mikephil.charting.charts.LineChart

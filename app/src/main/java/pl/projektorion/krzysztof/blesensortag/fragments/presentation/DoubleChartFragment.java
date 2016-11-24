@@ -3,7 +3,7 @@ package pl.projektorion.krzysztof.blesensortag.fragments.presentation;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +55,8 @@ public abstract class DoubleChartFragment extends Fragment {
         init_widgets();
         init_values();
         setup_charts();
+        update_upper_chart(0.0f);
+        update_lower_chart(0.0f);
         return view;
     }
 
@@ -63,7 +65,7 @@ public abstract class DoubleChartFragment extends Fragment {
         apply_upper_chart_new_value(data);
         upperDescription = upperChart.getDescription();
         upperDescription.setText(value_to_string(data, get_upper_measure_unit()));
-        lowerDescription.setTextSize(get_description_font_size());
+        upperDescription.setTextSize(get_description_font_size());
         upperChart.invalidate();
     }
 
