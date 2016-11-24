@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:contentDescription="@string/label_light_intensity"
-        android:src="@drawable/light_bulb_on"
+        android:src="@drawable/light_bulb_off"
     />
 
 </RelativeLayout>

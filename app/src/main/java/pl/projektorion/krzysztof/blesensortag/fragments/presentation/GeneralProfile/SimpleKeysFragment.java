@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Observable;
@@ -24,10 +25,21 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKey
 public class SimpleKeysFragment extends Fragment
     implements Observer {
 
+    private static final String ACTION_LEFT_BTN_STATUS =
+            "pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.action.LEFT_BTN_STATUS";
+    private static final String ACTION_RIGHT_BTN_STATUS =
+            "pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.action.RIGHT_BTN_STATUS";
+    private static final String ACTION_REED_RELAY_STATUS =
+            "pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.action.REED_RELAY_STATUS";
+
     private View view;
-    private TextView labelLeftButton;
-    private TextView labelRightButton;
-    private TextView labelReedRelay;
+    private ImageView imgLeftButton;
+    private ImageView imgRightButton;
+    private ImageView imgReedRelay;
+
+    private boolean leftButtonState = false;
+    private boolean rightButtonState = false;
+    private boolean reedRelayState = false;
 
     private Handler handler;
     private Observable modelObservable;
@@ -39,16 +51,16 @@ public class SimpleKeysFragment extends Fragment
     public void update(Observable o, Object arg) {
         modelObservable = o;
         final AbstractProfileData data = (AbstractProfileData) arg;
-        final int leftButton = (int) data.getValue(SimpleKeysData.ATTRIBUTE_LEFT_BUTTON);
-        final int rightButton = (int) data.getValue(SimpleKeysData.ATTRIBUTE_RIGHT_BUTTON);
-        final int reedRelay = (int) data.getValue(SimpleKeysData.ATTRIBUTE_REED_RELAY);
+        leftButtonState = data.getValue(SimpleKeysData.ATTRIBUTE_LEFT_BUTTON) > 0;
+        rightButtonState = data.getValue(SimpleKeysData.ATTRIBUTE_RIGHT_BUTTON) > 0;
+        reedRelayState = data.getValue(SimpleKeysData.ATTRIBUTE_REED_RELAY) > 0;
 
         handler.post(new Runnable() {
             @Override
             public void run() {
-                labelLeftButton.setText(button_status(leftButton));
-                labelRightButton.setText(button_status(rightButton));
-                labelReedRelay.setText(button_status(reedRelay));
+                set_left_button_img(leftButtonState);
+                set_right_button_img(rightButtonState);
+                set_reed_relay(reedRelayState);
             }
         });
     }
@@ -57,7 +69,12 @@ public class SimpleKeysFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handler = new Handler(Looper.getMainLooper());
-
+        if( savedInstanceState != null )
+        {
+            leftButtonState = savedInstanceState.getBoolean(ACTION_LEFT_BTN_STATUS, false);
+            rightButtonState = savedInstanceState.getBoolean(ACTION_RIGHT_BTN_STATUS, false);
+            reedRelayState = savedInstanceState.getBoolean(ACTION_REED_RELAY_STATUS, false);
+        }
     }
 
     @Override
@@ -72,19 +89,46 @@ public class SimpleKeysFragment extends Fragment
     public void onDestroy() {
         if( modelObservable != null )
             modelObservable.deleteObserver(this);
-        Log.i("Frag", "Deleted from observable");
+
         super.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(ACTION_LEFT_BTN_STATUS, leftButtonState);
+        outState.putBoolean(ACTION_RIGHT_BTN_STATUS, rightButtonState);
+        outState.putBoolean(ACTION_REED_RELAY_STATUS, reedRelayState);
+        super.onSaveInstanceState(outState);
     }
 
     private void init_widgets()
     {
-        labelLeftButton = (TextView) view.findViewById(R.id.label_left_button_state);
-        labelRightButton = (TextView) view.findViewById(R.id.label_right_button_state);
-        labelReedRelay = (TextView) view.findViewById(R.id.label_reed_relay_state);
+        imgLeftButton = (ImageView) view.findViewById(R.id.left_button_img);
+        imgRightButton = (ImageView) view.findViewById(R.id.right_button_img);
+        imgReedRelay = (ImageView) view.findViewById(R.id.reed_relay_img);
+
+        set_left_button_img(leftButtonState);
+        set_right_button_img(rightButtonState);
+        set_reed_relay(reedRelayState);
     }
 
-    private String button_status(int status)
+    private void set_left_button_img(boolean isOnState)
     {
-        return status == 1 ? "On" : "Off";
+        imgLeftButton.setImageResource(get_img_resource(isOnState));
+    }
+
+    private void set_right_button_img(boolean isOnState)
+    {
+        imgRightButton.setImageResource(get_img_resource(isOnState));
+    }
+
+    private void set_reed_relay(boolean isOnState)
+    {
+        imgReedRelay.setImageResource(get_img_resource(isOnState));
+    }
+
+    private int get_img_resource(boolean isOnState)
+    {
+        return isOnState ? R.drawable.button_on : R.drawable.button_off;
     }
 }

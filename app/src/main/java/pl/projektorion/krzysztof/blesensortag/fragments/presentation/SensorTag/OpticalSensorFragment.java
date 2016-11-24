@@ -35,7 +35,7 @@ public class OpticalSensorFragment extends Fragment
     private Observable observable;
     private Handler handler;
 
-    private boolean bulbState = true;
+    private boolean bulbState = false;
     private double lightIntensity = 0.0f;
 
     public OpticalSensorFragment() {}
