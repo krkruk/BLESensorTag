@@ -4,6 +4,7 @@ package pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralPro
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,10 +54,16 @@ public class SimpleKeysFragment extends Fragment
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        handler = new Handler(Looper.getMainLooper());
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_simple_keys, container, false);
-        handler = new Handler();
         init_widgets();
         return view;
     }

@@ -47,11 +47,17 @@ public class GAPServiceFragment extends Fragment
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        handler = new Handler(Looper.getMainLooper());
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_gap_service, container, false);
         init_widgets();
-        handler = new Handler(Looper.getMainLooper());
         return view;
     }
 
