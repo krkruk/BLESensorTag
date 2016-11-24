@@ -129,6 +129,6 @@ public class SimpleKeysFragment extends Fragment
 
     private int get_img_resource(boolean isOnState)
     {
-        return isOnState ? R.drawable.button_on : R.drawable.button_off;
+        return isOnState ? R.drawable.button_on_green : R.drawable.button_off;
     }
 }

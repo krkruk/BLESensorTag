@@ -4,6 +4,7 @@ package pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class ConnectionControlFragment extends Fragment
 
 
     private Observable observable;
-    private Handler handler;
+    private Handler handler = new Handler(Looper.getMainLooper());
 
 
     public ConnectionControlFragment() {}
@@ -58,7 +59,6 @@ public class ConnectionControlFragment extends Fragment
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_connection_control, container, false);
         init_widgets();
-        handler = new Handler();
         return view;
     }
 
