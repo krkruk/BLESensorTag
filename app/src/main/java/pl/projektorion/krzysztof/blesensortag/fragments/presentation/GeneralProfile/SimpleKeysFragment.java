@@ -51,6 +51,7 @@ public class SimpleKeysFragment extends Fragment
     public void update(Observable o, Object arg) {
         modelObservable = o;
         final AbstractProfileData data = (AbstractProfileData) arg;
+        if( handler == null ) return;
         leftButtonState = data.getValue(SimpleKeysData.ATTRIBUTE_LEFT_BUTTON) > 0;
         rightButtonState = data.getValue(SimpleKeysData.ATTRIBUTE_RIGHT_BUTTON) > 0;
         reedRelayState = data.getValue(SimpleKeysData.ATTRIBUTE_REED_RELAY) > 0;

@@ -36,6 +36,7 @@ public class GAPServiceFragment extends Fragment
     public void update(Observable o, Object arg) {
         observable = o;
         ProfileStringData data = (ProfileStringData) arg;
+        if( handler == null ) return;
         final String deviceName = data.getValue(GAPServiceData.ATTRIBUTE_DEVICE_NAME);
 
         handler.post(new Runnable() {

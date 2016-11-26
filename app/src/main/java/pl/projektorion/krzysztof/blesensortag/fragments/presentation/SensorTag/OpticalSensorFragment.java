@@ -43,6 +43,7 @@ public class OpticalSensorFragment extends Fragment
     @Override
     public void update(Observable o, Object arg) {
         observable = o;
+        if( handler == null ) return;
         ProfileData data = (ProfileData) arg;
         lightIntensity = data.getValue(OpticalSensorData.ATTRIBUTE_LIGHT_INTENSITY_LUX);
         bulbState = lightIntensity > 0;

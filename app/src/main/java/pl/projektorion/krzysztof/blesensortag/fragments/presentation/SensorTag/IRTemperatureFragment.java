@@ -46,6 +46,7 @@ public class IRTemperatureFragment extends DoubleChartFragment
     public void update(Observable o, Object arg) {
         observable = o;
         AbstractProfileData temperatureData = (AbstractProfileData) arg;
+        if( handler == null ) return;
         final float ambientTemp = (float) temperatureData.getValue(IRTemperatureData.ATTRIBUTE_AMBIENT_TEMPERATURE);
         final float objectTemp = (float) temperatureData.getValue(IRTemperatureData.ATTRIBUTE_OBJECT_TEMPERATURE);
 

@@ -45,6 +45,7 @@ public class DeviceInformationFragment extends Fragment
     public void update(Observable o, Object arg) {
         observable = o;
         ProfileStringData data = (ProfileStringData) arg;
+        if( handler == null ) return;
         final String systemId = data.getValue(DeviceInformationData.ATTRIBUTE_DEVINFO_SYSTEM_ID);
         final String modelNumber = data.getValue(DeviceInformationData.ATTRIBUTE_DEVINFO_MODEL_NUMBER);
         final String serialNumber = data.getValue(DeviceInformationData.ATTRIBUTE_DEVINFO_SERIAL_NUMBER);

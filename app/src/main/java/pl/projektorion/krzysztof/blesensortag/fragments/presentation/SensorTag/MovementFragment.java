@@ -83,6 +83,7 @@ public class MovementFragment extends Fragment
     public void update(Observable o, final Object arg) {
         observable = o;
         final ProfileData data = (ProfileData) arg;
+        if( handler == null ) return;
         gyroX = (float) data.getValue(MovementData.ATTRIBUTE_GYRO_X);
         gyroY = (float) data.getValue(MovementData.ATTRIBUTE_GYRO_Y);
         gyroZ = (float) data.getValue(MovementData.ATTRIBUTE_GYRO_Z);

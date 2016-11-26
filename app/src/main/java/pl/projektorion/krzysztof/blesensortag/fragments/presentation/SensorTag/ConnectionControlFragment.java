@@ -40,6 +40,7 @@ public class ConnectionControlFragment extends Fragment
     public void update(Observable o, Object arg) {
         observable = o;
         ProfileData data = (ProfileData) arg;
+        if( handler == null ) return;
         final double connInterval = data.getValue(ConnectionControlData.ATTRIBUTE_CONNECTION_INTERVAL);
         final double slaveLatency = data.getValue(ConnectionControlData.ATTRIBUTE_SLAVE_LATENCY);
         final double supTimeout = data.getValue(ConnectionControlData.ATTRIBUTE_SUPERVISION_TIMEOUT);

@@ -40,6 +40,7 @@ public class HumidityFragment extends DoubleChartFragment
     public void update(Observable o, Object arg) {
         observable = o;
         ProfileData data = (ProfileData) arg;
+        if( handler == null ) return;
         final float temperature = (float) data.getValue(HumidityData.ATTRIBUTE_TEMPERATURE_CELSIUS);
         final float humidity = (float) data.getValue(HumidityData.ATTRIBUTE_RELATIVE_HUMIDITY);
 

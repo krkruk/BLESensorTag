@@ -52,6 +52,7 @@ public class BarometricPressureFragment extends DoubleChartFragment
     public void update(Observable o, Object arg) {
         observable = o;
         ProfileData data = (ProfileData) arg;
+        if( handler == null ) return;
         final float pressure = (float) data.getValue(BarometricPressureData.ATTRIBUTE_PRESSURE_hPa);
         final float temperature = (float) data.getValue(BarometricPressureData.ATTRIBUTE_CENTIGRADE);
 
