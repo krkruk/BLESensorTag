@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pl.projektorion.krzysztof.blesensortag">
 
-    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -33,7 +35,11 @@
         <service
             android:name=".bluetooth.service.BLeGattClientService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+        <service
+            android:name=".bluetooth.service.BLeGattModelService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>
