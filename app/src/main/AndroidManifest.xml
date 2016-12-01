@@ -39,6 +39,10 @@
         <service
             android:name=".bluetooth.service.BLeGattModelService"
             android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".database.DBService"
+            android:enabled="true"
             android:exported="false"></service>
     </application>
 
