@@ -39,6 +39,7 @@ public class DBService extends Service {
     private IBinder binder = new DBServiceBinder();
     private SQLiteOpenHelper dbHelper;
 
+    private final Executor executor = Executors.newSingleThreadExecutor();
     public DBService() {
     }
 
@@ -83,7 +84,6 @@ public class DBService extends Service {
                 opticalSensor.update(null, new HumidityData(new byte[]{0,0,0,0}));
                 opticalSensor.update(null, new HumidityData(new byte[]{2,2,2,2}));
 
-                final Executor executor = Executors.newSingleThreadExecutor();
                 executor.execute(new Runnable() {
                     @Override
                     public void run() {

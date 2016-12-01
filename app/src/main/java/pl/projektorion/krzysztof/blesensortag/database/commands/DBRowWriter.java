@@ -19,15 +19,16 @@ public class DBRowWriter {
         this.writeCmds = new ConcurrentLinkedQueue<>();
     }
 
-    public synchronized void add(DBRowWriteInterface writeCmd)
+    public void add(DBRowWriteInterface writeCmd)
     {
         writeCmds.add(writeCmd);
     }
 
-    public synchronized void write()
+    public void write()
     {
         while(!writeCmds.isEmpty()) {
             DBRowWriteInterface dbWrite = writeCmds.poll();
+            if( dbWrite == null ) return;
             dbWrite.execute();
         }
     }
