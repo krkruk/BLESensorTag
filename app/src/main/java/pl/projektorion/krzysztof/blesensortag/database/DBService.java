@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureData;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityData;
@@ -47,7 +51,7 @@ public class DBService extends Service {
     {
         List<DBTableInterface> tables = getTables();
         dbHelper = new DBHelper(this, tables);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
         final DBRootRowInterface root = new DBRootRowRecord(db, DBRootTableRecord.TABLE_NAME);
         final long rootRowId = root.getRootRowId();
         final DBRowWriter dbWriter = new DBRowWriter(db, rootRowId);
@@ -58,26 +62,39 @@ public class DBService extends Service {
         final DBRowMovement movement = new DBRowMovement(dbWriter, DBTableMovement.TABLE_NAME);
         final DBRowOpticalSensor opticalSensor = new DBRowOpticalSensor(dbWriter, DBTableOpticalSensor.TABLE_NAME);
 
+        final Handler handler = new Handler();
 
-        barometer.update(null, new BarometricPressureData(new byte[] {0,0,0,0,0,0}));
-        barometer.update(null, new BarometricPressureData(new byte[] {1,1,1,1,1,1}));
-        barometer.update(null, new BarometricPressureData(new byte[] {2,2,2,2,2,2}));
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                barometer.update(null, new BarometricPressureData(new byte[] {0,0,0,0,0,0}));
+                barometer.update(null, new BarometricPressureData(new byte[] {1,1,1,1,1,1}));
+                barometer.update(null, new BarometricPressureData(new byte[] {2,2,2,2,2,2}));
 
-        humidity.update(null, new HumidityData(new byte[]{0,0,0,0}));
-        humidity.update(null, new HumidityData(new byte[]{2,2,2,2}));
+                humidity.update(null, new HumidityData(new byte[]{0,0,0,0}));
+                humidity.update(null, new HumidityData(new byte[]{2,2,2,2}));
 
-        irTemp.update(null, new IRTemperatureData(new byte[] {0,0,0,0}));
-        irTemp.update(null, new IRTemperatureData(new byte[] {2,2,2,2}));
+                irTemp.update(null, new IRTemperatureData(new byte[] {0,0,0,0}));
+                irTemp.update(null, new IRTemperatureData(new byte[] {2,2,2,2}));
 
-        movement.update(null, new MovementData(new byte[] {1,1,1, 1,1,1, 1,1,1, 1,1,1, 1,1,1, 1,1,1}));
-        movement.update(null, new MovementData(new byte[] {1,1,1, 1,1,1, 1,1,1, 1,1,1, 1,1,1, 1,1,1}));
+                movement.update(null, new MovementData(new byte[] {1,1,1, 1,1,1, 1,1,1, 1,1,1, 1,1,1, 1,1,1}));
+                movement.update(null, new MovementData(new byte[] {1,1,1, 1,1,1, 1,1,1, 1,1,1, 1,1,1, 1,1,1}));
 
-        opticalSensor.update(null, new HumidityData(new byte[]{0,0,0,0}));
-        opticalSensor.update(null, new HumidityData(new byte[]{2,2,2,2}));
+                opticalSensor.update(null, new HumidityData(new byte[]{0,0,0,0}));
+                opticalSensor.update(null, new HumidityData(new byte[]{2,2,2,2}));
 
+                final Executor executor = Executors.newSingleThreadExecutor();
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        dbWriter.write();
+                    }
+                });
 
-        dbWriter.write();
-        db.close();
+                handler.postDelayed(this, 1000);
+            }
+        };
+        handler.postDelayed(runnable, 1000);
     }
 
     private List<DBTableInterface> getTables()

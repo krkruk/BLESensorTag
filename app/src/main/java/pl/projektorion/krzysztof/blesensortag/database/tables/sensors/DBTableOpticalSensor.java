@@ -1,6 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.database.tables.sensors;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.BaseColumns;
 
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
 
@@ -11,7 +12,7 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
 public class DBTableOpticalSensor implements DBTableInterface {
 
     public static final String TABLE_NAME = "OpticalSensor";
-    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_ID = BaseColumns._ID;
     public static final String COLUMN_ROOT_REF = "ID_RECORD";
     public static final String COLUMN_LIGHT_INTENSITY = "Intensity";
 
