@@ -21,12 +21,14 @@ import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowBaromet
 import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowHumidity;
 import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowIRTemperature;
 import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowMovement;
+import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowOpticalSensor;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableBarometer;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableHumidity;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableIRTemperature;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableMovement;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableOpticalSensor;
 
 public class DBService extends Service {
 
@@ -54,6 +56,8 @@ public class DBService extends Service {
         final DBRowHumidity humidity = new DBRowHumidity(dbWriter, DBTableHumidity.TABLE_NAME);
         final DBRowIRTemperature irTemp = new DBRowIRTemperature(dbWriter, DBTableIRTemperature.TABLE_NAME);
         final DBRowMovement movement = new DBRowMovement(dbWriter, DBTableMovement.TABLE_NAME);
+        final DBRowOpticalSensor opticalSensor = new DBRowOpticalSensor(dbWriter, DBTableOpticalSensor.TABLE_NAME);
+
 
         barometer.update(null, new BarometricPressureData(new byte[] {0,0,0,0,0,0}));
         barometer.update(null, new BarometricPressureData(new byte[] {1,1,1,1,1,1}));
@@ -68,6 +72,10 @@ public class DBService extends Service {
         movement.update(null, new MovementData(new byte[] {1,1,1, 1,1,1, 1,1,1, 1,1,1, 1,1,1, 1,1,1}));
         movement.update(null, new MovementData(new byte[] {1,1,1, 1,1,1, 1,1,1, 1,1,1, 1,1,1, 1,1,1}));
 
+        opticalSensor.update(null, new HumidityData(new byte[]{0,0,0,0}));
+        opticalSensor.update(null, new HumidityData(new byte[]{2,2,2,2}));
+
+
         dbWriter.write();
         db.close();
     }
@@ -80,6 +88,7 @@ public class DBService extends Service {
         tables.add(new DBTableHumidity());
         tables.add(new DBTableIRTemperature());
         tables.add(new DBTableMovement());
+        tables.add(new DBTableOpticalSensor());
 
         return tables;
     }
