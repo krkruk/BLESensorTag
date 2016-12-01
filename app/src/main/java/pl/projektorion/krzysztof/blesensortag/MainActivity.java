@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
 
     private void init_temporary_db()
     {
-//        deleteDatabase(Constant.DB_NAME);
+        deleteDatabase(Constant.DB_NAME);
         bindService(new Intent(this, DBService.class), dbServiceConn, BIND_AUTO_CREATE);
     }
 

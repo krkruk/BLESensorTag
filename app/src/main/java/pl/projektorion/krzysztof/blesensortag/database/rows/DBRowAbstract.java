@@ -19,6 +19,12 @@ public abstract class DBRowAbstract implements DBRowInterface, Observer {
         this.tableName = tableName;
     }
 
+    public DBRowAbstract(DBRowWriter dbWriter, String tableName) {
+        this.dbWriter = dbWriter;
+        this.tableName = tableName;
+        this.rootRowId = this.dbWriter.getRootRowId();
+    }
+
     @Override
     public String getTableName() {
         return tableName;

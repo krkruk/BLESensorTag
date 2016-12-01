@@ -11,10 +11,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class DBRowWriter {
     private ConcurrentLinkedQueue<DBRowWriteInterface> writeCmds;
     private SQLiteDatabase db;
+    private long rootRowId;
 
-    public DBRowWriter(SQLiteDatabase db) {
+    public DBRowWriter(SQLiteDatabase db, long rootRowId) {
         this.db = db;
-        writeCmds = new ConcurrentLinkedQueue<>();
+        this.rootRowId = rootRowId;
+        this.writeCmds = new ConcurrentLinkedQueue<>();
     }
 
     public synchronized void add(DBRowWriteInterface writeCmd)
@@ -33,5 +35,10 @@ public class DBRowWriter {
     public SQLiteDatabase getWritableDatabase()
     {
         return db;
+    }
+
+    public long getRootRowId()
+    {
+        return rootRowId;
     }
 }

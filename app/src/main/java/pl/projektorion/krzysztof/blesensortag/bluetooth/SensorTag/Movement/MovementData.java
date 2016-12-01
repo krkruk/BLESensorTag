@@ -65,7 +65,7 @@ public class MovementData extends AbstractProfileData {
         buffer = get_value_bytes(bigEndianData, 2, 2);
         magnetY = ByteOperation.bytesToShort(buffer);
         buffer = get_value_bytes(bigEndianData, 4, 2);
-        magnetZ = ByteOperation.bytesToShort(buffer);
+        magnetX = ByteOperation.bytesToShort(buffer);
         calculate_raw_magnet_data();
 
         buffer = get_value_bytes(bigEndianData, 6, 2);

@@ -1,6 +1,8 @@
-package pl.projektorion.krzysztof.blesensortag.database.tables;
+package pl.projektorion.krzysztof.blesensortag.database.tables.sensors;
 
 import android.database.sqlite.SQLiteDatabase;
+
+import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
 
 /**
  * Created by krzysztof on 01.12.16.
