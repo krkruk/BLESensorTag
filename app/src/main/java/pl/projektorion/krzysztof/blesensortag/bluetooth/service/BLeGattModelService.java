@@ -122,6 +122,11 @@ public class BLeGattModelService extends Service
         return models.get(uuid);
     }
 
+    public BLeAvailableGattModels getModels()
+    {
+        return models;
+    }
+
     @Override
     public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic,
                                      int status) {
