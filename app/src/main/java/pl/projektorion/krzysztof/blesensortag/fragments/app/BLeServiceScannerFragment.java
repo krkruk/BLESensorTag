@@ -18,6 +18,9 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -70,6 +73,7 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private View view;
     private Context appContext;
+    private MenuItem recordAction;
     private ExpandableListView serviceWidgetExpandableList;
     private BLeServiceScannerExpandableAdapter serviceWidgetExpandableAdapter;
 
@@ -80,6 +84,7 @@ public class BLeServiceScannerFragment extends Fragment {
     private BLeAvailableGattProfiles gattProfiles;
     private BLeDataConfigFragmentFactory configFragFactory;
 
+    private boolean isServiceDiscovered = false;
     private BroadcastReceiver serviceGattReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -109,6 +114,8 @@ public class BLeServiceScannerFragment extends Fragment {
 //                enable_all_notifications();
 //                enable_all_measurements();
                 populate_adapter();
+                isServiceDiscovered = true;
+                if( recordAction != null ) recordAction.setEnabled(true);
             }
         }
     };
@@ -191,7 +198,15 @@ public class BLeServiceScannerFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_ble_service_scanner, container, false);
         init_widgets();
+        setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_ble_service_scanner, menu);
+        init_menu(menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -324,6 +339,11 @@ public class BLeServiceScannerFragment extends Fragment {
         serviceWidgetExpandableList.setOnGroupExpandListener(expandListener);
     }
 
+    private void init_menu(Menu menu)
+    {
+        recordAction = menu.findItem(R.id.action_record);
+        recordAction.setEnabled(isServiceDiscovered);
+    }
     private void kill_bound_services()
     {
         appContext.unbindService(gattServiceConnection);

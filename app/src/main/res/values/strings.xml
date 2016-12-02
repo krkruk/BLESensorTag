@@ -12,6 +12,7 @@
     <!--Actions-->
     <string name="action_ble_scan_start_label">Scan</string>
     <string name="action_ble_scan_stop_label">Stop</string>
+    <string name="action_ble_record_label">Record</string>
 
     <!--Status messages-->
     <string name="status_connecting">Connecting</string>
