@@ -63,6 +63,7 @@ public class DBService extends Service {
     private DBTableFactory dbTableFactory;
     private List<DBTableInterface> dbTables;
     private List<Observer> dbRows;
+    private DBRowWriter dbWriter;
 
     private DBRowFactory dbRowFactory;
 
@@ -100,10 +101,15 @@ public class DBService extends Service {
 
         final DBRootRowInterface root = new DBRootRowRecord(db, DBRootTableRecord.TABLE_NAME);
         final long rootRowId = root.getRootRowId();
-        final DBRowWriter dbWriter = new DBRowWriter(db, rootRowId);
+        dbWriter = new DBRowWriter(db, rootRowId);
 
         init_row_factory(dbWriter);
         register_observers(models);
+    }
+
+    public void write()
+    {
+        dbWriter.write();
     }
 
     private void init_table_factory()

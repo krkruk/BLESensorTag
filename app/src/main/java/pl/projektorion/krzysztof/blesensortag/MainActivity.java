@@ -14,6 +14,7 @@ import android.util.Log;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.database.DBService;
 import pl.projektorion.krzysztof.blesensortag.fragments.app.BLeDiscoveryFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.test.DBTestFragment;
 
 public class MainActivity extends Activity {
 
@@ -26,7 +27,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        negotiate_fragment();
+//        negotiate_fragment();
         init_temporary_db();
     }
 
@@ -51,7 +52,15 @@ public class MainActivity extends Activity {
 
     private void init_temporary_db()
     {
-        deleteDatabase(Constant.DB_NAME);
-//        bindService(new Intent(this, DBService.class), dbServiceConn, BIND_AUTO_CREATE);
+        FragmentManager fm = getFragmentManager();
+        bleDiscovery = fm.findFragmentByTag(BLE_DISCOVERY_FRAGMENT_TAG);
+        if( bleDiscovery == null )
+        {
+            bleDiscovery = new DBTestFragment();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.add(bleDiscovery, BLE_DISCOVERY_FRAGMENT_TAG);
+            transaction.replace(R.id.containter_ble_discovery, bleDiscovery);
+            transaction.commit();
+        }
     }
 }
