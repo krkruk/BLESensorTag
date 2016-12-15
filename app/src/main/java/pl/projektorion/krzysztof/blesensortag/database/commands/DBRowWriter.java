@@ -26,10 +26,17 @@ public class DBRowWriter {
 
     public void write()
     {
-        while(!writeCmds.isEmpty()) {
-            DBRowWriteInterface dbWrite = writeCmds.poll();
-            if( dbWrite == null ) return;
-            dbWrite.execute();
+        db.beginTransaction();
+        try {
+            while (!writeCmds.isEmpty()) {
+                DBRowWriteInterface dbWrite = writeCmds.poll();
+                if (dbWrite == null) return;
+                dbWrite.execute();
+            }
+            db.setTransactionSuccessful();
+        }
+        finally {
+            db.endTransaction();
         }
     }
 
