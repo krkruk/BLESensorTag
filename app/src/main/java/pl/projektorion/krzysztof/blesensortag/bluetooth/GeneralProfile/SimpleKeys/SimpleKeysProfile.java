@@ -75,7 +75,16 @@ public class SimpleKeysProfile
      * @param input Does not concern.
      */
     @Override
-    public void configurePeriod(byte input) {}
+    public void configurePeriod(int input) {}
+
+    /**
+     * Does not concern.
+     * @return integer 0
+     */
+    @Override
+    public int getPeriod() {
+        return 0;
+    }
 
     @Override
     public String getName() {

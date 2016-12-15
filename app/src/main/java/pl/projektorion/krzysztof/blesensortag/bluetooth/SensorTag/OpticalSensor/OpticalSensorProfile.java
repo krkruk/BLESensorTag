@@ -25,7 +25,7 @@ public class OpticalSensorProfile extends AbstractNotifyGattProfile {
     private static final String APP_NAME = ProfileName.OPTICAL_SENSOR_PROFILE;
 
     public OpticalSensorProfile(BLeGattIO gattClient) {
-        super(gattClient);
+        super(gattClient, 800);
     }
 
     @Override

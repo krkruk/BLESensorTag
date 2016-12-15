@@ -25,12 +25,12 @@ public class IRTemperatureProfile extends AbstractNotifyGattProfile {
     private static final String APP_NAME = ProfileName.IR_TEMPERATURE_PROFILE;
 
     public IRTemperatureProfile(BLeGattIO gattClient) {
-        super(gattClient);
+        super(gattClient, 1000);
     }
 
     @Override
-    public void configurePeriod(byte input) {
-        if( input < (byte) 0x1e) return;
+    public void configurePeriod(int input) {
+        if( input < (byte) 0x1e) input = 0x1e;
         super.configurePeriod(input);
     }
 

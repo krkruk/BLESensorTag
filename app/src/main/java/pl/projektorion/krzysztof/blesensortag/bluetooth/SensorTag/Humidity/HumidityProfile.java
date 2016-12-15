@@ -25,7 +25,7 @@ public class HumidityProfile extends AbstractNotifyGattProfile {
     private static final String APP_NAME = ProfileName.HUMIDITY_PROFILE;
 
     public HumidityProfile(BLeGattIO gattClient) {
-        super(gattClient);
+        super(gattClient, 1000);
     }
 
     @Override

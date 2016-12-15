@@ -32,7 +32,10 @@ public class NullProfile implements NotifyGattProfileInterface {
     }
 
     @Override
-    public void configurePeriod(byte input) {}
+    public void configurePeriod(int input) {}
+
+    @Override
+    public int getPeriod() { return 0; }
 
     @Override
     public String getName() { return ""; }

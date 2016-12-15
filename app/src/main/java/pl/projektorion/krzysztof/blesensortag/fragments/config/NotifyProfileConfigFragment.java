@@ -70,7 +70,7 @@ public class NotifyProfileConfigFragment extends Fragment
                 progress = PERIOD_MIN_VALUE;
 
             if( profile != null )
-                profile.configurePeriod( ((byte) progress) );
+                profile.configurePeriod( progress );
             periodSeekBar.setProgress(progress);
         }
     };
@@ -122,12 +122,14 @@ public class NotifyProfileConfigFragment extends Fragment
 
     private void init_start_widget_values()
     {
+        periodSeekBar.setProgress(64);
+
         if( profile != null ) {
             notificationSwitch.setChecked(profile.isNotifying());
             measurementSwitch.setChecked(profile.isMeasuring()
                     != NotifyGattProfileInterface.DISABLE_ALL_MEASUREMENTS);
+            periodSeekBar.setProgress(profile.getPeriod());
         }
-        periodSeekBar.setProgress(64);
     }
 
     private void set_listeners()

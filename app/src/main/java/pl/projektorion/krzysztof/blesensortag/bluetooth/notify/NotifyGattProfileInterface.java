@@ -43,7 +43,13 @@ public interface NotifyGattProfileInterface extends GenericGattProfileInterface 
      * Configure a notification update time period.
      * @param input See child classes.
      */
-    void configurePeriod(byte input);
+    void configurePeriod(int input);
+
+    /**
+     * Get notify period in milliseconds
+     * @return integer in milliseconds
+     */
+    int getPeriod();
 
     /**
      * Get UUID that contains data

@@ -24,7 +24,7 @@ public class BarometricPressureProfile extends AbstractNotifyGattProfile {
     private static final String APP_NAME = ProfileName.BAROMETRIC_PRESSURE_PROFILE;
 
     public BarometricPressureProfile(BLeGattIO gattClient) {
-        super(gattClient);
+        super(gattClient, 1000);
     }
 
     @Override

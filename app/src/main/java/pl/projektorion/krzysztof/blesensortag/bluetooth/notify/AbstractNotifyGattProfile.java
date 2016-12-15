@@ -25,10 +25,13 @@ public abstract class AbstractNotifyGattProfile implements NotifyGattProfileInte
     private boolean isNotifying;
     private boolean isMeasuring;
 
-    public AbstractNotifyGattProfile(BLeGattIO gattClient) {
+    private int notifyPeriodMs;
+
+    public AbstractNotifyGattProfile(BLeGattIO gattClient, int defaultNotifyPeriodMs) {
         this.gattClient = gattClient;
         this.isMeasuring = false;
         this.isNotifying = false;
+        this.notifyPeriodMs = defaultNotifyPeriodMs;
     }
 
     /**
@@ -87,14 +90,22 @@ public abstract class AbstractNotifyGattProfile implements NotifyGattProfileInte
      * @param input Byte value. Minimum: 10 (100ms), Maximum 255 (2.55sec)
      */
     @Override
-    public void configurePeriod(byte input) {
+    public void configurePeriod(int input) {
         service = get_service();
+        byte bValue = (byte) input;
         if( service == null ) return;
         if( (input&0xff) < 0xA) return;
 
+        notifyPeriodMs = computeMillisecondsForPeriod(input);
+
         final BluetoothGattCharacteristic period = service.getCharacteristic(get_period_uuid());
-        period.setValue(new byte[] { input });
+        period.setValue(new byte[] { bValue });
         gattClient.addWrite(new BLeCharacteristicWriteCommand(gattClient, period));
+    }
+
+    @Override
+    public int getPeriod() {
+        return notifyPeriodMs;
     }
 
     @Override
@@ -142,4 +153,10 @@ public abstract class AbstractNotifyGattProfile implements NotifyGattProfileInte
      * @return Return {@link UUID} responsible for configuration update time span.
      */
     protected abstract UUID get_period_uuid();
+
+
+    private int computeMillisecondsForPeriod(int value)
+    {
+        return 10*value;
+    }
 }
