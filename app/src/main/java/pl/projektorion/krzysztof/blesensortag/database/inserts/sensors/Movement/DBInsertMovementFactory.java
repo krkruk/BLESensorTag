@@ -14,7 +14,7 @@ public class DBInsertMovementFactory extends DBInsertFactoryAbstract {
     }
 
     @Override
-    public DBInsertInterface createRow() {
+    public DBInsertInterface create() {
         return new DBInsertMovement(getDbWriter());
     }
 }

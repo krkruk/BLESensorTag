@@ -5,5 +5,5 @@ package pl.projektorion.krzysztof.blesensortag.database.inserts;
  */
 
 public interface DBInsertFactoryInterface {
-    DBInsertInterface createRow();
+    DBInsertInterface create();
 }

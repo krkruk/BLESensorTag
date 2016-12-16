@@ -14,7 +14,7 @@ public class DBInsertOpticalSensorFactory extends DBInsertFactoryAbstract {
     }
 
     @Override
-    public DBInsertInterface createRow() {
+    public DBInsertInterface create() {
         return new DBInsertOpticalSensor(getDbWriter());
     }
 }

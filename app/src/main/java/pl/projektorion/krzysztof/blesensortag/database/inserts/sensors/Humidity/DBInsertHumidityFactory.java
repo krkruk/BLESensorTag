@@ -14,7 +14,7 @@ public class DBInsertHumidityFactory extends DBInsertFactoryAbstract {
     }
 
     @Override
-    public DBInsertInterface createRow() {
+    public DBInsertInterface create() {
         return new DBInsertHumidity(getDbWriter());
     }
 }

@@ -14,7 +14,7 @@ public class DBInsertBarometerFactory extends DBInsertFactoryAbstract {
     }
 
     @Override
-    public DBInsertInterface createRow() {
+    public DBInsertInterface create() {
         return new DBInsertBarometer(getDbWriter());
     }
 }

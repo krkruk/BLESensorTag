@@ -24,6 +24,6 @@ public class DBInsertFactory {
     {
         DBInsertFactoryInterface factory = rowFactories.get(uuid);
         if( factory == null ) return new DBInsertNull();
-        return factory.createRow();
+        return factory.create();
     }
 }
