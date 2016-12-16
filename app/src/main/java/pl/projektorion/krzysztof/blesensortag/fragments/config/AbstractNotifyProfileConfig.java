@@ -23,14 +23,14 @@ public abstract class AbstractNotifyProfileConfig implements FragmentFactory {
 
     @Override
     public Fragment create() {
-        NotifyProfileConfigInterface fragment = create_fragment();
+        FragmentNotifyProfileConfigInterface fragment = create_fragment();
         fragment.setProfile(profile);
         return configure(fragment);
     }
 
-    protected abstract NotifyProfileConfigInterface create_fragment();
+    protected abstract FragmentNotifyProfileConfigInterface create_fragment();
 
-    protected Fragment configure(NotifyProfileConfigInterface frag)
+    protected Fragment configure(FragmentNotifyProfileConfigInterface frag)
     {
         return (Fragment)frag;
     }

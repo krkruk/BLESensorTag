@@ -9,12 +9,12 @@ import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertInterface
  */
 
 public class DBInsertHumidityFactory extends DBInsertFactoryAbstract {
-    public DBInsertHumidityFactory(DBRowWriter dbWriter, String tableName) {
-        super(dbWriter, tableName);
+    public DBInsertHumidityFactory(DBRowWriter dbWriter) {
+        super(dbWriter);
     }
 
     @Override
     public DBInsertInterface createRow() {
-        return new DBInsertHumidity(getDbWriter(), getTableName());
+        return new DBInsertHumidity(getDbWriter());
     }
 }

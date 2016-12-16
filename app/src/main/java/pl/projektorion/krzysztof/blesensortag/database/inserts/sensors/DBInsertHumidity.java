@@ -20,12 +20,12 @@ public class DBInsertHumidity extends DBInsertAbstract {
     private Observable observable;
 
 
-    public DBInsertHumidity(DBRowWriter dbWriter, long rootRowId, String tableName) {
-        super(dbWriter, rootRowId, tableName);
+    public DBInsertHumidity(DBRowWriter dbWriter, long rootRowId) {
+        super(dbWriter, rootRowId, DBTableHumidity.TABLE_NAME);
     }
 
-    public DBInsertHumidity(DBRowWriter dbWriter, String tableName) {
-        super(dbWriter, tableName);
+    public DBInsertHumidity(DBRowWriter dbWriter) {
+        super(dbWriter, DBTableHumidity.TABLE_NAME);
     }
 
     @Override

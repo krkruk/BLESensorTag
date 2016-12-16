@@ -9,12 +9,12 @@ import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertInterface
  */
 
 public class DBInsertBarometerFactory extends DBInsertFactoryAbstract {
-    public DBInsertBarometerFactory(DBRowWriter dbWriter, String tableName) {
-        super(dbWriter, tableName);
+    public DBInsertBarometerFactory(DBRowWriter dbWriter) {
+        super(dbWriter);
     }
 
     @Override
     public DBInsertInterface createRow() {
-        return new DBInsertBarometer(getDbWriter(), getTableName());
+        return new DBInsertBarometer(getDbWriter());
     }
 }

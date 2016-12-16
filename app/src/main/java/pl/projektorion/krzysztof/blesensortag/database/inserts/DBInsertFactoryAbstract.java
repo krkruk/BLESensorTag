@@ -8,20 +8,13 @@ import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
 
 public abstract class DBInsertFactoryAbstract implements DBInsertFactoryInterface {
     private DBRowWriter dbWriter;
-    private String tableName;
 
-    public DBInsertFactoryAbstract(DBRowWriter dbWriter, String tableName) {
+    public DBInsertFactoryAbstract(DBRowWriter dbWriter) {
         this.dbWriter = dbWriter;
-        this.tableName = tableName;
     }
 
     protected DBRowWriter getDbWriter()
     {
         return dbWriter;
-    }
-
-    protected String getTableName()
-    {
-        return tableName;
     }
 }

@@ -33,20 +33,15 @@ import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.DBInsertO
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableFactory;
 
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometer;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometerFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometerParamFactory;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidity;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidityFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidityParamFactory;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.IRTemperature.DBTableIRTemperature;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.IRTemperature.DBTableIRTemperatureFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.IRTemperature.DBTableIRTemperatureParamFactory;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.DBTableMovement;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.DBTableMovementFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.DBTableMovementParamFactory;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor.DBTableOpticalSensor;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor.DBTableOpticalSensorFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor.DBTableOpticalSensorParamFactory;
 
@@ -136,15 +131,15 @@ public class DBService extends Service {
     {
         dbInsertFactory = new DBInsertFactory();
         dbInsertFactory.add(BarometricPressureProfile.BAROMETRIC_PRESSURE_DATA,
-                new DBInsertBarometerFactory(dbWriter, DBTableBarometer.TABLE_NAME));
+                new DBInsertBarometerFactory(dbWriter));
         dbInsertFactory.add(HumidityProfile.HUMIDITY_DATA,
-                new DBInsertHumidityFactory(dbWriter, DBTableHumidity.TABLE_NAME));
+                new DBInsertHumidityFactory(dbWriter));
         dbInsertFactory.add(IRTemperatureProfile.IR_TEMPERATURE_DATA,
-                new DBInsertIRTemperatureFactory(dbWriter, DBTableIRTemperature.TABLE_NAME));
+                new DBInsertIRTemperatureFactory(dbWriter));
         dbInsertFactory.add(MovementProfile.MOVEMENT_DATA,
-                new DBInsertMovementFactory(dbWriter, DBTableMovement.TABLE_NAME));
+                new DBInsertMovementFactory(dbWriter));
         dbInsertFactory.add(OpticalSensorProfile.OPTICAL_SENSOR_DATA,
-                new DBInsertOpticalSensorFactory(dbWriter, DBTableOpticalSensor.TABLE_NAME));
+                new DBInsertOpticalSensorFactory(dbWriter));
     }
 
     private void register_observers(BLeAvailableGattModels models)

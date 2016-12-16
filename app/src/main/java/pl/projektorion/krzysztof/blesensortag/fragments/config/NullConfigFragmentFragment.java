@@ -13,11 +13,11 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfile
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NullConfigFragment extends Fragment
-    implements NotifyProfileConfigInterface {
+public class NullConfigFragmentFragment extends Fragment
+    implements FragmentNotifyProfileConfigInterface {
 
 
-    public NullConfigFragment() {}
+    public NullConfigFragmentFragment() {}
 
 
     @Override

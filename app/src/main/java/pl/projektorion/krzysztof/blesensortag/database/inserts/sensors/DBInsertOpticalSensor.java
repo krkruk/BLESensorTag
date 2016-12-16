@@ -21,12 +21,12 @@ public class DBInsertOpticalSensor extends DBInsertAbstract {
     private Observable observable;
 
 
-    public DBInsertOpticalSensor(DBRowWriter dbWriter, long rootRowId, String tableName) {
-        super(dbWriter, rootRowId, tableName);
+    public DBInsertOpticalSensor(DBRowWriter dbWriter, long rootRowId) {
+        super(dbWriter, rootRowId, DBTableOpticalSensor.TABLE_NAME);
     }
 
-    public DBInsertOpticalSensor(DBRowWriter dbWriter, String tableName) {
-        super(dbWriter, tableName);
+    public DBInsertOpticalSensor(DBRowWriter dbWriter) {
+        super(dbWriter, DBTableOpticalSensor.TABLE_NAME);
     }
 
     @Override

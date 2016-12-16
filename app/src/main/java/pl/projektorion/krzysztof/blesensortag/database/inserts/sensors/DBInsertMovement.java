@@ -19,12 +19,12 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.D
 public class DBInsertMovement extends DBInsertAbstract {
     private Observable observable;
 
-    public DBInsertMovement(DBRowWriter dbWriter, long rootRowId, String tableName) {
-        super(dbWriter, rootRowId, tableName);
+    public DBInsertMovement(DBRowWriter dbWriter, long rootRowId) {
+        super(dbWriter, rootRowId, DBTableMovement.TABLE_NAME);
     }
 
-    public DBInsertMovement(DBRowWriter dbWriter, String tableName) {
-        super(dbWriter, tableName);
+    public DBInsertMovement(DBRowWriter dbWriter) {
+        super(dbWriter, DBTableMovement.TABLE_NAME);
     }
 
     @Override

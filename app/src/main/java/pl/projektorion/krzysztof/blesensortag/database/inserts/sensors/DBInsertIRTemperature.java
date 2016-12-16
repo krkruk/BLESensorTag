@@ -20,12 +20,12 @@ public class DBInsertIRTemperature extends DBInsertAbstract {
     private Observable observable;
 
 
-    public DBInsertIRTemperature(DBRowWriter dbWriter, long rootRowId, String tableName) {
-        super(dbWriter, rootRowId, tableName);
+    public DBInsertIRTemperature(DBRowWriter dbWriter, long rootRowId) {
+        super(dbWriter, rootRowId, DBTableIRTemperature.TABLE_NAME);
     }
 
-    public DBInsertIRTemperature(DBRowWriter dbWriter, String tableName) {
-        super(dbWriter, tableName);
+    public DBInsertIRTemperature(DBRowWriter dbWriter) {
+        super(dbWriter, DBTableIRTemperature.TABLE_NAME);
     }
 
     @Override

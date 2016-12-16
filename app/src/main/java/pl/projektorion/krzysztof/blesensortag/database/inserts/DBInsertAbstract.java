@@ -13,13 +13,13 @@ public abstract class DBInsertAbstract implements DBInsertInterface, Observer {
     protected long rootRowId;
     protected DBRowWriter dbWriter;
 
-    public DBInsertAbstract(DBRowWriter dbWriter, long rootRowId, String tableName) {
+    protected DBInsertAbstract(DBRowWriter dbWriter, long rootRowId, String tableName) {
         this.dbWriter = dbWriter;
         this.rootRowId = rootRowId;
         this.tableName = tableName;
     }
 
-    public DBInsertAbstract(DBRowWriter dbWriter, String tableName) {
+    protected DBInsertAbstract(DBRowWriter dbWriter, String tableName) {
         this.dbWriter = dbWriter;
         this.tableName = tableName;
         this.rootRowId = this.dbWriter.getRootRowId();

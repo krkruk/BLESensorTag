@@ -1,11 +1,8 @@
 package pl.projektorion.krzysztof.blesensortag.adapters;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +11,13 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import java.net.FileNameMap;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.R;
-import pl.projektorion.krzysztof.blesensortag.fragments.FragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.config.NullConfigFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.config.NullConfigFragmentFragment;
 
 /**
  * Created by krzysztof on 31.10.16.
@@ -134,7 +128,7 @@ public class BLeServiceScannerExpandableAdapter extends BaseExpandableListAdapte
 
         Fragment frag = (Fragment) getChild(groupPosition, childPosition);
         FragmentTransaction ft = fm.beginTransaction();
-        if( frag == null ) frag = new NullConfigFragment();
+        if( frag == null ) frag = new NullConfigFragmentFragment();
         ft.replace(R.id.child_fragment_container, frag);
         ft.commit();
 

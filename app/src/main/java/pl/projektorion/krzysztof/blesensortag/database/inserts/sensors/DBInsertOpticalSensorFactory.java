@@ -9,12 +9,12 @@ import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertInterface
  */
 
 public class DBInsertOpticalSensorFactory extends DBInsertFactoryAbstract {
-    public DBInsertOpticalSensorFactory(DBRowWriter dbWriter, String tableName) {
-        super(dbWriter, tableName);
+    public DBInsertOpticalSensorFactory(DBRowWriter dbWriter) {
+        super(dbWriter);
     }
 
     @Override
     public DBInsertInterface createRow() {
-        return new DBInsertOpticalSensor(getDbWriter(), getTableName());
+        return new DBInsertOpticalSensor(getDbWriter());
     }
 }

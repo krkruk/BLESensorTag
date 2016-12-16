@@ -19,12 +19,12 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.
 public class DBInsertBarometer extends DBInsertAbstract {
     private Observable observable;
 
-    public DBInsertBarometer(DBRowWriter dbWriter, long rootRowId, String tableName) {
-        super(dbWriter, rootRowId, tableName);
+    public DBInsertBarometer(DBRowWriter dbWriter, long rootRowId) {
+        super(dbWriter, rootRowId, DBTableBarometer.TABLE_NAME);
     }
 
-    public DBInsertBarometer(DBRowWriter dbWriter, String tableName) {
-        super(dbWriter, tableName);
+    public DBInsertBarometer(DBRowWriter dbWriter) {
+        super(dbWriter, DBTableBarometer.TABLE_NAME);
     }
 
     @Override

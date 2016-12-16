@@ -9,12 +9,12 @@ import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertInterface
  */
 
 public class DBInsertIRTemperatureFactory extends DBInsertFactoryAbstract {
-    public DBInsertIRTemperatureFactory(DBRowWriter dbWriter, String tableName) {
-        super(dbWriter, tableName);
+    public DBInsertIRTemperatureFactory(DBRowWriter dbWriter) {
+        super(dbWriter);
     }
 
     @Override
     public DBInsertInterface createRow() {
-        return new DBInsertIRTemperature(getDbWriter(), getTableName());
+        return new DBInsertIRTemperature(getDbWriter());
     }
 }

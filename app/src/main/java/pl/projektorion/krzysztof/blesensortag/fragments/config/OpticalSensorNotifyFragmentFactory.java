@@ -1,7 +1,6 @@
 package pl.projektorion.krzysztof.blesensortag.fragments.config;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfileInterface;
 
 /**
  * Created by krzysztof on 11.11.16.
@@ -13,7 +12,7 @@ public class OpticalSensorNotifyFragmentFactory extends AbstractNotifyProfileCon
     }
 
     @Override
-    protected NotifyProfileConfigInterface create_fragment() {
-        return new NotifyProfileConfigFragment();
+    protected FragmentNotifyProfileConfigInterface create_fragment() {
+        return new FragmentNotifyProfileConfigFragment();
     }
 }

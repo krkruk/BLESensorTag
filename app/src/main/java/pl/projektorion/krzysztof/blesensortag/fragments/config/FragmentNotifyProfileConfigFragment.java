@@ -3,7 +3,6 @@ package pl.projektorion.krzysztof.blesensortag.fragments.config;
 
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,8 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfile
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NotifyProfileConfigFragment extends Fragment
-    implements NotifyProfileConfigInterface {
+public class FragmentNotifyProfileConfigFragment extends Fragment
+    implements FragmentNotifyProfileConfigInterface {
 
     private View view;
     private Switch notificationSwitch;
@@ -75,7 +74,7 @@ public class NotifyProfileConfigFragment extends Fragment
         }
     };
 
-    public NotifyProfileConfigFragment() {}
+    public FragmentNotifyProfileConfigFragment() {}
 
 
     @Override

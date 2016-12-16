@@ -6,7 +6,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfile
  * Created by krzysztof on 11.11.16.
  */
 
-public interface NotifyProfileConfigInterface {
+public interface FragmentNotifyProfileConfigInterface {
     public void setProfile(NotifyGattProfileInterface profile);
 
     public void setNotificationWidgetEnabled(boolean enabled);

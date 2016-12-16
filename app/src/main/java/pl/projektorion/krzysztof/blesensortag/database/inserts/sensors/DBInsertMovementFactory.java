@@ -9,12 +9,12 @@ import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertInterface
  */
 
 public class DBInsertMovementFactory extends DBInsertFactoryAbstract {
-    public DBInsertMovementFactory(DBRowWriter dbWriter, String tableName) {
-        super(dbWriter, tableName);
+    public DBInsertMovementFactory(DBRowWriter dbWriter) {
+        super(dbWriter);
     }
 
     @Override
     public DBInsertInterface createRow() {
-        return new DBInsertMovement(getDbWriter(), getTableName());
+        return new DBInsertMovement(getDbWriter());
     }
 }
