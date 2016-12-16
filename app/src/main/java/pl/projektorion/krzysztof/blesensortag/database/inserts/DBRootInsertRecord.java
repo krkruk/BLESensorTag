@@ -1,7 +1,6 @@
-package pl.projektorion.krzysztof.blesensortag.database.rows;
+package pl.projektorion.krzysztof.blesensortag.database.inserts;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
@@ -10,12 +9,12 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
  * Created by krzysztof on 01.12.16.
  */
 
-public class DBRootRowRecord extends DBRootRowAbstract {
+public class DBRootInsertRecord extends DBRootInsertAbstract {
 
     public static final String COLUMN_DATE = DBRootTableRecord.COLUMN_DATE;
     public static final String COLUMN_ID = DBRootTableRecord.COLUMN_ID;
 
-    public DBRootRowRecord(SQLiteDatabase db, String tableName) {
+    public DBRootInsertRecord(SQLiteDatabase db, String tableName) {
         super(db, tableName);
     }
 

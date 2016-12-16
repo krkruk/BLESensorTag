@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.rows.sensors;
+package pl.projektorion.krzysztof.blesensortag.database.inserts.sensors;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,21 +9,21 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPres
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileData;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
-import pl.projektorion.krzysztof.blesensortag.database.rows.DBRowAbstract;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertAbstract;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometer;
 
 /**
  * Created by krzysztof on 01.12.16.
  */
 
-public class DBRowBarometer extends DBRowAbstract {
+public class DBInsertBarometer extends DBInsertAbstract {
     private Observable observable;
 
-    public DBRowBarometer(DBRowWriter dbWriter, long rootRowId, String tableName) {
+    public DBInsertBarometer(DBRowWriter dbWriter, long rootRowId, String tableName) {
         super(dbWriter, rootRowId, tableName);
     }
 
-    public DBRowBarometer(DBRowWriter dbWriter, String tableName) {
+    public DBInsertBarometer(DBRowWriter dbWriter, String tableName) {
         super(dbWriter, tableName);
     }
 

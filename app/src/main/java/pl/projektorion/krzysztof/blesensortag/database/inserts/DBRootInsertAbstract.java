@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.rows;
+package pl.projektorion.krzysztof.blesensortag.database.inserts;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -6,12 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
  * Created by krzysztof on 01.12.16.
  */
 
-public abstract class DBRootRowAbstract implements DBRootRowInterface {
+public abstract class DBRootInsertAbstract implements DBRootInsertInterface {
     private SQLiteDatabase db;
     private String tableName;
     private long rootRowId = -1;
 
-    public DBRootRowAbstract(SQLiteDatabase db, String tableName) {
+    public DBRootInsertAbstract(SQLiteDatabase db, String tableName) {
         this.db = db;
         this.tableName = tableName;
     }

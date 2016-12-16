@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.rows;
+package pl.projektorion.krzysztof.blesensortag.database.inserts;
 
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
 
@@ -6,11 +6,11 @@ import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
  * Created by krzysztof on 02.12.16.
  */
 
-public abstract class DBRowFactoryAbstract implements DBRowFactoryInterface {
+public abstract class DBInsertFactoryAbstract implements DBInsertFactoryInterface {
     private DBRowWriter dbWriter;
     private String tableName;
 
-    public DBRowFactoryAbstract(DBRowWriter dbWriter, String tableName) {
+    public DBInsertFactoryAbstract(DBRowWriter dbWriter, String tableName) {
         this.dbWriter = dbWriter;
         this.tableName = tableName;
     }

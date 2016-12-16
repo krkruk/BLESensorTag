@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.rows.sensors;
+package pl.projektorion.krzysztof.blesensortag.database.inserts.sensors;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,22 +9,22 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.Humid
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileData;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
-import pl.projektorion.krzysztof.blesensortag.database.rows.DBRowAbstract;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertAbstract;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidity;
 
 /**
  * Created by krzysztof on 01.12.16.
  */
 
-public class DBRowHumidity extends DBRowAbstract {
+public class DBInsertHumidity extends DBInsertAbstract {
     private Observable observable;
 
 
-    public DBRowHumidity(DBRowWriter dbWriter, long rootRowId, String tableName) {
+    public DBInsertHumidity(DBRowWriter dbWriter, long rootRowId, String tableName) {
         super(dbWriter, rootRowId, tableName);
     }
 
-    public DBRowHumidity(DBRowWriter dbWriter, String tableName) {
+    public DBInsertHumidity(DBRowWriter dbWriter, String tableName) {
         super(dbWriter, tableName);
     }
 

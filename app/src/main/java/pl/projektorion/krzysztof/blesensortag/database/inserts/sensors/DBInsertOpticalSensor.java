@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.rows.sensors;
+package pl.projektorion.krzysztof.blesensortag.database.inserts.sensors;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,23 +9,23 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileData;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
-import pl.projektorion.krzysztof.blesensortag.database.rows.DBRowAbstract;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertAbstract;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor.DBTableOpticalSensor;
 
 /**
  * Created by krzysztof on 01.12.16.
  */
 
-public class DBRowOpticalSensor extends DBRowAbstract {
+public class DBInsertOpticalSensor extends DBInsertAbstract {
 
     private Observable observable;
 
 
-    public DBRowOpticalSensor(DBRowWriter dbWriter, long rootRowId, String tableName) {
+    public DBInsertOpticalSensor(DBRowWriter dbWriter, long rootRowId, String tableName) {
         super(dbWriter, rootRowId, tableName);
     }
 
-    public DBRowOpticalSensor(DBRowWriter dbWriter, String tableName) {
+    public DBInsertOpticalSensor(DBRowWriter dbWriter, String tableName) {
         super(dbWriter, tableName);
     }
 
