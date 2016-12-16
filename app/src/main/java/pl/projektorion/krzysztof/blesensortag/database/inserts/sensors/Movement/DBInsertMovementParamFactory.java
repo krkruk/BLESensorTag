@@ -1,0 +1,20 @@
+package pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Movement;
+
+import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertInterface;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertParamFactoryAbstract;
+
+/**
+ * Created by krzysztof on 16.12.16.
+ */
+
+public class DBInsertMovementParamFactory extends DBInsertParamFactoryAbstract {
+    public DBInsertMovementParamFactory(DBRowWriter dbWriter) {
+        super(dbWriter);
+    }
+
+    @Override
+    public DBInsertInterface create() {
+        return new DBInsertMovementParam(getDbWriter());
+    }
+}
