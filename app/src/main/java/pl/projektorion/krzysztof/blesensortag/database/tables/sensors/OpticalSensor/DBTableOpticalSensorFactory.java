@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.tables.sensors;
+package pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor;
 
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableFactoryInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
@@ -7,9 +7,9 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
  * Created by krzysztof on 02.12.16.
  */
 
-public class DBTableMovementFactory implements DBTableFactoryInterface {
+public class DBTableOpticalSensorFactory implements DBTableFactoryInterface {
     @Override
     public DBTableInterface createTable() {
-        return new DBTableMovement();
+        return new DBTableOpticalSensor();
     }
 }

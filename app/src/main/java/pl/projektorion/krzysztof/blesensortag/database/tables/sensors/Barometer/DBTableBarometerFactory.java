@@ -1,6 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.tables.sensors;
-
-import java.util.UUID;
+package pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer;
 
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableFactoryInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;

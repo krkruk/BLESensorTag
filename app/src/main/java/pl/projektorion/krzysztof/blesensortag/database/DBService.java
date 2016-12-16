@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
 
 import java.util.ArrayList;
@@ -14,17 +13,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.UUID;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureData;
+
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityData;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureData;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfile;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementData;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfile;
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattModels;
@@ -32,42 +25,43 @@ import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
 import pl.projektorion.krzysztof.blesensortag.database.rows.DBRootRowInterface;
 import pl.projektorion.krzysztof.blesensortag.database.rows.DBRootRowRecord;
 import pl.projektorion.krzysztof.blesensortag.database.rows.DBRowFactory;
-import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowBarometer;
 import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowBarometerFactory;
-import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowHumidity;
 import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowHumidityFactory;
-import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowIRTemperature;
 import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowIRTemperatureFactory;
-import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowMovement;
 import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowMovementFactory;
-import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowOpticalSensor;
 import pl.projektorion.krzysztof.blesensortag.database.rows.sensors.DBRowOpticalSensorFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableFactory;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableBarometer;
+
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometer;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableBarometerFactory;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableHumidity;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableHumidityFactory;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableIRTemperature;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableIRTemperatureFactory;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableMovement;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableMovementFactory;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableOpticalSensor;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableOpticalSensorFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometerFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometerParamFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidity;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidityFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidityParamFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.IRTemperature.DBTableIRTemperature;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.IRTemperature.DBTableIRTemperatureFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.IRTemperature.DBTableIRTemperatureParamFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.DBTableMovement;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.DBTableMovementFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.DBTableMovementParamFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor.DBTableOpticalSensor;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor.DBTableOpticalSensorFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor.DBTableOpticalSensorParamFactory;
 
 public class DBService extends Service {
 
     private IBinder binder = new DBServiceBinder();
     private SQLiteOpenHelper dbHelper;
     private DBTableFactory dbTableFactory;
+    private DBTableFactory dbTableParamFactory;
     private List<DBTableInterface> dbTables;
     private List<Observer> dbRows;
     private DBRowWriter dbWriter;
 
     private DBRowFactory dbRowFactory;
 
-    private final Executor executor = Executors.newSingleThreadExecutor();
     public DBService() {
     }
 
@@ -88,6 +82,7 @@ public class DBService extends Service {
         {
             final UUID serviceUuid = service.getUuid();
             dbTables.add(dbTableFactory.createTable(serviceUuid));
+            dbTables.add(dbTableParamFactory.createTable(serviceUuid));
         }
     }
 
@@ -123,6 +118,18 @@ public class DBService extends Service {
         dbTableFactory.add(MovementProfile.MOVEMENT_SERVICE, new DBTableMovementFactory());
         dbTableFactory.add(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
                 new DBTableOpticalSensorFactory());
+
+        dbTableParamFactory = new DBTableFactory();
+        dbTableParamFactory.add(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+                new DBTableBarometerParamFactory());
+        dbTableParamFactory.add(HumidityProfile.HUMIDITY_SERVICE,
+                new DBTableHumidityParamFactory());
+        dbTableParamFactory.add(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
+                new DBTableIRTemperatureParamFactory());
+        dbTableParamFactory.add(MovementProfile.MOVEMENT_SERVICE,
+                new DBTableMovementParamFactory());
+        dbTableParamFactory.add(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
+                new DBTableOpticalSensorParamFactory());
     }
 
     private void init_row_factory(DBRowWriter dbWriter)

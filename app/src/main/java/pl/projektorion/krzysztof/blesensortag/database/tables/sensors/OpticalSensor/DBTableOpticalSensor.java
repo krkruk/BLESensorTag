@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.tables.sensors;
+package pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;

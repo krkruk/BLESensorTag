@@ -1,37 +1,35 @@
-package pl.projektorion.krzysztof.blesensortag.database.tables.sensors;
+package pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
-import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
+import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableParamInterface;
 
 /**
- * Created by krzysztof on 01.12.16.
+ * Created by krzysztof on 16.12.16.
  */
 
-public class DBTableBarometer implements DBTableInterface {
+public class DBTableMovementParam implements DBTableParamInterface {
 
-    public static final String TABLE_NAME = "Barometer";
+    public static final String TABLE_NAME = "MovementParam";
     public static final String COLUMN_ID = BaseColumns._ID;
     public static final String COLUMN_ROOT_REF = "ID_RECORD";
-    public static final String COLUMN_PRESSURE = "Pressure";
-    public static final String COLUMN_TEMPERATURE = "Temperature";
+    public static final String NOTIFY_INTERVAL = "NotifyInterval";
 
     private static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "(" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_ROOT_REF + " INTEGER NOT NULL," +
-                    COLUMN_PRESSURE + " REAL NOT NULL," +
-                    COLUMN_TEMPERATURE + " REAL NOT NULL," +
+                    NOTIFY_INTERVAL + " INTEGER NOT NULL," +
                     "FOREIGN KEY( ID_RECORD ) REFERENCES Record( _id ) );";
 
-    public DBTableBarometer() {
+    public DBTableMovementParam() {
     }
 
     @Override
     public void createTable(SQLiteDatabase db)
     {
-        if( db == null ) return;
+        if(db == null) return;
         db.execSQL(CREATE_TABLE);
     }
 

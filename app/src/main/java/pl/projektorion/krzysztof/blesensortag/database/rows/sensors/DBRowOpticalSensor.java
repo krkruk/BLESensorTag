@@ -10,7 +10,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileData;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
 import pl.projektorion.krzysztof.blesensortag.database.rows.DBRowAbstract;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.DBTableOpticalSensor;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor.DBTableOpticalSensor;
 
 /**
  * Created by krzysztof on 01.12.16.

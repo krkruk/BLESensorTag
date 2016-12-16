@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.tables.sensors;
+package pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement;
 
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableFactoryInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
@@ -7,9 +7,9 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
  * Created by krzysztof on 02.12.16.
  */
 
-public class DBTableHumidityFactory implements DBTableFactoryInterface {
+public class DBTableMovementFactory implements DBTableFactoryInterface {
     @Override
     public DBTableInterface createTable() {
-        return new DBTableHumidity();
+        return new DBTableMovement();
     }
 }
