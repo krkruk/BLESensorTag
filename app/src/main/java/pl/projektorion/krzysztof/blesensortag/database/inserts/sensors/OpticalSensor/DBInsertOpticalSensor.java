@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.inserts.sensors;
+package pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.OpticalSensor;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;

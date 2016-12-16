@@ -25,11 +25,11 @@ import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBRootInsertInterface;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBRootInsertRecord;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertFactory;
-import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.DBInsertBarometerFactory;
-import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.DBInsertHumidityFactory;
-import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.DBInsertIRTemperatureFactory;
-import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.DBInsertMovementFactory;
-import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.DBInsertOpticalSensorFactory;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Barometer.DBInsertBarometerFactory;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Humidity.DBInsertHumidityFactory;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.IRTemperature.DBInsertIRTemperatureFactory;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Movement.DBInsertMovementFactory;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.OpticalSensor.DBInsertOpticalSensorFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableFactory;
 

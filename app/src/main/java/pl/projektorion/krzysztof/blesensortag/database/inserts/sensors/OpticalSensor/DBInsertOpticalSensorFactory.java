@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.inserts.sensors;
+package pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.OpticalSensor;
 
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertFactoryAbstract;
