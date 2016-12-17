@@ -1,6 +1,7 @@
-package pl.projektorion.krzysztof.blesensortag.database.inserts;
+package pl.projektorion.krzysztof.blesensortag.database.inserts.abstracts;
 
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBInsertFactoryInterface;
 
 /**
  * Created by krzysztof on 02.12.16.

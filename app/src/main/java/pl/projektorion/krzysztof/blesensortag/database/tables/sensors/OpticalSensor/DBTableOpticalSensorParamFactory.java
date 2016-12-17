@@ -1,7 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor;
 
-import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableFactoryInterface;
-import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
+import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableFactoryInterface;
+import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableInterface;
 
 /**
  * Created by krzysztof on 16.12.16.

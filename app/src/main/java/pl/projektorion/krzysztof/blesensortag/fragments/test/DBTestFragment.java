@@ -95,7 +95,7 @@ public class DBTestFragment extends Fragment {
 
     private void init_db_connection()
     {
-        context.deleteDatabase(Constant.DB_NAME);
+//        context.deleteDatabase(Constant.DB_NAME);
         context.bindService(new Intent(context, DBService.class), dbConn, Context.BIND_AUTO_CREATE);
     }
 

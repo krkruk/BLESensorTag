@@ -3,6 +3,7 @@ package pl.projektorion.krzysztof.blesensortag.database.inserts;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
+import pl.projektorion.krzysztof.blesensortag.database.inserts.abstracts.DBRootInsertAbstract;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
 
 /**

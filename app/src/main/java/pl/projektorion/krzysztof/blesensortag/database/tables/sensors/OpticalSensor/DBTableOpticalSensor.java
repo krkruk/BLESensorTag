@@ -3,7 +3,7 @@ package pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSe
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
-import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
+import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableInterface;
 
 /**
  * Created by krzysztof on 01.12.16.

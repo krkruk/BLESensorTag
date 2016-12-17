@@ -3,7 +3,7 @@ package pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
-import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableParamInterface;
+import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableParamInterface;
 
 /**
  * Created by krzysztof on 16.12.16.

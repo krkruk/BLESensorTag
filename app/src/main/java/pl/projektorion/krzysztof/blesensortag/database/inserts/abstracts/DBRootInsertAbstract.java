@@ -1,6 +1,8 @@
-package pl.projektorion.krzysztof.blesensortag.database.inserts;
+package pl.projektorion.krzysztof.blesensortag.database.inserts.abstracts;
 
 import android.database.sqlite.SQLiteDatabase;
+
+import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBRootInsertInterface;
 
 /**
  * Created by krzysztof on 01.12.16.

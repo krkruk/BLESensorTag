@@ -1,9 +1,11 @@
-package pl.projektorion.krzysztof.blesensortag.database.inserts;
+package pl.projektorion.krzysztof.blesensortag.database.inserts.abstracts;
 
 import android.content.ContentValues;
 
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBParamDataInterface;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBInsertParamInterface;
 
 /**
  * Created by krzysztof on 16.12.16.
@@ -21,7 +23,7 @@ public abstract class DBInsertParamAbstract implements DBInsertParamInterface {
     }
 
     @Override
-    public void insert(DBInsertParamDataInterface data) {
+    public void insert(DBParamDataInterface data) {
         dbWriter.add(new DBRowWriteCommand(
                 dbWriter.getWritableDatabase(),
                 getTableName(),
@@ -34,5 +36,5 @@ public abstract class DBInsertParamAbstract implements DBInsertParamInterface {
         return tableName;
     }
 
-    protected abstract ContentValues values(DBInsertParamDataInterface data);
+    protected abstract ContentValues values(DBParamDataInterface data);
 }

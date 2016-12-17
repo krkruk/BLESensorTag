@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.inserts;
+package pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfileInterface;
 
@@ -6,7 +6,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfile
  * Created by krzysztof on 16.12.16.
  */
 
-public interface DBInsertParamDataInterface {
+public interface DBParamDataInterface {
     int NOTIFY_INTERVAL_PARAMETER = 0x01;
 
 

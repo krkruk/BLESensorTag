@@ -9,7 +9,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.Movem
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileData;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
-import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertAbstract;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.abstracts.DBInsertAbstract;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.DBTableMovement;
 
 /**

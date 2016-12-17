@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBInsertFactoryInterface;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBInsertInterface;
+
 /**
  * Created by krzysztof on 02.12.16.
  */

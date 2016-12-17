@@ -8,7 +8,7 @@ import android.util.Log;
 import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
-import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
+import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableInterface;
 
 /**
  * Created by krzysztof on 01.12.16.

@@ -25,9 +25,9 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfile
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattModels;
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattProfiles;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
-import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertParamData;
-import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertParamInterface;
-import pl.projektorion.krzysztof.blesensortag.database.inserts.DBRootInsertInterface;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.DBParamData;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBInsertParamInterface;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBRootInsertInterface;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBRootInsertRecord;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Barometer.DBInsertBarometerFactory;
@@ -43,8 +43,7 @@ import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.OpticalSe
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableFactory;
 
-import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
-import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableParamInterface;
+import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometerFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometerParamFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidityFactory;
@@ -109,11 +108,6 @@ public class DBService extends Service {
         register_observers(models);
     }
 
-    public void write()
-    {
-        dbWriter.write();
-    }
-
     public void insertParams(BLeAvailableGattProfiles profiles)
     {
         for(UUID profileUuid : profiles.keySet())
@@ -126,9 +120,14 @@ public class DBService extends Service {
                 continue;
             final NotifyGattProfileInterface profile = (NotifyGattProfileInterface) genericProfile;
 
-            final DBInsertParamData data = new DBInsertParamData(profile);
+            final DBParamData data = new DBParamData(profile);
             paramTable.insert(data);
         }
+    }
+
+    public void write()
+    {
+        dbWriter.write();
     }
 
     private void init_table_factory()
