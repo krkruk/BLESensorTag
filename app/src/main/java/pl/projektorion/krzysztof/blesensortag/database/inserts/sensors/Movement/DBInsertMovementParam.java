@@ -21,8 +21,8 @@ public class DBInsertMovementParam extends DBInsertParamAbstract {
         ContentValues values = new ContentValues();
         final int period = (Integer)
                 data.getData(DBInsertParamDataInterface.NOTIFY_INTERVAL_PARAMETER);
-        values.put(DBTableMovementParam.TABLE_NAME, period);
-
+        values.put(DBTableMovementParam.NOTIFY_INTERVAL, period);
+        values.put(DBTableMovementParam.COLUMN_ROOT_REF, dbWriter.getRootRowId());
         return values;
     }
 }

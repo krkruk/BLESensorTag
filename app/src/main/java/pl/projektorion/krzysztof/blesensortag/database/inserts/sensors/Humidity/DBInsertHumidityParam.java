@@ -21,8 +21,8 @@ public class DBInsertHumidityParam extends DBInsertParamAbstract {
         ContentValues values = new ContentValues();
         final int period = (Integer)
                 data.getData(DBInsertParamDataInterface.NOTIFY_INTERVAL_PARAMETER);
-        values.put(DBTableHumidityParam.TABLE_NAME, period);
-
+        values.put(DBTableHumidityParam.NOTIFY_INTERVAL, period);
+        values.put(DBTableHumidityParam.COLUMN_ROOT_REF, dbWriter.getRootRowId());
         return values;
     }
 }

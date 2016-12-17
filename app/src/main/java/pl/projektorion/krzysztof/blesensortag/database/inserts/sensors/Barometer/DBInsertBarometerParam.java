@@ -22,6 +22,7 @@ public class DBInsertBarometerParam extends DBInsertParamAbstract {
         final int period = (Integer)
                 data.getData(DBInsertParamDataInterface.NOTIFY_INTERVAL_PARAMETER);
         values.put(DBTableBarometerParam.NOTIFY_INTERVAL, period);
+        values.put(DBTableBarometerParam.COLUMN_ROOT_REF, dbWriter.getRootRowId());
         return values;
     }
 }

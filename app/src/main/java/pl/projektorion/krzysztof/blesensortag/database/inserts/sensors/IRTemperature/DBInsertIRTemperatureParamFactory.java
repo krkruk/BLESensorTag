@@ -15,6 +15,6 @@ public class DBInsertIRTemperatureParamFactory extends DBInsertParamFactoryAbstr
 
     @Override
     public DBInsertInterface create() {
-        return new DBInsertIRTemperature(getDbWriter());
+        return new DBInsertIRTemperatureParam(getDbWriter());
     }
 }

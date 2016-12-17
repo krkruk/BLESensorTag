@@ -16,6 +16,8 @@ public class IRTemperatureData extends AbstractProfileData {
     public static final int ATTRIBUTE_AMBIENT_TEMPERATURE = 0x00;
     public static final int ATTRIBUTE_OBJECT_TEMPERATURE = 0x01;
 
+    private static final short EXPECTED_ARRAY_SIZE = 4;
+
     private double temperatureAmbient = 0.0f;
     private double temperatureObject = 0.0f;
 
@@ -37,6 +39,12 @@ public class IRTemperatureData extends AbstractProfileData {
 
     @Override
     protected void parse() {
+        if( data.length != EXPECTED_ARRAY_SIZE ) {
+            Log.i("IRTempData", String.format(
+                    "Array length: %d != expected %d",data.length, EXPECTED_ARRAY_SIZE));
+            return;
+        }
+
         final double SCALE_LSB = 0.03125f * 0.25f;
         byte[] ambientTemp = new byte[4];
         byte[] objectTemp = new byte[4];

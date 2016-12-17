@@ -22,8 +22,8 @@ public class DBInsertIRTemperatureParam extends DBInsertParamAbstract {
         ContentValues values = new ContentValues();
         final int period = (Integer)
                 data.getData(DBInsertParamDataInterface.NOTIFY_INTERVAL_PARAMETER);
-        values.put(DBTableIRTemperatureParam.TABLE_NAME, period);
-
+        values.put(DBTableIRTemperatureParam.NOTIFY_INTERVAL, period);
+        values.put(DBTableIRTemperatureParam.COLUMN_ROOT_REF, dbWriter.getRootRowId());
         return values;
     }
 }

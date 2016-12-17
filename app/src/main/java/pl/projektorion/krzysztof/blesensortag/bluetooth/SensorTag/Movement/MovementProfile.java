@@ -43,7 +43,7 @@ public class MovementProfile extends AbstractNotifyGattProfile {
     private int enableMeasurementStatus = DISABLE_ALL_MEASUREMENTS;
 
     public MovementProfile(BLeGattIO gattClient) {
-        super(gattClient, 1000);
+        super(gattClient, 0);
     }
 
     @Override

@@ -9,7 +9,7 @@ import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
  * Created by krzysztof on 16.12.16.
  */
 
-public abstract class DBInsertParamAbstract implements DBParamInsertInterface {
+public abstract class DBInsertParamAbstract implements DBInsertParamInterface {
     protected DBRowWriter dbWriter;
     private String tableName;
 

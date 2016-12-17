@@ -11,7 +11,7 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
 
 public class DBTableHumidity implements DBTableInterface {
 
-    public static final String TABLE_NAME = "Hygrometer";
+    public static final String TABLE_NAME = "Humidity";
     public static final String COLUMN_ID = BaseColumns._ID;
     public static final String COLUMN_ROOT_REF = "ID_RECORD";
     public static final String COLUMN_REL_HUMIDITY = "RelativeHumidity";

@@ -8,8 +8,8 @@ import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertParamFact
  * Created by krzysztof on 16.12.16.
  */
 
-public class DBInsertBarometerParamFactoryAbstract extends DBInsertParamFactoryAbstract {
-    public DBInsertBarometerParamFactoryAbstract(DBRowWriter dbWriter) {
+public class DBInsertBarometerParamFactory extends DBInsertParamFactoryAbstract {
+    public DBInsertBarometerParamFactory(DBRowWriter dbWriter) {
         super(dbWriter);
     }
 

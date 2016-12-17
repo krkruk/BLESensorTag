@@ -29,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         for(DBTableInterface table : tables)
             table.createTable(db);
+
         Log.i("DB", "Tables created!");
     }
 

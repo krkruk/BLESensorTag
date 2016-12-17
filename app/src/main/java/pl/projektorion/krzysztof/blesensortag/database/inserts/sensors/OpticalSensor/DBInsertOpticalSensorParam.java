@@ -21,8 +21,8 @@ public class DBInsertOpticalSensorParam extends DBInsertParamAbstract {
         ContentValues values = new ContentValues();
         final int period = (Integer)
                 data.getData(DBInsertParamDataInterface.NOTIFY_INTERVAL_PARAMETER);
-        values.put(DBTableOpticalSensorParam.TABLE_NAME, period);
-
+        values.put(DBTableOpticalSensorParam.NOTIFY_INTERVAL, period);
+        values.put(DBTableOpticalSensorParam.COLUMN_ROOT_REF, dbWriter.getRootRowId());
         return values;
     }
 }

@@ -15,18 +15,23 @@ import java.util.Observer;
 import java.util.UUID;
 
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattModels;
+import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattProfiles;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertParamData;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertParamInterface;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBRootInsertInterface;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBRootInsertRecord;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Barometer.DBInsertBarometerFactory;
-import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Barometer.DBInsertBarometerParamFactoryAbstract;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Barometer.DBInsertBarometerParamFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Humidity.DBInsertHumidityFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Humidity.DBInsertHumidityParamFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.IRTemperature.DBInsertIRTemperatureFactory;
@@ -39,6 +44,7 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableFactory;
 
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableInterface;
+import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableParamInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometerFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometerParamFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidityFactory;
@@ -108,6 +114,23 @@ public class DBService extends Service {
         dbWriter.write();
     }
 
+    public void insertParams(BLeAvailableGattProfiles profiles)
+    {
+        for(UUID profileUuid : profiles.keySet())
+        {
+            DBInsertParamInterface paramTable = (DBInsertParamInterface)
+                    dbInsertParamFactory.createRow(profileUuid);
+
+            final GenericGattProfileInterface genericProfile = profiles.get(profileUuid);
+            if( !(genericProfile instanceof NotifyGattProfileInterface) )
+                continue;
+            final NotifyGattProfileInterface profile = (NotifyGattProfileInterface) genericProfile;
+
+            final DBInsertParamData data = new DBInsertParamData(profile);
+            paramTable.insert(data);
+        }
+    }
+
     private void init_table_factory()
     {
         dbTableFactory = new DBTableFactory();
@@ -148,15 +171,15 @@ public class DBService extends Service {
                 new DBInsertOpticalSensorFactory(dbWriter));
 
         dbInsertParamFactory = new DBInsertFactory();
-        dbInsertParamFactory.add(BarometricPressureProfile.BAROMETRIC_PRESSURE_DATA,
-                new DBInsertBarometerParamFactoryAbstract(dbWriter));
-        dbInsertParamFactory.add(HumidityProfile.HUMIDITY_DATA,
+        dbInsertParamFactory.add(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+                new DBInsertBarometerParamFactory(dbWriter));
+        dbInsertParamFactory.add(HumidityProfile.HUMIDITY_SERVICE,
                 new DBInsertHumidityParamFactory(dbWriter));
-        dbInsertParamFactory.add(IRTemperatureProfile.IR_TEMPERATURE_DATA,
+        dbInsertParamFactory.add(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
                 new DBInsertIRTemperatureParamFactory(dbWriter));
-        dbInsertParamFactory.add(MovementProfile.MOVEMENT_DATA,
+        dbInsertParamFactory.add(MovementProfile.MOVEMENT_SERVICE,
                 new DBInsertMovementParamFactory(dbWriter));
-        dbInsertParamFactory.add(OpticalSensorProfile.OPTICAL_SENSOR_DATA,
+        dbInsertParamFactory.add(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
                 new DBInsertOpticalSensorParamFactory(dbWriter));
     }
 
