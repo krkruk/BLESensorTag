@@ -28,7 +28,7 @@ import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBParamData;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBInsertParamInterface;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBRootInsertInterface;
-import pl.projektorion.krzysztof.blesensortag.database.inserts.DBRootInsertRecord;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertRootRecord;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Barometer.DBInsertBarometerFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Barometer.DBInsertBarometerParamFactory;
@@ -100,7 +100,7 @@ public class DBService extends Service {
         dbHelper = new DBHelper(this, dbTables);
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        final DBRootInsertInterface root = new DBRootInsertRecord(db, DBRootTableRecord.TABLE_NAME);
+        final DBRootInsertInterface root = new DBInsertRootRecord(db, DBRootTableRecord.TABLE_NAME);
         final long rootRowId = root.getRootRowId();
         dbWriter = new DBRowWriter(db, rootRowId);
 

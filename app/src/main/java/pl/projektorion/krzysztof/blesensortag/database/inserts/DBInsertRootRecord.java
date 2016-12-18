@@ -10,12 +10,12 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
  * Created by krzysztof on 01.12.16.
  */
 
-public class DBRootInsertRecord extends DBRootInsertAbstract {
+public class DBInsertRootRecord extends DBRootInsertAbstract {
 
     public static final String COLUMN_DATE = DBRootTableRecord.COLUMN_DATE;
     public static final String COLUMN_ID = DBRootTableRecord.COLUMN_ID;
 
-    public DBRootInsertRecord(SQLiteDatabase db, String tableName) {
+    public DBInsertRootRecord(SQLiteDatabase db, String tableName) {
         super(db, tableName);
     }
 

@@ -1,6 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.database.tables;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.BaseColumns;
 
 import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableInterface;
 
@@ -10,7 +11,7 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTable
 
 public class DBRootTableRecord implements DBTableInterface {
     public static final String TABLE_NAME = "Record";
-    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_ID = BaseColumns._ID;
     public static final String COLUMN_DATE = "DATE";
 
     private static final String CREATE_TABLE = "CREATE TABLE "
