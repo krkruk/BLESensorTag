@@ -54,13 +54,16 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.D
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.DBTableMovementParamFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor.DBTableOpticalSensorFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor.DBTableOpticalSensorParamFactory;
+import pl.projektorion.krzysztof.blesensortag.factories.DBFactoryParamInserts;
+import pl.projektorion.krzysztof.blesensortag.factories.DBFactoryParamTables;
+import pl.projektorion.krzysztof.blesensortag.factories.DBFactoryTables;
 
 public class DBService extends Service {
 
     private IBinder binder = new DBServiceBinder();
+    private DBTableFactory dbTableFactory = new DBFactoryTables();
+    private DBTableFactory dbTableParamFactory = new DBFactoryParamTables();
     private SQLiteOpenHelper dbHelper;
-    private DBTableFactory dbTableFactory;
-    private DBTableFactory dbTableParamFactory;
     private List<DBTableInterface> dbTables;
     private List<Observer> dbRows;
     private DBRowWriter dbWriter;
@@ -80,7 +83,6 @@ public class DBService extends Service {
     {
         if( dbTables != null ) return;
 
-        init_table_factory();
         dbTables = new ArrayList<>();
         dbTables.add(new DBRootTableRecord());
 
@@ -130,31 +132,6 @@ public class DBService extends Service {
         dbWriter.write();
     }
 
-    private void init_table_factory()
-    {
-        dbTableFactory = new DBTableFactory();
-        dbTableFactory.add(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new DBTableBarometerFactory());
-        dbTableFactory.add(HumidityProfile.HUMIDITY_SERVICE, new DBTableHumidityFactory());
-        dbTableFactory.add(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
-                new DBTableIRTemperatureFactory());
-        dbTableFactory.add(MovementProfile.MOVEMENT_SERVICE, new DBTableMovementFactory());
-        dbTableFactory.add(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
-                new DBTableOpticalSensorFactory());
-
-        dbTableParamFactory = new DBTableFactory();
-        dbTableParamFactory.add(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new DBTableBarometerParamFactory());
-        dbTableParamFactory.add(HumidityProfile.HUMIDITY_SERVICE,
-                new DBTableHumidityParamFactory());
-        dbTableParamFactory.add(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
-                new DBTableIRTemperatureParamFactory());
-        dbTableParamFactory.add(MovementProfile.MOVEMENT_SERVICE,
-                new DBTableMovementParamFactory());
-        dbTableParamFactory.add(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
-                new DBTableOpticalSensorParamFactory());
-    }
-
     private void init_row_factory(DBRowWriter dbWriter)
     {
         dbInsertFactory = new DBInsertFactory();
@@ -169,17 +146,7 @@ public class DBService extends Service {
         dbInsertFactory.add(OpticalSensorProfile.OPTICAL_SENSOR_DATA,
                 new DBInsertOpticalSensorFactory(dbWriter));
 
-        dbInsertParamFactory = new DBInsertFactory();
-        dbInsertParamFactory.add(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new DBInsertBarometerParamFactory(dbWriter));
-        dbInsertParamFactory.add(HumidityProfile.HUMIDITY_SERVICE,
-                new DBInsertHumidityParamFactory(dbWriter));
-        dbInsertParamFactory.add(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
-                new DBInsertIRTemperatureParamFactory(dbWriter));
-        dbInsertParamFactory.add(MovementProfile.MOVEMENT_SERVICE,
-                new DBInsertMovementParamFactory(dbWriter));
-        dbInsertParamFactory.add(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
-                new DBInsertOpticalSensorParamFactory(dbWriter));
+        dbInsertParamFactory = new DBFactoryParamInserts(dbWriter);
     }
 
     private void register_observers(BLeAvailableGattModels models)

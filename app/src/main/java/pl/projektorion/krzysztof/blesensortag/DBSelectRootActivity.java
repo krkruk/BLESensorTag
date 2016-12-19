@@ -10,11 +10,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
-import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecord;
-import pl.projektorion.krzysztof.blesensortag.fragments.app.DBRecordDisplayFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.app.DBRootRecordDisplayFragment;
 
 public class DBSelectRootActivity extends Activity {
 
@@ -24,7 +22,7 @@ public class DBSelectRootActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             DBSelectRootRecord record = intent.getParcelableExtra(
-                    DBRecordDisplayFragment.EXTRA_ROOT_RECORD_DATA);
+                    DBRootRecordDisplayFragment.EXTRA_ROOT_RECORD_DATA);
 
 
             final Intent sensorListIntent = new Intent(DBSelectRootActivity.this,
@@ -58,14 +56,14 @@ public class DBSelectRootActivity extends Activity {
     {
         broadcastManager = LocalBroadcastManager.getInstance(this);
         broadcastManager.registerReceiver(receiver,
-                new IntentFilter(DBRecordDisplayFragment.ACTION_RECORD_SELECTED));
+                new IntentFilter(DBRootRecordDisplayFragment.ACTION_RECORD_SELECTED));
     }
 
     private void negotiate_db_root_fragment()
     {
         FragmentManager fm = getFragmentManager();
 
-        fragment = new DBRecordDisplayFragment();
+        fragment = new DBRootRecordDisplayFragment();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.dbselect_root_frame, fragment);
         ft.commit();

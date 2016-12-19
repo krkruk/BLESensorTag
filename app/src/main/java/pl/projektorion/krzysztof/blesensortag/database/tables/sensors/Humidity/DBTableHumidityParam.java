@@ -37,4 +37,14 @@ public class DBTableHumidityParam implements DBTableParamInterface {
     public String getTableName() {
         return TABLE_NAME;
     }
+
+    @Override
+    public String getRootReference() {
+        return COLUMN_ROOT_REF;
+    }
+
+    @Override
+    public String getIdReference() {
+        return COLUMN_ID;
+    }
 }

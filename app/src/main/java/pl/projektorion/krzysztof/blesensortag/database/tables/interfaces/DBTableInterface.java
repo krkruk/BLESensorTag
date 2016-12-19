@@ -11,4 +11,8 @@ public interface DBTableInterface {
     void createTable(SQLiteDatabase db);
 
     String getTableName();
+
+    String getRootReference();
+
+    String getIdReference();
 }

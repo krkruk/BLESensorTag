@@ -6,10 +6,12 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecord;
+import pl.projektorion.krzysztof.blesensortag.fragments.app.DBSensorDisplayFragment;
 import pl.projektorion.krzysztof.blesensortag.fragments.test.DBTestFragment;
 
 public class DBSelectSensorActivity extends Activity {
@@ -35,9 +37,6 @@ public class DBSelectSensorActivity extends Activity {
     {
         final Intent rootIntent = getIntent();
         rootRecord = rootIntent.getParcelableExtra(EXTRA_ROOT_RECORD_DATA);
-        final long _id = (long) rootRecord.getData(DBSelectInterface.ATTRIBUTE_ID);
-        final long date = (long) rootRecord.getData(DBSelectRootRecord.ATTRIBUTE_DATE_SECONDS);
-        Log.i("CLICKED", String.format("ID: %d, created: %d", _id, date));
     }
 
     private void negotiate_fragment()
@@ -47,7 +46,7 @@ public class DBSelectSensorActivity extends Activity {
         if( fragment == null )
         {
             FragmentTransaction ft = fm.beginTransaction();
-            fragment = new DBTestFragment();
+            fragment = DBSensorDisplayFragment.newInstance((Parcelable) rootRecord);
             ft.add(fragment, SENSOR_FRAGMENT_TAG);
             ft.replace(R.id.sensor_frame_layout, fragment);
             ft.commit();

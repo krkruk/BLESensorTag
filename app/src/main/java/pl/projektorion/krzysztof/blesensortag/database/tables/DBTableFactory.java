@@ -1,7 +1,9 @@
 package pl.projektorion.krzysztof.blesensortag.database.tables;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableFactoryInterface;
@@ -26,6 +28,16 @@ public class DBTableFactory {
     public void extend(Map<UUID, DBTableFactoryInterface> tableFactories)
     {
         this.tableFactories.putAll(tableFactories);
+    }
+
+    public Set<UUID> getUuids()
+    {
+        return tableFactories.keySet();
+    }
+
+    public Collection<DBTableFactoryInterface> getFactories()
+    {
+        return tableFactories.values();
     }
 
     public DBTableInterface createTable(UUID serviceUuid)

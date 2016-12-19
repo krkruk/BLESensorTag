@@ -48,4 +48,14 @@ public class DBTableMovement implements DBTableInterface {
     public void createTable(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
     }
+
+    @Override
+    public String getRootReference() {
+        return COLUMN_ROOT_REF;
+    }
+
+    @Override
+    public String getIdReference() {
+        return COLUMN_ID;
+    }
 }

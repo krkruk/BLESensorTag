@@ -33,4 +33,14 @@ public class DBRootTableRecord implements DBTableInterface {
     public String getTableName() {
         return TABLE_NAME;
     }
+
+    @Override
+    public String getRootReference() {
+        return null;
+    }
+
+    @Override
+    public String getIdReference() {
+        return COLUMN_ID;
+    }
 }

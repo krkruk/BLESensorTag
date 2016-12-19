@@ -18,4 +18,14 @@ public class DBTableNull implements DBTableInterface {
     public String getTableName() {
         return "";
     }
+
+    @Override
+    public String getRootReference() {
+        return "";
+    }
+
+    @Override
+    public String getIdReference() {
+        return "";
+    }
 }

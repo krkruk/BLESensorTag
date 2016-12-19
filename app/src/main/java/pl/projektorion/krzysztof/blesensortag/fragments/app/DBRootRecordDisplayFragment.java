@@ -27,7 +27,7 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTable
 /**
  * A simple {@link ListFragment} subclass.
  */
-public class DBRecordDisplayFragment extends ListFragment {
+public class DBRootRecordDisplayFragment extends ListFragment {
 
     public static final String ACTION_RECORD_SELECTED =
             "pl.projektorion.krzysztof.blesensortag.fragments.app.action.RECORD_SELECTED";
