@@ -18,9 +18,6 @@ import pl.projektorion.krzysztof.blesensortag.fragments.app.DBRecordDisplayFragm
 
 public class DBSelectRootActivity extends Activity {
 
-    private static final String DB_ROOT_FRAGMENT_TAG =
-            "pl.projektorion.krzysztof.blesensortag.tag.DB_ROOT_FRAGMENT";
-
     private Fragment fragment;
     private LocalBroadcastManager broadcastManager;
     private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -28,9 +25,12 @@ public class DBSelectRootActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             DBSelectRootRecord record = intent.getParcelableExtra(
                     DBRecordDisplayFragment.EXTRA_ROOT_RECORD_DATA);
-            final long _id = (long) record.getData(DBSelectInterface.ATTRIBUTE_ID);
-            final long date = (long) record.getData(DBSelectRootRecord.ATTRIBUTE_DATE_SECONDS);
-            Log.i("CLICKED", String.format("ID: %d, created: %d", _id, date));
+
+
+            final Intent sensorListIntent = new Intent(DBSelectRootActivity.this,
+                    DBSelectSensorActivity.class);
+            sensorListIntent.putExtra(DBSelectSensorActivity.EXTRA_ROOT_RECORD_DATA, record);
+            startActivity(sensorListIntent);
         }
     };
 
@@ -40,6 +40,11 @@ public class DBSelectRootActivity extends Activity {
         setContentView(R.layout.activity_dbselect_root);
 
         init_broadcast_receivers();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         negotiate_db_root_fragment();
     }
 
@@ -59,15 +64,11 @@ public class DBSelectRootActivity extends Activity {
     private void negotiate_db_root_fragment()
     {
         FragmentManager fm = getFragmentManager();
-        fragment = fm.findFragmentByTag(DB_ROOT_FRAGMENT_TAG);
-        if( fragment == null )
-        {
-            fragment = new DBRecordDisplayFragment();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.add(fragment, DB_ROOT_FRAGMENT_TAG);
-            ft.replace(R.id.dbselect_root_frame, fragment);
-            ft.commit();
-        }
+
+        fragment = new DBRecordDisplayFragment();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.dbselect_root_frame, fragment);
+        ft.commit();
     }
 
     private void kill_broadcast_receivers()
