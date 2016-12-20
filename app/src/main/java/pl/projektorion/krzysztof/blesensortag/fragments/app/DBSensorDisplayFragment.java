@@ -1,9 +1,6 @@
 package pl.projektorion.krzysztof.blesensortag.fragments.app;
 
 
-import android.app.Activity;
-import android.app.VoiceInteractor;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,10 +15,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.database.DBHelper;
+import pl.projektorion.krzysztof.blesensortag.database.commands.DBQuery;
+import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryExecutor;
+import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryInterface;
+import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectBarometerParam;
+import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectBarometerParamData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecord;
+import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecordData;
+import pl.projektorion.krzysztof.blesensortag.factories.DBFactoryTables;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +38,8 @@ public class DBSensorDisplayFragment extends Fragment {
             "pl.projektorion.krzysztof.blesensortag.fragments.app.extra.ROOT_RECORD_DATA";
 
     private DBSelectInterface rootRecord;
+    private DBFactoryTables tableFactory = new DBFactoryTables();
+
 
     public DBSensorDisplayFragment() {
     }
@@ -67,14 +75,15 @@ public class DBSensorDisplayFragment extends Fragment {
             throw new NullPointerException("Cannot pass null value of the root record");
         }
         final long _id = (long) rootRecord.getData(DBSelectInterface.ATTRIBUTE_ID);
-        final long date = (long) rootRecord.getData(DBSelectRootRecord.ATTRIBUTE_DATE_SECONDS);
+        final long date = (long) rootRecord.getData(DBSelectRootRecordData.ATTRIBUTE_DATE_SECONDS);
         Log.i("CLICKED", String.format("ID: %d, created: %d", _id, date));
     }
 
     private class SQLRead extends AsyncTask<Void, Void, Void> {
         private DBHelper helper;
-        private boolean barometerParamExists = false;
         private Context context;
+        private DBSelectBarometerParam barometerParam;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -84,8 +93,6 @@ public class DBSensorDisplayFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Toast.makeText(context, "BarometerParam state: " + Boolean.toString(barometerParamExists),
-                    Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -97,12 +104,27 @@ public class DBSensorDisplayFragment extends Fragment {
         protected Void doInBackground(Void... params) {
             helper = new DBHelper( context, null );
             SQLiteDatabase db = helper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("select * from BarometerParam where ID_RECORD = ? limit 1",
-                    new String[]{Long.toString((long) rootRecord.getData(DBSelectRootRecord.ATTRIBUTE_ID))});
-            if(cursor.moveToFirst()) barometerParamExists = true;
-            cursor.close();
-            db.close();
+
+            DBQueryExecutor executor = new DBQueryExecutor(prepare_queries(db));
+            db.beginTransaction();
+            try {
+                executor.executeAll();
+                db.setTransactionSuccessful();
+            }
+            finally {
+                db.endTransaction();
+                db.close();
+            }
+
             return null;
+        }
+
+        private List<DBQueryInterface> prepare_queries(SQLiteDatabase dbReadable)
+        {
+            List<DBQueryInterface> queries = new ArrayList<>();
+            barometerParam = new DBSelectBarometerParam(rootRecord);
+            queries.add(new DBQuery(dbReadable, barometerParam));
+            return queries;
         }
     }
 }

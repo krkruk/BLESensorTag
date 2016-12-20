@@ -7,12 +7,9 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecord;
 import pl.projektorion.krzysztof.blesensortag.fragments.app.DBSensorDisplayFragment;
-import pl.projektorion.krzysztof.blesensortag.fragments.test.DBTestFragment;
 
 public class DBSelectSensorActivity extends Activity {
 

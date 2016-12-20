@@ -8,22 +8,24 @@ import android.os.Parcelable;
  * Created by krzysztof on 18.12.16.
  */
 
-public class DBSelectRootRecord implements DBSelectInterface, Parcelable {
+public class DBSelectRootRecordData extends DBSelectDataAbstract implements Parcelable {
     public static final int ATTRIBUTE_DATE_SECONDS = 0x02;
 
     private long _id = -1;
     private long dateSeconds = -1;
 
-    public DBSelectRootRecord(int _id, long dateSeconds) {
+    public DBSelectRootRecordData(int _id, long dateSeconds) {
+        super();
         this._id = _id;
         this.dateSeconds = dateSeconds;
     }
 
-    public DBSelectRootRecord(Cursor record) {
+    public DBSelectRootRecordData(Cursor record) {
+        super(record);
         parse(record);
     }
 
-    public DBSelectRootRecord(Parcel in) {
+    public DBSelectRootRecordData(Parcel in) {
         _id = in.readLong();
         dateSeconds = in.readLong();
     }
@@ -68,14 +70,14 @@ public class DBSelectRootRecord implements DBSelectInterface, Parcelable {
         dateSeconds = record.getLong(1);
     }
 
-    public static final Parcelable.Creator<DBSelectRootRecord> CREATOR
-            = new Parcelable.Creator<DBSelectRootRecord>() {
-        public DBSelectRootRecord createFromParcel(Parcel in) {
-            return new DBSelectRootRecord(in);
+    public static final Parcelable.Creator<DBSelectRootRecordData> CREATOR
+            = new Parcelable.Creator<DBSelectRootRecordData>() {
+        public DBSelectRootRecordData createFromParcel(Parcel in) {
+            return new DBSelectRootRecordData(in);
         }
 
-        public DBSelectRootRecord[] newArray(int size) {
-            return new DBSelectRootRecord[size];
+        public DBSelectRootRecordData[] newArray(int size) {
+            return new DBSelectRootRecordData[size];
         }
     };
 }

@@ -11,7 +11,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
-import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecord;
+import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecordData;
 import pl.projektorion.krzysztof.blesensortag.fragments.app.DBRootRecordDisplayFragment;
 
 public class DBSelectRootActivity extends Activity {
@@ -21,7 +21,7 @@ public class DBSelectRootActivity extends Activity {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            DBSelectRootRecord record = intent.getParcelableExtra(
+            DBSelectRootRecordData record = intent.getParcelableExtra(
                     DBRootRecordDisplayFragment.EXTRA_ROOT_RECORD_DATA);
 
 

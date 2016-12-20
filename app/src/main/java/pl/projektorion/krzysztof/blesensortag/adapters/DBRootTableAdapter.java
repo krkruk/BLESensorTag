@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Locale;
 
 import pl.projektorion.krzysztof.blesensortag.R;
-import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecord;
+import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecordData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 
 /**
@@ -43,10 +43,10 @@ public class DBRootTableAdapter extends CursorAdapter {
         TextView textId = (TextView) view.findViewById(R.id.root_id);
         TextView textDate = (TextView) view.findViewById(R.id.root_date);
 
-        DBSelectInterface record = new DBSelectRootRecord(cursor);
+        DBSelectInterface record = new DBSelectRootRecordData(cursor);
         final long recordingStartedAt =
-                1000L * (long) record.getData(DBSelectRootRecord.ATTRIBUTE_DATE_SECONDS);
-        final long _id = (long) record.getData(DBSelectRootRecord.ATTRIBUTE_ID);
+                1000L * (long) record.getData(DBSelectRootRecordData.ATTRIBUTE_DATE_SECONDS);
+        final long _id = (long) record.getData(DBSelectRootRecordData.ATTRIBUTE_ID);
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss",
                 Locale.getDefault());
