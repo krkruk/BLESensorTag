@@ -12,25 +12,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.R;
+import pl.projektorion.krzysztof.blesensortag.adapters.DBSelectSensorAdapter;
 import pl.projektorion.krzysztof.blesensortag.database.DBHelper;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQuery;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryExecutor;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryInterface;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryListenerInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometerParam;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecordData;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityParam;
-import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperatureParam;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Movement.DBSelectMovementParam;
-import pl.projektorion.krzysztof.blesensortag.database.selects.OpticalSensor.DBSelectOpticalSensorParam;
 import pl.projektorion.krzysztof.blesensortag.factories.DBFactoryParamSelects;
-import pl.projektorion.krzysztof.blesensortag.factories.DBFactoryTables;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,9 +36,20 @@ public class DBSensorDisplayFragment extends Fragment {
     public static final String EXTRA_ROOT_RECORD_DATA =
             "pl.projektorion.krzysztof.blesensortag.fragments.app.extra.ROOT_RECORD_DATA";
 
-    private DBSelectInterface rootRecord;
-    private DBFactoryTables tableFactory = new DBFactoryTables();
+    private View view;
+    private Context context;
+    private DBSelectSensorAdapter availableSensorAdapter;
 
+    private DBSelectInterface rootRecord;
+
+    private AdapterView.OnItemClickListener tableSelected = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            DBQueryListenerInterface sensorTable = (DBQueryListenerInterface)
+                    availableSensorAdapter.getItem(position);
+            Log.i("Sensor", sensorTable.getLabel() + " " + sensorTable.getQuery());
+        }
+    };
 
     public DBSensorDisplayFragment() {
     }
@@ -59,27 +66,40 @@ public class DBSensorDisplayFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getActivity().getApplicationContext();
         acquire_data();
-        AsyncTask task = new SQLRead();
-        task.execute(new Void[]{});
+        verify_record_existence();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_dbsensor_display, container, false);
+        view = inflater.inflate(R.layout.fragment_dbsensor_display, container, false);
+        init_widgets();
+        return view;
     }
 
     private void acquire_data() throws NullPointerException
     {
         final Bundle bundle = getArguments();
         rootRecord = bundle.getParcelable(EXTRA_ROOT_RECORD_DATA);
-        if( rootRecord == null ) {
+        if( rootRecord == null )
             throw new NullPointerException("Cannot pass null value of the root record");
-        }
-        final long _id = (long) rootRecord.getData(DBSelectInterface.ATTRIBUTE_ID);
-        final long date = (long) rootRecord.getData(DBSelectRootRecordData.ATTRIBUTE_DATE_SECONDS);
-        Log.i("CLICKED", String.format("ID: %d, created: %d", _id, date));
+    }
+
+    private void verify_record_existence()
+    {
+        AsyncTask task = new SQLRead();
+        task.execute(new Void[]{});
+    }
+
+    private void init_widgets()
+    {
+        ListView availableSensorRecords = (ListView) view.findViewById(R.id.available_sensor_records);
+        availableSensorAdapter = new DBSelectSensorAdapter(context);
+
+        availableSensorRecords.setAdapter(availableSensorAdapter);
+        availableSensorRecords.setOnItemClickListener(tableSelected);
     }
 
     private class SQLRead extends AsyncTask<Void, Void, Void> {
@@ -99,6 +119,8 @@ public class DBSensorDisplayFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            availableSensorAdapter.clear();
+            availableSensorAdapter.setData(listeners);
         }
 
         @Override
@@ -122,6 +144,7 @@ public class DBSensorDisplayFragment extends Fragment {
                 db.close();
             }
 
+            filter_listeners();
             return null;
         }
 
@@ -133,6 +156,15 @@ public class DBSensorDisplayFragment extends Fragment {
                 queries.add(new DBQuery(dbReadable, listener));
 
             return queries;
+        }
+
+        private void filter_listeners()
+        {
+            for(DBQueryListenerInterface listener : listeners) {
+                DBSelectInterface record = listener.getRecord();
+                if( (long)record.getData(DBSelectInterface.ATTRIBUTE_ID) < 0 )
+                    listeners.remove(record);
+            }
         }
     }
 }
