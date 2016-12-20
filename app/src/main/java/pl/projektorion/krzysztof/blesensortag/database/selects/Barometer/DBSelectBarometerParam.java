@@ -2,6 +2,7 @@ package pl.projektorion.krzysztof.blesensortag.database.selects.Barometer;
 
 import android.database.Cursor;
 
+import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectSensorParamAbstract;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometerParam;
@@ -26,6 +27,11 @@ public class DBSelectBarometerParam extends DBSelectSensorParamAbstract {
     @Override
     public DBSelectInterface getRecord() {
         return barometerRecord;
+    }
+
+    @Override
+    public String getLabel() {
+        return ProfileName.BAROMETRIC_PRESSURE_PROFILE;
     }
 
     @Override

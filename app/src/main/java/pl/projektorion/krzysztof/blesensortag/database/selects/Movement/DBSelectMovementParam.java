@@ -2,6 +2,7 @@ package pl.projektorion.krzysztof.blesensortag.database.selects.Movement;
 
 import android.database.Cursor;
 
+import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectSensorParamAbstract;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.DBTableMovementParam;
@@ -46,5 +47,10 @@ public class DBSelectMovementParam extends DBSelectSensorParamAbstract {
     @Override
     public DBSelectInterface getRecord() {
         return movementRecord;
+    }
+
+    @Override
+    public String getLabel() {
+        return ProfileName.MOVEMENT_PROFILE;
     }
 }

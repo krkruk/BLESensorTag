@@ -2,6 +2,7 @@ package pl.projektorion.krzysztof.blesensortag.database.selects.Humidity;
 
 import android.database.Cursor;
 
+import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectSensorParamAbstract;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidityParam;
@@ -46,5 +47,10 @@ public class DBSelectHumidityParam extends DBSelectSensorParamAbstract {
     @Override
     public DBSelectInterface getRecord() {
         return humidityRecord;
+    }
+
+    @Override
+    public String getLabel() {
+        return ProfileName.HUMIDITY_PROFILE;
     }
 }

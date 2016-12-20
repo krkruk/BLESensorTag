@@ -35,4 +35,10 @@ public interface DBQueryListenerInterface {
      * of the query.
      */
     DBSelectInterface getRecord();
+
+    /**
+     * Get text label to be displayed that is associated with the query
+     * @return {@link String} text label
+     */
+    String getLabel();
 }
