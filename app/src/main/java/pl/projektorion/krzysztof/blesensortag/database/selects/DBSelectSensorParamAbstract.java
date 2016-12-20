@@ -6,10 +6,10 @@ import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryListenerI
  * Created by krzysztof on 20.12.16.
  */
 
-public abstract class DBSelectParamAbstract implements DBQueryListenerInterface {
+public abstract class DBSelectSensorParamAbstract implements DBQueryListenerInterface {
     protected final DBSelectInterface rootRecord;
 
-    public DBSelectParamAbstract(DBSelectInterface rootRecord) {
+    public DBSelectSensorParamAbstract(DBSelectInterface rootRecord) {
         this.rootRecord = rootRecord;
     }
 

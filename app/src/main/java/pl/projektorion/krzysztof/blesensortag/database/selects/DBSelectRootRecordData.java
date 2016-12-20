@@ -8,7 +8,7 @@ import android.os.Parcelable;
  * Created by krzysztof on 18.12.16.
  */
 
-public class DBSelectRootRecordData extends DBSelectDataAbstract implements Parcelable {
+public class DBSelectRootRecordData extends DBSelectDataAbstract {
     public static final int ATTRIBUTE_DATE_SECONDS = 0x02;
 
     private long _id = -1;

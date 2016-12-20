@@ -1,14 +1,16 @@
 package pl.projektorion.krzysztof.blesensortag.database.selects;
 
 import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
+
 
 /**
  * Created by krzysztof on 20.12.16.
  */
 
-public class DBSelectBarometerParamData extends DBSelectDataAbstract {
-
+public class DBSelectGeneralSensorParamData extends DBSelectDataAbstract {
     public static final int ATTRIBUTE_RECORD_ID = 0x02;
     public static final int ATTRIBUTE_NOTIFY_PERIOD = 0x03;
 
@@ -17,13 +19,19 @@ public class DBSelectBarometerParamData extends DBSelectDataAbstract {
     private long recordId = -1;
     private long notifyPeriod = 1;
 
-    public DBSelectBarometerParamData() {
+    public DBSelectGeneralSensorParamData() {
         super();
     }
 
-    public DBSelectBarometerParamData(Cursor cursor) {
+    public DBSelectGeneralSensorParamData(Cursor cursor) {
         super(cursor);
-        parse(cursor);
+    }
+
+    public DBSelectGeneralSensorParamData(Parcel in)
+    {
+        _id = in.readLong();
+        recordId = in.readLong();
+        notifyPeriod = in.readLong();
     }
 
     @Override
@@ -50,4 +58,28 @@ public class DBSelectBarometerParamData extends DBSelectDataAbstract {
             default: return 0;
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(_id);
+        dest.writeLong(recordId);
+        dest.writeLong(notifyPeriod);
+    }
+
+    public static final Parcelable.Creator<DBSelectGeneralSensorParamData> CREATOR = new Creator<DBSelectGeneralSensorParamData>() {
+        @Override
+        public DBSelectGeneralSensorParamData createFromParcel(Parcel source) {
+            return new DBSelectGeneralSensorParamData(source);
+        }
+
+        @Override
+        public DBSelectGeneralSensorParamData[] newArray(int size) {
+            return new DBSelectGeneralSensorParamData[size];
+        }
+    };
 }
