@@ -21,6 +21,7 @@ import pl.projektorion.krzysztof.blesensortag.database.DBHelper;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQuery;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryExecutor;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryInterface;
+import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometerParam;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecordData;
@@ -28,6 +29,7 @@ import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelect
 import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperatureParam;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Movement.DBSelectMovementParam;
 import pl.projektorion.krzysztof.blesensortag.database.selects.OpticalSensor.DBSelectOpticalSensorParam;
+import pl.projektorion.krzysztof.blesensortag.factories.DBFactoryParamSelects;
 import pl.projektorion.krzysztof.blesensortag.factories.DBFactoryTables;
 
 /**
@@ -83,16 +85,15 @@ public class DBSensorDisplayFragment extends Fragment {
     private class SQLRead extends AsyncTask<Void, Void, Void> {
         private DBHelper helper;
         private Context context;
-        private DBSelectBarometerParam barometerParam;
-        private DBSelectHumidityParam humidityParam;
-        private DBSelectIRTemperatureParam irTemperatureParam;
-        private DBSelectMovementParam movementParam;
-        private DBSelectOpticalSensorParam opticalSensorParam;
+        private List<DBQueryListenerInterface> listeners;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             context = DBSensorDisplayFragment.this.getActivity().getApplicationContext();
+
+            DBFactoryParamSelects factoryParamSelects = new DBFactoryParamSelects(rootRecord);
+            listeners = factoryParamSelects.getQueryListeners();
         }
 
         @Override
@@ -127,17 +128,9 @@ public class DBSensorDisplayFragment extends Fragment {
         private List<DBQueryInterface> prepare_queries(SQLiteDatabase dbReadable)
         {
             List<DBQueryInterface> queries = new ArrayList<>();
-            barometerParam = new DBSelectBarometerParam(rootRecord);
-            humidityParam = new DBSelectHumidityParam(rootRecord);
-            irTemperatureParam = new DBSelectIRTemperatureParam(rootRecord);
-            movementParam = new DBSelectMovementParam(rootRecord);
-            opticalSensorParam = new DBSelectOpticalSensorParam(rootRecord);
 
-            queries.add(new DBQuery(dbReadable, barometerParam));
-            queries.add(new DBQuery(dbReadable, humidityParam));
-            queries.add(new DBQuery(dbReadable, irTemperatureParam));
-            queries.add(new DBQuery(dbReadable, movementParam));
-            queries.add(new DBQuery(dbReadable, opticalSensorParam));
+            for(DBQueryListenerInterface listener : listeners)
+                queries.add(new DBQuery(dbReadable, listener));
 
             return queries;
         }
