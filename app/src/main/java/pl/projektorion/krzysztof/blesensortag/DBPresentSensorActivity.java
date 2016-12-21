@@ -1,9 +1,15 @@
 package pl.projektorion.krzysztof.blesensortag;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 
@@ -22,11 +28,40 @@ public class DBPresentSensorActivity extends Activity {
     private DBSelectInterface sensorRecord;
     private String sensorLabel;
 
+    private TextView sensorPresentationLabel;
+    private FrameLayout fragmentSink;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dbpresent_sensor);
-        acquire_data();
+
+        if( !restore_saved_instance(savedInstanceState) )
+            acquire_data();
+        init_widgets();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(EXTRA_ROOT_RECORD, rootRecord);
+        outState.putParcelable(EXTRA_SENSOR_RECORD, sensorRecord);
+        outState.putString(EXTRA_SENSOR_LABEL, sensorLabel);
+    }
+
+    private boolean restore_saved_instance(Bundle savedInstanceState)
+    {
+        if( savedInstanceState == null )
+            return false;
+        rootRecord = savedInstanceState.getParcelable(EXTRA_ROOT_RECORD);
+        sensorRecord = savedInstanceState.getParcelable(EXTRA_SENSOR_RECORD);
+        sensorLabel = savedInstanceState.getString(EXTRA_SENSOR_LABEL);
+        return true;
     }
 
     private void acquire_data() throws NullPointerException
@@ -42,5 +77,13 @@ public class DBPresentSensorActivity extends Activity {
         Log.i("Data", rootRecord.toString());
         Log.i("Sensor", sensorRecord.toString());
         Log.i("TableName", sensorLabel);
+    }
+
+    private void init_widgets()
+    {
+        sensorPresentationLabel = (TextView) findViewById(R.id.sensor_presentation_label);
+        fragmentSink = (FrameLayout) findViewById(R.id.db_presentation_container);
+
+        sensorPresentationLabel.setText(sensorLabel);
     }
 }
