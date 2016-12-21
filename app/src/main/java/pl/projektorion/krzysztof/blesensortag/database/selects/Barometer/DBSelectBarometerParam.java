@@ -1,8 +1,10 @@
 package pl.projektorion.krzysztof.blesensortag.database.selects.Barometer;
 
 import android.database.Cursor;
+import android.util.Log;
 
 import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
+import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectGeneralSensorParamData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectSensorParamAbstract;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometerParam;
@@ -21,7 +23,7 @@ public class DBSelectBarometerParam extends DBSelectSensorParamAbstract {
 
     @Override
     public void onQueryExecuted(Cursor cursor) {
-        this.barometerRecord = new DBSelectBarometerParamData(cursor);
+        barometerRecord = new DBSelectBarometerParamData(cursor);
     }
 
     @Override

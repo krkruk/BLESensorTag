@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.fragments.app.DBSensorDisplayFragment;
@@ -42,8 +41,15 @@ public class DBSelectSensorActivity extends Activity {
         fragment = fm.findFragmentByTag(SENSOR_FRAGMENT_TAG);
         if( fragment == null )
         {
+            fragment = DBSensorDisplayFragment.newInstance(rootRecord);
+            ((DBSensorDisplayFragment)fragment).setIntentClass(DBPresentSensorActivity.class);
+            ((DBSensorDisplayFragment)fragment).setIntentExtraRootRecord(
+                    DBPresentSensorActivity.EXTRA_ROOT_RECORD);
+            ((DBSensorDisplayFragment)fragment).setIntentExtraSensorRecord(
+                    DBPresentSensorActivity.EXTRA_SENSOR_RECORD);
+            ((DBSensorDisplayFragment)fragment).setIntentExtraSensorLabel(
+                    DBPresentSensorActivity.EXTRA_SENSOR_LABEL);
             FragmentTransaction ft = fm.beginTransaction();
-            fragment = DBSensorDisplayFragment.newInstance((Parcelable) rootRecord);
             ft.add(fragment, SENSOR_FRAGMENT_TAG);
             ft.replace(R.id.sensor_frame_layout, fragment);
             ft.commit();

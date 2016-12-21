@@ -59,6 +59,14 @@ public class DBSelectRootRecordData extends DBSelectDataAbstract {
         dest.writeLong(dateSeconds);
     }
 
+    @Override
+    public String toString() {
+        return "DBSelectRootRecordData{" +
+                "_id=" + _id +
+                ", dateSeconds=" + dateSeconds +
+                '}';
+    }
+
     /**
      * Parse the cursor to receive data for
      * {@link pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord}

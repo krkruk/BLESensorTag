@@ -1,7 +1,9 @@
 package pl.projektorion.krzysztof.blesensortag.fragments.app;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import pl.projektorion.krzysztof.blesensortag.database.commands.DBQuery;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryExecutor;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryInterface;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryListenerInterface;
+import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectGeneralSensorParamData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.factories.DBFactoryParamSelects;
 
@@ -38,16 +41,35 @@ public class DBSensorDisplayFragment extends Fragment {
 
     private View view;
     private Context context;
+    private Activity embeddedActivity;
     private DBSelectSensorAdapter availableSensorAdapter;
 
     private DBSelectInterface rootRecord;
+
+    private Class intentClass;
+    private String intentExtraRootRecord;
+    private String intentExtraSensorRecord;
+    private String intentExtraSensorLabel;
 
     private AdapterView.OnItemClickListener tableSelected = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             DBQueryListenerInterface sensorTable = (DBQueryListenerInterface)
                     availableSensorAdapter.getItem(position);
-            Log.i("Sensor", sensorTable.getLabel() + " " + sensorTable.getQuery());
+
+            if( intentClass == null
+                    || intentExtraRootRecord == null
+                    || intentExtraSensorRecord == null
+                    || intentExtraSensorLabel == null) {
+                Log.d("DBSenDispFrag", "No params to start an activity");
+                return;
+            }
+
+            final Intent intent = new Intent(context, intentClass);
+            intent.putExtra(intentExtraRootRecord, rootRecord);
+            intent.putExtra(intentExtraSensorRecord, sensorTable.getRecord());
+            intent.putExtra(intentExtraSensorLabel, sensorTable.getLabel());
+            embeddedActivity.startActivity(intent);
         }
     };
 
@@ -67,6 +89,7 @@ public class DBSensorDisplayFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity().getApplicationContext();
+        embeddedActivity = getActivity();
         acquire_data();
         verify_record_existence();
     }
@@ -77,6 +100,22 @@ public class DBSensorDisplayFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_dbsensor_display, container, false);
         init_widgets();
         return view;
+    }
+
+    public void setIntentClass(Class intentClass) {
+        this.intentClass = intentClass;
+    }
+
+    public void setIntentExtraSensorRecord(String intentExtraSensorRecord) {
+        this.intentExtraSensorRecord = intentExtraSensorRecord;
+    }
+
+    public void setIntentExtraRootRecord(String intentExtraRootRecord) {
+        this.intentExtraRootRecord = intentExtraRootRecord;
+    }
+
+    public void setIntentExtraSensorLabel(String intentExtraSensorLabel) {
+        this.intentExtraSensorLabel = intentExtraSensorLabel;
     }
 
     private void acquire_data() throws NullPointerException
@@ -158,12 +197,13 @@ public class DBSensorDisplayFragment extends Fragment {
             return queries;
         }
 
-        private void filter_listeners()
-        {
-            for(DBQueryListenerInterface listener : listeners) {
-                DBSelectInterface record = listener.getRecord();
-                if( (long)record.getData(DBSelectInterface.ATTRIBUTE_ID) < 0 )
-                    listeners.remove(record);
+        private void filter_listeners() {
+            final long NON_EXISTENT_ID = 0;
+
+            for (int i = 0; i < listeners.size(); i++) {
+                DBSelectInterface record = listeners.get(i).getRecord();
+                if ((long) record.getData(DBSelectInterface.ATTRIBUTE_ID) <= NON_EXISTENT_ID)
+                    listeners.remove(i--);
             }
         }
     }

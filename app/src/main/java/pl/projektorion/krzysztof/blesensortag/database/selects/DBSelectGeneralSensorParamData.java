@@ -17,14 +17,14 @@ public class DBSelectGeneralSensorParamData extends DBSelectDataAbstract {
     private static final int COLUMN_COUNT = 3;
     private long _id = -1;
     private long recordId = -1;
-    private long notifyPeriod = 1;
+    private long notifyPeriod = -1;
 
     public DBSelectGeneralSensorParamData() {
         super();
     }
 
     public DBSelectGeneralSensorParamData(Cursor cursor) {
-        super(cursor);
+        parse(cursor);
     }
 
     public DBSelectGeneralSensorParamData(Parcel in)
@@ -43,6 +43,8 @@ public class DBSelectGeneralSensorParamData extends DBSelectDataAbstract {
         _id = cursor.getLong(0);
         recordId = cursor.getLong(1);
         notifyPeriod = cursor.getLong(2);
+
+        Log.i("Parse", String.format("_id: %d, recId: %d, notifyPer: %d", _id, recordId, notifyPeriod));
     }
 
     @Override
@@ -82,4 +84,13 @@ public class DBSelectGeneralSensorParamData extends DBSelectDataAbstract {
             return new DBSelectGeneralSensorParamData[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "DBSelectGeneralSensorParamData{" +
+                "_id=" + _id +
+                ", recordId=" + recordId +
+                ", notifyPeriod=" + notifyPeriod +
+                '}';
+    }
 }
