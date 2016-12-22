@@ -8,5 +8,10 @@ import android.os.Parcelable;
 
 public interface DBQueryWithLimitsListenerInterface extends DBQueryListenerInterface, Parcelable {
 
+    /**
+     * Define limit the data should be read.
+     * @param startAt - initial position the data reading should begin
+     * @param noElements - number of elements to be read (maximally)
+     */
     void setLimit(long startAt, long noElements);
 }

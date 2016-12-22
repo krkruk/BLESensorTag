@@ -88,9 +88,30 @@ public abstract class DBSelectSensorAbstract implements DBQueryWithLimitsListene
         dest.writeLong(noElements);
     }
 
+    /**
+     * Extract data from the cursor. The cursor should contain all required columns.
+     * @param time - X-axis (time) or measurements ticks
+     * @param cursor {@link Cursor} that reads data from the database.
+     */
     protected abstract void parse_cursor_data(long time, Cursor cursor);
+
+    /**
+     * Enumerate all columns to be read. Should be presented in CSV format
+     * @return {@link String} CSV of columns
+     */
     protected abstract String select_db_columns();
+
+    /**
+     * Return name of the table data is to be read
+     * @return {@link String} Name of the table
+     */
     protected abstract String select_table_name();
+
+    /**
+     * Return string that contains column name the data is to be filtered.
+     * Stands form >>select * from _table where {@link DBSelectSensorAbstract#select_extract_records_where()} = ? <<
+     * @return {@link String} Name of the column
+     */
     protected abstract String select_extract_records_where();
 
     protected long getStartAt() {
