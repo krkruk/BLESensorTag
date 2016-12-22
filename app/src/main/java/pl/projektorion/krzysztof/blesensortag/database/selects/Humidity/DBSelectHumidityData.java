@@ -20,8 +20,8 @@ public class DBSelectHumidityData implements DBSelectInterface {
     public static final String CSV_HEADER = "time,humidity,temperature";
 
     private long time = 0;
-    private long relativeHumidity = 0;
-    private long temperature = 0;
+    private double relativeHumidity = 0.0f;
+    private double temperature = 0.0f;
 
     public DBSelectHumidityData(long time, Cursor cursor) {
         this.time = time;
@@ -30,8 +30,8 @@ public class DBSelectHumidityData implements DBSelectInterface {
 
     public DBSelectHumidityData(Parcel in) {
         time = in.readLong();
-        relativeHumidity = in.readLong();
-        temperature = in.readLong();
+        relativeHumidity = in.readDouble();
+        temperature = in.readDouble();
     }
 
     @Override
@@ -58,8 +58,8 @@ public class DBSelectHumidityData implements DBSelectInterface {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(time);
-        dest.writeLong(relativeHumidity);
-        dest.writeLong(temperature);
+        dest.writeDouble(relativeHumidity);
+        dest.writeDouble(temperature);
     }
 
     @Override
@@ -71,8 +71,8 @@ public class DBSelectHumidityData implements DBSelectInterface {
 
     protected void parse(Cursor cursor)
     {
-        relativeHumidity = cursor.getLong(0);
-        temperature = cursor.getLong(1);
+        relativeHumidity = cursor.getDouble(0);
+        temperature = cursor.getDouble(1);
     }
 
     public static final Parcelable.Creator<DBSelectHumidityData> CREATOR = new Creator<DBSelectHumidityData>() {
