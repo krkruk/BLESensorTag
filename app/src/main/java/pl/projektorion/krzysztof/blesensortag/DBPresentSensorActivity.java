@@ -1,16 +1,15 @@
 package pl.projektorion.krzysztof.blesensortag;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
+import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
+import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometer;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 
 public class DBPresentSensorActivity extends Activity {
@@ -39,6 +38,13 @@ public class DBPresentSensorActivity extends Activity {
         if( !restore_saved_instance(savedInstanceState) )
             acquire_data();
         init_widgets();
+
+        final Intent serviceIntent = new Intent(this, DBSelectIntentService.class);
+        final DBSelectBarometer barometer = new DBSelectBarometer(rootRecord, sensorRecord);
+        barometer.setLimit(2, 2);
+        Log.i("SQL", barometer.getQuery() + " + " + barometer.getQueryData()[0] + " + " + barometer.getQueryData()[1] + " + " + barometer.getQueryData()[2] );
+        serviceIntent.putExtra(DBSelectIntentService.EXTRA_SENSOR_DATA_SELECT, barometer);
+        startService(serviceIntent);
     }
 
     @Override

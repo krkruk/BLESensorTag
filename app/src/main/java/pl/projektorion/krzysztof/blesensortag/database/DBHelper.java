@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
@@ -22,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public DBHelper(Context context, List<DBTableInterface> tables) {
         super(context, DB_NAME, null, DB_VERSION);
-        this.tables = tables;
+        this.tables = tables == null ? new ArrayList<DBTableInterface>() : tables;
     }
 
     @Override

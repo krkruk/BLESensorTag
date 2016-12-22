@@ -2,6 +2,9 @@ package pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature;
 
 import android.database.Cursor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectSensorParamAbstract;
@@ -47,6 +50,13 @@ public class DBSelectIRTemperatureParam extends DBSelectSensorParamAbstract {
     @Override
     public DBSelectInterface getRecord() {
         return irTemperatureRecord;
+    }
+
+    @Override
+    public List<? extends DBSelectInterface> getRecords() {
+        List<DBSelectInterface> records = new ArrayList<>();
+        records.add(irTemperatureRecord);
+        return records;
     }
 
     @Override

@@ -47,7 +47,11 @@
 
         <activity android:name=".DBSelectSensorActivity" />
         <activity android:name=".DBSelectRootActivity" />
-        <activity android:name=".DBPresentSensorActivity"></activity>
+        <activity android:name=".DBPresentSensorActivity" />
+
+        <service
+            android:name=".database.DBSelectIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

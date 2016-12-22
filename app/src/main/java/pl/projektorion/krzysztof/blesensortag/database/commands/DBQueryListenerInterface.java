@@ -2,6 +2,8 @@ package pl.projektorion.krzysztof.blesensortag.database.commands;
 
 import android.database.Cursor;
 
+import java.util.List;
+
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 
 /**
@@ -35,6 +37,13 @@ public interface DBQueryListenerInterface {
      * of the query.
      */
     DBSelectInterface getRecord();
+
+    /**
+     * List of received and parsed data.
+     * @return {@link DBSelectInterface} and its children as an output
+     * of the query
+     */
+    List<? extends DBSelectInterface> getRecords();
 
     /**
      * Get text label to be displayed that is associated with the query
