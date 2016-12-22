@@ -13,6 +13,7 @@ import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelec
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidity;
 import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperature;
+import pl.projektorion.krzysztof.blesensortag.database.selects.OpticalSensor.DBSelectOpticalSensor;
 
 public class DBPresentSensorActivity extends Activity {
 
@@ -46,7 +47,7 @@ public class DBPresentSensorActivity extends Activity {
 //        serviceBarometer.putExtra(DBSelectIntentService.EXTRA_SENSOR_DATA_SELECT, barometer);
 //        startService(serviceBarometer);
 
-        final DBSelectHumidity sensor = new DBSelectHumidity(rootRecord, sensorRecord);
+        final DBSelectOpticalSensor sensor = new DBSelectOpticalSensor(rootRecord, sensorRecord);
         final Intent intent = new Intent(this, DBSelectIntentService.class);
         intent.putExtra(DBSelectIntentService.EXTRA_SENSOR_DATA_SELECT, sensor);
         startService(intent);
