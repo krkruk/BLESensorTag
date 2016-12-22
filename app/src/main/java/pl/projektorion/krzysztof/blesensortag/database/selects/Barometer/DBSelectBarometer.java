@@ -52,8 +52,10 @@ public class DBSelectBarometer extends DBSelectSensorAbstract {
 
     @Override
     public DBSelectInterface getRecord() {
-        final int lastElem = barometerRecords.size() - 1;
-        return barometerRecords.get(lastElem);
+        final int barometerDataSize = barometerRecords.size();
+        return barometerDataSize > 0
+                ? barometerRecords.get(barometerDataSize - 1)
+                : null;
     }
 
     @Override
