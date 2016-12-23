@@ -1,6 +1,9 @@
 package pl.projektorion.krzysztof.blesensortag;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +18,7 @@ import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelect
 import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperature;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Movement.DBSelectMovement;
 import pl.projektorion.krzysztof.blesensortag.database.selects.OpticalSensor.DBSelectOpticalSensor;
+import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentBarometerFragment;
 
 public class DBPresentSensorActivity extends Activity {
 
@@ -27,12 +31,18 @@ public class DBPresentSensorActivity extends Activity {
     public static final String EXTRA_SENSOR_LABEL =
             "pl.projektorion.krzysztof.blesensortag.extra.SENSOR_LABEL";
 
+    public static final String NEGOTIATE_FRAGMENT_TAG =
+            "pl.projektorion.krzysztof.blesensortag.tag.NEGOTIATE_FRAGMENT";
+
     private DBSelectInterface rootRecord;
     private DBSelectInterface sensorRecord;
     private String sensorLabel;
 
     private TextView sensorPresentationLabel;
     private FrameLayout fragmentSink;
+
+    private Fragment fragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +53,7 @@ public class DBPresentSensorActivity extends Activity {
             acquire_data();
         init_widgets();
 
-//        final Intent serviceBarometer = new Intent(this, DBSelectIntentService.class);
-//        final DBSelectBarometer barometer = new DBSelectBarometer(rootRecord, sensorRecord);
-//        serviceBarometer.putExtra(DBSelectIntentService.EXTRA_SENSOR_DATA_SELECT, barometer);
-//        startService(serviceBarometer);
-
-        final DBSelectMovement sensor = new DBSelectMovement(rootRecord, sensorRecord);
-        final Intent intent = new Intent(this, DBSelectIntentService.class);
-        intent.putExtra(DBSelectIntentService.EXTRA_SENSOR_DATA_SELECT, sensor);
-        startService(intent);
+        negotiate_fragment();
     }
 
     @Override
@@ -98,5 +100,19 @@ public class DBPresentSensorActivity extends Activity {
         fragmentSink = (FrameLayout) findViewById(R.id.db_presentation_container);
 
         sensorPresentationLabel.setText(sensorLabel);
+    }
+
+    private void negotiate_fragment()
+    {
+        FragmentManager fm = getFragmentManager();
+        fragment = fm.findFragmentByTag(NEGOTIATE_FRAGMENT_TAG);
+        if( fragment == null )
+        {
+            fragment = DBPresentBarometerFragment.newInstance(rootRecord, sensorRecord);
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.add(fragment, NEGOTIATE_FRAGMENT_TAG);
+            ft.replace(R.id.db_presentation_container, fragment);
+            ft.commit();
+        }
     }
 }
