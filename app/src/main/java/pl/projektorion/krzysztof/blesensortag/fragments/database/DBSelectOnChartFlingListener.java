@@ -14,14 +14,18 @@ public class DBSelectOnChartFlingListener implements OnChartGestureListener {
 
     private long startAt = 0;
     private long recordsInTotal = 0;
-    private final long MAX_NO_ELEMENTS_PER_LOAD;
+    private long maxElementsPerLoad = 0;
     private float velocityThreshold = 1500.0f;
 
     private Runnable task = null;
 
-    public DBSelectOnChartFlingListener(long recordsInTotal, long MAX_NO_ELEMENTS_PER_LOAD) {
+    public DBSelectOnChartFlingListener() {
+        maxElementsPerLoad = Long.MAX_VALUE;
+    }
+
+    public DBSelectOnChartFlingListener(long recordsInTotal, long maxElementsPerLoad) {
         this.recordsInTotal = recordsInTotal;
-        this.MAX_NO_ELEMENTS_PER_LOAD = MAX_NO_ELEMENTS_PER_LOAD;
+        this.maxElementsPerLoad = maxElementsPerLoad;
     }
 
     @Override
@@ -59,7 +63,7 @@ public class DBSelectOnChartFlingListener implements OnChartGestureListener {
             /*
             Load new elements
              */
-            startAt += MAX_NO_ELEMENTS_PER_LOAD;
+            startAt += maxElementsPerLoad;
             startAt = startAt > recordsInTotal ? 0 : startAt;
         } else
         if( velocityX > velocityThreshold )
@@ -67,7 +71,7 @@ public class DBSelectOnChartFlingListener implements OnChartGestureListener {
             /*
             Load previous elements
              */
-            startAt -= MAX_NO_ELEMENTS_PER_LOAD;
+            startAt -= maxElementsPerLoad;
             startAt = startAt < 0 ? 0 : startAt;
         }
 
@@ -92,7 +96,11 @@ public class DBSelectOnChartFlingListener implements OnChartGestureListener {
     }
 
     public long getMaxElementsPerLoad() {
-        return MAX_NO_ELEMENTS_PER_LOAD;
+        return maxElementsPerLoad;
+    }
+
+    public void setMaxElementsPerLoad(long maxElementsPerLoad) {
+        this.maxElementsPerLoad = maxElementsPerLoad;
     }
 
     public float getVelocityThreshold() {

@@ -46,27 +46,34 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
     public DBPresentHumidityFragment() {
     }
 
+    public static DBPresentHumidityFragment newInstance(DBSelectInterface rootRecord, DBSelectInterface sensorRecord) {
+        Bundle args = new Bundle();
+        args.putParcelable(EXTRA_ROOT_RECORD, rootRecord);
+        args.putParcelable(EXTRA_SENSOR_RECORD, sensorRecord);
+        DBPresentHumidityFragment fragment = new DBPresentHumidityFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_dbpresent_humidity, container, false);
     }
 
-    public static DBPresentHumidityFragment newInstance(DBSelectInterface rootRecord, DBSelectInterface sensorRecord) {
-        return DBPresentSensorFragmentAbstract.newInstance(rootRecord, sensorRecord);
-    }
-
-
+    @Override
     protected DBQueryParcelableListenerInterface data_counter_instance()
     {
         return new DBSelectHumidityCount(rootRecord);
     }
 
+    @Override
     protected int attribute_count()
     {
         return DBSelectHumidityCountData.ATTRIBUTE_COUNT;
     }
 
+    @Override
     protected ResultReceiver data_receiver()
     {
         ServiceDataReceiver dataReceiver = new ServiceDataReceiver(new Handler());
@@ -74,6 +81,7 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
         return dataReceiver;
     }
 
+    @Override
     protected DBQueryParcelableListenerInterface data_instance()
     {
         DBQueryWithLimitsListenerInterface query = new DBSelectHumidity(rootRecord, sensorRecord);
@@ -81,6 +89,7 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
         return query;
     }
 
+    @Override
     protected void apply_data(List<? extends DBSelectInterface> data)
     {
         for(DBSelectInterface echo : data)

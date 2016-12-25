@@ -36,6 +36,14 @@ implements ServiceDataReceiver.ReceiverListener {
     private long readMaxRecordsPerLoad = 5;
     private DBSelectOnChartFlingListener flingListener;
 
+
+    private Runnable onFlingTask = new Runnable() {
+        @Override
+        public void run() {
+            request_new_data();
+        }
+    };
+
     /**
      * {@link DBSelectInterface} root record that holds crucial data
      * for retrieving data from database
@@ -51,7 +59,7 @@ implements ServiceDataReceiver.ReceiverListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setRetainInstance(true);
         init_objects();
         acquire_data();
     }
@@ -62,6 +70,14 @@ implements ServiceDataReceiver.ReceiverListener {
         request_record_count();
     }
 
+    /**
+     * Receive information about available records that may be loaded.
+     * If any additional behavior has to be implemented, call the super
+     * beforehand.
+     * @param resultCode {@link DBSelectIntentService#EXTRA_RESULT_CODE}
+     * @param resultData {@link DBSelectIntentService#EXTRA_RESULT}. The bundle contains
+     *                                                             a List<? extends DBSelectInterface>
+     */
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
         if( resultCode == DBSelectIntentService.EXTRA_RESULT_CODE )
@@ -70,39 +86,59 @@ implements ServiceDataReceiver.ReceiverListener {
                     .getParcelableArrayList(DBSelectIntentService.EXTRA_RESULT);
             if( data == null || data.size() <= 0) return;
             availableRecords = (long) data.get(0).getData(attribute_count());
-            flingListener = new DBSelectOnChartFlingListener(availableRecords, readMaxRecordsPerLoad);
-            Log.i("COUNTED", "Val: " + availableRecords);
+            flingListener = new DBSelectOnChartFlingListener(
+                    availableRecords, readMaxRecordsPerLoad);
+            flingListener.setTask(onFlingTask);
         }
-
         request_new_data();
     }
 
+    /**
+     * Get numeric value of how many records are related with
+     * a selected parameter of the param record.
+     * @return
+     */
     public long getAvailableRecords() {
         return availableRecords;
     }
 
+    /**
+     * Get an offset the query should limit the output
+     * @return
+     */
     public long getStartAt()
     {
         return flingListener.getStartAt();
     }
 
+    /**
+     * Get maximum number of records to be loaded per single
+     * database connection
+     * @return
+     */
     public long getMaxRecordsPerLoad()
     {
         return flingListener.getMaxElementsPerLoad();
     }
 
-    public void setReadMaxRecordsPerLoad(long readMaxRecordsPerLoad) {
-        this.readMaxRecordsPerLoad = readMaxRecordsPerLoad;
+    /**
+     * Return a listener
+     * @return {@link DBSelectOnChartFlingListener} listener
+     */
+    public DBSelectOnChartFlingListener getFlingListener() {
+        return flingListener;
     }
 
-    public static DBPresentHumidityFragment newInstance(DBSelectInterface rootRecord, DBSelectInterface sensorRecord) {
-
-        Bundle args = new Bundle();
-        args.putParcelable(EXTRA_ROOT_RECORD, rootRecord);
-        args.putParcelable(EXTRA_SENSOR_RECORD, sensorRecord);
-        DBPresentHumidityFragment fragment = new DBPresentHumidityFragment();
-        fragment.setArguments(args);
-        return fragment;
+    /**
+     * Change a default value of maximum records to be loaded per single
+     * database connection
+     * @param readMaxRecordsPerLoad new value of records to be loaded per
+     *                              single database connection
+     */
+    public void setReadMaxRecordsPerLoad(long readMaxRecordsPerLoad) {
+        this.readMaxRecordsPerLoad = readMaxRecordsPerLoad;
+        if( flingListener != null )
+            flingListener.setMaxElementsPerLoad(readMaxRecordsPerLoad);
     }
 
     protected void init_objects()
