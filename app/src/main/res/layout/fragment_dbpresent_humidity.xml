@@ -1,0 +1,13 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentHumidityFragment">
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/humidity_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+
+</RelativeLayout>

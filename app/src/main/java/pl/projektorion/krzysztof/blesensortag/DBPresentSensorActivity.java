@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentBarometerFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentHumidityFragment;
 
 
 public class DBPresentSensorActivity extends Activity {
