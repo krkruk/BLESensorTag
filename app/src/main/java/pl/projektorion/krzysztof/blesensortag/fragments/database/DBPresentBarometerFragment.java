@@ -9,7 +9,6 @@ import android.app.Fragment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,7 +18,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 
 import java.util.ArrayList;
@@ -28,6 +26,8 @@ import java.util.List;
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometer;
+import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometerCount;
+import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometerCountData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometerData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
@@ -54,60 +54,53 @@ public class DBPresentBarometerFragment extends Fragment
 
     private Handler handler;
     private ServiceDataReceiver receiver;
+    private ServiceDataReceiver recordCounterReceiver;
 
     private DBSelectInterface rootRecord;
     private DBSelectInterface sensorRecord;
+    private DBSelectInterface recordCounter;
 
-    private long startAt = 0;
     private static final long NO_ELEMS = 5;
 
-    private OnChartGestureListener chartGestureListener = new OnChartGestureListener() {
-        @Override
-        public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+    private DBSelectOnChartFlingListener chartGestureListener;
 
+
+    private Runnable requestNewDataTask = new Runnable() {
+        @Override
+        public void run() {
+            request_new_data();
+        }
+    };
+
+    private ServiceDataReceiver.ReceiverListener recordCounterListener = new ServiceDataReceiver.ReceiverListener() {
+        private long availableRecords = 0;
+
+        @Override
+        public void onReceiveResult(int resultCode, Bundle resultData) {
+            if( resultCode == DBSelectIntentService.EXTRA_RESULT_CODE )
+            {
+                List<? extends DBSelectInterface> data = resultData.getParcelableArrayList(
+                        DBSelectIntentService.EXTRA_RESULT);
+
+                if( data == null || data.size() <= 0 ) {
+                    Log.i("RecRead", "Could not count available records");
+                    request_new_data();
+                    return;
+                }
+
+                recordCounter = data.get(0);
+                availableRecords = (long)recordCounter
+                        .getData(DBSelectBarometerCountData.ATTRIBUTE_COUNT);
+            }
+            prepare_chart_gesture_listener();
+            request_new_data();
         }
 
-        @Override
-        public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-
-        }
-
-        @Override
-        public void onChartLongPressed(MotionEvent me) {
-
-        }
-
-        @Override
-        public void onChartDoubleTapped(MotionEvent me) {
-
-        }
-
-        @Override
-        public void onChartSingleTapped(MotionEvent me) {
-
-        }
-
-        @Override
-        public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-            Log.i("Fling", String.format("vX: %f, vY: %f", velocityX, velocityY));
-            Intent intent = new Intent(context, DBSelectIntentService.class);
-            final DBSelectBarometer barometer = new DBSelectBarometer(rootRecord, sensorRecord);
-            barometer.setLimit(5, NO_ELEMS);
-            Log.i("Request", barometer.getQuery());
-            Log.i("ReqDat", barometer.getQueryData()[1] + " - " + barometer.getQueryData()[2]);
-            intent.putExtra(DBSelectIntentService.EXTRA_SENSOR_DATA_SELECT, barometer);
-            intent.putExtra(DBSelectIntentService.EXTRA_RESULT_RECEIVER, receiver);
-            getActivity().startService(intent);
-        }
-
-        @Override
-        public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-
-        }
-
-        @Override
-        public void onChartTranslate(MotionEvent me, float dX, float dY) {
-//            Log.i("Movement", String.format("dX: %f, dY: %f", dX, dY));
+        private void prepare_chart_gesture_listener()
+        {
+            chartGestureListener = new DBSelectOnChartFlingListener(availableRecords, NO_ELEMS);
+            chartGestureListener.setTask(requestNewDataTask);
+            chart.setOnChartGestureListener(chartGestureListener);
         }
     };
 
@@ -143,7 +136,7 @@ public class DBPresentBarometerFragment extends Fragment
     @Override
     public void onStart() {
         super.onStart();
-        request_new_data();
+        request_record_count();
     }
 
     @Override
@@ -153,8 +146,10 @@ public class DBPresentBarometerFragment extends Fragment
             ArrayList<? extends DBSelectInterface > data = resultData.getParcelableArrayList(
                     DBSelectIntentService.EXTRA_RESULT);
 
+            if( data == null )
+                return;
+
             apply_data(data);
-            Log.i("Data", "Updated!");
         }
     }
 
@@ -163,7 +158,9 @@ public class DBPresentBarometerFragment extends Fragment
         context = getActivity().getApplicationContext();
         handler = new Handler();
         receiver = new ServiceDataReceiver(handler);
+        recordCounterReceiver = new ServiceDataReceiver(handler);
         receiver.setListener(this);
+        recordCounterReceiver.setListener(recordCounterListener);
     }
 
     private void acquire_data()
@@ -171,20 +168,30 @@ public class DBPresentBarometerFragment extends Fragment
         final Bundle bundle = getArguments();
         rootRecord = bundle.getParcelable(EXTRA_ROOT_RECORD);
         sensorRecord = bundle.getParcelable(EXTRA_SENSOR_RECORD);
+        recordCounter = new DBSelectBarometerCountData();
     }
 
     private void init_widgets()
     {
         chart = (LineChart) view.findViewById(R.id.barometer_chart);
-        chart.setOnChartGestureListener(chartGestureListener);
         setup_chart();
+    }
+
+    private void request_record_count()
+    {
+        Intent intent = new Intent(context, DBSelectIntentService.class);
+        DBSelectBarometerCount counter = new DBSelectBarometerCount(rootRecord);
+        intent.putExtra(DBSelectIntentService.EXTRA_SENSOR_DATA_SELECT, counter);
+        intent.putExtra(DBSelectIntentService.EXTRA_RESULT_RECEIVER, recordCounterReceiver);
+        getActivity().startService(intent);
     }
 
     private void request_new_data()
     {
         Intent intent = new Intent(context, DBSelectIntentService.class);
         final DBSelectBarometer barometer = new DBSelectBarometer(rootRecord, sensorRecord);
-        barometer.setLimit(startAt, NO_ELEMS);
+        barometer.setLimit(chartGestureListener.getStartAt(),
+                chartGestureListener.getMaxElementsPerLoad());
         intent.putExtra(DBSelectIntentService.EXTRA_SENSOR_DATA_SELECT, barometer);
         intent.putExtra(DBSelectIntentService.EXTRA_RESULT_RECEIVER, receiver);
         getActivity().startService(intent);

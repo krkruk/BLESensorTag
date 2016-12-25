@@ -6,7 +6,7 @@ import android.os.Parcelable;
  * Created by krzysztof on 22.12.16.
  */
 
-public interface DBQueryWithLimitsListenerInterface extends DBQueryListenerInterface, Parcelable {
+public interface DBQueryWithLimitsListenerInterface extends DBQueryParcelableListenerInterface {
 
     /**
      * Define limit the data should be read.
