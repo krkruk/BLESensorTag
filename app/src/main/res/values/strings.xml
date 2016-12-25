@@ -65,4 +65,17 @@
     <string name="label_config_period">Update period</string>
 
     <string name="label_no_configuration_provided">Hey, dude! No config, read only&#8230;</string>
+
+    <!--axis labels-->
+    <string name="axis_acc_x">X [G]</string>
+    <string name="axis_acc_y">Y [G]</string>
+    <string name="axis_acc_z">X [G]</string>
+
+    <string name="axis_gyr_x">X [°]</string>
+    <string name="axis_gyr_y">Y [°]</string>
+    <string name="axis_gyr_z">Z [°]</string>
+
+    <string name="axis_mag_x">X [μT]</string>
+    <string name="axis_mag_y">Y [μT]</string>
+    <string name="axis_mag_z">Z [μT]</string>
 </resources>
