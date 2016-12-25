@@ -23,6 +23,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
@@ -163,8 +164,11 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
     private void create_pressure_set(List<Entry> pressureData)
     {
         final int pressureColor = Color.RED;
+        final String label = String.format(Locale.getDefault(), "%s [%s]",
+                getString(R.string.label_humidity),
+                getString(R.string.label_humidity_unit));
 
-        pressureSet = new LineDataSet(pressureData, "RelativeHumidity");
+        pressureSet = new LineDataSet(pressureData, label);
         pressureSet.setCircleColor(pressureColor);
         pressureSet.setColor(pressureColor);
         pressureSet.setDrawCircleHole(false);
@@ -174,8 +178,11 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
     private void create_temperature_set(List<Entry> temperatureData)
     {
         final int temperatureColor = Color.BLUE;
+        final String label = String.format(Locale.getDefault(), "%s [%s]",
+                getString(R.string.label_temperature),
+                getString(R.string.label_temperature_unit));
 
-        temperatureSet = new LineDataSet(temperatureData, "Temperature");
+        temperatureSet = new LineDataSet(temperatureData, label);
         temperatureSet.setCircleColor(temperatureColor);
         temperatureSet.setColor(temperatureColor);
         temperatureSet.setDrawCircleHole(false);

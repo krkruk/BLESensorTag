@@ -12,8 +12,10 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
+import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperature;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentBarometerFragment;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentHumidityFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentIRTemperatureFragment;
 
 
 public class DBPresentSensorActivity extends Activity {
@@ -103,7 +105,7 @@ public class DBPresentSensorActivity extends Activity {
         fragment = fm.findFragmentByTag(NEGOTIATE_FRAGMENT_TAG);
         if( fragment == null )
         {
-            fragment = DBPresentHumidityFragment.newInstance(rootRecord, sensorRecord);
+            fragment = DBPresentIRTemperatureFragment.newInstance(rootRecord, sensorRecord);
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(fragment, NEGOTIATE_FRAGMENT_TAG);
             ft.replace(R.id.db_presentation_container, fragment);
