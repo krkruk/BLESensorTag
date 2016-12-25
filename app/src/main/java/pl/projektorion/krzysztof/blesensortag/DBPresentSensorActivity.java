@@ -11,14 +11,21 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
+import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryParcelableListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometer;
+import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometerCount;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidity;
+import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityCount;
+import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityCountData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperature;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Movement.DBSelectMovement;
 import pl.projektorion.krzysztof.blesensortag.database.selects.OpticalSensor.DBSelectOpticalSensor;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentBarometerFragment;
+import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
 public class DBPresentSensorActivity extends Activity {
 
@@ -43,6 +50,21 @@ public class DBPresentSensorActivity extends Activity {
 
     private Fragment fragment;
 
+    private ServiceDataReceiver receiver;
+
+    private ServiceDataReceiver.ReceiverListener receiverListener = new ServiceDataReceiver.ReceiverListener() {
+        @Override
+        public void onReceiveResult(int resultCode, Bundle resultData) {
+            if( resultCode == DBSelectIntentService.EXTRA_RESULT_CODE )
+            {
+                List<? extends DBSelectInterface> data = resultData.getParcelableArrayList(
+                        DBSelectIntentService.EXTRA_RESULT);
+                if( data != null )
+                    Log.i("ColCount", data.get(0).toString() + " - " +
+                            data.get(0).getData(DBSelectHumidityCountData.ATTRIBUTE_CSV_HEADER));
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +74,17 @@ public class DBPresentSensorActivity extends Activity {
         if( !restore_saved_instance(savedInstanceState) )
             acquire_data();
         init_widgets();
+        receiver = new ServiceDataReceiver(new Handler());
+        receiver.setListener(receiverListener);
 
-        negotiate_fragment();
+        final Intent intent = new Intent(this, DBSelectIntentService.class);
+        final DBQueryParcelableListenerInterface sensor =
+                new DBSelectHumidityCount(rootRecord);
+        intent.putExtra(DBSelectIntentService.EXTRA_SENSOR_DATA_SELECT, sensor);
+        intent.putExtra(DBSelectIntentService.EXTRA_RESULT_RECEIVER, receiver);
+        startService(intent);
+
+//        negotiate_fragment();
     }
 
     @Override
