@@ -1,12 +1,9 @@
 package pl.projektorion.krzysztof.blesensortag.fragments.database;
 
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.app.Fragment;
 import android.support.v4.os.ResultReceiver;
 import android.util.Log;
@@ -29,7 +26,6 @@ import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryParcelableListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryWithLimitsListenerInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometerData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidity;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityCount;
@@ -45,7 +41,7 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
     private View view;
     private LineChart chart;
     private LineData lineData;
-    private LineDataSet pressureSet;
+    private LineDataSet humiditySet;
     private LineDataSet temperatureSet;
 
     private ServiceDataReceiver.ReceiverListener dataListener = new ServiceDataReceiver.ReceiverListener() {
@@ -132,17 +128,17 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
             Log.i("DATA", String.format("%d: relativeHumid: %f, temp: %f", time, relativeHumid, temperature));
         }
 
-        create_pressure_set(humidityData);
+        create_humidity_data_set(humidityData);
         create_temperature_set(temperatureData);
 
         final List<ILineDataSet> sets = new ArrayList<>();
-        sets.add(pressureSet);
+        sets.add(humiditySet);
         sets.add(temperatureSet);
 
         lineData = new LineData(sets);
         chart.setData(lineData);
 
-        pressureSet.notifyDataSetChanged();
+        humiditySet.notifyDataSetChanged();
         temperatureSet.notifyDataSetChanged();
         lineData.notifyDataChanged();
         chart.invalidate();
@@ -161,18 +157,18 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
         chart.getDescription().setEnabled(false);
     }
 
-    private void create_pressure_set(List<Entry> pressureData)
+    private void create_humidity_data_set(List<Entry> pressureData)
     {
         final int pressureColor = Color.RED;
         final String label = String.format(Locale.getDefault(), "%s [%s]",
                 getString(R.string.label_humidity),
                 getString(R.string.label_humidity_unit));
 
-        pressureSet = new LineDataSet(pressureData, label);
-        pressureSet.setCircleColor(pressureColor);
-        pressureSet.setColor(pressureColor);
-        pressureSet.setDrawCircleHole(false);
-        pressureSet.setDrawCircles(true);
+        humiditySet = new LineDataSet(pressureData, label);
+        humiditySet.setCircleColor(pressureColor);
+        humiditySet.setColor(pressureColor);
+        humiditySet.setDrawCircleHole(false);
+        humiditySet.setDrawCircles(true);
     }
 
     private void create_temperature_set(List<Entry> temperatureData)
