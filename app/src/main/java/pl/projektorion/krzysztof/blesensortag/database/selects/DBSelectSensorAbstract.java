@@ -11,8 +11,8 @@ import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryWithLimit
 
 public abstract class DBSelectSensorAbstract implements DBQueryWithLimitsListenerInterface {
 
-    private static final int MIN_NO_ELEMS = 0;
-    private static final int MIN_OFFSET = 1;
+    private static final int MIN_NO_ELEMS = 1;
+    private static final int MIN_OFFSET = 0;
     protected DBSelectInterface rootRecord;
     private final long notifyPeriod;
 
@@ -61,7 +61,7 @@ public abstract class DBSelectSensorAbstract implements DBQueryWithLimitsListene
 
     @Override
     public synchronized void onQueryExecuted(Cursor cursor) {
-        long time = 0;
+        long time = startAt * notifyPeriod;
         do
         {
             parse_cursor_data(time, cursor);
