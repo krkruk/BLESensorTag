@@ -26,6 +26,7 @@ import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBS
 import pl.projektorion.krzysztof.blesensortag.database.selects.Movement.DBSelectMovement;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Movement.DBSelectMovementCount;
 import pl.projektorion.krzysztof.blesensortag.database.selects.OpticalSensor.DBSelectOpticalSensor;
+import pl.projektorion.krzysztof.blesensortag.database.selects.OpticalSensor.DBSelectOpticalSensorCount;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentBarometerFragment;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
@@ -81,7 +82,7 @@ public class DBPresentSensorActivity extends Activity {
 
         final Intent intent = new Intent(this, DBSelectIntentService.class);
         final DBQueryParcelableListenerInterface sensor =
-                new DBSelectMovementCount(rootRecord);
+                new DBSelectOpticalSensorCount(rootRecord);
         intent.putExtra(DBSelectIntentService.EXTRA_SENSOR_DATA_SELECT, sensor);
         intent.putExtra(DBSelectIntentService.EXTRA_RESULT_RECEIVER, receiver);
         startService(intent);
