@@ -13,11 +13,8 @@ import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryParcelableListenerInterface;
-import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryWithLimitsListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidity;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityCount;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityCountData;
+
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
 /**
@@ -35,11 +32,21 @@ implements ServiceDataReceiver.ReceiverListener {
     private Context context;
     private ServiceDataReceiver dataCounterReceiver;
 
-    private DBSelectInterface rootRecord;
-    private DBSelectInterface sensorRecord;
     private long availableRecords = 0;
-
+    private long readMaxRecordsPerLoad = 5;
     private DBSelectOnChartFlingListener flingListener;
+
+    /**
+     * {@link DBSelectInterface} root record that holds crucial data
+     * for retrieving data from database
+     */
+    protected DBSelectInterface rootRecord;
+
+    /**
+     * {@link DBSelectInterface} sensor record that holds crucial data
+     * for retrieving data from database
+     */
+    protected DBSelectInterface sensorRecord;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +59,6 @@ implements ServiceDataReceiver.ReceiverListener {
     @Override
     public void onStart() {
         super.onStart();
-
         request_record_count();
     }
 
@@ -64,7 +70,7 @@ implements ServiceDataReceiver.ReceiverListener {
                     .getParcelableArrayList(DBSelectIntentService.EXTRA_RESULT);
             if( data == null || data.size() <= 0) return;
             availableRecords = (long) data.get(0).getData(attribute_count());
-            flingListener = new DBSelectOnChartFlingListener(availableRecords, 5);
+            flingListener = new DBSelectOnChartFlingListener(availableRecords, readMaxRecordsPerLoad);
             Log.i("COUNTED", "Val: " + availableRecords);
         }
 
@@ -73,6 +79,20 @@ implements ServiceDataReceiver.ReceiverListener {
 
     public long getAvailableRecords() {
         return availableRecords;
+    }
+
+    public long getStartAt()
+    {
+        return flingListener.getStartAt();
+    }
+
+    public long getMaxRecordsPerLoad()
+    {
+        return flingListener.getMaxElementsPerLoad();
+    }
+
+    public void setReadMaxRecordsPerLoad(long readMaxRecordsPerLoad) {
+        this.readMaxRecordsPerLoad = readMaxRecordsPerLoad;
     }
 
     public static DBPresentHumidityFragment newInstance(DBSelectInterface rootRecord, DBSelectInterface sensorRecord) {
