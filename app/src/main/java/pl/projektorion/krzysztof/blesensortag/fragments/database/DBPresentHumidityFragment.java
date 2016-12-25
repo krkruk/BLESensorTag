@@ -3,6 +3,7 @@ package pl.projektorion.krzysztof.blesensortag.fragments.database;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,22 +14,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryParcelableListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryWithLimitsListenerInterface;
+import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometerData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidity;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityCount;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityCountData;
+import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityData;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
+
+    private View view;
+    private LineChart chart;
+    private LineData lineData;
+    private LineDataSet pressureSet;
+    private LineDataSet temperatureSet;
 
     private ServiceDataReceiver.ReceiverListener dataListener = new ServiceDataReceiver.ReceiverListener() {
         @Override
@@ -58,7 +75,15 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_dbpresent_humidity, container, false);
+        view = inflater.inflate(R.layout.fragment_dbpresent_humidity, container, false);
+        init_widgets();
+        return view;
+    }
+
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        super.onReceiveResult(resultCode, resultData);
+        chart.setOnChartGestureListener(super.getFlingListener());
     }
 
     @Override
@@ -92,7 +117,68 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
     @Override
     protected void apply_data(List<? extends DBSelectInterface> data)
     {
-        for(DBSelectInterface echo : data)
-            Log.i("Data", echo.toString());
+        List<Entry> humidityData = new ArrayList<>();
+        List<Entry> temperatureData = new ArrayList<>();
+
+        for(DBSelectInterface entry : data)
+        {
+            final long time = (long) entry.getData(DBSelectHumidityData.ATTRIBUTE_TIME);
+            final double relativeHumid = (double) entry.getData(DBSelectHumidityData.ATTRIBUTE_RELATIVE_HUMIDITY);
+            final double temperature = (double) entry.getData(DBSelectHumidityData.ATTRIBUTE_TEMPERATURE);
+            humidityData.add(new Entry(time, (float)relativeHumid));
+            temperatureData.add(new Entry(time, (float)temperature));
+
+            Log.i("DATA", String.format("%d: relativeHumid: %f, temp: %f", time, relativeHumid, temperature));
+        }
+
+        create_pressure_set(humidityData);
+        create_temperature_set(temperatureData);
+
+        final List<ILineDataSet> sets = new ArrayList<>();
+        sets.add(pressureSet);
+        sets.add(temperatureSet);
+
+        lineData = new LineData(sets);
+        chart.setData(lineData);
+
+        pressureSet.notifyDataSetChanged();
+        temperatureSet.notifyDataSetChanged();
+        lineData.notifyDataChanged();
+        chart.invalidate();
+        chart.notifyDataSetChanged();
+    }
+
+    private void init_widgets()
+    {
+        chart = (LineChart) view.findViewById(R.id.humidity_chart);
+        setup_chart();
+    }
+
+    private void setup_chart()
+    {
+        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        chart.getDescription().setEnabled(false);
+    }
+
+    private void create_pressure_set(List<Entry> pressureData)
+    {
+        final int pressureColor = Color.RED;
+
+        pressureSet = new LineDataSet(pressureData, "RelativeHumidity");
+        pressureSet.setCircleColor(pressureColor);
+        pressureSet.setColor(pressureColor);
+        pressureSet.setDrawCircleHole(false);
+        pressureSet.setDrawCircles(true);
+    }
+
+    private void create_temperature_set(List<Entry> temperatureData)
+    {
+        final int temperatureColor = Color.BLUE;
+
+        temperatureSet = new LineDataSet(temperatureData, "Temperature");
+        temperatureSet.setCircleColor(temperatureColor);
+        temperatureSet.setColor(temperatureColor);
+        temperatureSet.setDrawCircleHole(false);
+        temperatureSet.setDrawCircles(true);
     }
 }

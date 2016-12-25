@@ -103,7 +103,7 @@ public class DBPresentSensorActivity extends Activity {
         fragment = fm.findFragmentByTag(NEGOTIATE_FRAGMENT_TAG);
         if( fragment == null )
         {
-            fragment = DBPresentBarometerFragment.newInstance(rootRecord, sensorRecord);
+            fragment = DBPresentHumidityFragment.newInstance(rootRecord, sensorRecord);
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(fragment, NEGOTIATE_FRAGMENT_TAG);
             ft.replace(R.id.db_presentation_container, fragment);
