@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRecordsCountAbstract;
+import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectSensorCountAbstract;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometer;
 
@@ -15,7 +15,7 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.
  * Created by krzysztof on 25.12.16.
  */
 
-public class DBSelectBarometerCount extends DBSelectRecordsCountAbstract {
+public class DBSelectBarometerCount extends DBSelectSensorCountAbstract {
 
     private DBSelectInterface barometerRecordsCount;
 

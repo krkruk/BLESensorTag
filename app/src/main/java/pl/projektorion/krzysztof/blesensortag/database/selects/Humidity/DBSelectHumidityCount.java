@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRecordsCountAbstract;
+import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectSensorCountAbstract;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidity;
 
 /**
  * Created by krzysztof on 25.12.16.
  */
 
-public class DBSelectHumidityCount extends DBSelectRecordsCountAbstract {
+public class DBSelectHumidityCount extends DBSelectSensorCountAbstract {
 
     private DBSelectInterface humidityRecordsCount;
 

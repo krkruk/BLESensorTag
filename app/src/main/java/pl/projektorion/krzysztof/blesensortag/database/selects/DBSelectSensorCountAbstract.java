@@ -10,15 +10,15 @@ import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface
  * Created by krzysztof on 25.12.16.
  */
 
-public abstract class DBSelectRecordsCountAbstract implements DBQueryParcelableListenerInterface {
+public abstract class DBSelectSensorCountAbstract implements DBQueryParcelableListenerInterface {
 
     private DBSelectInterface rootRecord;
 
-    public DBSelectRecordsCountAbstract(DBSelectInterface rootRecord) {
+    public DBSelectSensorCountAbstract(DBSelectInterface rootRecord) {
         this.rootRecord = rootRecord;
     }
 
-    public DBSelectRecordsCountAbstract(Parcel in)
+    public DBSelectSensorCountAbstract(Parcel in)
     {
         this.rootRecord = in.readParcelable(DBSelectInterface.class.getClassLoader());
     }
@@ -49,7 +49,7 @@ public abstract class DBSelectRecordsCountAbstract implements DBQueryParcelableL
 
     @Override
     public String getLabel() {
-        return "DBSelectRecordsCountAbstract";
+        return "DBSelectSensorCountAbstract";
     }
 
     protected abstract String table_name();
