@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentBarometerFragment">
+    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.database.Barometer.DBPresentBarometerFragment">
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/barometer_chart"

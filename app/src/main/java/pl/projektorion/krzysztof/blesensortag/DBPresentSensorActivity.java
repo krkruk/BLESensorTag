@@ -12,12 +12,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperature;
-import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentBarometerFragment;
-import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentHumidityFragment;
-import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentIRTemperatureFragment;
-import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentMovementFragment;
-import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentOpticalSensorFragment;
+import pl.projektorion.krzysztof.blesensortag.factories.DBPresentSensorFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.database.Movement.DBPresentMovementFragment;
 
 
 public class DBPresentSensorActivity extends Activity {
@@ -41,6 +37,7 @@ public class DBPresentSensorActivity extends Activity {
     private TextView sensorPresentationLabel;
     private FrameLayout fragmentSink;
 
+    private DBPresentSensorFactory fragmentFactory;
     private Fragment fragment;
 
     @Override
@@ -50,6 +47,7 @@ public class DBPresentSensorActivity extends Activity {
 
         if( !restore_saved_instance(savedInstanceState) )
             acquire_data();
+        init_objects();
         init_widgets();
 
         negotiate_fragment();
@@ -93,6 +91,11 @@ public class DBPresentSensorActivity extends Activity {
         Log.i("TableName", sensorLabel);
     }
 
+    private void init_objects()
+    {
+        fragmentFactory = new DBPresentSensorFactory(rootRecord, sensorRecord);
+    }
+
     private void init_widgets()
     {
         sensorPresentationLabel = (TextView) findViewById(R.id.sensor_presentation_label);
@@ -107,7 +110,7 @@ public class DBPresentSensorActivity extends Activity {
         fragment = fm.findFragmentByTag(NEGOTIATE_FRAGMENT_TAG);
         if( fragment == null )
         {
-            fragment = DBPresentMovementFragment.newInstance(rootRecord, sensorRecord);
+            fragment = fragmentFactory.create(sensorLabel);
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(fragment, NEGOTIATE_FRAGMENT_TAG);
             ft.replace(R.id.db_presentation_container, fragment);

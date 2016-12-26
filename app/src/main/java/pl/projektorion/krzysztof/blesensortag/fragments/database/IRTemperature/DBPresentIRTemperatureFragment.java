@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.fragments.database;
+package pl.projektorion.krzysztof.blesensortag.fragments.database.IRTemperature;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -30,6 +30,7 @@ import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBS
 import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperatureCount;
 import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperatureCountData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperatureData;
+import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentSensorFragmentAbstract;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
 /**

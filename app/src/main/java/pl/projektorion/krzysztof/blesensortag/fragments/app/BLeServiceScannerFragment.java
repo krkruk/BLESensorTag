@@ -37,8 +37,8 @@ import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerExpandab
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientService;
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattProfiles;
-import pl.projektorion.krzysztof.blesensortag.data.BLeDataConfigFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.data.BLeDataProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.factories.BLeDataConfigFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.factories.BLeDataProfileFactory;
 
 /**
  * A simple {@link Fragment} subclass.

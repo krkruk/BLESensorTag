@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.data;
+package pl.projektorion.krzysztof.blesensortag.factories;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
@@ -7,6 +7,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.Humid
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfile;
+import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattProfiles;
 import pl.projektorion.krzysztof.blesensortag.fragments.BLeFragmentsFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.BarometricPressureNotifyConfigFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.HumidityNotifyConfigFragmentFactory;

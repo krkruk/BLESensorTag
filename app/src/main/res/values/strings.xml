@@ -78,4 +78,7 @@
     <string name="axis_mag_x">X [μT]</string>
     <string name="axis_mag_y">Y [μT]</string>
     <string name="axis_mag_z">Z [μT]</string>
+
+    <!--Null fragment message-->
+    <string name="null_fragment_message">An inevitable occurrence happened! ERROR!</string>
 </resources>

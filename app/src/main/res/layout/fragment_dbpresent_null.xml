@@ -2,12 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.database.Humidity.DBPresentHumidityFragment">
+    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentNullFragment">
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/humidity_chart"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:text="@string/null_fragment_message"
+        android:gravity="center"
     />
 
 </RelativeLayout>

@@ -14,7 +14,6 @@ import android.content.ServiceConnection;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +23,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattModelInterfac
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattModels;
-import pl.projektorion.krzysztof.blesensortag.data.BLeDataModelFactory;
+import pl.projektorion.krzysztof.blesensortag.factories.BLeDataModelFactory;
 
 public class BLeGattModelService extends Service
     implements BLeGattClientCallback{

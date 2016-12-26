@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.data;
+package pl.projektorion.krzysztof.blesensortag.factories;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadModelFactory;

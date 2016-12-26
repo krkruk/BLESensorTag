@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.fragments.database;
+package pl.projektorion.krzysztof.blesensortag.fragments.database.OpticalSensor;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,6 +29,7 @@ import pl.projektorion.krzysztof.blesensortag.database.selects.OpticalSensor.DBS
 import pl.projektorion.krzysztof.blesensortag.database.selects.OpticalSensor.DBSelectOpticalSensorCount;
 import pl.projektorion.krzysztof.blesensortag.database.selects.OpticalSensor.DBSelectOpticalSensorCountData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.OpticalSensor.DBSelectOpticalSensorData;
+import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentSensorFragmentAbstract;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
 /**

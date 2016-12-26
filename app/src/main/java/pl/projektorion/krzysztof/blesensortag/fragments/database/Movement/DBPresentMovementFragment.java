@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.fragments.database;
+package pl.projektorion.krzysztof.blesensortag.fragments.database.Movement;
 
 
 import android.graphics.Color;
@@ -29,6 +29,8 @@ import pl.projektorion.krzysztof.blesensortag.database.selects.Movement.DBSelect
 import pl.projektorion.krzysztof.blesensortag.database.selects.Movement.DBSelectMovementCount;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Movement.DBSelectMovementCountData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Movement.DBSelectMovementData;
+import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentSensorFragmentAbstract;
+import pl.projektorion.krzysztof.blesensortag.fragments.database.DBSelectOnChartFlingIDListener;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
 /**
