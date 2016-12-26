@@ -52,6 +52,22 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
     private LineDataSet magYSet;
     private LineDataSet magZSet;
 
+    private DBSelectOnChartFlingIDListener accChartListener;
+    private final int accOnFlingId = 0x01;
+    private DBSelectOnChartFlingIDListener gyrChartListener;
+    private final int gyrOnFlingId = 0x02;
+    private DBSelectOnChartFlingIDListener magChartListener;
+    private final int magOnFlingId = 0x03;
+    private DBSelectOnChartFlingIDListener currentChartListener = null;
+    private final int initialOnFlingId = 0x00;
+
+    private DBSelectOnChartFlingIDListener.ChartTask onFlingTask = new DBSelectOnChartFlingIDListener.ChartTask() {
+        @Override
+        public void run(DBSelectOnChartFlingIDListener listener) {
+            currentChartListener = listener;
+            request_new_data();
+        }
+    };
 
     private ServiceDataReceiver.ReceiverListener receiverListener = new ServiceDataReceiver.ReceiverListener() {
         @Override
@@ -61,13 +77,26 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
                 List<? extends DBSelectInterface> data = resultData
                         .getParcelableArrayList(DBSelectIntentService.EXTRA_RESULT);
                 if( data == null ) return;
-                apply_data(data);
+                switch (currentChartListener.getChartId())
+                {
+                    case initialOnFlingId:
+                        apply_data(data); break;
+                    case accOnFlingId:
+                        apply_acc_data(data);
+                        break;
+                    case gyrOnFlingId:
+                        apply_gyr_data(data);
+                        break;
+                    case magOnFlingId:
+                        apply_mag_data(data);
+                        break;
+                    default: break;
+                }
             }
         }
     };
 
     public DBPresentMovementFragment() {
-        // Required empty public constructor
     }
 
     public static DBPresentMovementFragment newInstance(DBSelectInterface rootRecord, DBSelectInterface sensorRecord) {
@@ -89,7 +118,12 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
 
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
+        currentChartListener = new DBSelectOnChartFlingIDListener(                  //ugly solution but
+                getMaxRecordsPerLoad(), getMaxRecordsPerLoad(), initialOnFlingId);  //i don't give a fuck at this time
+
         super.onReceiveResult(resultCode, resultData);
+        create_chart_listeners();
+        setup_chart_listeners();
     }
 
     @Override
@@ -113,7 +147,8 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
     protected DBQueryParcelableListenerInterface data_instance() {
         DBQueryWithLimitsListenerInterface movementQuery = new DBSelectMovement(
                 rootRecord, sensorRecord);
-        movementQuery.setLimit(super.getStartAt(), super.getMaxRecordsPerLoad());
+        movementQuery.setLimit(currentChartListener.getStartAt(),
+                currentChartListener.getMaxElementsPerLoad());
         return movementQuery;
     }
 
@@ -164,6 +199,71 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         apply_to_mag_chart();
     }
 
+    protected void apply_acc_data(List<? extends DBSelectInterface> data)
+    {
+        List<Entry> accXData = new ArrayList<>();
+        List<Entry> accYData = new ArrayList<>();
+        List<Entry> accZData = new ArrayList<>();
+
+        for(DBSelectInterface record : data)
+        {
+            final long time = (long) record.getData(DBSelectMovementData.ATTRIBUTE_MEASUREMENT);
+            accXData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_X)));
+            accYData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_Y)));
+            accZData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_Z)));
+        }
+
+        create_acc_x_set(accXData);
+        create_acc_y_set(accYData);
+        create_acc_z_set(accZData);
+
+        apply_to_acc_chart();
+    }
+
+    protected void apply_gyr_data(List<? extends  DBSelectInterface> data)
+    {
+        List<Entry> gyrXData = new ArrayList<>();
+        List<Entry> gyrYData = new ArrayList<>();
+        List<Entry> gyrZData = new ArrayList<>();
+
+        for(DBSelectInterface record : data)
+        {
+            final long time = (long) record.getData(DBSelectMovementData.ATTRIBUTE_MEASUREMENT);
+
+            gyrXData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_X)));
+            gyrYData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_Y)));
+            gyrZData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_Z)));
+        }
+
+        create_gyr_x_set(gyrXData);
+        create_gyr_y_set(gyrYData);
+        create_gyr_z_set(gyrZData);
+
+        apply_to_gyr_chart();
+    }
+
+    protected void apply_mag_data(List<? extends DBSelectInterface> data)
+    {
+        List<Entry> magXData = new ArrayList<>();
+        List<Entry> magYData = new ArrayList<>();
+        List<Entry> magZData = new ArrayList<>();
+
+        for(DBSelectInterface record : data)
+        {
+            final long time = (long) record.getData(DBSelectMovementData.ATTRIBUTE_MEASUREMENT);
+
+            magXData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_X)));
+            magYData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_Y)));
+            magZData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_Z)));
+        }
+
+        create_mag_x_set(magXData);
+        create_mag_y_set(magYData);
+        create_mag_z_set(magZData);
+
+        apply_to_mag_chart();
+    }
+
     private void init_widgets()
     {
         accChart = (LineChart) view.findViewById(R.id.acc_present_chart);
@@ -173,15 +273,36 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         setup_charts();
     }
 
+    private void create_chart_listeners()
+    {
+        accChartListener = new DBSelectOnChartFlingIDListener(
+                getAvailableRecords(), getMaxRecordsPerLoad(), accOnFlingId);
+        gyrChartListener = new DBSelectOnChartFlingIDListener(
+                getAvailableRecords(), getMaxRecordsPerLoad(), gyrOnFlingId);
+        magChartListener = new DBSelectOnChartFlingIDListener(
+                getAvailableRecords(), getMaxRecordsPerLoad(), magOnFlingId);
+    }
+
+    private void setup_chart_listeners()
+    {
+        accChartListener.setTask(onFlingTask);
+        gyrChartListener.setTask(onFlingTask);
+        magChartListener.setTask(onFlingTask);
+
+        accChart.setOnChartGestureListener(accChartListener);
+        gyrChart.setOnChartGestureListener(gyrChartListener);
+        magChart.setOnChartGestureListener(magChartListener);
+    }
+
     private void setup_charts()
     {
         accChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         gyrChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         magChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        accChart.getDescription().setEnabled(false);
-        gyrChart.getDescription().setEnabled(false);
-        magChart.getDescription().setEnabled(false);
+        accChart.getDescription().setText(getString(R.string.label_accelerometer));
+        gyrChart.getDescription().setText(getString(R.string.label_gyroscope));
+        magChart.getDescription().setText(getString(R.string.label_magnetometer));
     }
 
     private void create_acc_x_set(List<Entry> data)

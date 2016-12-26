@@ -118,7 +118,9 @@ implements ServiceDataReceiver.ReceiverListener {
      */
     public long getMaxRecordsPerLoad()
     {
-        return flingListener.getMaxElementsPerLoad();
+        return flingListener == null
+                ? readMaxRecordsPerLoad
+                : flingListener.getMaxElementsPerLoad();
     }
 
     /**
