@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        negotiate_fragment();
+        negotiate_fragment();
 //        init_temporary_db();
     }
 

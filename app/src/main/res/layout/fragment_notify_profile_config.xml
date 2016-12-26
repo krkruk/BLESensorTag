@@ -44,6 +44,7 @@
         android:gravity="center">
 
         <TextView
+            android:id="@+id/period_state_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

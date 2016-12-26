@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.TextView;
+
+import java.util.Locale;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfileInterface;
@@ -23,6 +26,7 @@ public class FragmentNotifyProfileConfigFragment extends Fragment
     private Switch notificationSwitch;
     private Switch measurementSwitch;
     private SeekBar periodSeekBar;
+    private TextView periodLabel;
     private int PERIOD_MIN_VALUE = 0x0a;
 
     private NotifyGattProfileInterface profile;
@@ -58,6 +62,7 @@ public class FragmentNotifyProfileConfigFragment extends Fragment
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             this.progress = progress;
+            set_update_period_label( progress*10 );
         }
 
         @Override
@@ -71,6 +76,7 @@ public class FragmentNotifyProfileConfigFragment extends Fragment
             if( profile != null )
                 profile.configurePeriod( progress );
             periodSeekBar.setProgress(progress);
+            set_update_period_label(profile.getPeriod());
         }
     };
 
@@ -112,11 +118,24 @@ public class FragmentNotifyProfileConfigFragment extends Fragment
         this.PERIOD_MIN_VALUE = value;
     }
 
+    private void set_update_period_label(int value)
+    {
+        if( periodLabel == null )
+            return;
+
+        final String label = String.format(Locale.getDefault(), "%s [%d ms]",
+                getString(R.string.label_config_period),
+                value);
+
+        periodLabel.setText(label);
+    }
+
     private void init_widgets()
     {
         notificationSwitch = (Switch) view.findViewById(R.id.switch_notification_state);
         measurementSwitch = (Switch) view.findViewById(R.id.switch_measurement_state);
         periodSeekBar = (SeekBar) view.findViewById(R.id.seekbar_period_state);
+        periodLabel = (TextView) view.findViewById(R.id.period_state_label);
     }
 
     private void init_start_widget_values()
@@ -127,7 +146,8 @@ public class FragmentNotifyProfileConfigFragment extends Fragment
             notificationSwitch.setChecked(profile.isNotifying());
             measurementSwitch.setChecked(profile.isMeasuring()
                     != NotifyGattProfileInterface.DISABLE_ALL_MEASUREMENTS);
-            periodSeekBar.setProgress(profile.getPeriod());
+            periodSeekBar.setProgress(profile.getPeriod() / 10);
+            set_update_period_label(profile.getPeriod());
         }
     }
 
@@ -144,5 +164,4 @@ public class FragmentNotifyProfileConfigFragment extends Fragment
         measurementSwitch.setEnabled(measurementSwitchEnabled);
         periodSeekBar.setEnabled(periodSeekBarEnabled);
     }
-
 }
