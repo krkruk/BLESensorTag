@@ -185,9 +185,7 @@ public class BLeGattClientService extends Service
 
     public boolean discoverServices()
     {
-        if( gattClient != null )
-            return gattClient.discoverServices();
-        return false;
+        return gattClient != null && gattClient.discoverServices();
     }
 
     public List<BluetoothGattService> getServices() { return gattClient.getServices(); }
@@ -213,30 +211,22 @@ public class BLeGattClientService extends Service
 
     @Override
     public boolean writeDescriptor(BluetoothGattDescriptor d) {
-        if( gattClient == null )
-            return false;
-        return gattClient.writeDescriptor(d);
+        return gattClient != null && gattClient.writeDescriptor(d);
     }
 
     @Override
     public boolean writeCharacteristic(BluetoothGattCharacteristic c) {
-        if( gattClient == null )
-            return false;
-        return gattClient.writeCharacteristic(c);
+        return  gattClient != null && gattClient.writeCharacteristic(c);
     }
 
     @Override
     public boolean readCharacteristic(BluetoothGattCharacteristic c) {
-        if( gattClient == null )
-            return false;
-        return gattClient.readCharacteristic(c);
+        return gattClient != null && gattClient.readCharacteristic(c);
     }
 
     @Override
     public boolean readDescriptor(BluetoothGattDescriptor d) {
-        if( gattClient == null )
-            return false;
-        return gattClient.readDescriptor(d);
+        return gattClient != null && gattClient.readDescriptor(d);
     }
 
     public void setCallbacks(BLeGattClientCallback callbacks)
