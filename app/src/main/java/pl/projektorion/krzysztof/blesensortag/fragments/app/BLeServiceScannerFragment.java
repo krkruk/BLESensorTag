@@ -210,6 +210,16 @@ public class BLeServiceScannerFragment extends Fragment {
         return fragment;
     }
 
+    public BLeAvailableGattProfiles getProfiles()
+    {
+        return gattProfiles;
+    }
+
+    public List<BluetoothGattService> getServices()
+    {
+        return gattService.getServices();
+    }
+
     private void populate_profile_factory()
     {
         profileFactory.initProfiles(gattService);

@@ -24,6 +24,8 @@ public class DBRowWriter {
         writeCmds.add(writeCmd);
     }
 
+    public boolean isEmpty() { return writeCmds.isEmpty(); }
+
     public void write()
     {
         db.beginTransaction();

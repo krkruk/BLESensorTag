@@ -56,6 +56,10 @@ public class DBService extends Service {
     private DBInsertFactory dbInsertFactory;
     private DBInsertFactory dbInsertParamFactory;
 
+    private List<BluetoothGattService> services;
+    private BLeAvailableGattProfiles profiles;
+    private BLeAvailableGattModels models;
+
     public DBService() {
     }
 
@@ -64,7 +68,32 @@ public class DBService extends Service {
         return binder;
     }
 
-    public void initGattServices(List<BluetoothGattService> services)
+    public void setServices(List<BluetoothGattService> services)
+    {
+        this.services = services;
+    }
+
+    public void setProfiles(BLeAvailableGattProfiles profiles)
+    {
+        this.profiles = profiles;
+    }
+
+    public void setModels(BLeAvailableGattModels models)
+    {
+        this.models = models;
+    }
+
+    public void initService() throws NullPointerException
+    {
+        if( services == null || profiles == null || models == null )
+            throw new NullPointerException("No data passed into DBService");
+
+        initGattServices(services);
+        initDatabase(models);
+        insertParams(profiles);
+    }
+
+    protected void initGattServices(List<BluetoothGattService> services)
     {
         if( dbTables != null ) return;
 
@@ -79,7 +108,7 @@ public class DBService extends Service {
         }
     }
 
-    public void initDatabase(BLeAvailableGattModels models) throws NullPointerException
+    protected void initDatabase(BLeAvailableGattModels models) throws NullPointerException
     {
         if( dbTables == null )
             throw new NullPointerException("Gatt Services not initialized in DB");
@@ -95,7 +124,7 @@ public class DBService extends Service {
         register_observers(models);
     }
 
-    public void insertParams(BLeAvailableGattProfiles profiles)
+    protected void insertParams(BLeAvailableGattProfiles profiles)
     {
         for(UUID profileUuid : profiles.keySet())
         {
@@ -116,6 +145,8 @@ public class DBService extends Service {
     {
         dbWriter.write();
     }
+
+    public boolean isEmpty() { return dbWriter.isEmpty(); }
 
     private void init_row_factory(DBRowWriter dbWriter)
     {
