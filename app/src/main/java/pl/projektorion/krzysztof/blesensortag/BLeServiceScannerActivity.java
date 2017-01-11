@@ -5,19 +5,22 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.app.FragmentManager;
+import android.os.Handler;
+import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattIOService;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattModelService;
 import pl.projektorion.krzysztof.blesensortag.fragments.presentation.BLePresentationFragment;
 import pl.projektorion.krzysztof.blesensortag.fragments.app.BLeServiceScannerFragment;
 
@@ -32,22 +35,45 @@ public class BLeServiceScannerActivity extends Activity {
     private final static String TAG_BLE_PRESENTATION =
             "pl.projektorion.krzysztof.blesensortag.fragments.app.BLeServiceScannerFragment.tag.BLE_PRESENTATION";
 
+    private final static String EXTRA_SERVICES_DISCOVERED =
+            "pl.projektorion.krzysztof.blesensortag.fragments.app.BLeServiceScannerFragment.tag.SERVICES_DISCOVERED";
+
     private BluetoothDevice bleDevice;
-    private Fragment serviceScannerFragment;
+    private BLeServiceScannerFragment serviceScannerFragment;
     private Fragment presentationBleFragment;
+    private Context appCtx;
 
     private TextView labelDeviceName;
     private TextView labelDeviceUuid;
 
     private MenuItem recordAction;
     private boolean isServiceDiscovered = false;
+    private boolean isServiceBound = false;
 
     private LocalBroadcastManager localBroadcaster;
+    private DBServiceBLe serviceBLe;
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-                isServiceDiscovered = true;
-                if( recordAction != null ) recordAction.setEnabled(isServiceDiscovered);
+            isServiceDiscovered = true;
+            if( recordAction != null ) recordAction.setEnabled(true);
+
+        }
+    };
+
+    private ServiceConnection dbServiceConn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            serviceBLe =
+                    ((DBServiceBLe.DBServiceBLeBinder) service).getService();
+            isServiceBound = true;
+
+            Log.i("DUMP", "Started!");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isServiceBound = false;
         }
     };
 
@@ -55,12 +81,14 @@ public class BLeServiceScannerActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ble_service_scanner);
+        appCtx = getApplicationContext();
 
         retrieve_intent_data();
         load_saved_instance(savedInstanceState);
         negotiate_service_scanner_fragment();
         init_widgets();
         init_widgets_data();
+        init_bound_db_service();
         init_broadcast_receivers();
     }
 
@@ -76,24 +104,52 @@ public class BLeServiceScannerActivity extends Activity {
         switch (item.getItemId())
         {
             case R.id.action_record:
-                Log.i("Click", "Record button clicked!");
+                trigger_db_recording();
+                Log.i("Button", "Action pressed");
                 break;
             default:
                 break;
         }
-        return super.onMenuItemSelected(featureId, item);
+        return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if( serviceBLe != null ) serviceBLe.startAsyncWrite();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if( serviceBLe != null ) serviceBLe.stopAsyncWrite();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(EXTRA_BLE_DEVICE, bleDevice);
+        outState.putBoolean(EXTRA_SERVICES_DISCOVERED, isServiceDiscovered);
     }
 
     @Override
     protected void onDestroy() {
         localBroadcaster.unregisterReceiver(broadcastReceiver);
+        appCtx.unbindService(dbServiceConn);
         super.onDestroy();
+    }
+
+    private void trigger_db_recording()
+    {
+        serviceBLe.setServices(serviceScannerFragment.getServices());
+        serviceBLe.setProfiles(serviceScannerFragment.getProfiles());
+        (new Handler()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                serviceBLe.initService();
+                serviceBLe.startAsyncWrite();
+            }
+        }, 500);
     }
 
     private void retrieve_intent_data()
@@ -105,7 +161,8 @@ public class BLeServiceScannerActivity extends Activity {
     private void negotiate_service_scanner_fragment()
     {
         FragmentManager fm = getFragmentManager();
-        serviceScannerFragment = fm.findFragmentByTag(TAG_SERVICE_SCANNER);
+        serviceScannerFragment = (BLeServiceScannerFragment)
+                fm.findFragmentByTag(TAG_SERVICE_SCANNER);
         if( serviceScannerFragment == null ) {
             FragmentTransaction ft = fm.beginTransaction();
             serviceScannerFragment = BLeServiceScannerFragment.newInstance(bleDevice);
@@ -132,6 +189,7 @@ public class BLeServiceScannerActivity extends Activity {
             return;
 
         bleDevice = savedInstanceState.getParcelable(EXTRA_BLE_DEVICE);
+        isServiceDiscovered = savedInstanceState.getBoolean(EXTRA_SERVICES_DISCOVERED);
     }
 
     private void init_widgets()
@@ -153,12 +211,18 @@ public class BLeServiceScannerActivity extends Activity {
     {
         localBroadcaster = LocalBroadcastManager.getInstance(this);
         localBroadcaster.registerReceiver(broadcastReceiver,
-                new IntentFilter(BLeGattIOService.ACTION_GATT_SERVICES_DISCOVERED));
+                new IntentFilter(BLeGattModelService.ACTION_GATT_MODELS_CREATED));
     }
 
     private void init_menu(Menu menu)
     {
         recordAction = menu.findItem(R.id.action_record);
         recordAction.setEnabled(isServiceDiscovered);
+    }
+
+    private void init_bound_db_service()
+    {
+        appCtx.bindService(new Intent(appCtx, DBServiceBLe.class),
+                dbServiceConn, Context.BIND_AUTO_CREATE);
     }
 }
