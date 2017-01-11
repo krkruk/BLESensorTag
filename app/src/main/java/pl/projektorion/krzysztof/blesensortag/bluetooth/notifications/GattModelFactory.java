@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotifyModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotificationModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.ModelNotifyFactory;
 
 /**
@@ -25,10 +25,10 @@ public class GattModelFactory {
         } catch (Exception e){}
     }
 
-    public GenericGattNotifyModelInterface createObserver(UUID serviceUuid) {
+    public GenericGattNotificationModelInterface createObserver(UUID serviceUuid) {
         ModelNotifyFactory model = methodFactories.get(serviceUuid);
         if( model == null )
-            return new NullNotifyModel();
+            return new NullNotificationModel();
         return model.createModel();
     }
 }

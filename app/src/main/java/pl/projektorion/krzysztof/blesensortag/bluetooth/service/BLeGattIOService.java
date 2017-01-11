@@ -23,7 +23,7 @@ import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.utils.CommandAbstract;
 import pl.projektorion.krzysztof.blesensortag.utils.CommandExecutor;
 
-public class BLeGattClientService extends Service
+public class BLeGattIOService extends Service
     implements BLeGattIO {
 
     public static final String EXTRA_BLE_DEVICE =
@@ -48,9 +48,9 @@ public class BLeGattClientService extends Service
 
     private BluetoothDevice bleDevice;
     private BluetoothGatt gattClient;
-    private BLeGattClientCallback callbacks;
+    private BLeGattIOCallback callbacks;
 
-    private Binder binder = new BLeGattClientBinder();
+    private Binder binder = new BLeGattIOBinder();
     private LocalBroadcastManager broadcaster;
 
     private CommandExecutor cmdWriteExecutor;
@@ -134,7 +134,7 @@ public class BLeGattClientService extends Service
     };
 
 
-    public BLeGattClientService() {
+    public BLeGattIOService() {
     }
 
     @Override
@@ -229,7 +229,7 @@ public class BLeGattClientService extends Service
         return gattClient != null && gattClient.readDescriptor(d);
     }
 
-    public void setCallbacks(BLeGattClientCallback callbacks)
+    public void setCallbacks(BLeGattIOCallback callbacks)
     {
         this.callbacks = callbacks;
     }
@@ -266,9 +266,9 @@ public class BLeGattClientService extends Service
     }
 
 
-    public class BLeGattClientBinder extends Binder {
-        public BLeGattClientService getService() {
-            return BLeGattClientService.this;
+    public class BLeGattIOBinder extends Binder {
+        public BLeGattIOService getService() {
+            return BLeGattIOService.this;
         }
     }
 

@@ -5,7 +5,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotifyModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotificationModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.ProfileData;
 
 /**
@@ -13,7 +13,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces
  */
 
 public class OpticalSensorModel extends AbstractGenericGattModel
-        implements GenericGattNotifyModelInterface {
+        implements GenericGattNotificationModelInterface {
     private ProfileData opticalSensorData;
 
     public OpticalSensorModel() {

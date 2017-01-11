@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotifyModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotificationModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.GenericGattReadModelInterface;
 
 /**
@@ -12,7 +12,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.GenericGattReadM
  */
 
 public class GenericNullModel extends AbstractGenericGattModel
-        implements GenericGattReadModelInterface, GenericGattNotifyModelInterface {
+        implements GenericGattReadModelInterface, GenericGattNotificationModelInterface {
     public GenericNullModel() {
         super();
     }

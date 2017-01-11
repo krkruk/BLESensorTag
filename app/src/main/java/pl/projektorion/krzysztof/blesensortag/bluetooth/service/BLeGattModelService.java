@@ -20,13 +20,13 @@ import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotifyModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotificationModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.GenericGattReadModelInterface;
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattModels;
 import pl.projektorion.krzysztof.blesensortag.factories.BLeDataModelFactory;
 
 public class BLeGattModelService extends Service
-    implements BLeGattClientCallback{
+    implements BLeGattIOCallback {
 
     public static final String ACTION_GATT_MODELS_CREATED =
             "pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattModelService.action.MODELS_CREATED";
@@ -34,7 +34,7 @@ public class BLeGattModelService extends Service
     private IBinder binder = new BLeGattModelBinder();
     private Context appContext;
 
-    private BLeGattClientService gattClient;
+    private BLeGattIOService gattClient;
     private LocalBroadcastManager localBroadcastManager;
 
     private GenericGattModelFactory modelFactory;
@@ -47,7 +47,7 @@ public class BLeGattModelService extends Service
     private ServiceConnection gattServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            gattClient = ((BLeGattClientService.BLeGattClientBinder) service)
+            gattClient = ((BLeGattIOService.BLeGattIOBinder) service)
                     .getService();
             gattClient.setCallbacks(BLeGattModelService.this);
             isServiceBound = true;
@@ -69,7 +69,7 @@ public class BLeGattModelService extends Service
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
 
-            if(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
+            if(BLeGattIOService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
             {
                 create_and_assign_factory();
                 localBroadcastManager.sendBroadcast(new Intent(ACTION_GATT_MODELS_CREATED));
@@ -175,7 +175,7 @@ public class BLeGattModelService extends Service
     /**
      * Get a proper UUID lookup key.
      * Notifying models require a data UUID due to
-     * {@link BLeGattClientCallback#onCharacteristicChanged(BluetoothGatt, BluetoothGattCharacteristic)}
+     * {@link BLeGattIOCallback#onCharacteristicChanged(BluetoothGatt, BluetoothGattCharacteristic)}
      * Read models however require 1+ data UUID to be identified so only service UUID is passed.
      * In order to assign data in the read model case all records are scanned and compared
      * to the UUIDs of the read model instance.
@@ -185,9 +185,9 @@ public class BLeGattModelService extends Service
      */
     private UUID get_lookup_uuid(GenericGattModelInterface model, UUID defaultUuid)
     {
-        if( model instanceof GenericGattNotifyModelInterface) {
-            final GenericGattNotifyModelInterface notifyModel =
-                    (GenericGattNotifyModelInterface) model;
+        if( model instanceof GenericGattNotificationModelInterface) {
+            final GenericGattNotificationModelInterface notifyModel =
+                    (GenericGattNotificationModelInterface) model;
             defaultUuid = notifyModel.getDataUuid();
         }
         return defaultUuid;
@@ -208,13 +208,13 @@ public class BLeGattModelService extends Service
     {
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
 
-        final IntentFilter bleServiceFilter = new IntentFilter(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED);
+        final IntentFilter bleServiceFilter = new IntentFilter(BLeGattIOService.ACTION_GATT_SERVICES_DISCOVERED);
         localBroadcastManager.registerReceiver(serviceGattReceiver, bleServiceFilter);
     }
 
     private void init_bound_services()
     {
-        final Intent gattServiceReq = new Intent(appContext, BLeGattClientService.class);
+        final Intent gattServiceReq = new Intent(appContext, BLeGattIOService.class);
         appContext.bindService(gattServiceReq, gattServiceConnection, Context.BIND_AUTO_CREATE);
     }
 

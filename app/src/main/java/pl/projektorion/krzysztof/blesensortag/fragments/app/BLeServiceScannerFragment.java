@@ -18,9 +18,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -35,7 +32,7 @@ import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerAdapterGroupDataContainer;
 import pl.projektorion.krzysztof.blesensortag.adapters.BLeServiceScannerExpandableAdapter;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattClientService;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattIOService;
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattProfiles;
 import pl.projektorion.krzysztof.blesensortag.factories.BLeDataConfigFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.factories.BLeDataProfileFactory;
@@ -69,11 +66,11 @@ public class BLeServiceScannerFragment extends Fragment {
 
 
     private BluetoothDevice bleDevice;
-    private BLeGattClientService gattService;
+    private BLeGattIOService gattService;
 
     private View view;
     private Context appContext;
-    private MenuItem recordAction;
+
     private ExpandableListView serviceWidgetExpandableList;
     private BLeServiceScannerExpandableAdapter serviceWidgetExpandableAdapter;
 
@@ -84,28 +81,27 @@ public class BLeServiceScannerFragment extends Fragment {
     private BLeAvailableGattProfiles gattProfiles;
     private BLeDataConfigFragmentFactory configFragFactory;
 
-    private boolean isServiceDiscovered = false;
     private BroadcastReceiver serviceGattReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
 
-            if(BLeGattClientService.ACTION_GATT_CONNECTED.equals(action))
+            if(BLeGattIOService.ACTION_GATT_CONNECTED.equals(action))
             {
                 display_status(R.string.status_connected);
                 populate_profile_factory();
 
                 gattService.discoverServices();
             }
-            else if(BLeGattClientService.ACTION_GATT_CONNECTING.equals(action))
+            else if(BLeGattIOService.ACTION_GATT_CONNECTING.equals(action))
             {
                 display_status(R.string.status_connecting);
             }
-            else if(BLeGattClientService.ACTION_GATT_DISCONNECTED.equals(action))
+            else if(BLeGattIOService.ACTION_GATT_DISCONNECTED.equals(action))
             {
                 display_status(R.string.status_disconnected);
             }
-            else if(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
+            else if(BLeGattIOService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
             {
                 serviceWidgetExpandableAdapter.clear();
                 final List<BluetoothGattService> services = gattService.getServices();
@@ -114,8 +110,6 @@ public class BLeServiceScannerFragment extends Fragment {
 //                enable_all_notifications();
 //                enable_all_measurements();
                 populate_adapter();
-                isServiceDiscovered = true;
-                if( recordAction != null ) recordAction.setEnabled(true);
             }
         }
     };
@@ -123,7 +117,7 @@ public class BLeServiceScannerFragment extends Fragment {
     private ServiceConnection gattServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            gattService = ((BLeGattClientService.BLeGattClientBinder) service)
+            gattService = ((BLeGattIOService.BLeGattIOBinder) service)
                     .getService();
             gattService.connect();
         }
@@ -198,15 +192,7 @@ public class BLeServiceScannerFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_ble_service_scanner, container, false);
         init_widgets();
-        setHasOptionsMenu(true);
         return view;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_ble_service_scanner, menu);
-        init_menu(menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -316,10 +302,10 @@ public class BLeServiceScannerFragment extends Fragment {
     private void init_broadcast_receivers()
     {
         IntentFilter serviceFilter = new IntentFilter();
-        serviceFilter.addAction(BLeGattClientService.ACTION_GATT_SERVICES_DISCOVERED);
-        serviceFilter.addAction(BLeGattClientService.ACTION_GATT_CONNECTED);
-        serviceFilter.addAction(BLeGattClientService.ACTION_GATT_CONNECTING);
-        serviceFilter.addAction(BLeGattClientService.ACTION_GATT_DISCONNECTED);
+        serviceFilter.addAction(BLeGattIOService.ACTION_GATT_SERVICES_DISCOVERED);
+        serviceFilter.addAction(BLeGattIOService.ACTION_GATT_CONNECTED);
+        serviceFilter.addAction(BLeGattIOService.ACTION_GATT_CONNECTING);
+        serviceFilter.addAction(BLeGattIOService.ACTION_GATT_DISCONNECTED);
 
         broadcaster = LocalBroadcastManager.getInstance(appContext);
         broadcaster.registerReceiver(serviceGattReceiver, serviceFilter);
@@ -327,8 +313,8 @@ public class BLeServiceScannerFragment extends Fragment {
 
     private void init_bound_services()
     {
-        Intent initGatt = new Intent(appContext, BLeGattClientService.class);
-        initGatt.putExtra(BLeGattClientService.EXTRA_BLE_DEVICE, bleDevice);
+        Intent initGatt = new Intent(appContext, BLeGattIOService.class);
+        initGatt.putExtra(BLeGattIOService.EXTRA_BLE_DEVICE, bleDevice);
         appContext.bindService(initGatt, gattServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
@@ -339,11 +325,7 @@ public class BLeServiceScannerFragment extends Fragment {
         serviceWidgetExpandableList.setOnGroupExpandListener(expandListener);
     }
 
-    private void init_menu(Menu menu)
-    {
-        recordAction = menu.findItem(R.id.action_record);
-        recordAction.setEnabled(isServiceDiscovered);
-    }
+
     private void kill_bound_services()
     {
         appContext.unbindService(gattServiceConnection);

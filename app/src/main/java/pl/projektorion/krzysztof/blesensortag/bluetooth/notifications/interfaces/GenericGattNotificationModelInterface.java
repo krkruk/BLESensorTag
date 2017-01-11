@@ -14,7 +14,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattMo
 /**
  * Observer pattern for SensorTag profiles. Here: interface for an observer
  */
-public interface GenericGattNotifyModelInterface extends GenericGattModelInterface {
+public interface GenericGattNotificationModelInterface extends GenericGattModelInterface {
 
     /**
      * Update Characteristic

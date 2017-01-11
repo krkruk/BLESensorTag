@@ -6,17 +6,17 @@ import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotifyModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotificationModelInterface;
 
 /**
  * Created by krzysztof on 06.11.16.
  */
 
-public class NullNotifyModel extends AbstractGenericGattModel
-        implements GenericGattNotifyModelInterface {
-    public NullNotifyModel() {}
+public class NullNotificationModel extends AbstractGenericGattModel
+        implements GenericGattNotificationModelInterface {
+    public NullNotificationModel() {}
 
-    public NullNotifyModel(BLeGattIO gattClient) {}
+    public NullNotificationModel(BLeGattIO gattClient) {}
 
     @Override
     public void updateCharacteristic(BluetoothGattCharacteristic characteristic) {}

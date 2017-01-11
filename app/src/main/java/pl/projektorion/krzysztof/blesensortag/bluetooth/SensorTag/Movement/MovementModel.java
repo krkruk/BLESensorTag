@@ -5,13 +5,13 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotifyModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotificationModelInterface;
 
 /**
  * Created by krzysztof on 07.11.16.
  */
 
-public class MovementModel extends AbstractGenericGattModel implements GenericGattNotifyModelInterface {
+public class MovementModel extends AbstractGenericGattModel implements GenericGattNotificationModelInterface {
     private MovementData movementData;
     private int accelerometerRange = 0;
 

@@ -5,14 +5,14 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotifyModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotificationModelInterface;
 
 /**
  * Created by krzysztof on 02.11.16.
  */
 
 public class SimpleKeysModel extends AbstractGenericGattModel
-        implements GenericGattNotifyModelInterface {
+        implements GenericGattNotificationModelInterface {
     private SimpleKeysData data;
 
     public SimpleKeysModel() {

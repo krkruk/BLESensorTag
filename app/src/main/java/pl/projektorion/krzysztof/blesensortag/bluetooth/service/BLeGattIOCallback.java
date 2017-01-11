@@ -8,7 +8,7 @@ import android.bluetooth.BluetoothGattDescriptor;
  * Created by krzysztof on 01.11.16.
  */
 
-public interface BLeGattClientCallback {
+public interface BLeGattIOCallback {
     void onCharacteristicRead(BluetoothGatt gatt,
                               BluetoothGattCharacteristic characteristic, int status);
     void onCharacteristicWrite(BluetoothGatt gatt,

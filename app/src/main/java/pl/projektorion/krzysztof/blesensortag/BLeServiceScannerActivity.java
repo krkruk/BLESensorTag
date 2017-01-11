@@ -4,11 +4,20 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattIOService;
 import pl.projektorion.krzysztof.blesensortag.fragments.presentation.BLePresentationFragment;
 import pl.projektorion.krzysztof.blesensortag.fragments.app.BLeServiceScannerFragment;
 
@@ -30,6 +39,18 @@ public class BLeServiceScannerActivity extends Activity {
     private TextView labelDeviceName;
     private TextView labelDeviceUuid;
 
+    private MenuItem recordAction;
+    private boolean isServiceDiscovered = false;
+
+    private LocalBroadcastManager localBroadcaster;
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+                isServiceDiscovered = true;
+                if( recordAction != null ) recordAction.setEnabled(isServiceDiscovered);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +61,39 @@ public class BLeServiceScannerActivity extends Activity {
         negotiate_service_scanner_fragment();
         init_widgets();
         init_widgets_data();
+        init_broadcast_receivers();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_ble_service_scanner, menu);
+        init_menu(menu);
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.action_record:
+                Log.i("Click", "Record button clicked!");
+                break;
+            default:
+                break;
+        }
+        return super.onMenuItemSelected(featureId, item);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(EXTRA_BLE_DEVICE, bleDevice);
+    }
+
+    @Override
+    protected void onDestroy() {
+        localBroadcaster.unregisterReceiver(broadcastReceiver);
+        super.onDestroy();
     }
 
     private void retrieve_intent_data()
@@ -99,5 +147,18 @@ public class BLeServiceScannerActivity extends Activity {
 
         labelDeviceName.setText(bleDevice.getName());
         labelDeviceUuid.setText(bleDevice.getAddress());
+    }
+
+    private void init_broadcast_receivers()
+    {
+        localBroadcaster = LocalBroadcastManager.getInstance(this);
+        localBroadcaster.registerReceiver(broadcastReceiver,
+                new IntentFilter(BLeGattIOService.ACTION_GATT_SERVICES_DISCOVERED));
+    }
+
+    private void init_menu(Menu menu)
+    {
+        recordAction = menu.findItem(R.id.action_record);
+        recordAction.setEnabled(isServiceDiscovered);
     }
 }
