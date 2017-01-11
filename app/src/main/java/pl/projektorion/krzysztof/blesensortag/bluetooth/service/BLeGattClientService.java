@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.utils.CommandAbstract;
 import pl.projektorion.krzysztof.blesensortag.utils.CommandExecutor;

@@ -1,9 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericModelFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ModelNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericModelFactory;
 
 /**
  * Created by krzysztof on 07.11.16.

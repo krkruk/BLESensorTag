@@ -1,9 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericModelFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.ModelReadFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericModelFactory;
 
 /**
  * Created by krzysztof on 08.11.16.

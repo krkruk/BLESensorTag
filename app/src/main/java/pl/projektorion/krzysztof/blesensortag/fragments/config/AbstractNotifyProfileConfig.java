@@ -2,9 +2,9 @@ package pl.projektorion.krzysztof.blesensortag.fragments.config;
 
 import android.app.Fragment;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NullProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.NotifyGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.NullProfile;
 import pl.projektorion.krzysztof.blesensortag.fragments.FragmentFactory;
 
 /**

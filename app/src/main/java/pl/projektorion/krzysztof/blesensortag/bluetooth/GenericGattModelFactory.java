@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericModelFactory;
+
 /**
  * Created by krzysztof on 12.11.16.
  */

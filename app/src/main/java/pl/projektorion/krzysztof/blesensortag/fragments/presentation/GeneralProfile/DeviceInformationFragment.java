@@ -1,13 +1,10 @@
 package pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile;
 
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Fragment;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +15,7 @@ import java.util.Observer;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationData;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.ProfileStringData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.ProfileStringData;
 
 /**
  * A simple {@link Fragment} subclass.

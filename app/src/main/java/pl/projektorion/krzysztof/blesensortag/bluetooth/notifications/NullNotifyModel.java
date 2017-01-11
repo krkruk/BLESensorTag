@@ -1,12 +1,12 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.notifications;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotifyModelInterface;
 
 /**
  * Created by krzysztof on 06.11.16.

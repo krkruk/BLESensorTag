@@ -3,13 +3,12 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceIn
 import android.bluetooth.BluetoothGattCharacteristic;
 
 import java.util.HashSet;
-import java.util.Observable;
 import java.util.Set;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.ProfileStringData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.GenericGattReadModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.ProfileStringData;
 
 import static pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadProfile.DEVINFO_FIRMWARE_REV;
 import static pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadProfile.DEVINFO_HARDWARE_REV;

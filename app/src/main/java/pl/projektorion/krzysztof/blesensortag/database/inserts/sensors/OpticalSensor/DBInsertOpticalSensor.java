@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.Observable;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorData;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.ProfileData;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriteCommand;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.abstracts.DBInsertAbstract;

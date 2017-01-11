@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces;
 
 /**
  * Created by krzysztof on 06.11.16.

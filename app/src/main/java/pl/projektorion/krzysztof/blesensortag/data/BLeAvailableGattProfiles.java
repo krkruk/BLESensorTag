@@ -3,9 +3,9 @@ package pl.projektorion.krzysztof.blesensortag.data;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.NotifyGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.GenericGattReadProfileInterface;
 
 /**
  * Created by krzysztof on 12.11.16.

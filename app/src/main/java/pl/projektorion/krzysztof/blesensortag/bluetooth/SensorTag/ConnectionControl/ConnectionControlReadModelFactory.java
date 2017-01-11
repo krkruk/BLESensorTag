@@ -1,11 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericModelFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.ModelReadFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.ProfileReadFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericModelFactory;
 
 /**
  * Created by krzysztof on 10.11.16.

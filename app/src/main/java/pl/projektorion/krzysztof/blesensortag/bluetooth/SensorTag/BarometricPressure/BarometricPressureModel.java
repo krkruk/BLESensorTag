@@ -2,11 +2,10 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPre
 
 import android.bluetooth.BluetoothGattCharacteristic;
 
-import java.util.Observable;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.AbstractGenericGattModel;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotifyModelInterface;
 
 /**
  * Created by krzysztof on 03.11.16.

@@ -5,7 +5,7 @@ import android.util.Log;
 
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.ProfileStringData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.ProfileStringData;
 
 /**
  * Created by krzysztof on 09.11.16.

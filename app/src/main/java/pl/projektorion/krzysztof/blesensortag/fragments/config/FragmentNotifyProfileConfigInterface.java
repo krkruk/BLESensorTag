@@ -1,6 +1,6 @@
 package pl.projektorion.krzysztof.blesensortag.fragments.config;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.NotifyGattProfileInterface;
 
 /**
  * Created by krzysztof on 11.11.16.

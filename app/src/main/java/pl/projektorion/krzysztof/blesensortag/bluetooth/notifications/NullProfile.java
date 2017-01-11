@@ -1,8 +1,9 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth.notify;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.notifications;
 
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.NotifyGattProfileInterface;
 
 /**
  * Created by krzysztof on 02.11.16.

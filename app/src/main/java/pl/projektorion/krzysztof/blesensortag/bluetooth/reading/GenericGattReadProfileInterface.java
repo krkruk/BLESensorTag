@@ -1,8 +1,6 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth.read;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.reading;
 
-import java.util.UUID;
-
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattProfileInterface;
 
 /**
  * Created by krzysztof on 08.11.16.

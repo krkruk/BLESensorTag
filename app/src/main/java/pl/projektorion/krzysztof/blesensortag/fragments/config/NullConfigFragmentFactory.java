@@ -1,6 +1,6 @@
 package pl.projektorion.krzysztof.blesensortag.fragments.config;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattProfileInterface;
 
 /**
  * Created by krzysztof on 11.11.16.

@@ -9,15 +9,13 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityData;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.ProfileData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.ProfileData;
 import pl.projektorion.krzysztof.blesensortag.fragments.presentation.DoubleChartFragment;
 
 /**

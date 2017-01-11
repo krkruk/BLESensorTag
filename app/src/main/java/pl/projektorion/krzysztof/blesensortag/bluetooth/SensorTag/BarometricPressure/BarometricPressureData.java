@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.util.Log;
 
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.AbstractProfileData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.abstracts.AbstractProfileData;
 import pl.projektorion.krzysztof.blesensortag.utils.ByteOperation;
 
 

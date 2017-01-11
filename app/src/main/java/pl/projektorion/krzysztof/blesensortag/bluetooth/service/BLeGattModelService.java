@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.UUID;
 
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattModelFactory;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.GenericGattNotifyModelInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.GenericGattNotifyModelInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.GenericGattReadModelInterface;
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattModels;
 import pl.projektorion.krzysztof.blesensortag.factories.BLeDataModelFactory;
 

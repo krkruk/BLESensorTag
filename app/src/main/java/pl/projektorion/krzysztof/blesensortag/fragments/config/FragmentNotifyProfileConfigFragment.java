@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import pl.projektorion.krzysztof.blesensortag.R;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.NotifyGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.NotifyGattProfileInterface;
 
 /**
  * A simple {@link Fragment} subclass.

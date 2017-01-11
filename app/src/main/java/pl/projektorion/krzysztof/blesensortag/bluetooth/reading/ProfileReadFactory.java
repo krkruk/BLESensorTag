@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.bluetooth.read;
+package pl.projektorion.krzysztof.blesensortag.bluetooth.reading;
 
 /**
  * Created by krzysztof on 08.11.16.

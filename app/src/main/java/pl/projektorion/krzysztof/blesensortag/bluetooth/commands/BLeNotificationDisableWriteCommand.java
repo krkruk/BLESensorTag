@@ -3,7 +3,7 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.commands;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
 
 /**
  * Created by krzysztof on 01.11.16.

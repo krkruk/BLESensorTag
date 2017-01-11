@@ -1,8 +1,8 @@
 package pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.GenericGattReadProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.read.ProfileReadFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.GenericGattReadProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.ProfileReadFactory;
 
 /**
  * Created by krzysztof on 09.11.16.

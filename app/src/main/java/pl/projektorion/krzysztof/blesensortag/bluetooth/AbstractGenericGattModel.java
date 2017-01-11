@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothGattCharacteristic;
 
 import java.util.Observable;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattModelInterface;
+
 /**
  * Created by krzysztof on 12.11.16.
  */

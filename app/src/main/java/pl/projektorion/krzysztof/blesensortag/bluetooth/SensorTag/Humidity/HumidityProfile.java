@@ -4,8 +4,8 @@ import android.bluetooth.BluetoothGattService;
 
 import java.util.UUID;
 
-import pl.projektorion.krzysztof.blesensortag.bluetooth.BLeGattIO;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notify.AbstractNotifyGattProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.abstracts.AbstractNotifyGattProfile;
 import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 
 /**
