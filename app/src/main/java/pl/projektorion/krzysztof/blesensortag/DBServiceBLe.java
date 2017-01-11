@@ -1,5 +1,8 @@
 package pl.projektorion.krzysztof.blesensortag;
 
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,6 +26,12 @@ import pl.projektorion.krzysztof.blesensortag.database.DBService;
  */
 
 public class DBServiceBLe extends DBService {
+    public static final String ACTION_STOP_SERVICE =
+            "pl.projektorion.krzysztof.blesensortag.action.STOP_SERVICE";
+
+    private static final int NOTIFICATION_ID = 934021;
+    private static final int PENDING_ID = 64209;
+
     private IBinder binder = new DBServiceBLeBinder();
     private Context appContext;
     private BLeGattModelService modelService;
@@ -47,13 +56,16 @@ public class DBServiceBLe extends DBService {
     private BroadcastReceiver modelReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if( !intent.getAction().equals(BLeGattModelService.ACTION_GATT_MODELS_CREATED) )
-                return;
-
-            if( modelService == null )
-                return;
-
-            setModels( modelService.getModels() );
+            if( intent.getAction().equals(BLeGattModelService.ACTION_GATT_MODELS_CREATED) ) {
+                if (modelService == null)
+                    return;
+                setModels(modelService.getModels());
+            }
+            else if( intent.getAction().equals(ACTION_STOP_SERVICE) )
+            {
+                stopAsyncWrite();
+                stopSelf();
+            }
         }
     };
 
@@ -64,6 +76,7 @@ public class DBServiceBLe extends DBService {
                 @Override
                 public void run() {
                     write();
+                    Log.i("WRITE", "Data Written");
                 }
             });
             handler.postDelayed(this, dumpDataPeriod);
@@ -77,6 +90,19 @@ public class DBServiceBLe extends DBService {
         init_broadcast_receiver();
 
         return binder;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i("STARTED", "In started service");
+        if( services == null || profiles == null || models == null )
+            Log.d("DATA", "Required data thru bound service not available");
+
+        Notification notification = create_notification();
+        initService();
+        startAsyncWrite();
+        startForeground(NOTIFICATION_ID, notification);
+        return START_STICKY;
     }
 
     @Override
@@ -95,10 +121,12 @@ public class DBServiceBLe extends DBService {
 
     public void startAsyncWrite()
     {
-        if( isEmpty() && !isRunning )
-            return;
+        Log.i("start", "In startAsyncWrite");
+//        if( !isRunning )
+//            return;
         isRunning = true;
         handler.postDelayed(writeCommand, dumpDataPeriod);
+        Log.i("End", "In startAsyncWrite");
     }
 
     public void stopAsyncWrite()
@@ -115,9 +143,11 @@ public class DBServiceBLe extends DBService {
 
     private void init_broadcast_receiver()
     {
+        final IntentFilter filter = new IntentFilter();
+        filter.addAction(BLeGattModelService.ACTION_GATT_MODELS_CREATED);
+        filter.addAction(ACTION_STOP_SERVICE);
         localBroadcastManager = LocalBroadcastManager.getInstance(appContext);
-        localBroadcastManager.registerReceiver(modelReceiver,
-                new IntentFilter(BLeGattModelService.ACTION_GATT_MODELS_CREATED));
+        localBroadcastManager.registerReceiver(modelReceiver, filter);
     }
 
     private void kill_service_connection()
@@ -128,6 +158,26 @@ public class DBServiceBLe extends DBService {
     private void kill_broadcast_receivers()
     {
         localBroadcastManager.unregisterReceiver(modelReceiver);
+    }
+
+    private Notification create_notification()
+    {
+        Notification.Builder builder = new Notification.Builder(appContext)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.notif_text));
+
+        Intent mainActivity = new Intent(appContext, MainActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(appContext);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(mainActivity);
+
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(PENDING_ID,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        builder.setContentIntent(pendingIntent);
+
+        return builder.build();
     }
 
     public class DBServiceBLeBinder extends Binder

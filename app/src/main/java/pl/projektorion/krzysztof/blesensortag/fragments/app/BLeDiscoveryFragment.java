@@ -256,7 +256,7 @@ public class BLeDiscoveryFragment extends Fragment {
     private void init_menu(Menu menu)
     {
         this.scanButton = menu.findItem(R.id.action_ble_scan);
-        if(bLeDiscoveryService.isScanning())
+        if(bLeDiscoveryService != null && bLeDiscoveryService.isScanning())
             set_mode_stop_scanning();
     }
 

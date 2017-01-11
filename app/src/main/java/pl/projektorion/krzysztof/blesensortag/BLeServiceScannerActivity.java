@@ -114,18 +114,6 @@ public class BLeServiceScannerActivity extends Activity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        if( serviceBLe != null ) serviceBLe.startAsyncWrite();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if( serviceBLe != null ) serviceBLe.stopAsyncWrite();
-    }
-
-    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(EXTRA_BLE_DEVICE, bleDevice);
@@ -135,7 +123,7 @@ public class BLeServiceScannerActivity extends Activity {
     @Override
     protected void onDestroy() {
         localBroadcaster.unregisterReceiver(broadcastReceiver);
-        appCtx.unbindService(dbServiceConn);
+        if( isServiceBound ) appCtx.unbindService(dbServiceConn);
         super.onDestroy();
     }
 
@@ -143,11 +131,16 @@ public class BLeServiceScannerActivity extends Activity {
     {
         serviceBLe.setServices(serviceScannerFragment.getServices());
         serviceBLe.setProfiles(serviceScannerFragment.getProfiles());
+
         (new Handler()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                serviceBLe.initService();
-                serviceBLe.startAsyncWrite();
+//                serviceBLe.initService();
+//                serviceBLe.startAsyncWrite();
+                startService(new Intent(appCtx, DBServiceBLe.class));
+                appCtx.unbindService(dbServiceConn);
+                isServiceBound = false;
+                moveTaskToBack(true);
             }
         }, 500);
     }

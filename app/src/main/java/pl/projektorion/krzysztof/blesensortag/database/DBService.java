@@ -57,9 +57,9 @@ public class DBService extends Service {
     private DBInsertFactory dbInsertFactory;
     private DBInsertFactory dbInsertParamFactory;
 
-    private List<BluetoothGattService> services;
-    private BLeAvailableGattProfiles profiles;
-    private BLeAvailableGattModels models;
+    protected List<BluetoothGattService> services;
+    protected BLeAvailableGattProfiles profiles;
+    protected BLeAvailableGattModels models;
 
     public DBService() {
     }

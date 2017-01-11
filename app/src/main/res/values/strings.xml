@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">BLESensorTag</string>
 
+    <!--Notifications-->
+    <string name="notif_text">Tap to cancel data acquisition&#8230;</string>
+
     <!--Toasts-->
     <string name="toast_ble_not_supported">BLE is not supported. The app is to be closed.</string>
     <string name="toast_ble_must_be_enabled">BLE must be enabled. The app is to be closed.</string>

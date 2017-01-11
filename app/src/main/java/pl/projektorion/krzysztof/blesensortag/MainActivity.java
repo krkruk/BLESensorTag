@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 
 import pl.projektorion.krzysztof.blesensortag.fragments.app.BLeDiscoveryFragment;
@@ -26,6 +27,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         negotiate_fragment();
 //        init_temporary_db();
+        stop_pending_services();
     }
 
     @Override
@@ -37,6 +39,12 @@ public class MainActivity extends Activity {
     {
         final Intent intent = new Intent(this, DBSelectRootActivity.class);
         startActivity(intent);
+    }
+
+    private void stop_pending_services()
+    {
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
+        broadcastManager.sendBroadcast(new Intent(DBServiceBLe.ACTION_STOP_SERVICE));
     }
 
     private void negotiate_fragment()

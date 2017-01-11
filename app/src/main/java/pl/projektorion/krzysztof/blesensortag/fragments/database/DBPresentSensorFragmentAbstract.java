@@ -33,7 +33,7 @@ implements ServiceDataReceiver.ReceiverListener {
     private ServiceDataReceiver dataCounterReceiver;
 
     private long availableRecords = 0;
-    private long readMaxRecordsPerLoad = 5;
+    private long readMaxRecordsPerLoad = 20;
     private DBSelectOnChartFlingListener flingListener;
 
 
