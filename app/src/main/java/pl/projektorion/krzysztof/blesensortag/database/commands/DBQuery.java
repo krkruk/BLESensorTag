@@ -24,13 +24,8 @@ public class DBQuery implements DBQueryInterface {
                 queryListener.getQuery(),
                 queryListener.getQueryData());
 
-        if( cursor.moveToFirst() )
-        {
-            queryListener.onQueryExecuted(cursor);
-            cursor.close();
-        }
-        else
-            Log.d("Query", "Could not parse query");
+        if( cursor.moveToFirst() ) queryListener.onQueryExecuted(cursor);
 
+        cursor.close();
     }
 }

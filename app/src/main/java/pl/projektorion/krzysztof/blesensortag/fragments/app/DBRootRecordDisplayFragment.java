@@ -4,6 +4,7 @@ package pl.projektorion.krzysztof.blesensortag.fragments.app;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.DBRootTableAdapter;
+import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.database.DBHelper;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
 import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableInterface;
@@ -86,15 +88,15 @@ public class DBRootRecordDisplayFragment extends ListFragment {
 
     private void init_db_cursor()
     {
+        final String fullDbPath = getActivity().getApplicationContext()
+                .getDatabasePath(Constant.DB_NAME).getAbsolutePath();
         try {
-            final DBHelper helper = new DBHelper(getActivity().getApplicationContext(),
-                    new ArrayList<DBTableInterface>());
-            db = helper.getWritableDatabase();
+            db = SQLiteDatabase.openDatabase(fullDbPath, null, SQLiteDatabase.OPEN_READONLY);
             cursor = db.query(
                     DBRootTableRecord.TABLE_NAME,
                     new String[]{DBRootTableRecord.COLUMN_ID, DBRootTableRecord.COLUMN_DATE},
                     null, null, null, null, DBRootTableRecord.COLUMN_ID + " DESC", null);
-        } catch (SQLiteException e) {
+        } catch (Exception e) {
             cursor = null;
             Log.e("SQL", "Somethings is wrong: " + e);
             Toast.makeText(getActivity(), R.string.toast_database_empty, Toast.LENGTH_LONG).show();
