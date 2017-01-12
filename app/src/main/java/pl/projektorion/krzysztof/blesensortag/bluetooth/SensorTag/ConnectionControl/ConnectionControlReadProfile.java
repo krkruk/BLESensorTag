@@ -5,10 +5,11 @@ import android.bluetooth.BluetoothGattService;
 
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.AppContext;
+import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeCharacteristicReadCommand;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeCharacteristicWriteCommand;
-import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 
 /**
  * Created by krzysztof on 10.11.16.
@@ -25,8 +26,6 @@ public class ConnectionControlReadProfile implements ConnectionControlInterface 
             UUID.fromString("f000ccc2-0451-4000-b000-000000000000");
     public static final UUID CONNECTION_CONTROL_REQUEST_DISCONNECT =
             UUID.fromString("f000ccc3-0451-4000-b000-000000000000");
-
-    private static final String APP_NAME = ProfileName.CONNECTION_CONTROL_PROFILE;
 
     private BLeGattIO gattIO;
     private BluetoothGattService service;
@@ -84,7 +83,7 @@ public class ConnectionControlReadProfile implements ConnectionControlInterface 
 
     @Override
     public String getName() {
-        return APP_NAME;
+        return AppContext.getContext().getString(R.string.profile_connection_control);
     }
 
     @Override

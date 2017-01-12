@@ -4,7 +4,8 @@ import android.app.Fragment;
 
 import java.util.HashMap;
 
-import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
+import pl.projektorion.krzysztof.blesensortag.AppContext;
+import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.fragments.FragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.Barometer.DBPresentBarometerFragmentFactory;
@@ -51,15 +52,15 @@ public class DBPresentSensorFactory extends HashMap<String, FragmentFactory> {
 
     private void init()
     {
-        put(ProfileName.BAROMETRIC_PRESSURE_PROFILE,
+        put(AppContext.getContext().getString(R.string.label_barometer_sensor),
                 new DBPresentBarometerFragmentFactory(rootRecord, sensorRecord));
-        put(ProfileName.HUMIDITY_PROFILE,
+        put(AppContext.getContext().getString(R.string.label_humidity),
                 new DBPresentHumidityFragmentFactory(rootRecord, sensorRecord));
-        put(ProfileName.IR_TEMPERATURE_PROFILE,
+        put(AppContext.getContext().getString(R.string.label_temperature_sensor),
                 new DBPresentIRTemperatureFragmentFactory(rootRecord, sensorRecord));
-        put(ProfileName.MOVEMENT_PROFILE,
+        put(AppContext.getContext().getString(R.string.label_acc_sensor),
                 new DBPresentMovementFragmentFactory(rootRecord, sensorRecord));
-        put(ProfileName.OPTICAL_SENSOR_PROFILE,
+        put(AppContext.getContext().getString(R.string.label_light_intensity_sensor),
                 new DBPresentOpticalSensorFragmentFactory(rootRecord, sensorRecord));
     }
 

@@ -4,6 +4,24 @@
     <!--Notifications-->
     <string name="notif_text">Tap to cancel data acquisition&#8230;</string>
 
+    <!--Database sensor labels-->
+    <string name="label_barometer_sensor">Barometer sensor</string>
+    <string name="label_temperature_sensor">Temperature sensor</string>
+    <string name="label_acc_sensor">Accelerometer sensor</string>
+    <string name="label_humidity_sensor">Humidity sensor</string>
+    <string name="label_light_intensity_sensor">Light intensity sensor</string>
+
+    <!--BLE profile names-->
+    <string name="profile_simple_key">Simple Key Profile</string>
+    <string name="profile_barometric_pressure">Barometric Pressure Profile :)</string>
+    <string name="profile_ir_temperature">IR Temperature Profile</string>
+    <string name="profile_movement">Movement Profile</string>
+    <string name="profile_humidity">Humidity Profile</string>
+    <string name="profile_optical_sensor">Optical Profile</string>
+    <string name="profile_gap_service">GAP Service Profile</string>
+    <string name="profile_device_information">Device Information Service Profile</string>
+    <string name="profile_connection_control">Connection Control Service Profile</string>
+    
     <!--Toasts-->
     <string name="toast_ble_not_supported">BLE is not supported. The app is to be closed.</string>
     <string name="toast_ble_must_be_enabled">BLE must be enabled. The app is to be closed.</string>

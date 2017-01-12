@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectSensorAbstract;
+import pl.projektorion.krzysztof.blesensortag.database.selects.abstracts.DBSelectSensorAbstract;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidity;
 
 /**

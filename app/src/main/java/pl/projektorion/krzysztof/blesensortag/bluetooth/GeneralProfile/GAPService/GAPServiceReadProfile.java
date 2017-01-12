@@ -6,10 +6,11 @@ import android.bluetooth.BluetoothGattService;
 
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.AppContext;
+import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.GenericGattReadProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeCharacteristicReadCommand;
-import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 
 /**
  * Created by krzysztof on 08.11.16.
@@ -22,7 +23,6 @@ public class GAPServiceReadProfile implements GenericGattReadProfileInterface {
             UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb");
     public static final int ATTRIBUTE_DEVICE_NAME = 0b1;
 
-    private static final String APP_NAME = ProfileName.GAP_SERVICE_PROFILE;
 
     private BLeGattIO gattIO;
     private BluetoothGattService service;
@@ -52,7 +52,7 @@ public class GAPServiceReadProfile implements GenericGattReadProfileInterface {
 
     @Override
     public String getName() {
-        return APP_NAME;
+        return AppContext.getContext().getString(R.string.profile_gap_service);
     }
 
     @Override

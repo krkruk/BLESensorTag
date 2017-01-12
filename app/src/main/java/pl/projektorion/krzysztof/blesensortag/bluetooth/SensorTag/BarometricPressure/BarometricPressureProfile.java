@@ -3,9 +3,10 @@ package pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPre
 import android.bluetooth.BluetoothGattService;
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.AppContext;
+import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.abstracts.AbstractNotifyGattProfile;
-import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 
 /**
  * Created by krzysztof on 03.11.16.
@@ -21,7 +22,6 @@ public class BarometricPressureProfile extends AbstractNotifyGattProfile {
     public static final UUID BAROMETRIC_PRESSURE_PERIOD =
             UUID.fromString("f000aa44-0451-4000-b000-000000000000");
 
-    private static final String APP_NAME = ProfileName.BAROMETRIC_PRESSURE_PROFILE;
 
     public BarometricPressureProfile(BLeGattIO gattClient) {
         super(gattClient, 1000);
@@ -29,7 +29,7 @@ public class BarometricPressureProfile extends AbstractNotifyGattProfile {
 
     @Override
     public String getName() {
-        return APP_NAME;
+        return AppContext.getContext().getString(R.string.profile_barometric_pressure);
     }
 
     @Override

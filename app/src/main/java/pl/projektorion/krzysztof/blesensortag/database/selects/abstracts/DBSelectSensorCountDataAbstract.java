@@ -1,7 +1,9 @@
-package pl.projektorion.krzysztof.blesensortag.database.selects;
+package pl.projektorion.krzysztof.blesensortag.database.selects.abstracts;
 
 import android.database.Cursor;
 import android.os.Parcel;
+
+import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 
 /**
  * Created by krzysztof on 25.12.16.

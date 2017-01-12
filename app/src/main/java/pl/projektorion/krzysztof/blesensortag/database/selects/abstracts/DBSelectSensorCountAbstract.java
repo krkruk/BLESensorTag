@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.database.selects;
+package pl.projektorion.krzysztof.blesensortag.database.selects.abstracts;
 
 import android.os.Parcel;
 import android.os.Parcelable;

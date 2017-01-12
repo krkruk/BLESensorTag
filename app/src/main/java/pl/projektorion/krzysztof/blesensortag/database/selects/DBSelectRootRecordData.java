@@ -4,6 +4,8 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import pl.projektorion.krzysztof.blesensortag.database.selects.abstracts.DBSelectDataAbstract;
+
 /**
  * Created by krzysztof on 18.12.16.
  */

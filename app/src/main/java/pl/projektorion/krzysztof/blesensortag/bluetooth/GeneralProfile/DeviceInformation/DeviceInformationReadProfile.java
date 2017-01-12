@@ -8,10 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.AppContext;
+import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.commands.BLeCharacteristicReadCommand;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.GenericGattReadProfileInterface;
-import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 
 /**
  * Created by krzysztof on 09.11.16.
@@ -44,7 +45,6 @@ public class DeviceInformationReadProfile implements GenericGattReadProfileInter
     public static final UUID DEVINFO_MANUFACTURER_NAME =
             UUID.fromString("00002a29-0000-1000-8000-00805f9b34fb");
 
-    private static final String APP_NAME = ProfileName.DEVICE_INFORMATION_PROFILE;
     private Map<Integer, UUID> attrToUuidProfiles;
 
     private BLeGattIO gattIO;
@@ -72,7 +72,7 @@ public class DeviceInformationReadProfile implements GenericGattReadProfileInter
 
     @Override
     public String getName() {
-        return APP_NAME;
+        return AppContext.getContext().getString(R.string.profile_device_information);
     }
 
     @Override

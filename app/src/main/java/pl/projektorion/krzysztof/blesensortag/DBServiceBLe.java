@@ -40,7 +40,6 @@ public class DBServiceBLe extends DBService {
     private Executor writeExecutor = Executors.newSingleThreadExecutor();
 
     private int dumpDataPeriod = 1000;
-    private boolean isRunning = false;
     private ServiceConnection modelConn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -121,17 +120,11 @@ public class DBServiceBLe extends DBService {
 
     public void startAsyncWrite()
     {
-        Log.i("start", "In startAsyncWrite");
-//        if( !isRunning )
-//            return;
-        isRunning = true;
         handler.postDelayed(writeCommand, dumpDataPeriod);
-        Log.i("End", "In startAsyncWrite");
     }
 
     public void stopAsyncWrite()
     {
-        isRunning = false;
         handler.removeCallbacks(writeCommand);
     }
 

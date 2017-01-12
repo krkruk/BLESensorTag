@@ -135,8 +135,6 @@ public class BLeServiceScannerActivity extends Activity {
         (new Handler()).postDelayed(new Runnable() {
             @Override
             public void run() {
-//                serviceBLe.initService();
-//                serviceBLe.startAsyncWrite();
                 startService(new Intent(appCtx, DBServiceBLe.class));
                 appCtx.unbindService(dbServiceConn);
                 isServiceBound = false;

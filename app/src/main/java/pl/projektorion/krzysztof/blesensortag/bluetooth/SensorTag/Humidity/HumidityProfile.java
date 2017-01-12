@@ -4,9 +4,10 @@ import android.bluetooth.BluetoothGattService;
 
 import java.util.UUID;
 
+import pl.projektorion.krzysztof.blesensortag.AppContext;
+import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.abstracts.AbstractNotifyGattProfile;
-import pl.projektorion.krzysztof.blesensortag.constants.ProfileName;
 
 /**
  * Created by krzysztof on 07.11.16.
@@ -22,7 +23,6 @@ public class HumidityProfile extends AbstractNotifyGattProfile {
     public static final UUID HUMIDITY_PERIOD =
             UUID.fromString("f000aa23-0451-4000-b000-000000000000");
 
-    private static final String APP_NAME = ProfileName.HUMIDITY_PROFILE;
 
     public HumidityProfile(BLeGattIO gattClient) {
         super(gattClient, 1000);
@@ -55,6 +55,6 @@ public class HumidityProfile extends AbstractNotifyGattProfile {
 
     @Override
     public String getName() {
-        return APP_NAME;
+        return AppContext.getContext().getString(R.string.profile_humidity);
     }
 }

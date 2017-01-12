@@ -1,6 +1,7 @@
-package pl.projektorion.krzysztof.blesensortag.database.selects;
+package pl.projektorion.krzysztof.blesensortag.database.selects.abstracts;
 
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryListenerInterface;
+import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 
 /**
  * Created by krzysztof on 20.12.16.

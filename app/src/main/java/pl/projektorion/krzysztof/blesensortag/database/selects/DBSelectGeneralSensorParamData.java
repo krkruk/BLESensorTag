@@ -5,6 +5,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import pl.projektorion.krzysztof.blesensortag.database.selects.abstracts.DBSelectDataAbstract;
+
 
 /**
  * Created by krzysztof on 20.12.16.

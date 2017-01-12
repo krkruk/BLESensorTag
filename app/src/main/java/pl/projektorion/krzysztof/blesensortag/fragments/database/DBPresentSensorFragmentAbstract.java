@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.os.ResultReceiver;
-import android.util.Log;
 
 import java.util.List;
 
@@ -15,6 +14,7 @@ import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryParcelableListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 
+import pl.projektorion.krzysztof.blesensortag.database.selects.abstracts.DBSelectSensorCountDataAbstract;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
 /**
@@ -181,7 +181,7 @@ implements ServiceDataReceiver.ReceiverListener {
 
     /**
      * Return a numeric value of the value that holds
-     * {@link pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectSensorCountDataAbstract#ATTRIBUTE_COUNT}
+     * {@link DBSelectSensorCountDataAbstract#ATTRIBUTE_COUNT}
      * @return int
      */
     protected abstract int attribute_count();
