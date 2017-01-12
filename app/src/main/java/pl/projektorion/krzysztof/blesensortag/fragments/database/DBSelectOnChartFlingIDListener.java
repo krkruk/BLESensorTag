@@ -70,7 +70,9 @@ public class DBSelectOnChartFlingIDListener implements OnChartGestureListener {
             Load new elements
              */
             startAt += maxElementsPerLoad;
-            startAt = startAt > recordsInTotal ? 0 : startAt;
+            startAt = startAt > recordsInTotal
+                    ? recordsInTotal - maxElementsPerLoad
+                    : startAt;
         } else
         if( velocityX > velocityThreshold )
         {

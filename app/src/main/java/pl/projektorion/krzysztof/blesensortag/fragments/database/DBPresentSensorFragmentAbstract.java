@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.os.ResultReceiver;
 
 import java.util.List;
 
+import pl.projektorion.krzysztof.blesensortag.DBPresentSensorActivity;
 import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryParcelableListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
@@ -89,13 +91,17 @@ implements ServiceDataReceiver.ReceiverListener {
             flingListener = new DBSelectOnChartFlingListener(
                     availableRecords, readMaxRecordsPerLoad);
             flingListener.setTask(onFlingTask);
+
+            final Intent recordsParam = new Intent(DBPresentSensorActivity.ACTION_SENSOR_PARAMS);
+            recordsParam.putExtra(DBPresentSensorActivity.EXTRA_NUMBER_OF_RECORDS, availableRecords);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(recordsParam);
         }
         request_new_data();
     }
 
     /**
      * Get numeric value of how many records are related with
-     * a selected parameter of the param record.
+     * the selected parameter of the param record.
      * @return
      */
     public long getAvailableRecords() {
