@@ -51,6 +51,15 @@ public class BLeDiscoveryFragment extends Fragment {
 
     private MenuItem scanButton;
 
+    private String extraBleDeviceTag;
+    private Class<?> intentClass;
+
+    private static final String EXTRA_BLE_DEVICE =
+            "pl.projektorion.krzysztof.blesensortag.fragments.app.extra.BLE_DEVICE";
+
+    private static final String EXTRA_CLS_INTENT =
+            "pl.projektorion.krzysztof.blesensortag.fragments.app.extra.CLS_INTENT";
+
     //callbacks
     private BroadcastReceiver bleDiscoveryServiceReceiver = new BroadcastReceiver() {
         @Override
@@ -118,9 +127,9 @@ public class BLeDiscoveryFragment extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             BluetoothDevice currentDevice = bleDiscoveryAdapter.getBLeDevice(position);
-            Intent startBLeServiceScanner = new Intent(appContext, BLeServiceScannerActivity.class);
+            Intent startBLeServiceScanner = new Intent(appContext, intentClass);
             startBLeServiceScanner.putExtra(
-                    BLeServiceScannerActivity.EXTRA_BLE_DEVICE, currentDevice);
+                    extraBleDeviceTag, currentDevice);
 
             bLeDiscoveryService.stopBLeScan();
             set_mode_start_scanning();
@@ -138,6 +147,7 @@ public class BLeDiscoveryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init_android_framework();
+        retrieve_data_from_newInstance();
         init_data_containers();
         init_broadcast_receivers();
         init_bound_services();
@@ -195,8 +205,11 @@ public class BLeDiscoveryFragment extends Fragment {
         return true;
     }
 
-    public static BLeDiscoveryFragment newInstance() {
+    public static BLeDiscoveryFragment newInstance(String extraBleDeviceTag,
+                                                   Class<?> sentIntentToCls) {
         Bundle args = new Bundle();
+        args.putString(EXTRA_BLE_DEVICE, extraBleDeviceTag);
+        args.putSerializable(EXTRA_CLS_INTENT, sentIntentToCls);
         BLeDiscoveryFragment fragment = new BLeDiscoveryFragment();
         fragment.setArguments(args);
         return fragment;
@@ -218,6 +231,13 @@ public class BLeDiscoveryFragment extends Fragment {
             Log.d(Constant.BLEDEV_ERR_TAG, Constant.CONTEXT_ERR);
             activity.finish();
         }
+    }
+
+    private void retrieve_data_from_newInstance()
+    {
+        final Bundle bundle = getArguments();
+        extraBleDeviceTag = bundle.getString(EXTRA_BLE_DEVICE);
+        intentClass = (Class<?>) bundle.getSerializable(EXTRA_CLS_INTENT);
     }
 
     private void init_data_containers()

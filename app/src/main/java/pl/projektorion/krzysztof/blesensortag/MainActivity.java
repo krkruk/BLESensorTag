@@ -53,7 +53,10 @@ public class MainActivity extends Activity {
         bleDiscovery = fm.findFragmentByTag(BLE_DISCOVERY_FRAGMENT_TAG);
         if( bleDiscovery == null )
         {
-            bleDiscovery = BLeDiscoveryFragment.newInstance();
+            bleDiscovery = BLeDiscoveryFragment.newInstance(
+                    BLeServiceScannerActivity.EXTRA_BLE_DEVICE,
+                    BLeServiceScannerActivity.class);
+
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.add(bleDiscovery, BLE_DISCOVERY_FRAGMENT_TAG);
             transaction.replace(R.id.containter_ble_discovery, bleDiscovery);
