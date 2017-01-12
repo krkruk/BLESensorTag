@@ -12,8 +12,7 @@
     <string name="label_light_intensity_sensor">Light intensity sensor</string>
 
     <!--Main menu labels-->
-    <string name="label_connect_to_all_ble_sensors">Connect to all sensors</string>
-    <string name="label_connect_to_stethoscope">Connect to stethoscope</string>
+    <string name="label_connect_to_device">Connect to a device</string>
     <string name="label_show_all_ble_sensors_data">Show data</string>
     <string name="label_show_stethoscope">Show stethoscope</string>
     <string name="label_delete_database">Delete database</string>
@@ -24,6 +23,12 @@
     <string name="dialog_erase_positive_button">Erase</string>
     <string name="dialog_erase_negative_button">Abort</string>
 
+    <!--Dialog select BLE device detection mode -->
+    <string name="dialog_ble_detect_title">Select device</string>
+    <string-array name="dialog_ble_detect_mode">
+        <item>Stethoscope</item>
+        <item>All sensors</item>
+    </string-array>
 
     <!--BLE profile names-->
     <string name="profile_simple_key">Simple Key Profile</string>

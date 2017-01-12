@@ -64,7 +64,7 @@
     <string name="dialog_erase_negative_button">Anuluj</string>
     <string name="dialog_erase_positive_button">Wymaż</string>
     <string name="dialog_erase_title">Skasuj bazę danych</string>
-    <string name="label_connect_to_all_ble_sensors">Połącz do wszystkich sensorów</string>
+    <string name="label_connect_to_device">Połącz do wszystkich sensorów</string>
     <string name="label_connect_to_stethoscope">Połącz do stetoskopu</string>
     <string name="label_delete_database">Usuń bazę danych</string>
     <string name="label_show_all_ble_sensors_data">Pokaż dane</string>
@@ -74,4 +74,10 @@
     <string name="toast_erase_db_abort">Anulowano usuwanie bazy danych</string>
     <string name="toast_erase_db_failed">Błąd podczas wymazywania bazy danych!</string>
     <string name="toast_erase_db_successful">Baza danych wymazana!</string>
+    <string name="dialog_ble_detect_title">Wybierz urządzenie do wykrycia</string>
+
+    <string-array name="dialog_ble_detect_mode">
+        <item>Stetoskop</item>
+        <item>Wszystkie sensory</item>
+    </string-array>
 </resources>

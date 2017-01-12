@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
@@ -28,11 +27,10 @@ public class MainActivity extends Activity
     private MainMenuAdapter menuAdapter;
     private AlertDialog dbDeleteDialog;
 
-    private static final int MENU_RECORD_ALL_BLE = 0;
+    private static final int MENU_CONNECT_TO_DEVICE = 0;
     private static final int MENU_SHOW_ALL_BLE = 1;
-    private static final int MENU_RECORD_STETHOSCOPE = 2;
-    private static final int MENU_SHOW_STETHOSCOPE = 3;
-    private static final int MENU_CLEAR_DATABASE = 4;
+    private static final int MENU_SHOW_STETHOSCOPE = 2;
+    private static final int MENU_CLEAR_DATABASE = 3;
 
 
 
@@ -80,14 +78,11 @@ public class MainActivity extends Activity
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position)
         {
-            case MENU_RECORD_ALL_BLE:
+            case MENU_CONNECT_TO_DEVICE:
                 startActivity(new Intent(this, BLeDeviceScanActivity.class));
                 break;
             case MENU_SHOW_ALL_BLE:
                 startActivity(new Intent(this, DBSelectRootActivity.class));
-                break;
-            case MENU_RECORD_STETHOSCOPE:
-                Log.i("MENU", "Recording stethoscope data not implemented yet");
                 break;
             case MENU_SHOW_STETHOSCOPE:
                 Log.i("MENU", "Showing stethoscope data not implemented yet");
@@ -111,15 +106,14 @@ public class MainActivity extends Activity
         mainMenu = (ListView) findViewById(R.id.main_menu);
         menuEntities = new ArrayList<>();
 
-        menuEntities.add(new MainMenuAdapter.MainMenuEntity(            //MENU_RECORD_ALL_BLE
-                getString(R.string.label_connect_to_all_ble_sensors)));
+        menuEntities.add(new MainMenuAdapter.MainMenuEntity(            //MENU_CONNECT_TO_DEVICE
+                getString(R.string.label_connect_to_device)));
         menuEntities.add(new MainMenuAdapter.MainMenuEntity(            //MENU_SHOW_ALL_BLE
                 getString(R.string.label_show_all_ble_sensors_data)));
-        menuEntities.add(new MainMenuAdapter.MainMenuEntity(            //MENU_RECORD_STETHOSCOPE
-                getString(R.string.label_connect_to_stethoscope)));
         menuEntities.add(new MainMenuAdapter.MainMenuEntity(            //MENU_SHOW_STETHOSCOPE
                 getString(R.string.label_show_stethoscope)));
-        menuEntities.add(new MainMenuAdapter.MainMenuEntity(getString(  //MENU_CLEAR_DATABASE
+        menuEntities.add(new MainMenuAdapter.MainMenuEntity(            //MENU_CLEAR_DATABASE
+                getString(  //MENU_CLEAR_DATABASE
                 R.string.label_delete_database)));
 
         dbDeleteDialog = create_dialog();
