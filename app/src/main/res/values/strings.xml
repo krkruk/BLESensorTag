@@ -13,7 +13,7 @@
 
     <!--BLE profile names-->
     <string name="profile_simple_key">Simple Key Profile</string>
-    <string name="profile_barometric_pressure">Barometric Pressure Profile :)</string>
+    <string name="profile_barometric_pressure">Barometric Pressure Profile</string>
     <string name="profile_ir_temperature">IR Temperature Profile</string>
     <string name="profile_movement">Movement Profile</string>
     <string name="profile_humidity">Humidity Profile</string>
@@ -36,11 +36,11 @@
     <string name="action_ble_record_label">Record</string>
 
     <!--Status messages-->
-    <string name="status_connecting">Connecting</string>
-    <string name="status_connected">Connected</string>
+    <string name="status_connecting">Connecting&#8230;</string>
+    <string name="status_connected">Connected!</string>
     <string name="status_disconnected">Disconnected</string>
-    <string name="status_ble_service_scanning">Service scan pending.</string>
-    <string name="status_ble_services_found">Services found.</string>
+    <string name="status_ble_service_scanning">Service scan pending&#8230;</string>
+    <string name="status_ble_services_found">Services found!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -51,22 +51,22 @@
     <string name="label_reed_relay">Reed relay</string>
 
     <string name="label_barometric_pressure">Barometric pressure</string>
-    <string name="label_barometric_pressure_unit">hPa</string>
+    <string name="label_barometric_pressure_unit" translatable="false">hPa</string>
     <string name="label_temperature">Temperature</string>
     <string name="label_temperature_unit">Centigrade</string>
 
     <string name="label_ambient_temperature">Ambient temperature</string>
     <string name="label_object_temperature">Object temperature</string>
 
-    <string name="label_accelerometer">Acc</string>
+    <string name="label_accelerometer" translatable="false">Acc</string>
     <string name="label_magnetometer">Mag</string>
     <string name="label_gyroscope">Gyro</string>
 
     <string name="label_humidity">Humidity</string>
-    <string name="label_humidity_unit">%</string>
+    <string name="label_humidity_unit" translatable="false">%</string>
 
     <string name="label_light_intensity">Light intensity</string>
-    <string name="label_light_intensity_unit">LUX</string>
+    <string name="label_light_intensity_unit" translatable="false">LUX</string>
 
     <string name="label_gap_device_name">Device name:</string>
     <string name="label_system_id">System ID:</string>
@@ -88,17 +88,17 @@
     <string name="label_no_configuration_provided">Hey, dude! No config, read only&#8230;</string>
 
     <!--axis labels-->
-    <string name="axis_acc_x">X [G]</string>
-    <string name="axis_acc_y">Y [G]</string>
-    <string name="axis_acc_z">X [G]</string>
+    <string name="axis_acc_x" translatable="false">X [G]</string>
+    <string name="axis_acc_y" translatable="false">Y [G]</string>
+    <string name="axis_acc_z" translatable="false">X [G]</string>
 
-    <string name="axis_gyr_x">X [°]</string>
-    <string name="axis_gyr_y">Y [°]</string>
-    <string name="axis_gyr_z">Z [°]</string>
+    <string name="axis_gyr_x" translatable="false">X [°]</string>
+    <string name="axis_gyr_y" translatable="false">Y [°]</string>
+    <string name="axis_gyr_z" translatable="false">Z [°]</string>
 
-    <string name="axis_mag_x">X [μT]</string>
-    <string name="axis_mag_y">Y [μT]</string>
-    <string name="axis_mag_z">Z [μT]</string>
+    <string name="axis_mag_x" translatable="false">X [μT]</string>
+    <string name="axis_mag_y" translatable="false">Y [μT]</string>
+    <string name="axis_mag_z" translatable="false">Z [μT]</string>
 
     <!--Null fragment message-->
     <string name="null_fragment_message">An inevitable occurrence happened! ERROR!</string>
