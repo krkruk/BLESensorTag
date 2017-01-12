@@ -5,9 +5,9 @@
     <string name="notif_text">Tap to cancel data acquisition&#8230;</string>
 
     <!--Database sensor labels-->
-    <string name="label_barometer_sensor">Barometer sensor</string>
+    <string name="label_barometer_sensor">Barometer</string>
     <string name="label_temperature_sensor">Temperature sensor</string>
-    <string name="label_acc_sensor">Accelerometer sensor</string>
+    <string name="label_acc_sensor">Accelerometer</string>
     <string name="label_humidity_sensor">Humidity sensor</string>
     <string name="label_light_intensity_sensor">Light intensity sensor</string>
 

@@ -20,7 +20,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.Map;
+import java.util.UUID;
+
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.NotifyGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattModelService;
+import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattProfiles;
 import pl.projektorion.krzysztof.blesensortag.fragments.presentation.BLePresentationFragment;
 import pl.projektorion.krzysztof.blesensortag.fragments.app.BLeServiceScannerFragment;
 
@@ -130,7 +136,7 @@ public class BLeServiceScannerActivity extends Activity {
     private void trigger_db_recording()
     {
         serviceBLe.setServices(serviceScannerFragment.getServices());
-        serviceBLe.setProfiles(serviceScannerFragment.getProfiles());
+        serviceBLe.setProfiles(filtered_profiles());
 
         (new Handler()).postDelayed(new Runnable() {
             @Override
@@ -141,6 +147,25 @@ public class BLeServiceScannerActivity extends Activity {
                 moveTaskToBack(true);
             }
         }, 500);
+    }
+
+    private BLeAvailableGattProfiles filtered_profiles()
+    {
+        BLeAvailableGattProfiles filteredProfiles = new BLeAvailableGattProfiles();
+        final BLeAvailableGattProfiles allProfiles = serviceScannerFragment.getProfiles();
+
+        for( Map.Entry entry : allProfiles.entrySet() )
+        {
+            final GenericGattProfileInterface profile = (GenericGattProfileInterface)
+                    entry.getValue();
+            if( profile instanceof NotifyGattProfileInterface )
+            {
+                if( ((NotifyGattProfileInterface) profile).isNotifying() )
+                    filteredProfiles.put( (UUID) entry.getKey(), profile);
+            }
+        }
+
+        return filteredProfiles;
     }
 
     private void retrieve_intent_data()

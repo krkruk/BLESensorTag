@@ -37,7 +37,7 @@ import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
  * A simple {@link Fragment} subclass.
  */
 public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
-
+    private static final float FONT_SIZE = 14.5f;
     private View view;
     private LineChart accChart;
     private LineDataSet accXSet;
@@ -303,8 +303,11 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         magChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
         accChart.getDescription().setText(getString(R.string.label_accelerometer));
+        accChart.getDescription().setTextSize(FONT_SIZE);
         gyrChart.getDescription().setText(getString(R.string.label_gyroscope));
+        gyrChart.getDescription().setTextSize(FONT_SIZE);
         magChart.getDescription().setText(getString(R.string.label_magnetometer));
+        magChart.getDescription().setTextSize(FONT_SIZE);
     }
 
     private void create_acc_x_set(List<Entry> data)
