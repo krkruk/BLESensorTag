@@ -11,6 +11,20 @@
     <string name="label_humidity_sensor">Humidity sensor</string>
     <string name="label_light_intensity_sensor">Light intensity sensor</string>
 
+    <!--Main menu labels-->
+    <string name="label_connect_to_all_ble_sensors">Connect to all sensors</string>
+    <string name="label_connect_to_stethoscope">Connect to stethoscope</string>
+    <string name="label_show_all_ble_sensors_data">Show data</string>
+    <string name="label_show_stethoscope">Show stethoscope</string>
+    <string name="label_delete_database">Delete database</string>
+
+    <!--Dialog delete database-->
+    <string name="dialog_erase_title">Delete database</string>
+    <string name="dialog_erase_db_msg">Are you sure you want to delete the database?</string>
+    <string name="dialog_erase_positive_button">Erase</string>
+    <string name="dialog_erase_negative_button">Abort</string>
+
+
     <!--BLE profile names-->
     <string name="profile_simple_key">Simple Key Profile</string>
     <string name="profile_barometric_pressure">Barometric Pressure Profile</string>
@@ -21,7 +35,7 @@
     <string name="profile_gap_service">GAP Service Profile</string>
     <string name="profile_device_information">Device Information Service Profile</string>
     <string name="profile_connection_control">Connection Control Service Profile</string>
-    
+
     <!--Toasts-->
     <string name="toast_ble_not_supported">BLE is not supported. The app is to be closed.</string>
     <string name="toast_ble_must_be_enabled">BLE must be enabled. The app is to be closed.</string>
@@ -29,6 +43,10 @@
     <string name="toast_ble_scanning_stopped">Scanning stopped.</string>
     <string name="toast_ble_service_scan_device_not_passed">
         Internal error. The activity cannot be started.</string>
+    <string name="toast_erase_db_successful">Database erased successfully!</string>
+    <string name="toast_erase_db_failed">Database erasure failed!</string>
+    <string name="toast_erase_db_abort">Database deletion aborted</string>
+    <string name="toast_database_empty">Database is empty!</string>
 
     <!--Actions-->
     <string name="action_ble_scan_start_label">Scan</string>

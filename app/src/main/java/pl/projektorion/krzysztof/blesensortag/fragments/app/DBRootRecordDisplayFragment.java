@@ -15,10 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
 
+import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.DBRootTableAdapter;
 import pl.projektorion.krzysztof.blesensortag.database.DBHelper;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
@@ -72,9 +74,9 @@ public class DBRootRecordDisplayFragment extends ListFragment {
 
     @Override
     public void onDestroy() {
+        if( cursor != null ) cursor.close();
+        if( db != null ) db.close();
         super.onDestroy();
-        cursor.close();
-        db.close();
     }
 
     private void init_broadcast_manager()
@@ -93,7 +95,9 @@ public class DBRootRecordDisplayFragment extends ListFragment {
                     new String[]{DBRootTableRecord.COLUMN_ID, DBRootTableRecord.COLUMN_DATE},
                     null, null, null, null, DBRootTableRecord.COLUMN_ID + " DESC", null);
         } catch (SQLiteException e) {
-            Log.e("SQL", "Somethings is wrong" + e);
+            cursor = null;
+            Log.e("SQL", "Somethings is wrong: " + e);
+            Toast.makeText(getActivity(), R.string.toast_database_empty, Toast.LENGTH_LONG).show();
         }
     }
 
