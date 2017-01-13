@@ -81,6 +81,8 @@ public class BLeServiceScannerFragment extends Fragment {
     private BLeAvailableGattProfiles gattProfiles;
     private BLeDataConfigFragmentFactory configFragFactory;
 
+    private boolean wereServicesScanned = false;
+
     private BroadcastReceiver serviceGattReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -88,9 +90,10 @@ public class BLeServiceScannerFragment extends Fragment {
 
             if(BLeGattIOService.ACTION_GATT_CONNECTED.equals(action))
             {
+                if( wereServicesScanned ) return;
+
                 display_status(R.string.status_connected);
                 populate_profile_factory();
-
                 gattService.discoverServices();
             }
             else if(BLeGattIOService.ACTION_GATT_CONNECTING.equals(action))
@@ -103,6 +106,7 @@ public class BLeServiceScannerFragment extends Fragment {
             }
             else if(BLeGattIOService.ACTION_GATT_SERVICES_DISCOVERED.equals(action))
             {
+                wereServicesScanned = true;
                 serviceWidgetExpandableAdapter.clear();
                 final List<BluetoothGattService> services = gattService.getServices();
                 create_profile_factories(services);

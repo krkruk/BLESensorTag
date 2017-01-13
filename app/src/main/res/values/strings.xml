@@ -52,7 +52,7 @@
     <string name="toast_erase_db_failed">Database erasure failed!</string>
     <string name="toast_erase_db_abort">Database deletion aborted</string>
     <string name="toast_database_empty">Database is empty!</string>
-
+    <string name="toast_invalid_ble_scan_data">What a Terrible Error! Cannot start this mode.</string>
     <!--Actions-->
     <string name="action_ble_scan_start_label">Scan</string>
     <string name="action_ble_scan_stop_label">Stop</string>

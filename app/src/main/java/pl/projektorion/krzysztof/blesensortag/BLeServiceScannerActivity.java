@@ -73,8 +73,6 @@ public class BLeServiceScannerActivity extends Activity {
             serviceBLe =
                     ((DBServiceBLe.DBServiceBLeBinder) service).getService();
             isServiceBound = true;
-
-            Log.i("DUMP", "Started!");
         }
 
         @Override
@@ -111,7 +109,7 @@ public class BLeServiceScannerActivity extends Activity {
         {
             case R.id.action_record:
                 trigger_db_recording();
-                Log.i("Button", "Action pressed");
+                Log.i("Record", "Action pressed");
                 break;
             default:
                 break;

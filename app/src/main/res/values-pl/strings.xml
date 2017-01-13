@@ -80,4 +80,5 @@
         <item>Stetoskop</item>
         <item>Wszystkie sensory</item>
     </string-array>
+    <string name="toast_invalid_ble_scan_data">Co za okropny błąd! Nie można rozpocząć tego trybu.</string>
 </resources>

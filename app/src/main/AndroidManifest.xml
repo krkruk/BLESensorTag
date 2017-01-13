@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".AppContext"
@@ -25,40 +26,45 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".BLeServiceScannerActivity" />
+        <activity android:name=".DBSelectSensorActivity" />
+        <activity android:name=".DBSelectRootActivity" />
+        <activity android:name=".DBPresentSensorActivity" />
+        <activity android:name=".BLeDeviceScanActivity" />
 
         <service
             android:name=".bluetooth.service.BLeDiscoveryService"
             android:enabled="true"
-            android:exported="false" />
-
-        <activity android:name=".BLeServiceScannerActivity" />
+            android:exported="false"
+        />
 
         <service
             android:name=".bluetooth.service.BLeGattIOService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false"
+        />
+
         <service
             android:name=".bluetooth.service.BLeGattModelService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+        />
+
         <service
             android:name=".database.DBService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+        />
         <service
             android:name=".DBServiceBLe"
             android:enabled="true"
-            android:exported="false" />
-
-        <activity android:name=".DBSelectSensorActivity" />
-        <activity android:name=".DBSelectRootActivity" />
-        <activity android:name=".DBPresentSensorActivity" />
+            android:exported="false"
+        />
 
         <service
             android:name=".database.DBSelectIntentService"
-            android:exported="false" />
-
-        <activity android:name=".BLeDeviceScanActivity"></activity>
+            android:exported="false"
+        />
     </application>
 
 </manifest>

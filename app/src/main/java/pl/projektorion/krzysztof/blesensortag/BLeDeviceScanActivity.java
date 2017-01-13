@@ -8,8 +8,11 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
+import pl.projektorion.krzysztof.blesensortag.factories.BLeDeviceScanIntentData;
 import pl.projektorion.krzysztof.blesensortag.fragments.app.BLeDiscoveryFragment;
+import pl.projektorion.krzysztof.blesensortag.utils.Pair;
 
 public class BLeDeviceScanActivity extends Activity
     implements DialogInterface.OnClickListener {
@@ -22,7 +25,9 @@ public class BLeDeviceScanActivity extends Activity
 
     private AlertDialog modeSelectionDialog;
     private String[] deviceModeLabels;
+    private BLeDeviceScanIntentData bLeDeviceScanIntentData;
     private int modeId = -1;
+    private Pair<String, Class<?> > newActivityParam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,12 @@ public class BLeDeviceScanActivity extends Activity
             return;
         Log.i("Selected", deviceModeLabels[which]);
         modeId = which;
-        negotiate_fragment();
+
+        if( can_negotiate_fragment() ) negotiate_fragment();
+        else {
+            Toast.makeText(this, R.string.toast_invalid_ble_scan_data, Toast.LENGTH_LONG).show();
+            this.finish();
+        }
     }
 
     private void init_objects()
@@ -64,6 +74,7 @@ public class BLeDeviceScanActivity extends Activity
         deviceModeLabels = getResources().getStringArray(R.array.dialog_ble_detect_mode);
         modeSelectionDialog = create_dialog();
         modeSelectionDialog.setCanceledOnTouchOutside(false);
+        bLeDeviceScanIntentData = new BLeDeviceScanIntentData();
     }
 
     private void load_saved_instance(Bundle savedInstanceState)
@@ -74,6 +85,12 @@ public class BLeDeviceScanActivity extends Activity
         modeId = savedInstanceState.getInt(EXTRA_MODE_ID);
     }
 
+    private boolean can_negotiate_fragment()
+    {
+        newActivityParam = bLeDeviceScanIntentData.get(modeId);
+        return newActivityParam != null && modeId < bLeDeviceScanIntentData.size();
+    }
+
     private void negotiate_fragment()
     {
         FragmentManager fm = getFragmentManager();
@@ -81,8 +98,8 @@ public class BLeDeviceScanActivity extends Activity
         if( bleDiscovery == null )
         {
             bleDiscovery = BLeDiscoveryFragment.newInstance(
-                    BLeServiceScannerActivity.EXTRA_BLE_DEVICE,
-                    BLeServiceScannerActivity.class);
+                    newActivityParam.first(),
+                    newActivityParam.second());
 
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.add(bleDiscovery, BLE_DISCOVERY_FRAGMENT_TAG);
