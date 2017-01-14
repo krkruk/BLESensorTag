@@ -10,6 +10,7 @@
     <string name="label_acc_sensor">Accelerometer</string>
     <string name="label_humidity_sensor">Humidity sensor</string>
     <string name="label_light_intensity_sensor">Light intensity sensor</string>
+    <string name="label_stethoscope_sensor">Stethoscope</string>
 
     <!--Main menu labels-->
     <string name="label_connect_to_device">Connect to a device</string>

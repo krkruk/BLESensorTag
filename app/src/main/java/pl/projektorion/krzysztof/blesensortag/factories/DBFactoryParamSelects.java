@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryListenerInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometerParam;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Barometer.DBSelectBarometerParam;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityParam;
-import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperatureParam;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Movement.DBSelectMovementParam;
-import pl.projektorion.krzysztof.blesensortag.database.selects.OpticalSensor.DBSelectOpticalSensorParam;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Humidity.DBSelectHumidityParam;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.IRTemperature.DBSelectIRTemperatureParam;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Movement.DBSelectMovementParam;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.OpticalSensor.DBSelectOpticalSensorParam;
 
 /**
  * Created by krzysztof on 20.12.16.

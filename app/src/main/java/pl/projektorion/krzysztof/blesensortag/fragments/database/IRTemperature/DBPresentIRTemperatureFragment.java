@@ -26,10 +26,10 @@ import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryParcelableListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryWithLimitsListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperature;
-import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperatureCount;
-import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperatureCountData;
-import pl.projektorion.krzysztof.blesensortag.database.selects.IRTemperature.DBSelectIRTemperatureData;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.IRTemperature.DBSelectIRTemperature;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.IRTemperature.DBSelectIRTemperatureCount;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.IRTemperature.DBSelectIRTemperatureCountData;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.IRTemperature.DBSelectIRTemperatureData;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentSensorFragmentAbstract;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 

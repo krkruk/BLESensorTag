@@ -27,10 +27,10 @@ import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryParcelableListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryWithLimitsListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidity;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityCount;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityCountData;
-import pl.projektorion.krzysztof.blesensortag.database.selects.Humidity.DBSelectHumidityData;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Humidity.DBSelectHumidity;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Humidity.DBSelectHumidityCount;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Humidity.DBSelectHumidityCountData;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Humidity.DBSelectHumidityData;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentSensorFragmentAbstract;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
