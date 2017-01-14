@@ -133,7 +133,6 @@ public class BLeServiceScannerActivity extends Activity {
 
     private void trigger_db_recording()
     {
-        serviceBLe.setServices(serviceScannerFragment.getServices());
         serviceBLe.setProfiles(filtered_profiles());
 
         (new Handler()).postDelayed(new Runnable() {

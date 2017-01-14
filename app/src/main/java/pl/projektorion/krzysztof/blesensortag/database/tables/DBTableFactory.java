@@ -1,5 +1,6 @@
 package pl.projektorion.krzysztof.blesensortag.database.tables;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,37 +14,17 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTable
  * Created by krzysztof on 02.12.16.
  */
 
-public class DBTableFactory {
-    private Map<UUID, DBTableFactoryInterface> tableFactories;
+public class DBTableFactory extends ArrayList<DBTableFactoryInterface>{
 
     public DBTableFactory() {
-        this.tableFactories = new HashMap<>();
+        super();
     }
 
-    public void add(UUID serviceUuid, DBTableFactoryInterface tableFactory)
+    public DBTableInterface createTable(int index)
     {
-        tableFactories.put(serviceUuid, tableFactory);
-    }
-
-    public void extend(Map<UUID, DBTableFactoryInterface> tableFactories)
-    {
-        this.tableFactories.putAll(tableFactories);
-    }
-
-    public Set<UUID> getUuids()
-    {
-        return tableFactories.keySet();
-    }
-
-    public Collection<DBTableFactoryInterface> getFactories()
-    {
-        return tableFactories.values();
-    }
-
-    public DBTableInterface createTable(UUID serviceUuid)
-    {
-        DBTableFactoryInterface factory =  tableFactories.get(serviceUuid);
-        if( factory == null ) return new DBTableNull();
+        index = index < size() && index >= 0 ? index : -1;
+        if( index == -1 ) return new DBTableNull();
+        DBTableFactoryInterface factory = get(index);
         return factory.createTable();
     }
 }

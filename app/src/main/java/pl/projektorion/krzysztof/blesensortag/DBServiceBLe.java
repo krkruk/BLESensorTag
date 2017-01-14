@@ -94,7 +94,7 @@ public class DBServiceBLe extends DBService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("STARTED", "In started service");
-        if( services == null || profiles == null || models == null )
+        if( profiles == null || models == null )
             Log.d("DATA", "Required data thru bound service not available");
 
         Notification notification = create_notification();

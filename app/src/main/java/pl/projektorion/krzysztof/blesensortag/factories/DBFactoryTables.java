@@ -11,6 +11,7 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.D
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.IRTemperature.DBTableIRTemperatureFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.DBTableMovementFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor.DBTableOpticalSensorFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Stethoscope.DBTableStethoscopeFactory;
 
 /**
  * Created by krzysztof on 19.12.16.
@@ -25,13 +26,11 @@ public class DBFactoryTables extends DBTableFactory {
 
     private void init_tables()
     {
-        add(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new DBTableBarometerFactory());
-        add(HumidityProfile.HUMIDITY_SERVICE, new DBTableHumidityFactory());
-        add(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
-                new DBTableIRTemperatureFactory());
-        add(MovementProfile.MOVEMENT_SERVICE, new DBTableMovementFactory());
-        add(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
-                new DBTableOpticalSensorFactory());
+        add( new DBTableBarometerFactory() );
+        add( new DBTableHumidityFactory() );
+        add( new DBTableIRTemperatureFactory() );
+        add( new DBTableMovementFactory() );
+        add( new DBTableOpticalSensorFactory() );
+        add( new DBTableStethoscopeFactory() );
     }
 }

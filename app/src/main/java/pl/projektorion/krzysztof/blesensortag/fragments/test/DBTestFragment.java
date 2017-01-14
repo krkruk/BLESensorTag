@@ -159,7 +159,6 @@ public class DBTestFragment extends Fragment {
         models.put(OpticalSensorProfile.OPTICAL_SENSOR_DATA, opticalSensorModel);
 
         //initService
-        dbService.setServices(serviceList);
         dbService.setModels(models);
         dbService.setProfiles(profiles);
         dbService.initService();

@@ -11,6 +11,7 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.D
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.IRTemperature.DBTableIRTemperatureParamFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.DBTableMovementParamFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.OpticalSensor.DBTableOpticalSensorParamFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Stethoscope.DBTableStethoscopeParamFactory;
 
 /**
  * Created by krzysztof on 19.12.16.
@@ -26,15 +27,11 @@ public class DBFactoryParamTables extends DBTableFactory {
 
     private void init_param_tables()
     {
-        add(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
-                new DBTableBarometerParamFactory());
-        add(HumidityProfile.HUMIDITY_SERVICE,
-                new DBTableHumidityParamFactory());
-        add(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
-                new DBTableIRTemperatureParamFactory());
-        add(MovementProfile.MOVEMENT_SERVICE,
-                new DBTableMovementParamFactory());
-        add(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
-                new DBTableOpticalSensorParamFactory());
+        add( new DBTableBarometerParamFactory() );
+        add( new DBTableHumidityParamFactory() );
+        add( new DBTableIRTemperatureParamFactory() );
+        add( new DBTableMovementParamFactory() );
+        add( new DBTableOpticalSensorParamFactory() );
+        add( new DBTableStethoscopeParamFactory() );
     }
 }

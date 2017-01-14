@@ -37,6 +37,7 @@ import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Humidity.
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.IRTemperature.DBInsertIRTemperatureFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Movement.DBInsertMovementFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.OpticalSensor.DBInsertOpticalSensorFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableFactoryInterface;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathExternal;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
@@ -60,7 +61,6 @@ public class DBService extends Service {
     private DBInsertFactory dbInsertFactory;
     private DBInsertFactory dbInsertParamFactory;
 
-    protected List<BluetoothGattService> services;
     protected BLeAvailableGattProfiles profiles;
     protected BLeAvailableGattModels models;
 
@@ -70,11 +70,6 @@ public class DBService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return binder;
-    }
-
-    public void setServices(List<BluetoothGattService> services)
-    {
-        this.services = services;
     }
 
     public void setProfiles(BLeAvailableGattProfiles profiles)
@@ -89,27 +84,27 @@ public class DBService extends Service {
 
     public void initService() throws NullPointerException
     {
-        if( services == null || profiles == null || models == null )
+        if( profiles == null || models == null )
             throw new NullPointerException("No data passed into DBService");
 
-        initGattServices(services);
+        init_create_tables();
         initDatabase(models);
         insertParams(profiles);
     }
 
-    protected void initGattServices(List<BluetoothGattService> services)
+    protected void init_create_tables()
     {
+        /*
+         * All tables should be created. NOT only tables available on first run.
+         */
         if( dbTables != null ) return;
 
         dbTables = new ArrayList<>();
         dbTables.add(new DBRootTableRecord());
-
-        for(BluetoothGattService service : services)
-        {
-            final UUID serviceUuid = service.getUuid();
-            dbTables.add(dbTableFactory.createTable(serviceUuid));
-            dbTables.add(dbTableParamFactory.createTable(serviceUuid));
-        }
+        for(DBTableFactoryInterface tableFactory : dbTableFactory)
+            dbTables.add(tableFactory.createTable());
+        for (DBTableFactoryInterface tableParam : dbTableParamFactory)
+            dbTables.add(tableParam.createTable());
     }
 
     protected void initDatabase(BLeAvailableGattModels models) throws NullPointerException
