@@ -18,6 +18,8 @@ import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.adapters.MainMenuAdapter;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
+import pl.projektorion.krzysztof.blesensortag.database.path.DBPathExternal;
+import pl.projektorion.krzysztof.blesensortag.database.path.DBPathInterface;
 
 public class MainActivity extends Activity
     implements AdapterView.OnItemClickListener {
@@ -37,7 +39,8 @@ public class MainActivity extends Activity
     private DialogInterface.OnClickListener onDeleteDatabasePositive = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            int msg = deleteDatabase(Constant.DB_NAME)
+            DBPathInterface dbPath = new DBPathExternal(Constant.DB_NAME, Constant.DB_APP_DIR);
+            int msg = deleteDatabase(dbPath.getDbName())
                     ? R.string.toast_erase_db_successful
                     : R.string.toast_erase_db_failed;
             Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();

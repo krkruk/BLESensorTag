@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
+import pl.projektorion.krzysztof.blesensortag.database.path.DBPathInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableInterface;
 
 /**
@@ -23,6 +24,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public DBHelper(Context context, List<DBTableInterface> tables) {
         super(context, DB_NAME, null, DB_VERSION);
+        this.tables = tables == null ? new ArrayList<DBTableInterface>() : tables;
+    }
+
+    public DBHelper(Context context, DBPathInterface dbName, List<DBTableInterface> tables) {
+        super(context, dbName.getDbName(), null, DB_VERSION);
         this.tables = tables == null ? new ArrayList<DBTableInterface>() : tables;
     }
 

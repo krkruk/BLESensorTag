@@ -25,6 +25,8 @@ import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.DBRootTableAdapter;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.database.DBHelper;
+import pl.projektorion.krzysztof.blesensortag.database.path.DBPathExternal;
+import pl.projektorion.krzysztof.blesensortag.database.path.DBPathInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
 import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableInterface;
 
@@ -88,8 +90,12 @@ public class DBRootRecordDisplayFragment extends ListFragment {
 
     private void init_db_cursor()
     {
-        final String fullDbPath = getActivity().getApplicationContext()
-                .getDatabasePath(Constant.DB_NAME).getAbsolutePath();
+        DBPathInterface path = new DBPathExternal(Constant.DB_NAME, Constant.DB_APP_DIR);
+        String fullDbPath = path.getDbName();
+        if( Constant.DB_NAME.equals(fullDbPath) )
+            fullDbPath = getActivity().getApplicationContext()
+                    .getDatabasePath(Constant.DB_NAME).getAbsolutePath();
+        
         try {
             db = SQLiteDatabase.openDatabase(fullDbPath, null, SQLiteDatabase.OPEN_READONLY);
             cursor = db.query(

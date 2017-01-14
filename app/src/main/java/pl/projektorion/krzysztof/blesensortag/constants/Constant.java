@@ -22,4 +22,5 @@ public interface Constant {
 
 
     String DB_NAME = "SensorTagDB";
+    String DB_APP_DIR = "BLESensorTag";
 }

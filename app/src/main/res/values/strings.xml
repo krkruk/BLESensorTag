@@ -74,14 +74,14 @@
     <string name="label_reed_relay">Reed relay</string>
 
     <string name="label_barometric_pressure">Barometric pressure</string>
-    <string name="label_barometric_pressure_unit" translatable="false">hPa</string>
+    <string name="label_barometric_pressure_unit">hPa</string>
     <string name="label_temperature">Temperature</string>
     <string name="label_temperature_unit">Centigrade</string>
 
     <string name="label_ambient_temperature">Ambient temperature</string>
     <string name="label_object_temperature">Object temperature</string>
 
-    <string name="label_accelerometer" translatable="false">Acc</string>
+    <string name="label_accelerometer">Acc</string>
     <string name="label_magnetometer">Mag</string>
     <string name="label_gyroscope">Gyro</string>
 

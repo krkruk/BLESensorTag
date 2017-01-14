@@ -6,11 +6,11 @@
     <string name="action_ble_scan_stop_label">Stop</string>
     <string name="hello_blank_fragment">Pusty fragment</string>
     <string name="label_acc_sensor">Akcelerometr</string>
-    <string name="label_accelerometer"></string>
+    <string name="label_accelerometer">Akcelerometr</string>
     <string name="label_ambient_temperature">Temperatura otoczenia</string>
     <string name="label_barometer_sensor">Czujnik ciśnienia</string>
     <string name="label_barometric_pressure">Ciśnienie atmosferyczne</string>
-    <string name="label_barometric_pressure_unit"></string>
+    <string name="label_barometric_pressure_unit">hPa</string>
     <string name="label_button_left">Lewy przycisk</string>
     <string name="label_button_right">Prawy przycisk</string>
     <string name="label_config_measurement">Pomiary</string>

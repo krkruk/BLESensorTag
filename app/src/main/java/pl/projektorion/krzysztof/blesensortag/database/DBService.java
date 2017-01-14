@@ -23,6 +23,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.MovementProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.NotifyGattProfileInterface;
+import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattModels;
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattProfiles;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
@@ -36,6 +37,9 @@ import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Humidity.
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.IRTemperature.DBInsertIRTemperatureFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Movement.DBInsertMovementFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.OpticalSensor.DBInsertOpticalSensorFactory;
+import pl.projektorion.krzysztof.blesensortag.database.path.DBPathDefault;
+import pl.projektorion.krzysztof.blesensortag.database.path.DBPathExternal;
+import pl.projektorion.krzysztof.blesensortag.database.path.DBPathInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableFactory;
 
@@ -114,7 +118,13 @@ public class DBService extends Service {
         if( dbTables == null )
             throw new NullPointerException("Gatt Services not initialized in DB");
 
-        dbHelper = new DBHelper(this, dbTables);
+        final DBPathInterface dbPath = new DBPathExternal(Constant.DB_NAME, Constant.DB_APP_DIR);
+        Log.i("DBPATH", dbPath.getDbName());
+
+        dbHelper = new DBHelper(
+                this,
+                dbPath,
+                dbTables);
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         final DBRootInsertInterface root = new DBInsertRootRecord(db, DBRootTableRecord.TABLE_NAME);
