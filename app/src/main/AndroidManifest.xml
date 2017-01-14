@@ -58,6 +58,8 @@
         <service
             android:name=".database.DBCSVIntentService"
             android:exported="false" />
+
+        <activity android:name=".BLePresentStethoscopeActivity"></activity>
     </application>
 
 </manifest>

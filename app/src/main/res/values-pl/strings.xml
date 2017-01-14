@@ -89,4 +89,7 @@
     <string name="toast_export_csv_start_error">Błąd! Nie można rozpocząć eksportowania&#8230;</string>
     <string name="toast_export_csv_successful">Eksportowanie zakończyło się sukcesem!</string>
     <string name="toast_export_csv_unknown_error">Eksportowanie się nie powiodło! Nieznany błąd&#8230;</string>
+    <string name="label_config_enable">Uaktywnij</string>
+    <string name="profile_stethoscope">Profil Stetoskopu</string>
+    <string name="toast_stethoscope_service_unavailable">Usługa stetoskopu niedostępna! Aktywność zostanie wyłączona.</string>
 </resources>
