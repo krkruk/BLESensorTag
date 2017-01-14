@@ -81,4 +81,6 @@
         <item>Wszystkie sensory</item>
     </string-array>
     <string name="toast_invalid_ble_scan_data">Co za okropny błąd! Nie można rozpocząć tego trybu.</string>
+    <string name="permission_coarse_location_not_obtained">Brak ogólnej lokalizacji dla BLE. Aktywność zostanie zamknięta.</string>
+    <string name="permission_external_storage_not_obtained">Brak pozwolenia dla zapisu na zewnętrznej pamięci. Aplikacja zostanie wyłączona.</string>
 </resources>

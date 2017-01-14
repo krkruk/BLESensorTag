@@ -1,12 +1,18 @@
 package pl.projektorion.krzysztof.blesensortag;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,6 +29,8 @@ public class BLeDeviceScanActivity extends Activity
     private static final String EXTRA_MODE_ID =
             "pl.projektorion.krzysztof.blesensortag.extra.MODE_ID";
 
+    private static final int REQUEST_CODE_COARSE_LOCATION = 891;
+
     private AlertDialog modeSelectionDialog;
     private String[] deviceModeLabels;
     private BLeDeviceScanIntentData bLeDeviceScanIntentData;
@@ -35,6 +43,7 @@ public class BLeDeviceScanActivity extends Activity
         setContentView(R.layout.activity_ble_device_scan);
         init_objects();
         load_saved_instance(savedInstanceState);
+        check_coarse_location_permission();
     }
 
     @Override
@@ -85,6 +94,17 @@ public class BLeDeviceScanActivity extends Activity
         modeId = savedInstanceState.getInt(EXTRA_MODE_ID);
     }
 
+    private void check_coarse_location_permission()
+    {
+        final int permission = ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        if( permission != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this,
+                    new String[]{ Manifest.permission.ACCESS_COARSE_LOCATION },
+                    REQUEST_CODE_COARSE_LOCATION);
+    }
+
     private boolean can_negotiate_fragment()
     {
         newActivityParam = bLeDeviceScanIntentData.get(modeId);
@@ -121,4 +141,22 @@ public class BLeDeviceScanActivity extends Activity
                 .setItems(R.array.dialog_ble_detect_mode, this)
                 .create();
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode)
+        {
+            case REQUEST_CODE_COARSE_LOCATION:
+                if( grantResults.length > 0
+                        && grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                {
+                    Toast.makeText(this, R.string.permission_coarse_location_not_obtained,
+                            Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                break;
+            default: break;
+        }
+    }
+
 }

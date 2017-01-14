@@ -1,11 +1,16 @@
 package pl.projektorion.krzysztof.blesensortag;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +39,7 @@ public class MainActivity extends Activity
     private static final int MENU_SHOW_STETHOSCOPE = 2;
     private static final int MENU_CLEAR_DATABASE = 3;
 
+    private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 2345;
 
     private DialogInterface.OnClickListener onDeleteDatabasePositive = new DialogInterface.OnClickListener() {
         @Override
@@ -64,6 +70,7 @@ public class MainActivity extends Activity
         stop_pending_services();
         init_main_menu();
         apply_main_menu();
+        check_external_storage_permission();
     }
 
     @Override
@@ -137,5 +144,31 @@ public class MainActivity extends Activity
                 .setPositiveButton(R.string.dialog_erase_positive_button, onDeleteDatabasePositive)
                 .setNegativeButton(R.string.dialog_erase_negative_button, onDeleteDatabaseAbort)
                 .create();
+    }
+
+    private void check_external_storage_permission()
+    {
+        final int permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if( permission != PackageManager.PERMISSION_GRANTED )
+            ActivityCompat.requestPermissions(this,
+                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                    REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode)
+        {
+            case REQUEST_CODE_WRITE_EXTERNAL_STORAGE:
+                if( grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, R.string.permission_external_storage_not_obtained,
+                            Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

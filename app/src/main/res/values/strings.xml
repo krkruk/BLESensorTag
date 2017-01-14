@@ -127,4 +127,8 @@
 
     <!--Null fragment message-->
     <string name="null_fragment_message">An inevitable occurrence happened! ERROR!</string>
+
+    <!--Permissions-->
+    <string name="permission_external_storage_not_obtained">No external storage permission. App is to be closed.</string>
+    <string name="permission_coarse_location_not_obtained">No coarse location permission for BLE. Activity to be closed.</string>
 </resources>
