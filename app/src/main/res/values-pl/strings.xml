@@ -65,7 +65,7 @@
     <string name="dialog_erase_positive_button">Wymaż</string>
     <string name="dialog_erase_title">Skasuj bazę danych</string>
     <string name="label_connect_to_device">Połącz do wszystkich sensorów</string>
-    <string name="label_connect_to_stethoscope">Połącz do stetoskopu</string>
+
     <string name="label_delete_database">Usuń bazę danych</string>
     <string name="label_show_all_ble_sensors_data">Pokaż dane</string>
     <string name="label_show_stethoscope">Pokaż stetoskop</string>
@@ -83,4 +83,10 @@
     <string name="toast_invalid_ble_scan_data">Co za okropny błąd! Nie można rozpocząć tego trybu.</string>
     <string name="permission_coarse_location_not_obtained">Brak ogólnej lokalizacji dla BLE. Aktywność zostanie zamknięta.</string>
     <string name="permission_external_storage_not_obtained">Brak pozwolenia dla zapisu na zewnętrznej pamięci. Aplikacja zostanie wyłączona.</string>
+    <string name="action_csv_export_label">Eksportuj do CSV</string>
+    <string name="toast_export_csv_could_not_read">Błąd! Nie można odczytać bazy danych&#8230;</string>
+    <string name="toast_export_csv_could_not_save">Błąd! Nie można zapisać pliku&#8230;</string>
+    <string name="toast_export_csv_start_error">Błąd! Nie można rozpocząć eksportowania&#8230;</string>
+    <string name="toast_export_csv_successful">Eksportowanie zakończyło się sukcesem!</string>
+    <string name="toast_export_csv_unknown_error">Eksportowanie się nie powiodło! Nieznany błąd&#8230;</string>
 </resources>
