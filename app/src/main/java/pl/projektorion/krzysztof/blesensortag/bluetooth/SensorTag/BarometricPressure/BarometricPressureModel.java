@@ -14,7 +14,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces
 public class BarometricPressureModel extends AbstractGenericGattModel
         implements GenericGattNotificationModelInterface {
 
-    BarometricPressureData barometricPressureData;
+    private BarometricPressureData barometricPressureData;
 
     public BarometricPressureModel() {
         super();
@@ -38,6 +38,7 @@ public class BarometricPressureModel extends AbstractGenericGattModel
 
     @Override
     protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
-        return new BarometricPressureData(characteristic);
+        barometricPressureData = new BarometricPressureData(characteristic);
+        return barometricPressureData;
     }
 }

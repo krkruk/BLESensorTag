@@ -38,6 +38,7 @@ public class OpticalSensorModel extends AbstractGenericGattModel
 
     @Override
     protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
-        return new OpticalSensorData(characteristic);
+        opticalSensorData = new OpticalSensorData(characteristic);
+        return opticalSensorData;
     }
 }

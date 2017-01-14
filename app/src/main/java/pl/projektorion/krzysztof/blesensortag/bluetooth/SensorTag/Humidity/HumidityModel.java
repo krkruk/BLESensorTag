@@ -38,6 +38,7 @@ public class HumidityModel extends AbstractGenericGattModel
 
     @Override
     protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
-        return new HumidityData(characteristic);
+        humidityData = new HumidityData(characteristic);
+        return humidityData;
     }
 }

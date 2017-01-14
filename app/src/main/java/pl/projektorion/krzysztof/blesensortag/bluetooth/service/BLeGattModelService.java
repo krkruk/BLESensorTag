@@ -126,6 +126,11 @@ public class BLeGattModelService extends Service
         return models;
     }
 
+    public GenericGattModelInterface setModel(UUID uuid, GenericGattModelInterface model)
+    {
+        return models.put(uuid, model);
+    }
+
     @Override
     public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic,
                                      int status) {

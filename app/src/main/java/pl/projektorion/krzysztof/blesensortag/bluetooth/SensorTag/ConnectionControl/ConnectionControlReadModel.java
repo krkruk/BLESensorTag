@@ -32,6 +32,7 @@ public class ConnectionControlReadModel extends AbstractGenericGattModel
 
     @Override
     protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
-        return new ConnectionControlData(characteristic);
+        data = new ConnectionControlData(characteristic);
+        return data;
     }
 }

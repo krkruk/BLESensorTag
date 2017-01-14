@@ -38,6 +38,7 @@ public class GAPServiceReadModel extends AbstractGenericGattModel
 
     @Override
     protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
-        return new GAPServiceData(characteristic);
+        data = new GAPServiceData(characteristic);
+        return data;
     }
 }

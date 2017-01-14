@@ -37,6 +37,7 @@ public class SimpleKeysModel extends AbstractGenericGattModel
 
     @Override
     protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
-        return new SimpleKeysData(characteristic);
+        data = new SimpleKeysData(characteristic);
+        return data;
     }
 }

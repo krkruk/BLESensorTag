@@ -39,7 +39,7 @@
     <string name="label_temperature">Temperatura</string>
     <string name="label_temperature_sensor">Czujnik temperatury</string>
     <string name="label_temperature_unit">st.Celsjusza</string>
-    <string name="notif_text">Kliknij, aby zatrzymać akwizycję danych&#8230;</string>
+    <string name="notif_text">Dotknij, aby zatrzymać akwizycję danych&#8230;</string>
     <string name="null_fragment_message">Nieuniknione stało się! Błąd!</string>
     <string name="profile_barometric_pressure">Profil Ciśnienia Atmosferycznego</string>
     <string name="profile_connection_control">Profil Usługi Kontroli Połączenia</string>
@@ -64,7 +64,7 @@
     <string name="dialog_erase_negative_button">Anuluj</string>
     <string name="dialog_erase_positive_button">Wymaż</string>
     <string name="dialog_erase_title">Skasuj bazę danych</string>
-    <string name="label_connect_to_device">Połącz do wszystkich sensorów</string>
+    <string name="label_connect_to_device">Połącz do urządzenia</string>
 
     <string name="label_delete_database">Usuń bazę danych</string>
     <string name="label_show_all_ble_sensors_data">Pokaż dane</string>
@@ -92,4 +92,5 @@
     <string name="label_config_enable">Uaktywnij</string>
     <string name="profile_stethoscope">Profil Stetoskopu</string>
     <string name="toast_stethoscope_service_unavailable">Usługa stetoskopu niedostępna! Aktywność zostanie wyłączona.</string>
+    <string name="label_stethoscope">Stetoskop</string>
 </resources>

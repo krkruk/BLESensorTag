@@ -122,6 +122,8 @@
 
     <string name="label_total_records">Total records</string>
 
+    <string name="label_stethoscope">Stethoscope</string>
+
     <!--axis labels-->
     <string name="axis_acc_x" translatable="false">X [G]</string>
     <string name="axis_acc_y" translatable="false">Y [G]</string>

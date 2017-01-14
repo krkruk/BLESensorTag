@@ -37,6 +37,7 @@ public class IRTemperatureModel extends AbstractGenericGattModel
 
     @Override
     protected Object data_to_notify(BluetoothGattCharacteristic characteristic) {
-        return new IRTemperatureData(characteristic);
+        irData = new IRTemperatureData(characteristic);
+        return irData;
     }
 }
