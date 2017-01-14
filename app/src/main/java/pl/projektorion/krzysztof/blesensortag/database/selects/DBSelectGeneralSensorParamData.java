@@ -39,7 +39,7 @@ public class DBSelectGeneralSensorParamData extends DBSelectDataAbstract {
     @Override
     protected void parse(Cursor cursor) {
         if( cursor.getColumnCount() != COLUMN_COUNT) {
-            Log.d("BarParam", "Column count invalid");
+            Log.d("ParamData", "Column count invalid");
             return;
         }
         _id = cursor.getLong(0);

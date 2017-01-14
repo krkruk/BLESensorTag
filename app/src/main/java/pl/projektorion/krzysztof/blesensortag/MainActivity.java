@@ -35,11 +35,11 @@ public class MainActivity extends Activity
     private static final int MENU_CLEAR_DATABASE = 3;
 
 
-
     private DialogInterface.OnClickListener onDeleteDatabasePositive = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             DBPathInterface dbPath = new DBPathExternal(Constant.DB_NAME, Constant.DB_APP_DIR);
+            deleteDatabase(Constant.DB_NAME);
             int msg = deleteDatabase(dbPath.getDbName())
                     ? R.string.toast_erase_db_successful
                     : R.string.toast_erase_db_failed;

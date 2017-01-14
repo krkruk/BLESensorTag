@@ -23,7 +23,7 @@ public class DBQuery implements DBQueryInterface {
         Cursor cursor = dbReadable.rawQuery(
                 queryListener.getQuery(),
                 queryListener.getQueryData());
-
+        Log.e("Query", queryListener.getLabel() + "  " + queryListener.getQuery());
         if( cursor.moveToFirst() ) queryListener.onQueryExecuted(cursor);
 
         cursor.close();

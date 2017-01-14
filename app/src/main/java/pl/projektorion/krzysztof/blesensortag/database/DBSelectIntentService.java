@@ -14,8 +14,11 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQuery;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryListenerInterface;
+import pl.projektorion.krzysztof.blesensortag.database.path.DBPathExternal;
+import pl.projektorion.krzysztof.blesensortag.database.path.DBPathInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometer;
 import pl.projektorion.krzysztof.blesensortag.database.selects.Barometer.DBSelectBarometerData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectGeneralSensorParamData;
@@ -55,7 +58,9 @@ public class DBSelectIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         final Context context = getApplicationContext();
-        SQLiteOpenHelper helper = new DBHelper(context, null);
+        DBPathInterface dbPath = new DBPathExternal(Constant.DB_NAME, Constant.DB_APP_DIR);
+
+        SQLiteOpenHelper helper = new DBHelper(context, dbPath, null);
         SQLiteDatabase dbReadable = helper.getReadableDatabase();
 
         Cursor cursor = null;

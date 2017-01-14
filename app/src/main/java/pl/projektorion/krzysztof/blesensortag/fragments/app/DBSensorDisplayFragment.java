@@ -22,11 +22,14 @@ import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.DBSelectSensorAdapter;
+import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.database.DBHelper;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQuery;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryExecutor;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryInterface;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryListenerInterface;
+import pl.projektorion.krzysztof.blesensortag.database.path.DBPathExternal;
+import pl.projektorion.krzysztof.blesensortag.database.path.DBPathInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectGeneralSensorParamData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.factories.DBFactoryParamSelects;
@@ -169,7 +172,9 @@ public class DBSensorDisplayFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-            helper = new DBHelper( context, null );
+            DBPathInterface dbPath = new DBPathExternal(Constant.DB_NAME, Constant.DB_APP_DIR);
+            helper = new DBHelper( context, dbPath, null );
+
             SQLiteDatabase db = helper.getReadableDatabase();
 
             DBQueryExecutor executor = new DBQueryExecutor(prepare_queries(db));
