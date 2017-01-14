@@ -4,9 +4,7 @@ package pl.projektorion.krzysztof.blesensortag.fragments.app;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -19,16 +17,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-import java.util.ArrayList;
-
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.adapters.DBRootTableAdapter;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
-import pl.projektorion.krzysztof.blesensortag.database.DBHelper;
-import pl.projektorion.krzysztof.blesensortag.database.path.DBPathExternal;
-import pl.projektorion.krzysztof.blesensortag.database.path.DBPathInterface;
+import pl.projektorion.krzysztof.blesensortag.utils.path.PathExternal;
+import pl.projektorion.krzysztof.blesensortag.utils.path.PathInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
-import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableInterface;
 
 /**
  * A simple {@link ListFragment} subclass.
@@ -90,8 +84,8 @@ public class DBRootRecordDisplayFragment extends ListFragment {
 
     private void init_db_cursor()
     {
-        DBPathInterface path = new DBPathExternal(Constant.DB_NAME, Constant.DB_APP_DIR);
-        String fullDbPath = path.getDbName();
+        PathInterface path = new PathExternal(Constant.DB_NAME, Constant.DB_APP_DIR);
+        String fullDbPath = path.getFull();
         if( Constant.DB_NAME.equals(fullDbPath) )
             fullDbPath = getActivity().getApplicationContext()
                     .getDatabasePath(Constant.DB_NAME).getAbsolutePath();

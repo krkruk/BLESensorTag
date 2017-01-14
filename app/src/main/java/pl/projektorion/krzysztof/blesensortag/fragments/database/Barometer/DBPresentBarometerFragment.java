@@ -85,6 +85,11 @@ public class DBPresentBarometerFragment extends DBPresentSensorFragmentAbstract 
     }
 
     @Override
+    public DBQueryParcelableListenerInterface getExportQuery() {
+        return new DBSelectBarometer(rootRecord, sensorRecord);
+    }
+
+    @Override
     protected void apply_data(List<? extends DBSelectInterface> data)
     {
         List<Entry> pressureData = new ArrayList<>();

@@ -85,6 +85,11 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
     }
 
     @Override
+    public DBQueryParcelableListenerInterface getExportQuery() {
+        return new DBSelectHumidity(rootRecord, sensorRecord);
+    }
+
+    @Override
     protected DBQueryParcelableListenerInterface data_counter_instance()
     {
         return new DBSelectHumidityCount(rootRecord);

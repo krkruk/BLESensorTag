@@ -15,7 +15,6 @@ public class DBSelectIRTemperatureData implements DBSelectInterface {
     public static final int ATTRIBUTE_TIME = 0x10;
     public static final int ATTRIBUTE_OBJECT_TEMPERATURE = 0x11;
     public static final int ATTRIBUTE_AMBIENT_TEMPERATURE = 0x12;
-    public static final int ATTRIBUTE_CSV_HEADER = 0x13;
 
     public static final String CSV_HEADER = "time,object,ambient";
 

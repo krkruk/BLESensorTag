@@ -14,6 +14,7 @@ import java.util.List;
 import pl.projektorion.krzysztof.blesensortag.DBPresentSensorActivity;
 import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryParcelableListenerInterface;
+import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryWithLimitsListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 
 import pl.projektorion.krzysztof.blesensortag.database.selects.abstracts.DBSelectSensorCountDataAbstract;
@@ -178,6 +179,13 @@ implements ServiceDataReceiver.ReceiverListener {
         intent.putExtra(DBSelectIntentService.EXTRA_SENSOR_DATA_SELECT, data_instance());
         getActivity().startService(intent);
     }
+
+    /**
+     * Get query that allows reading all values of the particular reading
+     * @return {@link DBQueryParcelableListenerInterface} query to be sent
+     * to the working thread
+     */
+    public abstract DBQueryParcelableListenerInterface getExportQuery();
 
     /**
      * Return an instance of a query that demands counting available records to be displayed

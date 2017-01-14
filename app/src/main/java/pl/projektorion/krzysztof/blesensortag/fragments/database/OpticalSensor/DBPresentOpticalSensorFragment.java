@@ -65,18 +65,23 @@ public class DBPresentOpticalSensorFragment extends DBPresentSensorFragmentAbstr
         return fragment;
     }
 
-    @Override
-    public void onReceiveResult(int resultCode, Bundle resultData) {
-        super.onReceiveResult(resultCode, resultData);
-        chart.setOnChartGestureListener(getFlingListener());
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_dbpresent_opticalsensor, container, false);
         init_widgets();
         return view;
+    }
+
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        super.onReceiveResult(resultCode, resultData);
+        chart.setOnChartGestureListener(getFlingListener());
+    }
+
+    @Override
+    public DBQueryParcelableListenerInterface getExportQuery() {
+        return new DBSelectOpticalSensor(rootRecord, sensorRecord);
     }
 
     @Override

@@ -15,7 +15,6 @@ public class DBSelectBarometerData implements DBSelectInterface {
     public static final int ATTRIBUTE_TIME = 0x10;
     public static final int ATTRIBUTE_BAROMETRIC_PRESSURE = 0x11;
     public static final int ATTRIBUTE_TEMPERATURE = 0x12;
-    public static final int ATTRIBUTE_CSV_HEADER = 0x13;
 
     public static final String CSV_HEADER = "time,pressure,temperature";
 

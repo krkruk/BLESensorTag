@@ -129,6 +129,11 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
     }
 
     @Override
+    public DBQueryParcelableListenerInterface getExportQuery() {
+        return new DBSelectMovement(rootRecord, sensorRecord);
+    }
+
+    @Override
     protected DBQueryParcelableListenerInterface data_counter_instance() {
         return new DBSelectMovementCount(rootRecord);
     }

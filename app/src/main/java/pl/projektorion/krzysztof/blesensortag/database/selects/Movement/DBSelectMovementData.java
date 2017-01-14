@@ -23,7 +23,6 @@ public class DBSelectMovementData implements DBSelectInterface {
     public static final int ATTRIBUTE_MAGNET_X = 0x28;
 
     public static final int ATTRIBUTE_MEASUREMENT = 0x10;
-    public static final int ATTRIBUTE_CSV_HEADER = 0x13;
 
     public static final String CSV_HEADER =
             "measurement,Acc_X,Acc_Y,Acc_Z," +

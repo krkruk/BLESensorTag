@@ -18,8 +18,8 @@ public abstract class DBSelectSensorAbstract implements DBQueryWithLimitsListene
     protected DBSelectInterface rootRecord;
     private final long notifyPeriod;
 
-    private long startAt = -1;
-    private long noElements = -1;
+    private long startAt = 0;
+    private long noElements = 0;
 
     public DBSelectSensorAbstract(DBSelectInterface rootRecord, DBSelectInterface sensorRecord) {
         this.notifyPeriod = (long) sensorRecord.getData(DBSelectGeneralSensorParamData.ATTRIBUTE_NOTIFY_PERIOD);

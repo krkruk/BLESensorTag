@@ -37,9 +37,8 @@ import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Humidity.
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.IRTemperature.DBInsertIRTemperatureFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Movement.DBInsertMovementFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.OpticalSensor.DBInsertOpticalSensorFactory;
-import pl.projektorion.krzysztof.blesensortag.database.path.DBPathDefault;
-import pl.projektorion.krzysztof.blesensortag.database.path.DBPathExternal;
-import pl.projektorion.krzysztof.blesensortag.database.path.DBPathInterface;
+import pl.projektorion.krzysztof.blesensortag.utils.path.PathExternal;
+import pl.projektorion.krzysztof.blesensortag.utils.path.PathInterface;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBRootTableRecord;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableFactory;
 
@@ -118,8 +117,8 @@ public class DBService extends Service {
         if( dbTables == null )
             throw new NullPointerException("Gatt Services not initialized in DB");
 
-        final DBPathInterface dbPath = new DBPathExternal(Constant.DB_NAME, Constant.DB_APP_DIR);
-        Log.i("DBPATH", dbPath.getDbName());
+        final PathInterface dbPath = new PathExternal(Constant.DB_NAME, Constant.DB_APP_DIR);
+        Log.i("DBPATH", dbPath.getFull());
 
         dbHelper = new DBHelper(
                 this,

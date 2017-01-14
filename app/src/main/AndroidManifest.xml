@@ -35,36 +35,29 @@
         <service
             android:name=".bluetooth.service.BLeDiscoveryService"
             android:enabled="true"
-            android:exported="false"
-        />
-
+            android:exported="false" />
         <service
             android:name=".bluetooth.service.BLeGattIOService"
             android:enabled="true"
-            android:exported="false"
-        />
-
+            android:exported="false" />
         <service
             android:name=".bluetooth.service.BLeGattModelService"
             android:enabled="true"
-            android:exported="false"
-        />
-
+            android:exported="false" />
         <service
             android:name=".database.DBService"
             android:enabled="true"
-            android:exported="false"
-        />
+            android:exported="false" />
         <service
             android:name=".DBServiceBLe"
             android:enabled="true"
-            android:exported="false"
-        />
-
+            android:exported="false" />
         <service
             android:name=".database.DBSelectIntentService"
-            android:exported="false"
-        />
+            android:exported="false" />
+        <service
+            android:name=".database.DBCSVIntentService"
+            android:exported="false" />
     </application>
 
 </manifest>

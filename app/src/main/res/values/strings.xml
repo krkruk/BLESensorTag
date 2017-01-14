@@ -53,10 +53,17 @@
     <string name="toast_erase_db_abort">Database deletion aborted</string>
     <string name="toast_database_empty">Database is empty!</string>
     <string name="toast_invalid_ble_scan_data">What a Terrible Error! Cannot start this mode.</string>
+    <string name="toast_export_csv_start_error">Error! Could not start exporting data&#8230;</string>
+    <string name="toast_export_csv_could_not_read">Error! Could not read database&#8230;</string>
+    <string name="toast_export_csv_could_not_save">Error! Could not save the file&#8230;</string>
+    <string name="toast_export_csv_successful">Export successful!</string>
+    <string name="toast_export_csv_unknown_error">Export failed! Unknown error&#8230;</string>
+
     <!--Actions-->
     <string name="action_ble_scan_start_label">Scan</string>
     <string name="action_ble_scan_stop_label">Stop</string>
     <string name="action_ble_record_label">Record</string>
+    <string name="action_csv_export_label">Export CSV</string>
 
     <!--Status messages-->
     <string name="status_connecting">Connecting&#8230;</string>

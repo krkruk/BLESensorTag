@@ -82,6 +82,11 @@ public class DBPresentIRTemperatureFragment extends DBPresentSensorFragmentAbstr
     }
 
     @Override
+    public DBQueryParcelableListenerInterface getExportQuery() {
+        return new DBSelectIRTemperature(rootRecord, sensorRecord);
+    }
+
+    @Override
     protected DBQueryParcelableListenerInterface data_counter_instance() {
         return new DBSelectIRTemperatureCount(rootRecord);
     }

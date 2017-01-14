@@ -12,14 +12,19 @@ import android.os.Bundle;
 
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
+import pl.projektorion.krzysztof.blesensortag.database.DBCSVIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
+import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecordData;
 import pl.projektorion.krzysztof.blesensortag.factories.DBPresentSensorFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.database.Movement.DBPresentMovementFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentSensorFragmentAbstract;
 
 
 public class DBPresentSensorActivity extends Activity {
@@ -85,6 +90,12 @@ public class DBPresentSensorActivity extends Activity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_db_present_sensor_menu, menu);
+        return true;
+    }
+
+    @Override
     protected void onDestroy() {
         kill_broadcast_receivers();
         super.onDestroy();
@@ -96,6 +107,19 @@ public class DBPresentSensorActivity extends Activity {
         outState.putParcelable(EXTRA_ROOT_RECORD, rootRecord);
         outState.putParcelable(EXTRA_SENSOR_RECORD, sensorRecord);
         outState.putString(EXTRA_SENSOR_LABEL, sensorLabel);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.action_csv_export:
+                request_export_csv();
+                break;
+            default:
+                return false;
+        }
+        return true;
     }
 
     private boolean restore_saved_instance(Bundle savedInstanceState)
@@ -160,5 +184,24 @@ public class DBPresentSensorActivity extends Activity {
     private void kill_broadcast_receivers()
     {
         broadcastManager.unregisterReceiver(receiver);
+    }
+
+    private void request_export_csv()
+    {
+        DBPresentSensorFragmentAbstract frag;
+        try {
+            frag = (DBPresentSensorFragmentAbstract) fragment;
+        } catch (ClassCastException e)
+        {
+            Toast.makeText(this, R.string.toast_export_csv_start_error, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        final Intent exportCsvService = new Intent(this, DBCSVIntentService.class);
+        exportCsvService.putExtra(DBCSVIntentService.EXTRA_DATE_SECONDS,
+                (long) rootRecord.getData(DBSelectRootRecordData.ATTRIBUTE_DATE_SECONDS));
+        exportCsvService.putExtra(DBCSVIntentService.EXTRA_SENSOR_NAME, sensorLabel);
+        exportCsvService.putExtra(DBCSVIntentService.EXTRA_QUERY, frag.getExportQuery());
+        startService(exportCsvService);
     }
 }
