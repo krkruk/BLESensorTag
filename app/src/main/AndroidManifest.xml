@@ -59,7 +59,8 @@
             android:name=".database.DBCSVIntentService"
             android:exported="false" />
 
-        <activity android:name=".BLePresentStethoscopeActivity"></activity>
+        <activity android:name=".BLePresentStethoscopeActivity" />
+        <activity android:name=".DBSelectStethoscopeParamRootActivity"></activity>
     </application>
 
 </manifest>

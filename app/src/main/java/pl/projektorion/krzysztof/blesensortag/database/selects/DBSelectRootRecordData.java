@@ -16,7 +16,7 @@ public class DBSelectRootRecordData extends DBSelectDataAbstract {
     private long _id = -1;
     private long dateSeconds = -1;
 
-    public DBSelectRootRecordData(int _id, long dateSeconds) {
+    public DBSelectRootRecordData(long _id, long dateSeconds) {
         super();
         this._id = _id;
         this.dateSeconds = dateSeconds;
@@ -46,7 +46,7 @@ public class DBSelectRootRecordData extends DBSelectDataAbstract {
             case ATTRIBUTE_ID:
                 return _id;
             default:
-                return -1;
+                return null;
         }
     }
 

@@ -94,7 +94,7 @@ public class MainActivity extends Activity
                 startActivity(new Intent(this, DBSelectRootActivity.class));
                 break;
             case MENU_SHOW_STETHOSCOPE:
-                Log.i("MENU", "Showing stethoscope data not implemented yet");
+                startActivity(new Intent(this, DBSelectStethoscopeParamRootActivity.class));
                 break;
             case MENU_CLEAR_DATABASE:
                 dbDeleteDialog.show();

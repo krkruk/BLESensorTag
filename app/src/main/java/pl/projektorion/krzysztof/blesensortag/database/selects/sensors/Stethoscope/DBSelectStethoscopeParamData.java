@@ -15,6 +15,10 @@ public class DBSelectStethoscopeParamData extends DBSelectGeneralSensorParamData
         super();
     }
 
+    public DBSelectStethoscopeParamData(long _id, long recordId, long notifyPeriod) {
+        super(_id, recordId, notifyPeriod);
+    }
+
     public DBSelectStethoscopeParamData(Cursor cursor) {
         super(cursor);
     }

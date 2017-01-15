@@ -25,6 +25,13 @@ public class DBSelectGeneralSensorParamData extends DBSelectDataAbstract {
         super();
     }
 
+    public DBSelectGeneralSensorParamData(long _id, long recordId, long notifyPeriod)
+    {
+        this._id = _id;
+        this.recordId = recordId;
+        this.notifyPeriod = notifyPeriod;
+    }
+
     public DBSelectGeneralSensorParamData(Cursor cursor) {
         parse(cursor);
     }
