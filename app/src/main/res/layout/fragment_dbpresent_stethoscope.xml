@@ -1,0 +1,13 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.database.Stethoscope.DBPresentStethoscopeFragment">
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/present_stethoscope_plot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+
+</FrameLayout>

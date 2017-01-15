@@ -10,6 +10,7 @@ import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Humidity.
 import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.IRTemperature.DBSelectIRTemperatureParam;
 import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Movement.DBSelectMovementParam;
 import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.OpticalSensor.DBSelectOpticalSensorParam;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Stethoscope.DBSelectStethoscopeParam;
 
 /**
  * Created by krzysztof on 20.12.16.
@@ -38,5 +39,6 @@ public class DBFactoryParamSelects {
         queryListeners.add(new DBSelectIRTemperatureParam(rootRecord));
         queryListeners.add(new DBSelectMovementParam(rootRecord));
         queryListeners.add(new DBSelectOpticalSensorParam(rootRecord));
+        queryListeners.add(new DBSelectStethoscopeParam(rootRecord));
     }
 }

@@ -46,7 +46,7 @@ public class DBSelectStethoscopeCount extends DBSelectSensorCountAbstract {
 
     @Override
     public void onQueryExecuted(Cursor cursor) {
-        stethoscopeDataCount = new DBSelectRootRecordData(cursor);
+        stethoscopeDataCount = new DBSelectStethoscopeCountData(cursor);
     }
 
     @Override

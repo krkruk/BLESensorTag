@@ -150,14 +150,14 @@ implements ServiceDataReceiver.ReceiverListener {
             flingListener.setMaxElementsPerLoad(readMaxRecordsPerLoad);
     }
 
-    protected void init_objects()
+    private void init_objects()
     {
         context = getActivity().getApplicationContext();
         dataCounterReceiver = new ServiceDataReceiver(new Handler());
         dataCounterReceiver.setListener(this);
     }
 
-    protected void acquire_data()
+    private void acquire_data()
     {
         final Bundle bundle = getArguments();
         rootRecord = bundle.getParcelable(EXTRA_ROOT_RECORD);
@@ -188,7 +188,7 @@ implements ServiceDataReceiver.ReceiverListener {
     public abstract DBQueryParcelableListenerInterface getExportQuery();
 
     /**
-     * Return an instance of a query that demands counting available records to be displayed
+     * Return an instance of a query that demands counting of all available records to be displayed
      * @return {@link DBQueryParcelableListenerInterface} Query
      */
     protected abstract DBQueryParcelableListenerInterface data_counter_instance();

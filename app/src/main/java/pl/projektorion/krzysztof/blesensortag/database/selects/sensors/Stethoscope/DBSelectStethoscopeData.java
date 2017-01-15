@@ -12,14 +12,16 @@ import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface
 
 public class DBSelectStethoscopeData implements DBSelectInterface {
     public static final int ATTRIBUTE_FIRST = 0x01;
+    public static final int ATTRIBUTE_TIME = 0x02;
 
     public static final String CSV_HEADER = "time,first";
 
     private long time = 0;
     private double first = 0.0f;
 
-    public DBSelectStethoscopeData(long time, Cursor parse) {
+    public DBSelectStethoscopeData(long time, Cursor cursor) {
         this.time = time;
+        parse(cursor);
     }
 
     public DBSelectStethoscopeData(Parcel in) {
@@ -33,6 +35,8 @@ public class DBSelectStethoscopeData implements DBSelectInterface {
         {
             case ATTRIBUTE_FIRST:
                 return first;
+            case ATTRIBUTE_TIME:
+                return time;
             case ATTRIBUTE_CSV_HEADER:
                 return CSV_HEADER;
             default: return null;
