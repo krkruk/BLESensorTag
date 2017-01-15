@@ -22,7 +22,9 @@ import java.util.Observable;
 
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.CustomProfile.StethoscopeModel;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.CustomProfile.StethoscopeProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattModelService;
+import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattModels;
 import pl.projektorion.krzysztof.blesensortag.fragments.AbstractObservableFragmentFactory;
 
 /**
@@ -40,18 +42,19 @@ public class StethoscopeFragment extends Fragment {
 
     private LocalBroadcastManager broadcaster;
     private BLeGattModelService bleModelService;
+    private StethoscopeModel stethoscopeModel;
 
     private BroadcastReceiver bleModelReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if( bleModelService == null ) {
-                Log.d("StethoModel", "Could not connect to model service");
+                Log.d("StethoModel", "Could not connect to stethoscopeModel service");
                 return;
             }
 
-            final StethoscopeModel model = new StethoscopeModel();
-            bleModelService.setModel(model.getDataUuid(), model);
-            negotiate_fragment(model);
+            stethoscopeModel = new StethoscopeModel();
+            bleModelService.setModel(stethoscopeModel.getDataUuid(), stethoscopeModel);
+            negotiate_fragment(stethoscopeModel);
         }
     };
 
@@ -89,6 +92,13 @@ public class StethoscopeFragment extends Fragment {
         kill_bound_services();
         kill_broadcast_receivers();
         super.onDestroy();
+    }
+
+    public BLeAvailableGattModels getModels()
+    {
+        return bleModelService != null
+                ? bleModelService.getModels()
+                : null;
     }
 
     private void init_android_framework()

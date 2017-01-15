@@ -46,4 +46,9 @@ public class MovementModel extends AbstractGenericGattModel implements GenericGa
         movementData.setValue(characteristic);
         return movementData;
     }
+
+    @Override
+    public String toString() {
+        return "MovementModel";
+    }
 }

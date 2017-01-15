@@ -41,4 +41,9 @@ public class HumidityModel extends AbstractGenericGattModel
         humidityData = new HumidityData(characteristic);
         return humidityData;
     }
+
+    @Override
+    public String toString() {
+        return "HumidityModel";
+    }
 }

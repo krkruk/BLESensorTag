@@ -40,4 +40,9 @@ public class SimpleKeysModel extends AbstractGenericGattModel
         data = new SimpleKeysData(characteristic);
         return data;
     }
+
+    @Override
+    public String toString() {
+        return "SimpleKeysModel";
+    }
 }

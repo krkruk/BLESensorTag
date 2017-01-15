@@ -41,4 +41,9 @@ public class GAPServiceReadModel extends AbstractGenericGattModel
         data = new GAPServiceData(characteristic);
         return data;
     }
+
+    @Override
+    public String toString() {
+        return "GAPServiceReadModel{}";
+    }
 }

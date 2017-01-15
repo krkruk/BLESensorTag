@@ -41,4 +41,9 @@ public class StethoscopeModel extends AbstractGenericGattModel
     public Object getData() {
         return stethoscopeData;
     }
+
+    @Override
+    public String toString() {
+        return "StethoscopeModel";
+    }
 }

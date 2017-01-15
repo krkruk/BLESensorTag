@@ -59,4 +59,9 @@ public class DeviceInformationReadModel extends AbstractGenericGattModel
         attributeUuids.add(DEVINFO_SOFTWARE_REV);
         attributeUuids.add(DEVINFO_MANUFACTURER_NAME);
     }
+
+    @Override
+    public String toString() {
+        return "DeviceInformationReadModel " + super.toString();
+    }
 }

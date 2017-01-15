@@ -25,7 +25,7 @@ import pl.projektorion.krzysztof.blesensortag.database.DBService;
  * Created by krzysztof on 11.01.17.
  */
 
-public class DBServiceBLe extends DBService {
+public class DBServiceBLeService extends DBService {
     public static final String ACTION_STOP_SERVICE =
             "pl.projektorion.krzysztof.blesensortag.action.STOP_SERVICE";
 
@@ -75,7 +75,6 @@ public class DBServiceBLe extends DBService {
                 @Override
                 public void run() {
                     write();
-                    Log.i("WRITE", "Data Written");
                 }
             });
             handler.postDelayed(this, dumpDataPeriod);
@@ -106,15 +105,18 @@ public class DBServiceBLe extends DBService {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         stopAsyncWrite();
         kill_service_connection();
         kill_broadcast_receivers();
+        super.onDestroy();
     }
 
     @Override
     public void initService() throws NullPointerException {
-        if( modelService != null ) setModels(modelService.getModels());
+        if( !hasModels() && modelService != null ) {
+            setModels(modelService.getModels());
+            Log.i("MODEL", "models set");
+        }
         super.initService();
     }
 
@@ -175,8 +177,8 @@ public class DBServiceBLe extends DBService {
 
     public class DBServiceBLeBinder extends Binder
     {
-        public DBServiceBLe getService() {
-            return DBServiceBLe.this;
+        public DBServiceBLeService getService() {
+            return DBServiceBLeService.this;
         }
     }
 }

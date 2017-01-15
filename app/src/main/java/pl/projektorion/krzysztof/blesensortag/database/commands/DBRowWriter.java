@@ -1,6 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.database.commands;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -34,6 +35,7 @@ public class DBRowWriter {
                 DBRowWriteInterface dbWrite = writeCmds.poll();
                 if (dbWrite == null) return;
                 dbWrite.execute();
+                Log.i("WRITE", "Data Written");
             }
             db.setTransactionSuccessful();
         }

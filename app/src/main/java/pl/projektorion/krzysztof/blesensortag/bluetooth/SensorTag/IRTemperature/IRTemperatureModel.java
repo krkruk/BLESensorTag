@@ -40,4 +40,9 @@ public class IRTemperatureModel extends AbstractGenericGattModel
         irData = new IRTemperatureData(characteristic);
         return irData;
     }
+
+    @Override
+    public String toString() {
+        return "IRTemperatureModel";
+    }
 }

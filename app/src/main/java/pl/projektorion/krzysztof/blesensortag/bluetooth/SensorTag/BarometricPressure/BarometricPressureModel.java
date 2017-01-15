@@ -41,4 +41,9 @@ public class BarometricPressureModel extends AbstractGenericGattModel
         barometricPressureData = new BarometricPressureData(characteristic);
         return barometricPressureData;
     }
+
+    @Override
+    public String toString() {
+        return "BarometricPressureModel";
+    }
 }

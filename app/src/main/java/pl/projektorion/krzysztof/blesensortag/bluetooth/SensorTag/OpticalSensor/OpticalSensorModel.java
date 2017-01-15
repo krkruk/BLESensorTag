@@ -41,4 +41,9 @@ public class OpticalSensorModel extends AbstractGenericGattModel
         opticalSensorData = new OpticalSensorData(characteristic);
         return opticalSensorData;
     }
+
+    @Override
+    public String toString() {
+        return "OpticalSensorModel";
+    }
 }

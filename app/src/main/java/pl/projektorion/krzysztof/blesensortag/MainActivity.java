@@ -107,7 +107,7 @@ public class MainActivity extends Activity
     private void stop_pending_services()
     {
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
-        broadcastManager.sendBroadcast(new Intent(DBServiceBLe.ACTION_STOP_SERVICE));
+        broadcastManager.sendBroadcast(new Intent(DBServiceBLeService.ACTION_STOP_SERVICE));
     }
 
     private void init_main_menu()

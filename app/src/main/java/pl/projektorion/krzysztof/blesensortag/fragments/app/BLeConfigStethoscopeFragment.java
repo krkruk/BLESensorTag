@@ -32,6 +32,7 @@ import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.CustomProfile.StethoscopeProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.NotifyGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattIOService;
+import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattProfiles;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,7 +45,7 @@ public class BLeConfigStethoscopeFragment extends Fragment
     public static final String EXTRA_BLE_DEVICE =
             "pl.projektorion.krzysztof.blesensortag.fragments.app.BLE_DEVICE";
 
-    public static final String EXTRA_SERVICE_SCANNED =
+    private static final String EXTRA_SERVICE_SCANNED =
             "pl.projektorion.krzysztof.blesensortag.fragments.app.SERVICE_SCANNED";
 
     private Context appContext;
@@ -62,6 +63,8 @@ public class BLeConfigStethoscopeFragment extends Fragment
     private boolean wereServicesScanned = false;
 
     private StethoscopeProfile stethoscopeProfile;
+    private  BLeAvailableGattProfiles profiles = new BLeAvailableGattProfiles();
+
 
     private BroadcastReceiver serviceGattReceiver = new BroadcastReceiver() {
         @Override
@@ -74,6 +77,8 @@ public class BLeConfigStethoscopeFragment extends Fragment
 
                 display_status(R.string.status_connected);
                 stethoscopeProfile = new StethoscopeProfile(gattService);
+                profiles.put(StethoscopeProfile.STETHOSCOPE_SERVICE, stethoscopeProfile);
+
                 seekBar.setProgress(stethoscopeProfile.getPeriod() / 10);
                 gattService.discoverServices();
             }
@@ -186,6 +191,17 @@ public class BLeConfigStethoscopeFragment extends Fragment
         seekBar.setProgress(seekBarProgress);
         set_update_period_label(stethoscopeProfile.getPeriod());
     }
+
+    /**
+     * Get BLE stethoscope profile
+     * @return {@link BLeAvailableGattProfiles} Stethoscope profile wrapped in a container
+     */
+    public BLeAvailableGattProfiles getProfiles()
+    {
+        return profiles;
+    }
+
+
 
     private void verify_stethoscope_profile_existence(List<BluetoothGattService> services)
     {

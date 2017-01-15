@@ -57,7 +57,7 @@ public class BLeServiceScannerActivity extends Activity {
     private boolean isServiceBound = false;
 
     private LocalBroadcastManager localBroadcaster;
-    private DBServiceBLe serviceBLe;
+    private DBServiceBLeService serviceBLe;
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -71,7 +71,7 @@ public class BLeServiceScannerActivity extends Activity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             serviceBLe =
-                    ((DBServiceBLe.DBServiceBLeBinder) service).getService();
+                    ((DBServiceBLeService.DBServiceBLeBinder) service).getService();
             isServiceBound = true;
         }
 
@@ -138,7 +138,7 @@ public class BLeServiceScannerActivity extends Activity {
         (new Handler()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                startService(new Intent(appCtx, DBServiceBLe.class));
+                startService(new Intent(appCtx, DBServiceBLeService.class));
                 appCtx.unbindService(dbServiceConn);
                 isServiceBound = false;
                 moveTaskToBack(true);
@@ -235,7 +235,7 @@ public class BLeServiceScannerActivity extends Activity {
 
     private void init_bound_db_service()
     {
-        appCtx.bindService(new Intent(appCtx, DBServiceBLe.class),
+        appCtx.bindService(new Intent(appCtx, DBServiceBLeService.class),
                 dbServiceConn, Context.BIND_AUTO_CREATE);
     }
 }

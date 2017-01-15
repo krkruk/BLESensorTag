@@ -14,7 +14,7 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Stethoscop
 
 public class DBInsertStethoscopeParam extends DBInsertParamAbstract {
     protected DBInsertStethoscopeParam(DBRowWriter dbWriter) {
-        super(dbWriter, DBTableStethoscope.TABLE_NAME);
+        super(dbWriter, DBTableStethoscopeParam.TABLE_NAME);
     }
 
     @Override

@@ -41,4 +41,9 @@ public class DBInsertStethoscope extends DBInsertAbstract {
         final SQLiteDatabase db = dbWriter.getWritableDatabase();
         dbWriter.add(new DBRowWriteCommand(db, getTableName(), values));
     }
+
+    @Override
+    public String toString() {
+        return "DBInsertStethoscope";
+    }
 }

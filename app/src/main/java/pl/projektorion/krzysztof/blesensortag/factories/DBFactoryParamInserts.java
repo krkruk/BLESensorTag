@@ -14,9 +14,11 @@ import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Movement.
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.OpticalSensor.DBInsertOpticalSensorParamFactory;
 
 /**
- * Created by krzysztof on 19.12.16.
+ * {@link DBFactoryParamInserts} allows holding a map of DBInsert(sensor)ParamFactory'ies.
+ * The data structure is as follows
+ * {@link java.util.UUID} Service UUID of each profile
+ * {@link pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBInsertParamFactoryInterface} factory interface
  */
-
 public class DBFactoryParamInserts extends DBInsertFactory {
 
     private DBRowWriter dbWriter;

@@ -35,4 +35,9 @@ public class ConnectionControlReadModel extends AbstractGenericGattModel
         data = new ConnectionControlData(characteristic);
         return data;
     }
+
+    @Override
+    public String toString() {
+        return "ConnectionControlReadModel";
+    }
 }

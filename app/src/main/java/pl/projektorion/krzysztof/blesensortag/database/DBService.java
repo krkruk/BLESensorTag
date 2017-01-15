@@ -17,6 +17,8 @@ import java.util.Observer;
 import java.util.UUID;
 
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.CustomProfile.StethoscopeProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattModelInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.NotifyGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
@@ -24,11 +26,13 @@ import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattModels;
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattProfiles;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBParamData;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBInsertFactoryInterface;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBInsertParamInterface;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBRootInsertInterface;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertRootRecord;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.interfaces.DBTableFactoryInterface;
+import pl.projektorion.krzysztof.blesensortag.factories.DBFactoryForInsertsFactoryInterface;
 import pl.projektorion.krzysztof.blesensortag.factories.DBFactoryInserts;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathExternal;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathInterface;
@@ -57,6 +61,8 @@ public class DBService extends Service {
 
     private DBInsertFactory dbInsertFactory;
     private DBInsertFactory dbInsertParamFactory;
+    private DBFactoryForInsertsFactoryInterface dbInsertFactoryForFactories;        //author: WTF???
+    private DBFactoryForInsertsFactoryInterface dbInsertParamFactoryForFactories;
 
     protected BLeAvailableGattProfiles profiles;
     protected BLeAvailableGattModels models;
@@ -77,12 +83,6 @@ public class DBService extends Service {
         broadcaster = LocalBroadcastManager.getInstance(getApplicationContext());
     }
 
-    @Override
-    public void onDestroy() {
-        db.close();
-        super.onDestroy();
-    }
-
     /**
      * Set all discovered profiles to be then processed by the database system
      * @param profiles {@link BLeAvailableGattProfiles} discovered profiles
@@ -101,24 +101,19 @@ public class DBService extends Service {
         this.models = models;
     }
 
-    /**
-     * Set a factory of DBInsert(sensor) classes. Required only if
-     * the default set of factories has to be changed
-     * @param factory {@link DBFactoryInserts} Factory that contains all DBInsert*Factories
-     */
-    public void setInsertsFactory(DBInsertFactory factory)
-    {
-        dbInsertFactory = factory;
+    public boolean hasModels() {
+        return this.models != null;
     }
 
-    /**
-     * Set a factory of DBInsert(sensor)Param classes. Required only if
-     * the default set of factories has to be changed.
-     * @param factory {@link DBFactoryParamInserts} DBInsert(sensor)Param factory
-     */
-    public void setInsertParamsFactory(DBInsertFactory factory)
+    public void setInsertsFactory(DBFactoryForInsertsFactoryInterface factory)
     {
-        dbInsertParamFactory = factory;
+        dbInsertFactoryForFactories = factory;
+    }
+
+
+    public void setInsertParamsFactory(DBFactoryForInsertsFactoryInterface factory)
+    {
+        dbInsertParamFactoryForFactories = factory;
     }
 
     public void initService() throws NullPointerException
@@ -198,11 +193,15 @@ public class DBService extends Service {
 
     private void init_row_factory(DBRowWriter dbWriter)
     {
-        if( dbInsertFactory == null )
-            dbInsertFactory = new DBFactoryInserts(dbWriter);
-
-        if( dbInsertParamFactory == null )
-            dbInsertParamFactory = new DBFactoryParamInserts(dbWriter);
+        if( dbInsertParamFactoryForFactories != null
+                && dbInsertFactoryForFactories != null )
+        {
+            dbInsertFactory = dbInsertFactoryForFactories.create(dbWriter);
+            dbInsertParamFactory = dbInsertParamFactoryForFactories.create(dbWriter);
+            return;
+        }
+        dbInsertFactory = new DBFactoryInserts(dbWriter);
+        dbInsertParamFactory = new DBFactoryParamInserts(dbWriter);
     }
 
     private void register_observers(BLeAvailableGattModels models)

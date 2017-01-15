@@ -4,9 +4,9 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces
 import pl.projektorion.krzysztof.blesensortag.database.inserts.interfaces.DBParamDataInterface;
 
 /**
- * Created by krzysztof on 16.12.16.
+ * {@link DBParamData} allows extracting data from BLE profiles.
+ * Crucial part for DBInsert(sensor)Param.
  */
-
 public class DBParamData implements DBParamDataInterface {
 
     private NotifyGattProfileInterface profile;
