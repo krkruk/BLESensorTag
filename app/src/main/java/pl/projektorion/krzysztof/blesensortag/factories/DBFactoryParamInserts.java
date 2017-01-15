@@ -30,15 +30,15 @@ public class DBFactoryParamInserts extends DBInsertFactory {
 
     private void init_param_inserts()
     {
-        add(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
+        put(BarometricPressureProfile.BAROMETRIC_PRESSURE_SERVICE,
                 new DBInsertBarometerParamFactory(dbWriter));
-        add(HumidityProfile.HUMIDITY_SERVICE,
+        put(HumidityProfile.HUMIDITY_SERVICE,
                 new DBInsertHumidityParamFactory(dbWriter));
-        add(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
+        put(IRTemperatureProfile.IR_TEMPERATURE_SERVICE,
                 new DBInsertIRTemperatureParamFactory(dbWriter));
-        add(MovementProfile.MOVEMENT_SERVICE,
+        put(MovementProfile.MOVEMENT_SERVICE,
                 new DBInsertMovementParamFactory(dbWriter));
-        add(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
+        put(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
                 new DBInsertOpticalSensorParamFactory(dbWriter));
     }
 }
