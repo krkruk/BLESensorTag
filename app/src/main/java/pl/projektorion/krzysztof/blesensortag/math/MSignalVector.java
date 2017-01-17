@@ -2,14 +2,14 @@ package pl.projektorion.krzysztof.blesensortag.math;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.content.res.TypedArrayUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
+
+import pl.projektorion.krzysztof.blesensortag.math.interfaces.MSignal;
 
 /**
  * Created by krzysztof on 17.01.17.
@@ -104,6 +104,13 @@ public class MSignalVector implements MSignal {
         for(Object obj : dataVector.toArray())
             array[index++] = (double) obj;
         dest.writeDoubleArray(array);
+    }
+
+    @Override
+    public String toString() {
+        return "MSignalVector{" +
+                "dataVector=" + dataVector +
+                '}';
     }
 
     public static final Parcelable.Creator<MSignalVector> CREATOR = new Creator<MSignalVector>() {

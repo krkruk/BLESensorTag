@@ -203,7 +203,7 @@ implements ServiceDataReceiver.ReceiverListener {
     /**
      * Pass an instance of {@link ResultReceiver}. Remember to set a listener
      * to obtain a response data
-     * @return {@link ResultReceiver} that is to be sent to a working thread. Listener
+     * @return {@link ResultReceiver} that is to be sent to a working thread. ResultListener
      * then handles the data
      */
     protected abstract ResultReceiver data_receiver();

@@ -26,12 +26,13 @@ import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.adapters.MainMenuAdapter;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
-import pl.projektorion.krzysztof.blesensortag.math.MConvolve;
+import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmCentralDifference;
+import pl.projektorion.krzysztof.blesensortag.math.MAlgorithmExecutor;
+import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmGaussFilter;
+import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmPower;
 import pl.projektorion.krzysztof.blesensortag.math.MSignalVector;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathExternal;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathInterface;
-
-import static android.R.attr.data;
 
 public class MainActivity extends Activity
     implements AdapterView.OnItemClickListener {
@@ -70,6 +71,15 @@ public class MainActivity extends Activity
         }
     };
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            MAlgorithmExecutor executor = (MAlgorithmExecutor) intent.getSerializableExtra("data");
+            Log.i("EXCTR", "Executing");
+            executor.execute();
+            Log.i("STATUS", "---" + executor.getStatus());
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,23 +88,35 @@ public class MainActivity extends Activity
         init_main_menu();
         apply_main_menu();
         check_external_storage_permission();
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("action"));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         MSignalVector data = new MSignalVector(Arrays.asList(0.0, 0.0, 10.0, 10.0, 0.0, 0.0));
-//        List<Double> kernel = MFilter.gaussFilter1D(1.7f, 5);
-        MSignalVector kernel = new MSignalVector(Arrays.asList(1.0, 0.0, -1.0));
-        Log.i("DATA", data.toString());
-        Log.i("KERNEL", kernel.toString());
-        List<Double> result = MConvolve.convolve(data.getList(), kernel.getList());
-        Log.i("RESULT", result.toString());
-        Log.i("RESULT", data.convolve(kernel).toString());
+        final MAlgorithmExecutor.ResultListener resultListener = new MAlgorithmExecutor.ResultListener() {
+            @Override
+            public void onExecuted(MSignalVector result) {
+                Log.i("RECVDRES", result.toString());
+            }
+        };
+
+        MAlgorithmExecutor executor = new MAlgorithmExecutor.Build(resultListener)
+                .setAlgorithm(new MAlgorithmGaussFilter(data, 1.7f, 5))
+                .setAlgorithm(new MAlgorithmPower(2))
+                .setAlgorithm(new MAlgorithmCentralDifference(data))
+                .build();
+        Intent intent = new Intent("action");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("data", executor);
+        intent.putExtras(bundle);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     @Override
     protected void onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         if( dbDeleteDialog != null ) dbDeleteDialog.dismiss();
         super.onStop();
     }

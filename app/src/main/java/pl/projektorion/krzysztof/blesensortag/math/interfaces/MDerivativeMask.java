@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.math;
+package pl.projektorion.krzysztof.blesensortag.math.interfaces;
 
 import java.util.ArrayList;
 import java.util.Arrays;
