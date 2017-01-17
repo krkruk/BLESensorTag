@@ -55,7 +55,7 @@ public class DBPresentSensorFactory extends HashMap<String, FragmentFactory> {
     {
         put(AppContext.getContext().getString(R.string.label_barometer_sensor),
                 new DBPresentBarometerFragmentFactory(rootRecord, sensorRecord));
-        put(AppContext.getContext().getString(R.string.label_humidity),
+        put(AppContext.getContext().getString(R.string.label_humidity_sensor),
                 new DBPresentHumidityFragmentFactory(rootRecord, sensorRecord));
         put(AppContext.getContext().getString(R.string.label_temperature_sensor),
                 new DBPresentIRTemperatureFragmentFactory(rootRecord, sensorRecord));

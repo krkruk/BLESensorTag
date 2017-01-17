@@ -36,7 +36,7 @@ public class DBSelectIRTemperature extends DBSelectSensorAbstract {
     }
 
     @Override
-    protected void parse_cursor_data(long time, Cursor cursor) {
+    protected void parse_cursor_data(double time, Cursor cursor) {
         irTemperatureRecords.add(new DBSelectIRTemperatureData(time, cursor));
     }
 

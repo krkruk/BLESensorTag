@@ -36,7 +36,7 @@ public class DBSelectStethoscope extends DBSelectSensorAbstract {
     }
 
     @Override
-    protected void parse_cursor_data(long time, Cursor cursor) {
+    protected void parse_cursor_data(double time, Cursor cursor) {
         stethoscopeDatas.add(new DBSelectStethoscopeData(time, cursor));
     }
 

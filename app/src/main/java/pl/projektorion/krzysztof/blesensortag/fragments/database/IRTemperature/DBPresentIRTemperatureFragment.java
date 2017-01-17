@@ -15,7 +15,9 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +68,13 @@ public class DBPresentIRTemperatureFragment extends DBPresentSensorFragmentAbstr
         fragment.setArguments(args);
         return fragment;
     }
+
+    private IValueFormatter formatterNoNumericLabels = new IValueFormatter() {
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return "";
+        }
+    };
 
     @Nullable
     @Override
@@ -119,13 +128,12 @@ public class DBPresentIRTemperatureFragment extends DBPresentSensorFragmentAbstr
 
         for(DBSelectInterface entry : data)
         {
-            final long time = (long) entry.getData(DBSelectIRTemperatureData.ATTRIBUTE_TIME);
+            final double time = (double) entry.getData(DBSelectIRTemperatureData.ATTRIBUTE_TIME);
             final double objectTemp = (double) entry.getData(DBSelectIRTemperatureData.ATTRIBUTE_OBJECT_TEMPERATURE);
             final double ambientTemp = (double) entry.getData(DBSelectIRTemperatureData.ATTRIBUTE_AMBIENT_TEMPERATURE);
-            objectTemperature.add(new Entry(time, (float)objectTemp));
-            ambientTemperature.add(new Entry(time, (float)ambientTemp));
-
-            Log.i("DATA", String.format("%d: objectTemp: %f, temp: %f", time, objectTemp, ambientTemp));
+            objectTemperature.add(new Entry((float) time, (float) objectTemp));
+            ambientTemperature.add(new Entry((float) time, (float) ambientTemp));
+            Log.i("DATA", String.format("%f: objectTemp: %f, temp: %f", time, objectTemp, ambientTemp));
         }
 
         create_object_temp_set(objectTemperature);
@@ -169,6 +177,7 @@ public class DBPresentIRTemperatureFragment extends DBPresentSensorFragmentAbstr
         objectTemperatureSet.setColor(pressureColor);
         objectTemperatureSet.setDrawCircleHole(false);
         objectTemperatureSet.setDrawCircles(true);
+        objectTemperatureSet.setValueFormatter(formatterNoNumericLabels);
     }
 
     private void create_ambient_temp_set(List<Entry> temperatureData)
@@ -183,5 +192,6 @@ public class DBPresentIRTemperatureFragment extends DBPresentSensorFragmentAbstr
         ambientTemperatureSet.setColor(temperatureColor);
         ambientTemperatureSet.setDrawCircleHole(false);
         ambientTemperatureSet.setDrawCircles(true);
+        ambientTemperatureSet.setValueFormatter(formatterNoNumericLabels);
     }
 }

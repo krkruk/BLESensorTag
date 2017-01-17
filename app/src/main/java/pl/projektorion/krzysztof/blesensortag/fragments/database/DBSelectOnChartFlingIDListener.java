@@ -69,9 +69,10 @@ public class DBSelectOnChartFlingIDListener implements OnChartGestureListener {
             /*
             Load new elements
              */
+            final long limitChartStart = recordsInTotal - maxElementsPerLoad;
             startAt += maxElementsPerLoad;
             startAt = startAt > recordsInTotal
-                    ? recordsInTotal - maxElementsPerLoad
+                    ? limitChartStart < 0 ? 0 : limitChartStart
                     : startAt;
         } else
         if( velocityX > velocityThreshold )
@@ -85,7 +86,7 @@ public class DBSelectOnChartFlingIDListener implements OnChartGestureListener {
 
         if( initialStartAt != startAt  && task != null) {
             task.run(this);
-            Log.i("StartAt", "Started: " + startAt);
+            Log.i("StartAt:)", "Started: " + startAt);
         }
     }
 

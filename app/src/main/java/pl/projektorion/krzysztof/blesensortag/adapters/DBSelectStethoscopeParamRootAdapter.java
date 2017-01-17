@@ -49,7 +49,7 @@ public class DBSelectStethoscopeParamRootAdapter extends CursorAdapter {
         final long idRecord = (long) record.getData(DBSelectStethoscopeParamRootData.ATTRIBUTE_ID_RECORD);
         final long recordingStartedAt =
                 1000L * (long) record.getData(DBSelectStethoscopeParamRootData.ATTRIBUTE_DATE_SECONDS);
-        final long notifyPeriod = (long) record.getData(DBSelectStethoscopeParamRootData.ATTRIBUTE_NOTIFY_PERIOD);
+        final double notifyPeriod = (double) record.getData(DBSelectStethoscopeParamRootData.ATTRIBUTE_NOTIFY_PERIOD);
 
         Log.i("DB", idRecord + ", " + recordingStartedAt + ", " + notifyPeriod);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss",

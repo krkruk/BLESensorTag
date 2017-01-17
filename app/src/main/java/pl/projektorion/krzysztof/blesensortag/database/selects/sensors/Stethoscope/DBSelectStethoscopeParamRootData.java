@@ -19,7 +19,7 @@ public class DBSelectStethoscopeParamRootData implements DBSelectInterface {
 
     private long _id = 0;
     private long idRecord = 0;
-    private long notifyPeriod = 0;
+    private double notifyPeriod = 0;
     private long dateSeconds = 0;
 
     public DBSelectStethoscopeParamRootData() {
@@ -32,7 +32,7 @@ public class DBSelectStethoscopeParamRootData implements DBSelectInterface {
     public DBSelectStethoscopeParamRootData(Parcel in) {
         _id = in.readLong();
         idRecord = in.readLong();
-        notifyPeriod = in.readLong();
+        notifyPeriod = in.readDouble();
         dateSeconds = in.readLong();
     }
 
@@ -64,7 +64,7 @@ public class DBSelectStethoscopeParamRootData implements DBSelectInterface {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(_id);
         dest.writeLong(idRecord);
-        dest.writeLong(notifyPeriod);
+        dest.writeDouble(notifyPeriod);
         dest.writeLong(dateSeconds);
     }
 
@@ -80,7 +80,7 @@ public class DBSelectStethoscopeParamRootData implements DBSelectInterface {
     {
         _id = cursor.getLong(0);
         idRecord = cursor.getLong(1);
-        notifyPeriod = cursor.getLong(2);
+        notifyPeriod = cursor.getDouble(2);
         dateSeconds = cursor.getLong(3);
     }
 

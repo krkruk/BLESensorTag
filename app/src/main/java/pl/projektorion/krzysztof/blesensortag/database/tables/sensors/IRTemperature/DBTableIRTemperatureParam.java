@@ -20,7 +20,7 @@ public class DBTableIRTemperatureParam implements DBTableParamInterface {
             "CREATE TABLE " + TABLE_NAME + "(" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_ROOT_REF + " INTEGER NOT NULL," +
-                    NOTIFY_INTERVAL + " INTEGER NOT NULL," +
+                    NOTIFY_INTERVAL + " REAL NOT NULL," +
                     "FOREIGN KEY( ID_RECORD ) REFERENCES Record( _id ) );";
 
     public DBTableIRTemperatureParam() {

@@ -79,7 +79,7 @@ public class BLeConfigStethoscopeFragment extends Fragment
                 stethoscopeProfile = new StethoscopeProfile(gattService);
                 profiles.put(StethoscopeProfile.STETHOSCOPE_SERVICE, stethoscopeProfile);
 
-                seekBar.setProgress(stethoscopeProfile.getPeriod() / 10);
+                seekBar.setProgress((int) (stethoscopeProfile.getPeriod() / 10.0f));
                 gattService.discoverServices();
             }
             else if(BLeGattIOService.ACTION_GATT_CONNECTING.equals(action))
@@ -319,12 +319,12 @@ public class BLeConfigStethoscopeFragment extends Fragment
         }, timeout);
     }
 
-    private void set_update_period_label(int value)
+    private void set_update_period_label(double value)
     {
         if( periodLabel == null )
             return;
 
-        final String label = String.format(Locale.getDefault(), "%s [%d ms]",
+        final String label = String.format(Locale.getDefault(), "%s [%.2f ms]",
                 getString(R.string.label_config_period),
                 value);
 

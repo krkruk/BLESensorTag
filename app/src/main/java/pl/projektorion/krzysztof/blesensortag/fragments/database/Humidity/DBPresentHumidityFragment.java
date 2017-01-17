@@ -16,7 +16,9 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,13 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
                 if( data == null ) return;
                 apply_data(data);
             }
+        }
+    };
+
+    private IValueFormatter formatterNoNumericLabels = new IValueFormatter() {
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return "";
         }
     };
 
@@ -125,13 +134,13 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
 
         for(DBSelectInterface entry : data)
         {
-            final long time = (long) entry.getData(DBSelectHumidityData.ATTRIBUTE_TIME);
+            final double time = (double) entry.getData(DBSelectHumidityData.ATTRIBUTE_TIME);
             final double relativeHumid = (double) entry.getData(DBSelectHumidityData.ATTRIBUTE_RELATIVE_HUMIDITY);
             final double temperature = (double) entry.getData(DBSelectHumidityData.ATTRIBUTE_TEMPERATURE);
-            humidityData.add(new Entry(time, (float)relativeHumid));
-            temperatureData.add(new Entry(time, (float)temperature));
+            humidityData.add(new Entry((float) time, (float) relativeHumid));
+            temperatureData.add(new Entry((float) time, (float) temperature));
 
-            Log.i("DATA", String.format("%d: relativeHumid: %f, temp: %f", time, relativeHumid, temperature));
+            Log.i("DATA", String.format("%f: relativeHumid: %f, temp: %f", time, relativeHumid, temperature));
         }
 
         create_humidity_data_set(humidityData);
@@ -175,6 +184,7 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
         humiditySet.setColor(pressureColor);
         humiditySet.setDrawCircleHole(false);
         humiditySet.setDrawCircles(true);
+        humiditySet.setValueFormatter(formatterNoNumericLabels);
     }
 
     private void create_temperature_set(List<Entry> temperatureData)
@@ -189,5 +199,6 @@ public class DBPresentHumidityFragment extends DBPresentSensorFragmentAbstract {
         temperatureSet.setColor(temperatureColor);
         temperatureSet.setDrawCircleHole(false);
         temperatureSet.setDrawCircles(true);
+        temperatureSet.setValueFormatter(formatterNoNumericLabels);
     }
 }

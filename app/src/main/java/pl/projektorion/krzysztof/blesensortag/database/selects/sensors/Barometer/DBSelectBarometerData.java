@@ -17,18 +17,18 @@ public class DBSelectBarometerData implements DBSelectInterface {
 
     public static final String CSV_HEADER = "time,pressure,temperature";
 
-    private long time = 0;
+    private double time = 0;
     private double barometricPressure = 0.0f;
     private double temperature = 0.0f;
 
-    public DBSelectBarometerData(long sensorTime, Cursor cursor) {
+    public DBSelectBarometerData(double sensorTime, Cursor cursor) {
         this.time = sensorTime;
         parse(cursor);
     }
 
     public DBSelectBarometerData(Parcel in)
     {
-        time = in.readLong();
+        time = in.readDouble();
         barometricPressure = in.readDouble();
         temperature = in.readDouble();
     }
@@ -63,7 +63,7 @@ public class DBSelectBarometerData implements DBSelectInterface {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(time);
+        dest.writeDouble(time);
         dest.writeDouble(barometricPressure);
         dest.writeDouble(temperature);
     }

@@ -16,7 +16,9 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,13 @@ public class DBPresentBarometerFragment extends DBPresentSensorFragmentAbstract 
                 if( data == null ) return;
                 apply_data(data);
             }
+        }
+    };
+
+    private IValueFormatter formatterNoNumericLabels = new IValueFormatter() {
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return "";
         }
     };
 
@@ -97,13 +106,13 @@ public class DBPresentBarometerFragment extends DBPresentSensorFragmentAbstract 
 
         for(DBSelectInterface entry : data)
         {
-            final long time = (long) entry.getData(DBSelectBarometerData.ATTRIBUTE_TIME);
+            final double time = (double) entry.getData(DBSelectBarometerData.ATTRIBUTE_TIME);
             final double pressure = (double) entry.getData(DBSelectBarometerData.ATTRIBUTE_BAROMETRIC_PRESSURE);
             final double temperature = (double) entry.getData(DBSelectBarometerData.ATTRIBUTE_TEMPERATURE);
-            pressureData.add(new Entry(time, (float)pressure));
-            temperatureData.add(new Entry(time, (float)temperature));
+            pressureData.add(new Entry((float) time, (float) pressure));
+            temperatureData.add(new Entry((float) time, (float) temperature));
 
-            Log.i("DATA", String.format("%d: pressure: %f, temp: %f", time, pressure, temperature));
+            Log.i("DATA", String.format("%f: pressure: %f, temp: %f", time, pressure, temperature));
         }
 
         create_pressure_set(pressureData);
@@ -147,6 +156,7 @@ public class DBPresentBarometerFragment extends DBPresentSensorFragmentAbstract 
         pressureSet.setColor(pressureColor);
         pressureSet.setDrawCircleHole(false);
         pressureSet.setDrawCircles(true);
+        pressureSet.setValueFormatter(formatterNoNumericLabels);
     }
 
     private void create_temperature_set(List<Entry> temperatureData)
@@ -161,6 +171,7 @@ public class DBPresentBarometerFragment extends DBPresentSensorFragmentAbstract 
         temperatureSet.setColor(temperatureColor);
         temperatureSet.setDrawCircleHole(false);
         temperatureSet.setDrawCircles(true);
+        temperatureSet.setValueFormatter(formatterNoNumericLabels);
     }
 
     @Override

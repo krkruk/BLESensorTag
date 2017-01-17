@@ -118,12 +118,12 @@ public class FragmentNotifyProfileConfigFragment extends Fragment
         this.PERIOD_MIN_VALUE = value;
     }
 
-    private void set_update_period_label(int value)
+    private void set_update_period_label(double value)
     {
         if( periodLabel == null )
             return;
 
-        final String label = String.format(Locale.getDefault(), "%s [%d ms]",
+        final String label = String.format(Locale.getDefault(), "%s [%.2f ms]",
                 getString(R.string.label_config_period),
                 value);
 
@@ -146,7 +146,7 @@ public class FragmentNotifyProfileConfigFragment extends Fragment
             notificationSwitch.setChecked(profile.isNotifying());
             measurementSwitch.setChecked(profile.isMeasuring()
                     != NotifyGattProfileInterface.DISABLE_ALL_MEASUREMENTS);
-            periodSeekBar.setProgress(profile.getPeriod() / 10);
+            periodSeekBar.setProgress((int) (profile.getPeriod() / 10.0f));
             set_update_period_label(profile.getPeriod());
         }
     }

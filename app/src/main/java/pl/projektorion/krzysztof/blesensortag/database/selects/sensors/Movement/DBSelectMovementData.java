@@ -29,7 +29,7 @@ public class DBSelectMovementData implements DBSelectInterface {
                     "Gyr_X,Gyr_Y,Gyr_Z," +
                     "Mag_X,Mag_Y,Mag_Z";
 
-    private long measurement = 0;
+    private double measurement = 0;
     private float accX = 0;
     private float accY = 0;
     private float accZ = 0;
@@ -42,14 +42,14 @@ public class DBSelectMovementData implements DBSelectInterface {
     private float magnetY = 0;
     private float magnetZ = 0;
 
-    public DBSelectMovementData(long measurement, Cursor cursor) {
+    public DBSelectMovementData(double measurement, Cursor cursor) {
         this.measurement = measurement;
         parse(cursor);
     }
 
     public DBSelectMovementData(Parcel in)
     {
-        measurement = in.readLong();
+        measurement = in.readDouble();
         accX = in.readFloat();
         accY = in.readFloat();
         accZ = in.readFloat();
@@ -104,7 +104,7 @@ public class DBSelectMovementData implements DBSelectInterface {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(measurement);
+        dest.writeDouble(measurement);
         dest.writeFloat(accX);
         dest.writeFloat(accY);
         dest.writeFloat(accZ);

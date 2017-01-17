@@ -16,19 +16,19 @@ public abstract class DBSelectSensorAbstract implements DBQueryWithLimitsListene
     private static final int MIN_NO_ELEMS = 1;
     private static final int MIN_OFFSET = 0;
     protected DBSelectInterface rootRecord;
-    private final long notifyPeriod;
+    private final double notifyPeriod;
 
     private long startAt = 0;
     private long noElements = 0;
 
     public DBSelectSensorAbstract(DBSelectInterface rootRecord, DBSelectInterface sensorRecord) {
-        this.notifyPeriod = (long) sensorRecord.getData(DBSelectGeneralSensorParamData.ATTRIBUTE_NOTIFY_PERIOD);
+        this.notifyPeriod = (double) sensorRecord.getData(DBSelectGeneralSensorParamData.ATTRIBUTE_NOTIFY_PERIOD);
         this.rootRecord = rootRecord;
     }
 
     public DBSelectSensorAbstract(Parcel in) {
         rootRecord = in.readParcelable(DBSelectInterface.class.getClassLoader());
-        notifyPeriod = in.readLong();
+        notifyPeriod = in.readDouble();
         startAt = in.readLong();
         noElements = in.readLong();
     }
@@ -63,7 +63,7 @@ public abstract class DBSelectSensorAbstract implements DBQueryWithLimitsListene
 
     @Override
     public synchronized void onQueryExecuted(Cursor cursor) {
-        long time = startAt * notifyPeriod;
+        double time = startAt * notifyPeriod;
         do
         {
             parse_cursor_data(time, cursor);
@@ -85,7 +85,7 @@ public abstract class DBSelectSensorAbstract implements DBQueryWithLimitsListene
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(rootRecord, flags);
-        dest.writeLong(notifyPeriod);
+        dest.writeDouble(notifyPeriod);
         dest.writeLong(startAt);
         dest.writeLong(noElements);
     }
@@ -95,7 +95,7 @@ public abstract class DBSelectSensorAbstract implements DBQueryWithLimitsListene
      * @param time - X-axis (time) or measurements ticks
      * @param cursor {@link Cursor} that reads data from the database.
      */
-    protected abstract void parse_cursor_data(long time, Cursor cursor);
+    protected abstract void parse_cursor_data(double time, Cursor cursor);
 
     /**
      * Enumerate all columns to be read. Should be presented in CSV format

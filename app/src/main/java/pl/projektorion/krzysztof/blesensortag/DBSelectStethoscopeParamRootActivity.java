@@ -38,7 +38,7 @@ public class DBSelectStethoscopeParamRootActivity extends Activity {
                     .getData(DBSelectStethoscopeParamRootData.ATTRIBUTE_ID_RECORD);
             final long dateSeconds = (long) record
                     .getData(DBSelectStethoscopeParamRootData.ATTRIBUTE_DATE_SECONDS);
-            final long notifyPeriod = (long) record
+            final double notifyPeriod = (double) record
                     .getData(DBSelectStethoscopeParamRootData.ATTRIBUTE_NOTIFY_PERIOD);
 
             final DBSelectInterface rootRecord = new DBSelectRootRecordData(_id, dateSeconds);

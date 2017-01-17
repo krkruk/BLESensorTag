@@ -15,6 +15,8 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,11 +118,11 @@ public class DBPresentOpticalSensorFragment extends DBPresentSensorFragmentAbstr
 
         for(DBSelectInterface entry : data)
         {
-            final long time = (long) entry.getData(DBSelectOpticalSensorData.ATTRIBUTE_TIME);
+            final double time = (double) entry.getData(DBSelectOpticalSensorData.ATTRIBUTE_TIME);
             final double lightIntensity = (double) entry.getData(DBSelectOpticalSensorData.ATTRIBUTE_LIGHT_INTENSITY);
-            lightIntensityData.add(new Entry(time, (float)lightIntensity));
+            lightIntensityData.add(new Entry((float) time, (float) lightIntensity));
 
-            Log.i("DATA", String.format("%d: lightIntensity: %f", time, lightIntensity));
+            Log.i("DATA", String.format("%f: lightIntensity: %f", time, lightIntensity));
         }
 
         create_light_intensity_data(lightIntensityData);
@@ -158,5 +160,11 @@ public class DBPresentOpticalSensorFragment extends DBPresentSensorFragmentAbstr
         lightIntensitySet.setColor(pressureColor);
         lightIntensitySet.setDrawCircleHole(false);
         lightIntensitySet.setDrawCircles(true);
+        lightIntensitySet.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return "";
+            }
+        });
     }
 }

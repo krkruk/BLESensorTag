@@ -15,7 +15,9 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +70,13 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         public void run(DBSelectOnChartFlingIDListener listener) {
             currentChartListener = listener;
             request_new_data();
+        }
+    };
+
+    private IValueFormatter formatterNoNumericLabels = new IValueFormatter() {
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return "";
         }
     };
 
@@ -175,18 +184,18 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
 
         for(DBSelectInterface record : data)
         {
-            final long time = (long) record.getData(DBSelectMovementData.ATTRIBUTE_MEASUREMENT);
-            accXData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_X)));
-            accYData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_Y)));
-            accZData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_Z)));
+            final double time = (double) record.getData(DBSelectMovementData.ATTRIBUTE_MEASUREMENT);
+            accXData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_X)));
+            accYData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_Y)));
+            accZData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_Z)));
 
-            gyrXData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_X)));
-            gyrYData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_Y)));
-            gyrZData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_Z)));
+            gyrXData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_X)));
+            gyrYData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_Y)));
+            gyrZData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_Z)));
 
-            magXData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_X)));
-            magYData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_Y)));
-            magZData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_Z)));
+            magXData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_X)));
+            magYData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_Y)));
+            magZData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_Z)));
         }
 
         create_acc_x_set(accXData);
@@ -214,10 +223,10 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
 
         for(DBSelectInterface record : data)
         {
-            final long time = (long) record.getData(DBSelectMovementData.ATTRIBUTE_MEASUREMENT);
-            accXData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_X)));
-            accYData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_Y)));
-            accZData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_Z)));
+            final double time = (double) record.getData(DBSelectMovementData.ATTRIBUTE_MEASUREMENT);
+            accXData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_X)));
+            accYData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_Y)));
+            accZData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_ACC_Z)));
         }
 
         create_acc_x_set(accXData);
@@ -235,11 +244,11 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
 
         for(DBSelectInterface record : data)
         {
-            final long time = (long) record.getData(DBSelectMovementData.ATTRIBUTE_MEASUREMENT);
+            final double time = (double) record.getData(DBSelectMovementData.ATTRIBUTE_MEASUREMENT);
 
-            gyrXData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_X)));
-            gyrYData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_Y)));
-            gyrZData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_Z)));
+            gyrXData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_X)));
+            gyrYData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_Y)));
+            gyrZData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_GYRO_Z)));
         }
 
         create_gyr_x_set(gyrXData);
@@ -257,11 +266,11 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
 
         for(DBSelectInterface record : data)
         {
-            final long time = (long) record.getData(DBSelectMovementData.ATTRIBUTE_MEASUREMENT);
+            final double time = (double) record.getData(DBSelectMovementData.ATTRIBUTE_MEASUREMENT);
 
-            magXData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_X)));
-            magYData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_Y)));
-            magZData.add(new Entry(time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_Z)));
+            magXData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_X)));
+            magYData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_Y)));
+            magZData.add(new Entry((float) time, (float) record.getData(DBSelectMovementData.ATTRIBUTE_MAGNET_Z)));
         }
 
         create_mag_x_set(magXData);
@@ -325,6 +334,7 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         accXSet.setDrawCircles(true);
         accXSet.setCircleColor(color);
         accXSet.setColor(color);
+        accXSet.setValueFormatter(formatterNoNumericLabels);
     }
 
     private void create_acc_y_set(List<Entry> data)
@@ -337,6 +347,7 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         accYSet.setDrawCircles(true);
         accYSet.setCircleColor(color);
         accYSet.setColor(color);
+        accYSet.setValueFormatter(formatterNoNumericLabels);
     }
 
     private void create_acc_z_set(List<Entry> data)
@@ -349,6 +360,7 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         accZSet.setDrawCircles(true);
         accZSet.setCircleColor(color);
         accZSet.setColor(color);
+        accZSet.setValueFormatter(formatterNoNumericLabels);
     }
 
     private void create_gyr_x_set(List<Entry> data)
@@ -361,6 +373,7 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         gyrXSet.setDrawCircles(true);
         gyrXSet.setCircleColor(color);
         gyrXSet.setColor(color);
+        gyrXSet.setValueFormatter(formatterNoNumericLabels);
     }
 
     private void create_gyr_y_set(List<Entry> data)
@@ -373,6 +386,7 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         gyrYSet.setDrawCircles(true);
         gyrYSet.setCircleColor(color);
         gyrYSet.setColor(color);
+        gyrYSet.setValueFormatter(formatterNoNumericLabels);
     }
 
     private void create_gyr_z_set(List<Entry> data)
@@ -385,6 +399,7 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         gyrZSet.setDrawCircles(true);
         gyrZSet.setCircleColor(color);
         gyrZSet.setColor(color);
+        gyrZSet.setValueFormatter(formatterNoNumericLabels);
     }
 
     private void create_mag_x_set(List<Entry> data)
@@ -397,6 +412,7 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         magXSet.setDrawCircles(true);
         magXSet.setCircleColor(color);
         magXSet.setColor(color);
+        magXSet.setValueFormatter(formatterNoNumericLabels);
     }
 
     private void create_mag_y_set(List<Entry> data)
@@ -409,6 +425,7 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         magYSet.setDrawCircles(true);
         magYSet.setCircleColor(color);
         magYSet.setColor(color);
+        magYSet.setValueFormatter(formatterNoNumericLabels);
     }
 
     private void create_mag_z_set(List<Entry> data)
@@ -421,6 +438,7 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
         magZSet.setDrawCircles(true);
         magZSet.setCircleColor(color);
         magZSet.setColor(color);
+        magZSet.setValueFormatter(formatterNoNumericLabels);
     }
 
     private void apply_to_acc_chart()

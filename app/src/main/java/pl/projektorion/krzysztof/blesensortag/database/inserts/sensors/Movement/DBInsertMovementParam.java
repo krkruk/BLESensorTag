@@ -19,7 +19,7 @@ public class DBInsertMovementParam extends DBInsertParamAbstract {
     @Override
     protected ContentValues values(DBParamDataInterface data) {
         ContentValues values = new ContentValues();
-        final int period = (Integer)
+        final double period = (double)
                 data.getData(DBParamDataInterface.NOTIFY_INTERVAL_PARAMETER);
         values.put(DBTableMovementParam.NOTIFY_INTERVAL, period);
         values.put(DBTableMovementParam.COLUMN_ROOT_REF, dbWriter.getRootRowId());

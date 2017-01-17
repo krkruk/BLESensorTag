@@ -18,17 +18,17 @@ public class DBSelectOpticalSensorData implements DBSelectInterface {
     public static final String CSV_HEADER = "time,intensity";
 
 
-    private long time = 0;
+    private double time = 0;
     private double lightIntensity = 0.0f;
 
-    public DBSelectOpticalSensorData(long time, Cursor cursor) {
+    public DBSelectOpticalSensorData(double time, Cursor cursor) {
         this.time = time;
         this.lightIntensity = cursor.getDouble(0);
     }
 
     public DBSelectOpticalSensorData(Parcel in)
     {
-        time = in.readLong();
+        time = in.readDouble();
         lightIntensity = in.readDouble();
     }
 
@@ -54,7 +54,7 @@ public class DBSelectOpticalSensorData implements DBSelectInterface {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(time);
+        dest.writeDouble(time);
         dest.writeDouble(lightIntensity);
     }
 

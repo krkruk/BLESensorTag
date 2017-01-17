@@ -49,7 +49,7 @@ public interface NotifyGattProfileInterface extends GenericGattProfileInterface 
      * Get notify period in milliseconds
      * @return integer in milliseconds
      */
-    int getPeriod();
+    double getPeriod();
 
     /**
      * Get UUID that contains data

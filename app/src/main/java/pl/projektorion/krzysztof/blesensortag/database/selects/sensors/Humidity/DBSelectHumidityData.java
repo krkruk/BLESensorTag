@@ -18,17 +18,17 @@ public class DBSelectHumidityData implements DBSelectInterface {
 
     public static final String CSV_HEADER = "time,humidity,temperature";
 
-    private long time = 0;
+    private double time = 0;
     private double relativeHumidity = 0.0f;
     private double temperature = 0.0f;
 
-    public DBSelectHumidityData(long time, Cursor cursor) {
+    public DBSelectHumidityData(double time, Cursor cursor) {
         this.time = time;
         parse(cursor);
     }
 
     public DBSelectHumidityData(Parcel in) {
-        time = in.readLong();
+        time = in.readDouble();
         relativeHumidity = in.readDouble();
         temperature = in.readDouble();
     }
@@ -56,7 +56,7 @@ public class DBSelectHumidityData implements DBSelectInterface {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(time);
+        dest.writeDouble(time);
         dest.writeDouble(relativeHumidity);
         dest.writeDouble(temperature);
     }

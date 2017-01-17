@@ -81,7 +81,7 @@ public class SimpleKeysProfile
      * @return integer 0
      */
     @Override
-    public int getPeriod() {
+    public double getPeriod() {
         return 0;
     }
 

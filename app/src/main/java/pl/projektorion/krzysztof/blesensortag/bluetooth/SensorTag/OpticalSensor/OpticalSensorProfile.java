@@ -24,7 +24,7 @@ public class OpticalSensorProfile extends AbstractNotifyGattProfile {
             UUID.fromString("f000aa73-0451-4000-b000-000000000000");
 
     public OpticalSensorProfile(BLeGattIO gattClient) {
-        super(gattClient, 800);
+        super(gattClient, 800.0f);
     }
 
     @Override

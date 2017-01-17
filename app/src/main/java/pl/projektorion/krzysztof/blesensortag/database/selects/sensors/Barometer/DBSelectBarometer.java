@@ -46,7 +46,7 @@ public class DBSelectBarometer extends DBSelectSensorAbstract {
     }
 
     @Override
-    protected void parse_cursor_data(long time, Cursor cursor) {
+    protected void parse_cursor_data(double time, Cursor cursor) {
         barometerRecords.add(new DBSelectBarometerData(time, cursor));
     }
 

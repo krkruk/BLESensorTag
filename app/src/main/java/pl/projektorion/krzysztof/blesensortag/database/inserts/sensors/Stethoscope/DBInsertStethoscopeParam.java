@@ -20,7 +20,7 @@ public class DBInsertStethoscopeParam extends DBInsertParamAbstract {
     @Override
     protected ContentValues values(DBParamDataInterface data) {
         ContentValues values = new ContentValues();
-        final int period = (Integer)
+        final double period = (double)
                 data.getData(DBParamDataInterface.NOTIFY_INTERVAL_PARAMETER);
         values.put(DBTableStethoscopeParam.NOTIFY_INTERVAL, period);
         values.put(DBTableStethoscopeParam.COLUMN_ROOT_REF, dbWriter.getRootRowId());

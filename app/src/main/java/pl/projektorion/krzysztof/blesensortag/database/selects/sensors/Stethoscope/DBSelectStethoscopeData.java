@@ -16,16 +16,16 @@ public class DBSelectStethoscopeData implements DBSelectInterface {
 
     public static final String CSV_HEADER = "time,first";
 
-    private long time = 0;
+    private double time = 0;
     private double first = 0.0f;
 
-    public DBSelectStethoscopeData(long time, Cursor cursor) {
+    public DBSelectStethoscopeData(double time, Cursor cursor) {
         this.time = time;
         parse(cursor);
     }
 
     public DBSelectStethoscopeData(Parcel in) {
-        this.time = in.readLong();
+        this.time = in.readDouble();
         this.first = in.readDouble();
     }
 
@@ -50,7 +50,7 @@ public class DBSelectStethoscopeData implements DBSelectInterface {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(time);
+        dest.writeDouble(time);
         dest.writeDouble(first);
     }
 

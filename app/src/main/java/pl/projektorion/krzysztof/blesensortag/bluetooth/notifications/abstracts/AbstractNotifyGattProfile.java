@@ -25,9 +25,9 @@ public abstract class AbstractNotifyGattProfile implements NotifyGattProfileInte
     private boolean isNotifying;
     private boolean isMeasuring;
 
-    private int notifyPeriodMs;
+    private double notifyPeriodMs;
 
-    public AbstractNotifyGattProfile(BLeGattIO gattClient, int defaultNotifyPeriodMs) {
+    public AbstractNotifyGattProfile(BLeGattIO gattClient, double defaultNotifyPeriodMs) {
         this.gattClient = gattClient;
         this.isMeasuring = false;
         this.isNotifying = false;
@@ -104,7 +104,7 @@ public abstract class AbstractNotifyGattProfile implements NotifyGattProfileInte
     }
 
     @Override
-    public int getPeriod() {
+    public double getPeriod() {
         return notifyPeriodMs;
     }
 
@@ -155,8 +155,8 @@ public abstract class AbstractNotifyGattProfile implements NotifyGattProfileInte
     protected abstract UUID get_period_uuid();
 
 
-    private int computeMillisecondsForPeriod(int value)
+    private double computeMillisecondsForPeriod(double value)
     {
-        return 10*value;
+        return 10.0f * value;
     }
 }

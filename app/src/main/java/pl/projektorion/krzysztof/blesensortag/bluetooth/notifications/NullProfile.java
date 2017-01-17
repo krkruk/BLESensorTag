@@ -36,7 +36,7 @@ public class NullProfile implements NotifyGattProfileInterface {
     public void configurePeriod(int input) {}
 
     @Override
-    public int getPeriod() { return 0; }
+    public double getPeriod() { return 0; }
 
     @Override
     public String getName() { return ""; }

@@ -24,7 +24,7 @@ public class BarometricPressureProfile extends AbstractNotifyGattProfile {
 
 
     public BarometricPressureProfile(BLeGattIO gattClient) {
-        super(gattClient, 1000);
+        super(gattClient, 1000.0f);
     }
 
     @Override

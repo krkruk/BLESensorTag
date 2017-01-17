@@ -137,11 +137,11 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
 
         for( DBSelectInterface record : data )
         {
-            final long time = (long) record.getData(DBSelectStethoscopeData.ATTRIBUTE_TIME);
+            final double time = (double) record.getData(DBSelectStethoscopeData.ATTRIBUTE_TIME);
             final double first = (double) record.getData(DBSelectStethoscopeData.ATTRIBUTE_FIRST);
 
             Log.i("Loaded", time + ", " + first);
-            stethoscopeDataSet.addEntry(new Entry(time, (float) first));
+            stethoscopeDataSet.addEntry(new Entry((float) time, (float) first));
         }
 
         notify_data_updated();

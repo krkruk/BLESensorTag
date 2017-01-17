@@ -24,7 +24,7 @@ public class IRTemperatureProfile extends AbstractNotifyGattProfile {
             UUID.fromString("f000aa03-0451-4000-b000-000000000000");
 
     public IRTemperatureProfile(BLeGattIO gattClient) {
-        super(gattClient, 1000);
+        super(gattClient, 1000.0f);
     }
 
     @Override

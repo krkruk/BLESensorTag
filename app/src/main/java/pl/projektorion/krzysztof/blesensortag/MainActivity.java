@@ -105,7 +105,7 @@ public class MainActivity extends Activity
         MAlgorithmExecutor executor = new MAlgorithmExecutor.Build(resultListener)
                 .setAlgorithm(new MAlgorithmGaussFilter(data, 1.7f, 5))
                 .setAlgorithm(new MAlgorithmPower(2))
-                .setAlgorithm(new MAlgorithmCentralDifference(data))
+                .setAlgorithm(new MAlgorithmCentralDifference())
                 .build();
         Intent intent = new Intent("action");
         Bundle bundle = new Bundle();

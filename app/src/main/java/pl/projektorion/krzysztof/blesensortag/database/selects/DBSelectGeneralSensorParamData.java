@@ -19,13 +19,13 @@ public class DBSelectGeneralSensorParamData extends DBSelectDataAbstract {
     private static final int COLUMN_COUNT = 3;
     private long _id = -1;
     private long recordId = -1;
-    private long notifyPeriod = -1;
+    private double notifyPeriod = -1.0f;
 
     public DBSelectGeneralSensorParamData() {
         super();
     }
 
-    public DBSelectGeneralSensorParamData(long _id, long recordId, long notifyPeriod)
+    public DBSelectGeneralSensorParamData(long _id, long recordId, double notifyPeriod)
     {
         this._id = _id;
         this.recordId = recordId;
@@ -40,7 +40,7 @@ public class DBSelectGeneralSensorParamData extends DBSelectDataAbstract {
     {
         _id = in.readLong();
         recordId = in.readLong();
-        notifyPeriod = in.readLong();
+        notifyPeriod = in.readDouble();
     }
 
     @Override
@@ -51,9 +51,9 @@ public class DBSelectGeneralSensorParamData extends DBSelectDataAbstract {
         }
         _id = cursor.getLong(0);
         recordId = cursor.getLong(1);
-        notifyPeriod = cursor.getLong(2);
+        notifyPeriod = cursor.getDouble(2);
 
-        Log.i("Parse", String.format("_id: %d, recId: %d, notifyPer: %d", _id, recordId, notifyPeriod));
+        Log.i("Parse", String.format("_id: %d, recId: %d, notifyPer: %f", _id, recordId, notifyPeriod));
     }
 
     @Override
@@ -66,7 +66,8 @@ public class DBSelectGeneralSensorParamData extends DBSelectDataAbstract {
                 return recordId;
             case ATTRIBUTE_NOTIFY_PERIOD:
                 return notifyPeriod;
-            default: return 0;
+            default:
+                return null;
         }
     }
 
@@ -79,7 +80,7 @@ public class DBSelectGeneralSensorParamData extends DBSelectDataAbstract {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(_id);
         dest.writeLong(recordId);
-        dest.writeLong(notifyPeriod);
+        dest.writeDouble(notifyPeriod);
     }
 
     public static final Parcelable.Creator<DBSelectGeneralSensorParamData> CREATOR = new Creator<DBSelectGeneralSensorParamData>() {

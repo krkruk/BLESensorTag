@@ -18,17 +18,17 @@ public class DBSelectIRTemperatureData implements DBSelectInterface {
 
     public static final String CSV_HEADER = "time,object,ambient";
 
-    private long time = 0;
+    private double time = 0;
     private double temperatureObject = 0.0f;
     private double temperatureAmbient = 0.0f;
 
-    public DBSelectIRTemperatureData(long time, Cursor cursor) {
+    public DBSelectIRTemperatureData(double time, Cursor cursor) {
         this.time = time;
         parse(cursor);
     }
 
     public DBSelectIRTemperatureData(Parcel in) {
-        time = in.readLong();
+        time = in.readDouble();
         temperatureObject = in.readDouble();
         temperatureAmbient = in.readDouble();
     }
@@ -56,7 +56,7 @@ public class DBSelectIRTemperatureData implements DBSelectInterface {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(time);
+        dest.writeDouble(time);
         dest.writeDouble(temperatureObject);
         dest.writeDouble(temperatureAmbient);
     }
