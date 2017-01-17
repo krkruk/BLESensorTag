@@ -4,8 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -18,12 +21,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.adapters.MainMenuAdapter;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
+import pl.projektorion.krzysztof.blesensortag.math.MConvolve;
+import pl.projektorion.krzysztof.blesensortag.math.MSignalVector;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathExternal;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathInterface;
+
+import static android.R.attr.data;
 
 public class MainActivity extends Activity
     implements AdapterView.OnItemClickListener {
@@ -70,6 +78,19 @@ public class MainActivity extends Activity
         init_main_menu();
         apply_main_menu();
         check_external_storage_permission();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MSignalVector data = new MSignalVector(Arrays.asList(0.0, 0.0, 10.0, 10.0, 0.0, 0.0));
+//        List<Double> kernel = MFilter.gaussFilter1D(1.7f, 5);
+        MSignalVector kernel = new MSignalVector(Arrays.asList(1.0, 0.0, -1.0));
+        Log.i("DATA", data.toString());
+        Log.i("KERNEL", kernel.toString());
+        List<Double> result = MConvolve.convolve(data.getList(), kernel.getList());
+        Log.i("RESULT", result.toString());
+        Log.i("RESULT", data.convolve(kernel).toString());
     }
 
     @Override
