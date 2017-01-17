@@ -48,7 +48,7 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
     private LineDataSet stethoscopeDataSet;
     private LineData stethoscopeData;
 
-    private static final int VALUES_PER_CHART = 400;
+    private static final int VALUES_PER_CHART = 3000;
     private static final float DESCRIPTION_FONT_SIZE = 18.5f;
     private long timeAxis = 0;
 
