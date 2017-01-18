@@ -13,21 +13,21 @@ import pl.projektorion.krzysztof.blesensortag.math.interfaces.MAlgorithm;
  * Created by krzysztof on 18.01.17.
  */
 
-public class MAlgorithmMean implements MAlgorithm {
+public class MAlgorithmDifferenceAndMean implements MAlgorithm {
 
     private MSignalVector data;
     private double samplingRateMs;
 
-    public MAlgorithmMean(double samplingRateMs) {
+    public MAlgorithmDifferenceAndMean(double samplingRateMs) {
         this.samplingRateMs = samplingRateMs;
     }
 
-    public MAlgorithmMean(MSignalVector data, double samplingRateMs) {
+    public MAlgorithmDifferenceAndMean(MSignalVector data, double samplingRateMs) {
         this.data = data;
         this.samplingRateMs = samplingRateMs;
     }
 
-    public MAlgorithmMean(Parcel in) {
+    public MAlgorithmDifferenceAndMean(Parcel in) {
         this.data = in.readParcelable(MSignalVector.class.getClassLoader());
         this.samplingRateMs = in.readDouble();
     }
@@ -42,6 +42,11 @@ public class MAlgorithmMean implements MAlgorithm {
         return data != null && !data.isEmpty();
     }
 
+    /**
+     * Compute difference between elements y=x[i+1]-x[i]. Then compute
+     * a mean given list of y variables
+     * @return {@link MSignalVector} return single value - mean of elements
+     */
     @Override
     public MSignalVector compute() {
         List<Double> array = data.toList();
@@ -67,15 +72,15 @@ public class MAlgorithmMean implements MAlgorithm {
         dest.writeDouble(samplingRateMs);
     }
 
-    public static final Parcelable.Creator<MAlgorithmMean> CREATOR = new Creator<MAlgorithmMean>() {
+    public static final Parcelable.Creator<MAlgorithmDifferenceAndMean> CREATOR = new Creator<MAlgorithmDifferenceAndMean>() {
         @Override
-        public MAlgorithmMean createFromParcel(Parcel source) {
-            return new MAlgorithmMean(source);
+        public MAlgorithmDifferenceAndMean createFromParcel(Parcel source) {
+            return new MAlgorithmDifferenceAndMean(source);
         }
 
         @Override
-        public MAlgorithmMean[] newArray(int size) {
-            return new MAlgorithmMean[size];
+        public MAlgorithmDifferenceAndMean[] newArray(int size) {
+            return new MAlgorithmDifferenceAndMean[size];
         }
     };
 }

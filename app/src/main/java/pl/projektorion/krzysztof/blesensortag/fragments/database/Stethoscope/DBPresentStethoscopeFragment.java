@@ -41,10 +41,10 @@ import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentSensor
 import pl.projektorion.krzysztof.blesensortag.math.MAlgorithmExecutor;
 import pl.projektorion.krzysztof.blesensortag.math.MComputeService;
 import pl.projektorion.krzysztof.blesensortag.math.MSignalVector;
-import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmFindPeaks;
+import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmFindPeriodicPeaks;
 import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmGaussFilter;
 import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmPower;
-import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmMean;
+import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmDifferenceAndMean;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
 /**
@@ -332,12 +332,12 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
     {
         final double notifyPeriod = (double) sensorRecord
                 .getData(DBSelectStethoscopeParamData.ATTRIBUTE_NOTIFY_PERIOD);
+        final int peakPeriod = (int) (Constant.CARDIAC_CYCLE_MS/ notifyPeriod);
         return new MAlgorithmExecutor.Build()
                 .setData(new MSignalVector(dataToRecompute))
                 .setAlgorithm(new MAlgorithmPower(2))
-                .setAlgorithm(new MAlgorithmFindPeaks((int)
-                        (Constant.CARDIAC_CYCLE_MS/ notifyPeriod)))
-                .setAlgorithm(new MAlgorithmMean(notifyPeriod))
+                .setAlgorithm(new MAlgorithmFindPeriodicPeaks(peakPeriod))
+                .setAlgorithm(new MAlgorithmDifferenceAndMean(notifyPeriod))
                 .build();
     }
 }

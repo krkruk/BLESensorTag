@@ -2,7 +2,6 @@ package pl.projektorion.krzysztof.blesensortag.math.algorithms;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,23 +14,23 @@ import pl.projektorion.krzysztof.blesensortag.math.interfaces.MAlgorithm;
  * Created by krzysztof on 18.01.17.
  */
 
-public class MAlgorithmFindPeaks implements MAlgorithm {
+public class MAlgorithmFindPeriodicPeaks implements MAlgorithm {
 
     private MSignalVector data;
-    private int peakAtExpectRate;
+    private int samplingRateMs;
 
-    public MAlgorithmFindPeaks(int peakAtExpectRate) {
-        this.peakAtExpectRate = peakAtExpectRate;
+    public MAlgorithmFindPeriodicPeaks(int samplingRateMs) {
+        this.samplingRateMs = samplingRateMs;
     }
 
-    public MAlgorithmFindPeaks(MSignalVector data, int peakAtExpectRate) {
+    public MAlgorithmFindPeriodicPeaks(MSignalVector data, int samplingRateMs) {
         this.data = data;
-        this.peakAtExpectRate = peakAtExpectRate;
+        this.samplingRateMs = samplingRateMs;
     }
 
-    public MAlgorithmFindPeaks(Parcel in) {
+    public MAlgorithmFindPeriodicPeaks(Parcel in) {
         data = in.readParcelable(MSignalVector.class.getClassLoader());
-        peakAtExpectRate = in.readInt();
+        samplingRateMs = in.readInt();
     }
 
     @Override
@@ -65,7 +64,7 @@ public class MAlgorithmFindPeaks implements MAlgorithm {
             return _peaks
      */
         final int size = data.size();
-        final int window = Math.round(peakAtExpectRate / 2);
+        final int window = Math.round(samplingRateMs / 2);
         final int halfWindow = Math.round(window / 2);
         List<Double> peaks = new ArrayList<>();
         List<Double> array = data.toList();
@@ -90,7 +89,7 @@ public class MAlgorithmFindPeaks implements MAlgorithm {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(data, flags);
-        dest.writeInt(peakAtExpectRate);
+        dest.writeInt(samplingRateMs);
     }
 
     public static int find_peak(List<Double> data)
@@ -136,23 +135,23 @@ public class MAlgorithmFindPeaks implements MAlgorithm {
          */
         final int size = data.size();
         List<Integer> potential_peaks = new ArrayList<>();
-        for( int negatives = highestPeak; negatives > 0; negatives -= peakAtExpectRate)
+        for( int negatives = highestPeak; negatives > 0; negatives -= samplingRateMs)
             potential_peaks.add(negatives);
-        for( int positives = highestPeak + peakAtExpectRate; positives < size; positives += peakAtExpectRate)
+        for(int positives = highestPeak + samplingRateMs; positives < size; positives += samplingRateMs)
             potential_peaks.add(positives);
         Collections.sort(potential_peaks);
         return potential_peaks;
     }
 
-    public static final Parcelable.Creator<MAlgorithmFindPeaks> CREATOR = new Creator<MAlgorithmFindPeaks>() {
+    public static final Parcelable.Creator<MAlgorithmFindPeriodicPeaks> CREATOR = new Creator<MAlgorithmFindPeriodicPeaks>() {
         @Override
-        public MAlgorithmFindPeaks createFromParcel(Parcel source) {
-            return new MAlgorithmFindPeaks(source);
+        public MAlgorithmFindPeriodicPeaks createFromParcel(Parcel source) {
+            return new MAlgorithmFindPeriodicPeaks(source);
         }
 
         @Override
-        public MAlgorithmFindPeaks[] newArray(int size) {
-            return new MAlgorithmFindPeaks[size];
+        public MAlgorithmFindPeriodicPeaks[] newArray(int size) {
+            return new MAlgorithmFindPeriodicPeaks[size];
         }
     };
 }
