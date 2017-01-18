@@ -2,20 +2,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.BarometricPressureFragment"
+    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.database.Movement.DBPresentMovementFragment"
     android:orientation="vertical">
 
     <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/pressure_chart"
+        android:id="@+id/acc_present_chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
     />
 
     <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/temperature_chart"
+        android:id="@+id/gyr_present_chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
     />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/mag_present_chart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+    />
+
 </LinearLayout>

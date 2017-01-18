@@ -1,0 +1,12 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.app.DBSensorDisplayFragment">
+
+    <ListView
+        android:id="@+id/available_sensor_records"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+</FrameLayout>

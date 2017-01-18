@@ -15,18 +15,14 @@
         android:id="@+id/label_current_device_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-    />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
 
     <TextView
         android:id="@+id/label_current_device_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="@android:color/darker_gray"
-        android:fontFamily="monospace"
-        />
+    />
 
     <View
         android:layout_width="match_parent"
@@ -36,31 +32,23 @@
         android:layout_marginBottom="3dp"
     />
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/ble_presentation_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+    />
 
-        <FrameLayout
-            android:id="@+id/ble_presentation_container"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="45"
-        />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+    />
 
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-        />
-
-        <FrameLayout
-            android:id="@+id/ble_service_scanner_fragment_container"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="55"
-        />
-    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/ble_service_scanner_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+    />
 
 </LinearLayout>

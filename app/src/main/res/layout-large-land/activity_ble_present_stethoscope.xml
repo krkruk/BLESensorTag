@@ -11,14 +11,14 @@
         android:id="@+id/present_stethoscope_frag_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7"
+        android:layout_weight="5"
     />
 
     <FrameLayout
         android:id="@+id/config_stethoscope_frag_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="1"
     />
 
 </LinearLayout>

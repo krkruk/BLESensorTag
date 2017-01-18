@@ -2,40 +2,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.presentation.DoubleChartFragment"
+    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.IRTemperatureFragment"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/upper_chart_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/black"
+        android:text="@string/label_ambient_temperature"
         android:layout_gravity="center"
-        android:visibility="gone"
     />
 
     <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/upper_chart"
+        android:id="@+id/ambient_temperature_chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        />
+    />
 
     <TextView
-        android:id="@+id/lower_chart_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/label_object_temperature"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/black"
         android:layout_gravity="center"
-        android:visibility="gone"
     />
 
     <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lower_chart"
+        android:id="@+id/object_temperature_chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        />
+    />
 </LinearLayout>

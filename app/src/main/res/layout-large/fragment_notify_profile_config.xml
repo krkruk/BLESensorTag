@@ -3,9 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="pl.projektorion.krzysztof.blesensortag.fragments.config.FragmentNotifyProfileConfigFragment"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/little_padding_vertical"
-    android:paddingBottom="@dimen/little_padding_vertical">
+    android:orientation="vertical">
 
 
 
@@ -14,8 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/switch_notification_state"
-        android:textSize="14sp"
-        android:textColor="@android:color/black"
     />
 
     <View
@@ -31,8 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/switch_measurement_state"
-        android:textSize="14sp"
-        android:textColor="@android:color/black"
     />
 
     <View
@@ -53,10 +47,9 @@
             android:id="@+id/period_state_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:textSize="14sp"
+            android:layout_weight="1"
+            android:textSize="16sp"
             android:text="@string/label_config_period"
-            android:textColor="@android:color/black"
         />
 
         <SeekBar
@@ -64,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:max="255"
-            android:layout_weight="6"
+            android:layout_weight="1"
         />
     </LinearLayout>
 

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="->"
+    />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingEnd="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/scan_service_name_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/black"
+        />
+
+        <TextView
+            android:id="@+id/scan_service_uuid_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:paddingTop="4dp"
+        />
+
+    </LinearLayout>
+
+</LinearLayout>

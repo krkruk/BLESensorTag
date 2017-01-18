@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.MovementFragment"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:text="@string/label_accelerometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+        />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/accelerometer_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:text="@string/label_gyroscope"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+        />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/gyroscope_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:text="@string/label_magnetometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+        />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/magnetometer_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        />
+
+    </LinearLayout>
+
+</LinearLayout>

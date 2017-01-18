@@ -15,13 +15,17 @@
         android:id="@+id/label_current_device_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        />
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+    />
 
     <TextView
         android:id="@+id/label_current_device_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:fontFamily="monospace"
     />
 
     <View

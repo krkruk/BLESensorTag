@@ -12,7 +12,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/black"
         android:layout_gravity="center"
-        android:visibility="gone"
     />
 
     <com.github.mikephil.charting.charts.LineChart
@@ -20,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        />
+    />
 
     <TextView
         android:id="@+id/lower_chart_title"
@@ -29,7 +28,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/black"
         android:layout_gravity="center"
-        android:visibility="gone"
     />
 
     <com.github.mikephil.charting.charts.LineChart
@@ -37,5 +35,5 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        />
+    />
 </LinearLayout>
