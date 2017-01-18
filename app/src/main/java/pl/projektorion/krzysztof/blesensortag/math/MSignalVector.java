@@ -32,12 +32,12 @@ public class MSignalVector implements MSignal {
 
     public MSignalVector(Parcel in)
     {
-        Log.i("Parcel", "Trying to create");
-        double[] array = in.createDoubleArray();
-        Double[] d_array = new Double[array.length];
-        int index = 0;
-        for( double value : array ) d_array[index++] = value;
+        final int array_size = in.readInt();
+        double[] array = new double[array_size];
         in.readDoubleArray(array);
+        Double[] d_array = new Double[array_size];
+        int index = 0;
+        for( double elem : array ) d_array[index++] = elem;
         dataVector = new ArrayList<>(Arrays.asList(d_array));
     }
 
@@ -49,6 +49,11 @@ public class MSignalVector implements MSignal {
     public List<Double> convolve(MSignalVector kernel)
     {
         return MConvolve.convolve(dataVector, kernel.dataVector);
+    }
+
+    public int size()
+    {
+        return dataVector.size();
     }
 
     @Override
@@ -87,9 +92,19 @@ public class MSignalVector implements MSignal {
         }
     }
 
+    public boolean isEmpty() { return dataVector.isEmpty(); }
+
     public List<Double> getList()
     {
         return dataVector;
+    }
+
+    public List<Integer> toInteger()
+    {
+        List<Integer> integers = new ArrayList<>();
+        for(double value : dataVector)
+            integers.add( (int) value );
+        return integers;
     }
 
     @Override
@@ -99,6 +114,7 @@ public class MSignalVector implements MSignal {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(dataVector.size());
         double[] array = new double[dataVector.size()];
         int index = 0;
         for(Object obj : dataVector.toArray())

@@ -1,12 +1,15 @@
 package pl.projektorion.krzysztof.blesensortag.math.interfaces;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import pl.projektorion.krzysztof.blesensortag.math.MSignalVector;
 
 /**
  * Created by krzysztof on 17.01.17.
  */
 
-public interface MAlgorithm {
+public interface MAlgorithm extends Parcelable {
 
     /**
      * Set data by the executor. Data can be also set in a constructor of the child

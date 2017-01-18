@@ -14,7 +14,6 @@ import java.util.List;
 import pl.projektorion.krzysztof.blesensortag.DBPresentSensorActivity;
 import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryParcelableListenerInterface;
-import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryWithLimitsListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 
 import pl.projektorion.krzysztof.blesensortag.database.selects.abstracts.DBSelectSensorCountDataAbstract;
@@ -77,16 +76,16 @@ implements ServiceDataReceiver.ReceiverListener {
      * Receive information about available records that may be loaded.
      * If any additional behavior has to be implemented, call the super
      * beforehand.
-     * @param resultCode {@link DBSelectIntentService#EXTRA_RESULT_CODE}
-     * @param resultData {@link DBSelectIntentService#EXTRA_RESULT}. The bundle contains
+     * @param resultCode {@link DBSelectIntentService#RESULT_CODE}
+     * @param resultData {@link DBSelectIntentService#EXTRA_RESULT_DATA}. The bundle contains
      *                                                             a List<? extends DBSelectInterface>
      */
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
-        if( resultCode == DBSelectIntentService.EXTRA_RESULT_CODE )
+        if( resultCode == DBSelectIntentService.RESULT_CODE)
         {
             List<? extends DBSelectInterface > data = resultData
-                    .getParcelableArrayList(DBSelectIntentService.EXTRA_RESULT);
+                    .getParcelableArrayList(DBSelectIntentService.EXTRA_RESULT_DATA);
             if( data == null || data.size() <= 0) return;
             availableRecords = (long) data.get(0).getData(attribute_count());
             flingListener = new DBSelectOnChartFlingListener(

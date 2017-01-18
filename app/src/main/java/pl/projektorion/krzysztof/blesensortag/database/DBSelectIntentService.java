@@ -31,10 +31,10 @@ public class DBSelectIntentService extends IntentService {
     public static final String EXTRA_RESULT_RECEIVER =
             "pl.projektorion.krzysztof.blesensortag.database.extra.RESULT_RECEIVER";
 
-    public static final String EXTRA_RESULT =
+    public static final String EXTRA_RESULT_DATA =
             "pl.projektorion.krzysztof.blesensortag.database.extra.RESULT";
 
-    public static final int EXTRA_RESULT_CODE = 111;
+    public static final int RESULT_CODE = 111;
 
     private DBQueryListenerInterface sensorData;
     private ResultReceiver receiver;
@@ -77,7 +77,7 @@ public class DBSelectIntentService extends IntentService {
         ArrayList<? extends Parcelable> d = new ArrayList<>(data);
 
         final Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(EXTRA_RESULT, d);
-        receiver.send(EXTRA_RESULT_CODE, bundle);
+        bundle.putParcelableArrayList(EXTRA_RESULT_DATA, d);
+        receiver.send(RESULT_CODE, bundle);
     }
 }

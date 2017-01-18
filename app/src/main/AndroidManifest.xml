@@ -60,7 +60,11 @@
             android:exported="false" />
 
         <activity android:name=".BLePresentStethoscopeActivity" />
-        <activity android:name=".DBSelectStethoscopeParamRootActivity"></activity>
+        <activity android:name=".DBSelectStethoscopeParamRootActivity" />
+
+        <service
+            android:name=".math.MComputeService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

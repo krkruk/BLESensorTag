@@ -2,6 +2,7 @@ package pl.projektorion.krzysztof.blesensortag.fragments.database.Stethoscope;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -33,8 +34,12 @@ import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Stethosco
 import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Stethoscope.DBSelectStethoscopeCount;
 import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Stethoscope.DBSelectStethoscopeCountData;
 import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Stethoscope.DBSelectStethoscopeData;
-import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Stethoscope.DBTableStethoscope;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Stethoscope.DBSelectStethoscopeParamData;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentSensorFragmentAbstract;
+import pl.projektorion.krzysztof.blesensortag.math.MAlgorithmExecutor;
+import pl.projektorion.krzysztof.blesensortag.math.MComputeService;
+import pl.projektorion.krzysztof.blesensortag.math.MSignalVector;
+import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmGaussFilter;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
 /**
@@ -52,15 +57,34 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
     private static final float DESCRIPTION_FONT_SIZE = 18.5f;
     private long timeAxis = 0;
 
+    private List<Double> dataToRecompute = new ArrayList<>();
+    private double initialChartTime = 0.0;
+    private static final int CONV_BOUNDRY_DATA_DISMISS_LIMIT = 20;
+    private static final int UPDATE_CHART_RESULT_CODE = 67181;
+
+    private ServiceDataReceiver serviceReceiver;
+
     private ServiceDataReceiver.ReceiverListener receiverListener = new ServiceDataReceiver.ReceiverListener() {
         @Override
         public void onReceiveResult(int resultCode, Bundle resultData) {
-            if( resultCode == DBSelectIntentService.EXTRA_RESULT_CODE )
+            if( resultCode == DBSelectIntentService.RESULT_CODE)
             {
                 List<? extends DBSelectInterface> data = resultData
-                        .getParcelableArrayList(DBSelectIntentService.EXTRA_RESULT);
+                        .getParcelableArrayList(DBSelectIntentService.EXTRA_RESULT_DATA);
                 if( data == null ) return;
                 apply_data(data);
+            }
+        }
+    };
+
+    private ServiceDataReceiver.ReceiverListener computationReceiver = new ServiceDataReceiver.ReceiverListener() {
+        @Override
+        public void onReceiveResult(int resultCode, Bundle resultData) {
+            if( resultCode == UPDATE_CHART_RESULT_CODE )
+            {
+                final MSignalVector result =
+                        resultData.getParcelable(MComputeService.EXTRA_RESULT_DATA);
+                apply_recomputed_data(result);
             }
         }
     };
@@ -135,16 +159,45 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
     protected void apply_data(List<? extends DBSelectInterface> data) {
         empty_data_set();
 
+        if( !data.isEmpty() )
+            set_initial_chart_time(data.get(0));
+
+        Log.i("APPLY", "In apply_data");
         for( DBSelectInterface record : data )
         {
             final double time = (double) record.getData(DBSelectStethoscopeData.ATTRIBUTE_TIME);
             final double first = (double) record.getData(DBSelectStethoscopeData.ATTRIBUTE_FIRST);
 
-            Log.i("Loaded", time + ", " + first);
+            add_data_to_compute(first);
             stethoscopeDataSet.addEntry(new Entry((float) time, (float) first));
         }
 
         notify_data_updated();
+        invoke_compute_service();
+    }
+
+    protected void apply_recomputed_data(MSignalVector data)
+    {
+        Log.i("RECOMP", "Applying recomputed");
+        empty_data_set();
+        final double notifyPeriod = (double) sensorRecord
+                .getData(DBSelectStethoscopeParamData.ATTRIBUTE_NOTIFY_PERIOD);
+        double time = initialChartTime;
+        final List<Double> numericData = data.getList();
+        int index = 0;
+        final int dataSize = data.size();
+        final int upperLimit = dataSize - CONV_BOUNDRY_DATA_DISMISS_LIMIT;
+        for( double value : numericData )
+        {
+            if(index++ < CONV_BOUNDRY_DATA_DISMISS_LIMIT || index-1 > upperLimit) continue;
+
+            stethoscopeDataSet.addEntry(new Entry((float) time, (float) value));
+            time += notifyPeriod;
+        }
+
+
+        notify_data_updated();
+        dataToRecompute.clear();
     }
 
     private void init_android_framework()
@@ -162,6 +215,8 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
     {
         stethoscopeDataSet = new LineDataSet(generate_init_values(), getString(R.string.label_stethoscope));
         stethoscopeData = new LineData(stethoscopeDataSet);
+        serviceReceiver = MComputeService.createServiceReceiver(new Handler());
+        serviceReceiver.setListener(computationReceiver);
     }
 
     private void configure_plot()
@@ -203,5 +258,33 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
         stethoscopeData.notifyDataChanged();
         stethoscopeChart.notifyDataSetChanged();
         stethoscopeChart.invalidate();
+    }
+
+    private void invoke_compute_service()
+    {
+        final Intent computeService = new Intent(appContext, MComputeService.class);
+        computeService.putExtra(MComputeService.EXTRA_DATA_RECEIVER, serviceReceiver);
+        computeService.putExtra(MComputeService.EXTRA_ALGORITHM_EXECUTOR, create_algorithm());
+        computeService.putExtra(MComputeService.EXTRA_RESULT_CODE, UPDATE_CHART_RESULT_CODE);
+        appContext.startService(computeService);
+    }
+
+    private void add_data_to_compute(double data)
+    {
+        dataToRecompute.add(data);
+    }
+
+    private void set_initial_chart_time(DBSelectInterface firstRecord)
+    {
+        this.initialChartTime = (double) firstRecord
+                .getData(DBSelectStethoscopeData.ATTRIBUTE_TIME);
+    }
+
+    private MAlgorithmExecutor create_algorithm()
+    {
+        return new MAlgorithmExecutor.Build()
+                .setData(new MSignalVector(dataToRecompute))
+                .setAlgorithm(new MAlgorithmGaussFilter(1.7, 5))
+                .build();
     }
 }

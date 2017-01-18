@@ -83,10 +83,10 @@ public class DBPresentMovementFragment extends DBPresentSensorFragmentAbstract {
     private ServiceDataReceiver.ReceiverListener receiverListener = new ServiceDataReceiver.ReceiverListener() {
         @Override
         public void onReceiveResult(int resultCode, Bundle resultData) {
-            if( resultCode == DBSelectIntentService.EXTRA_RESULT_CODE )
+            if( resultCode == DBSelectIntentService.RESULT_CODE)
             {
                 List<? extends DBSelectInterface> data = resultData
-                        .getParcelableArrayList(DBSelectIntentService.EXTRA_RESULT);
+                        .getParcelableArrayList(DBSelectIntentService.EXTRA_RESULT_DATA);
                 if( data == null ) return;
                 switch (currentChartListener.getChartId())
                 {

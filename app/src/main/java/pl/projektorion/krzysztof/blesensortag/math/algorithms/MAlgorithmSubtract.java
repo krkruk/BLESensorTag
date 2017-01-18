@@ -1,5 +1,8 @@
 package pl.projektorion.krzysztof.blesensortag.math.algorithms;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import pl.projektorion.krzysztof.blesensortag.math.interfaces.MAlgorithm;
 import pl.projektorion.krzysztof.blesensortag.math.MSignalVector;
 
@@ -21,6 +24,11 @@ public class MAlgorithmSubtract implements MAlgorithm {
         this.valueToSubtract = valueToSubtract;
     }
 
+    public MAlgorithmSubtract(Parcel in) {
+        this.data = in.readParcelable(MSignalVector.class.getClassLoader());
+        this.valueToSubtract = in.readDouble();
+    }
+
     @Override
     public void setData(MSignalVector data) {
         this.data = data;
@@ -28,7 +36,7 @@ public class MAlgorithmSubtract implements MAlgorithm {
 
     @Override
     public boolean hasData() {
-        return data != null && !data.getList().isEmpty();
+        return data != null && !data.isEmpty();
     }
 
     @Override
@@ -36,4 +44,27 @@ public class MAlgorithmSubtract implements MAlgorithm {
         data.subtract(valueToSubtract);
         return data;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(data, flags);
+        dest.writeDouble(valueToSubtract);
+    }
+
+    public static final Parcelable.Creator<MAlgorithmSubtract> CREATOR = new Creator<MAlgorithmSubtract>() {
+        @Override
+        public MAlgorithmSubtract createFromParcel(Parcel source) {
+            return new MAlgorithmSubtract(source);
+        }
+
+        @Override
+        public MAlgorithmSubtract[] newArray(int size) {
+            return new MAlgorithmSubtract[size];
+        }
+    };
 }
