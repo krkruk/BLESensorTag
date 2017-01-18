@@ -94,7 +94,7 @@ public class MSignalVector implements MSignal {
 
     public boolean isEmpty() { return dataVector.isEmpty(); }
 
-    public List<Double> getList()
+    public List<Double> toList()
     {
         return dataVector;
     }

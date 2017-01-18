@@ -2,7 +2,6 @@ package pl.projektorion.krzysztof.blesensortag.math.algorithms;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,7 @@ public class MAlgorithmFindPeaksTrivial implements MAlgorithm {
         int startAt = 0;
         int endAt = size < window ? size : window;
         List<Double> peaks = new ArrayList<>();
-        List<Double> array = data.getList();
+        List<Double> array = data.toList();
         while (true)
         {
             if( startAt >= size ) break;

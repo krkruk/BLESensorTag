@@ -39,7 +39,9 @@ import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentSensor
 import pl.projektorion.krzysztof.blesensortag.math.MAlgorithmExecutor;
 import pl.projektorion.krzysztof.blesensortag.math.MComputeService;
 import pl.projektorion.krzysztof.blesensortag.math.MSignalVector;
+import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmFindPeaksTrivial;
 import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmGaussFilter;
+import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmPower;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
 /**
@@ -59,8 +61,9 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
 
     private List<Double> dataToRecompute = new ArrayList<>();
     private double initialChartTime = 0.0;
-    private static final int CONV_BOUNDRY_DATA_DISMISS_LIMIT = 20;
+    private static final int CONV_BONDARY_DATA_DISMISS_LIMIT = 20;
     private static final int UPDATE_CHART_RESULT_CODE = 67181;
+    private static final int PEAK_SEEK_RESULT_CODE = 5412;
 
     private ServiceDataReceiver serviceReceiver;
 
@@ -85,6 +88,16 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
                 final MSignalVector result =
                         resultData.getParcelable(MComputeService.EXTRA_RESULT_DATA);
                 apply_recomputed_data(result);
+            }
+            else if( resultCode == PEAK_SEEK_RESULT_CODE )
+            {
+                final MSignalVector result =
+                        resultData.getParcelable(MComputeService.EXTRA_RESULT_DATA);
+                Log.i("PEAKS", "ECHO peaks: " + result.toInteger().toString());
+                List<Double> values = new ArrayList<>();
+                for( int peak : result.toInteger() )
+                    values.add(dataToRecompute.get(peak) );
+                Log.i("VALUES", "VALUES: " + values.toString());
             }
         }
     };
@@ -157,12 +170,17 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
 
     @Override
     protected void apply_data(List<? extends DBSelectInterface> data) {
+        dataToRecompute.clear();
         empty_data_set();
 
         if( !data.isEmpty() )
             set_initial_chart_time(data.get(0));
 
         Log.i("APPLY", "In apply_data");
+        Log.i("TIME", "Time base [ms]: " + initialChartTime);
+        final double notifyPeriod = (double) sensorRecord
+                .getData(DBSelectStethoscopeParamData.ATTRIBUTE_NOTIFY_PERIOD);
+        Log.i("TIME", "NotifyBase base [ms]: " + notifyPeriod);
         for( DBSelectInterface record : data )
         {
             final double time = (double) record.getData(DBSelectStethoscopeData.ATTRIBUTE_TIME);
@@ -173,31 +191,33 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
         }
 
         notify_data_updated();
-        invoke_compute_service();
+        invoke_signal_filtering_service();
     }
 
     protected void apply_recomputed_data(MSignalVector data)
     {
         Log.i("RECOMP", "Applying recomputed");
+        Log.i("TIME", "Time base [ms]: " + initialChartTime);
         empty_data_set();
         final double notifyPeriod = (double) sensorRecord
                 .getData(DBSelectStethoscopeParamData.ATTRIBUTE_NOTIFY_PERIOD);
+        Log.i("TIME", "NotifyBase base [ms]: " + notifyPeriod);
         double time = initialChartTime;
-        final List<Double> numericData = data.getList();
+        final List<Double> numericData = data.toList();
         int index = 0;
         final int dataSize = data.size();
-        final int upperLimit = dataSize - CONV_BOUNDRY_DATA_DISMISS_LIMIT;
+        final int upperLimit = dataSize - CONV_BONDARY_DATA_DISMISS_LIMIT;
         for( double value : numericData )
         {
-            if(index++ < CONV_BOUNDRY_DATA_DISMISS_LIMIT || index-1 > upperLimit) continue;
+            if(index++ < CONV_BONDARY_DATA_DISMISS_LIMIT || index-1 > upperLimit) continue;
 
             stethoscopeDataSet.addEntry(new Entry((float) time, (float) value));
             time += notifyPeriod;
         }
 
-
+        dataToRecompute = data.toList();
         notify_data_updated();
-        dataToRecompute.clear();
+        invoke_peak_seeker_service();
     }
 
     private void init_android_framework()
@@ -260,12 +280,21 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
         stethoscopeChart.invalidate();
     }
 
-    private void invoke_compute_service()
+    private void invoke_signal_filtering_service()
     {
         final Intent computeService = new Intent(appContext, MComputeService.class);
         computeService.putExtra(MComputeService.EXTRA_DATA_RECEIVER, serviceReceiver);
-        computeService.putExtra(MComputeService.EXTRA_ALGORITHM_EXECUTOR, create_algorithm());
+        computeService.putExtra(MComputeService.EXTRA_ALGORITHM_EXECUTOR, create_filter_algorithm());
         computeService.putExtra(MComputeService.EXTRA_RESULT_CODE, UPDATE_CHART_RESULT_CODE);
+        appContext.startService(computeService);
+    }
+
+    private void invoke_peak_seeker_service()
+    {
+        final Intent computeService = new Intent(appContext, MComputeService.class);
+        computeService.putExtra(MComputeService.EXTRA_DATA_RECEIVER, serviceReceiver);
+        computeService.putExtra(MComputeService.EXTRA_ALGORITHM_EXECUTOR, create_peak_seek_algorithm());
+        computeService.putExtra(MComputeService.EXTRA_RESULT_CODE, PEAK_SEEK_RESULT_CODE);
         appContext.startService(computeService);
     }
 
@@ -278,13 +307,23 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
     {
         this.initialChartTime = (double) firstRecord
                 .getData(DBSelectStethoscopeData.ATTRIBUTE_TIME);
+
     }
 
-    private MAlgorithmExecutor create_algorithm()
+    private MAlgorithmExecutor create_filter_algorithm()
     {
         return new MAlgorithmExecutor.Build()
                 .setData(new MSignalVector(dataToRecompute))
-                .setAlgorithm(new MAlgorithmGaussFilter(1.7, 5))
+                .setAlgorithm(new MAlgorithmGaussFilter(1.7, 7))
+                .setAlgorithm(new MAlgorithmPower(2))
+                .build();
+    }
+
+    private MAlgorithmExecutor create_peak_seek_algorithm()
+    {
+        return new MAlgorithmExecutor.Build()
+                .setData(new MSignalVector(dataToRecompute))
+                .setAlgorithm(new MAlgorithmFindPeaksTrivial(600))
                 .build();
     }
 }

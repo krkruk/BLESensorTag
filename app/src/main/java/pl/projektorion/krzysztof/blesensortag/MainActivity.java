@@ -4,11 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -26,11 +23,7 @@ import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.adapters.MainMenuAdapter;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
-import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmCentralDifference;
-import pl.projektorion.krzysztof.blesensortag.math.MAlgorithmExecutor;
 import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmFindPeaksTrivial;
-import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmGaussFilter;
-import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmPower;
 import pl.projektorion.krzysztof.blesensortag.math.MSignalVector;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathExternal;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathInterface;
@@ -89,8 +82,8 @@ public class MainActivity extends Activity
                                                              0.0, 0.0, 20.0, 100.0,
                                                             -2.5, 2.0, 1.0, 2.1));
 //        MSignalVector data = new MSignalVector(Arrays.asList(0.0, 0.0, 20.0, 40.0, 30.0, 20.0, -2.0, 35.5));
-        int peak = MAlgorithmFindPeaksTrivial.find_peak(data.getList());
-        Log.i("PEAK", "At point: " + peak + " value: " + data.getList().get(peak));
+        int peak = MAlgorithmFindPeaksTrivial.find_peak(data.toList());
+        Log.i("PEAK", "At point: " + peak + " value: " + data.toList().get(peak));
         MAlgorithmFindPeaksTrivial peaker = new MAlgorithmFindPeaksTrivial(data, 3);
         Log.i("PEAKS", "List: "+ peaker.compute().toInteger().toString());
 //        final MAlgorithmExecutor.ResultListener resultListener = new MAlgorithmExecutor.ResultListener() {
