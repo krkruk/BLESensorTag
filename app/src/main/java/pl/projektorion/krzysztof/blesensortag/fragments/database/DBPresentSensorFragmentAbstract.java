@@ -31,6 +31,12 @@ implements ServiceDataReceiver.ReceiverListener {
     public static final String EXTRA_SENSOR_RECORD =
             "pl.projektorion.krzysztof.blesensortag.fragments.database.extra.SENSOR_RECORD";
 
+    public static final String ACTION_SENSOR_PARAMS =
+            "pl.projektorion.krzysztof.blesensortag.fragments.database.action.SENSOR_PARAMS";
+
+    public static final String EXTRA_NUMBER_OF_RECORDS =
+            "pl.projektorion.krzysztof.blesensortag.fragments.database.extra.NUMBER_OF_RECORDS";
+
     private Context context;
     private ServiceDataReceiver dataCounterReceiver;
 
@@ -92,8 +98,8 @@ implements ServiceDataReceiver.ReceiverListener {
                     availableRecords, readMaxRecordsPerLoad);
             flingListener.setTask(onFlingTask);
 
-            final Intent recordsParam = new Intent(DBPresentSensorActivity.ACTION_SENSOR_PARAMS);
-            recordsParam.putExtra(DBPresentSensorActivity.EXTRA_NUMBER_OF_RECORDS, availableRecords);
+            final Intent recordsParam = new Intent(ACTION_SENSOR_PARAMS);
+            recordsParam.putExtra(EXTRA_NUMBER_OF_RECORDS, availableRecords);
             LocalBroadcastManager.getInstance(context).sendBroadcast(recordsParam);
         }
         request_new_data();

@@ -4,26 +4,21 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Locale;
 
 import pl.projektorion.krzysztof.blesensortag.database.DBCSVIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectRootRecordData;
+import pl.projektorion.krzysztof.blesensortag.factories.DBPresentSensorDescriptionFactory;
 import pl.projektorion.krzysztof.blesensortag.factories.DBPresentSensorFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentSensorDescriptionDefaultFragment;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentSensorFragmentAbstract;
 
 
@@ -38,42 +33,24 @@ public class DBPresentSensorActivity extends Activity {
     public static final String EXTRA_SENSOR_LABEL =
             "pl.projektorion.krzysztof.blesensortag.extra.SENSOR_LABEL";
 
-    public static final String NEGOTIATE_FRAGMENT_TAG =
-            "pl.projektorion.krzysztof.blesensortag.tag.NEGOTIATE_FRAGMENT";
+    public static final String NEGOTIATE_DESCRIPTION_FRAGMENT_TAG =
+            "pl.projektorion.krzysztof.blesensortag.tag.DESCRIPTION_FRAGMENT_TAG";
 
-    public static final String ACTION_SENSOR_PARAMS =
-            "pl.projektorion.krzysztof.blesensortag.action.SENSOR_PARAMS";
-
-    public static final String EXTRA_NUMBER_OF_RECORDS =
-            "pl.projektorion.krzysztof.blesensortag.extra.NUMBER_OF_RECORDS";
+    public static final String NEGOTIATE_PRESENTATION_FRAGMENT_TAG =
+            "pl.projektorion.krzysztof.blesensortag.tag.PRESENTATION_FRAGMENT_TAG";
 
     private DBSelectInterface rootRecord;
     private DBSelectInterface sensorRecord;
     private String sensorLabel;
 
-    private TextView sensorPresentationLabel;
-    private TextView sensorRecordNumberLabel;
-    private FrameLayout fragmentSink;
+    private FrameLayout descriptionSink;
+    private FrameLayout presentationSink;
 
-    private DBPresentSensorFactory fragmentFactory;
-    private Fragment fragment;
+    private DBPresentSensorDescriptionFactory descriptionFragFactory;
+    private DBPresentSensorFactory presentationFragFactory;
+    private Fragment descriptionFrag;
+    private Fragment presentationFrag;
 
-    private LocalBroadcastManager broadcastManager;
-
-    /*
-    * Display number of records available to read. It is optional.e
-     */
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final long numberOfRecords = intent.getLongExtra(EXTRA_NUMBER_OF_RECORDS, 0);
-            final String nOfRecLabel = String.format(Locale.getDefault(), "%s: %d",
-                    getString(R.string.label_total_records), numberOfRecords);
-
-            if( sensorRecordNumberLabel != null )
-                sensorRecordNumberLabel.setText(nOfRecLabel);
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,21 +61,15 @@ public class DBPresentSensorActivity extends Activity {
             acquire_data();
         init_objects();
         init_widgets();
-        init_broadcast_receivers();
 
-        negotiate_fragment();
+        negotiate_description_fragment();
+        negotiate_presentation_fragment();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_db_present_sensor_menu, menu);
         return true;
-    }
-
-    @Override
-    protected void onDestroy() {
-        kill_broadcast_receivers();
-        super.onDestroy();
     }
 
     @Override
@@ -149,48 +120,51 @@ public class DBPresentSensorActivity extends Activity {
 
     private void init_objects()
     {
-        fragmentFactory = new DBPresentSensorFactory(rootRecord, sensorRecord);
+        descriptionFragFactory = new DBPresentSensorDescriptionFactory(sensorLabel);
+        presentationFragFactory = new DBPresentSensorFactory(rootRecord, sensorRecord);
     }
 
     private void init_widgets()
     {
-        sensorPresentationLabel = (TextView) findViewById(R.id.sensor_presentation_label);
-        sensorRecordNumberLabel = (TextView) findViewById(R.id.sensor_record_number_label);
-        fragmentSink = (FrameLayout) findViewById(R.id.db_presentation_container);
-
-        sensorPresentationLabel.setText(sensorLabel);
+        presentationSink = (FrameLayout) findViewById(R.id.db_presentation_container);
+        descriptionSink = (FrameLayout) findViewById(R.id.db_description_container);
     }
 
-    private void init_broadcast_receivers()
-    {
-        broadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
-        broadcastManager.registerReceiver(receiver, new IntentFilter(ACTION_SENSOR_PARAMS));
-    }
 
-    private void negotiate_fragment()
+
+    private void negotiate_description_fragment()
     {
         FragmentManager fm = getFragmentManager();
-        fragment = fm.findFragmentByTag(NEGOTIATE_FRAGMENT_TAG);
-        if( fragment == null )
+        descriptionFrag = fm.findFragmentByTag(NEGOTIATE_DESCRIPTION_FRAGMENT_TAG);
+        if( descriptionFrag == null )
         {
-            fragment = fragmentFactory.create(sensorLabel);
+            descriptionFrag = descriptionFragFactory.create(sensorLabel);
             FragmentTransaction ft = fm.beginTransaction();
-            ft.add(fragment, NEGOTIATE_FRAGMENT_TAG);
-            ft.replace(R.id.db_presentation_container, fragment);
+            ft.add(descriptionFrag, NEGOTIATE_DESCRIPTION_FRAGMENT_TAG);
+            ft.replace(R.id.db_description_container, descriptionFrag);
             ft.commit();
         }
     }
 
-    private void kill_broadcast_receivers()
+    private void negotiate_presentation_fragment()
     {
-        broadcastManager.unregisterReceiver(receiver);
+        FragmentManager fm = getFragmentManager();
+        presentationFrag = fm.findFragmentByTag(NEGOTIATE_PRESENTATION_FRAGMENT_TAG);
+        if( presentationFrag == null )
+        {
+            presentationFrag = presentationFragFactory.create(sensorLabel);
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.add(presentationFrag, NEGOTIATE_PRESENTATION_FRAGMENT_TAG);
+            ft.replace(R.id.db_presentation_container, presentationFrag);
+            ft.commit();
+        }
     }
 
     private void request_export_csv()
     {
         DBPresentSensorFragmentAbstract frag;
         try {
-            frag = (DBPresentSensorFragmentAbstract) fragment;
+            frag = (DBPresentSensorFragmentAbstract) presentationFrag;
         } catch (ClassCastException e)
         {
             Toast.makeText(this, R.string.toast_export_csv_start_error, Toast.LENGTH_LONG).show();

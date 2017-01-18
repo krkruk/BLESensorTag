@@ -61,7 +61,7 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
 
     private List<Double> dataToRecompute = new ArrayList<>();
     private double initialChartTime = 0.0;
-    private static final int CONV_BONDARY_DATA_DISMISS_LIMIT = 20;
+    private static final int CONV_BOUNDARY_DATA_DISMISS_LIMIT = 20;
     private static final int UPDATE_CHART_RESULT_CODE = 67181;
     private static final int PEAK_SEEK_RESULT_CODE = 5412;
 
@@ -206,10 +206,10 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
         final List<Double> numericData = data.toList();
         int index = 0;
         final int dataSize = data.size();
-        final int upperLimit = dataSize - CONV_BONDARY_DATA_DISMISS_LIMIT;
+        final int upperLimit = dataSize - CONV_BOUNDARY_DATA_DISMISS_LIMIT;
         for( double value : numericData )
         {
-            if(index++ < CONV_BONDARY_DATA_DISMISS_LIMIT || index-1 > upperLimit) continue;
+            if(index++ < CONV_BOUNDARY_DATA_DISMISS_LIMIT || index-1 > upperLimit) continue;
 
             stethoscopeDataSet.addEntry(new Entry((float) time, (float) value));
             time += notifyPeriod;

@@ -94,4 +94,5 @@
     <string name="toast_stethoscope_service_unavailable">Usługa stetoskopu niedostępna! Aktywność zostanie wyłączona.</string>
     <string name="label_stethoscope">Stetoskop</string>
     <string name="label_stethoscope_sensor">Stetoskop</string>
+    <string name="label_heart_pulse">Puls</string>
 </resources>
