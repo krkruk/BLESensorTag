@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +27,13 @@ public class DBPresentStethoscopeDescriptionFragment extends Fragment {
     public static final String EXTRA_SENSOR_LABEL =
             "pl.projektorion.krzysztof.blesensortag.fragments";
 
+
     private View view;
     private Context appContext;
 
     private TextView sensorPresentationLabel;
     private TextView sensorRecordNumberLabel;
-    private TextView sensorHeartPulseLabel;
+    private TextView sensorHeartRrLabel;
 
     private LocalBroadcastManager broadcastManager;
 
@@ -45,12 +45,23 @@ public class DBPresentStethoscopeDescriptionFragment extends Fragment {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            final long numberOfRecords = intent.getLongExtra(DBPresentSensorFragmentAbstract.EXTRA_NUMBER_OF_RECORDS, 0);
-            final String nOfRecLabel = String.format(Locale.getDefault(), "%s: %d",
-                    getString(R.string.label_total_records), numberOfRecords);
+            final String action = intent.getAction();
+            if( action.equals(DBPresentSensorFragmentAbstract.ACTION_SENSOR_PARAMS) ) {
+                final long numberOfRecords = intent.getLongExtra(DBPresentSensorFragmentAbstract.EXTRA_NUMBER_OF_RECORDS, 0);
+                final String nOfRecLabel = String.format(Locale.getDefault(), "%s: %d",
+                        getString(R.string.label_total_records), numberOfRecords);
 
-            if( sensorRecordNumberLabel != null )
-                sensorRecordNumberLabel.setText(nOfRecLabel);
+                if (sensorRecordNumberLabel != null)
+                    sensorRecordNumberLabel.setText(nOfRecLabel);
+            }
+            else if( action.equals(DBPresentStethoscopeFragment.ACTION_COMPUTED_CARDIAC_RR) )
+            {
+                final double rr = intent.getDoubleExtra(DBPresentStethoscopeFragment.EXTRA_CARDIAC_RR, 0.0);
+                final String rrLabel = String.format(Locale.getDefault(), "%s: %.1f [ms]",
+                        getString(R.string.label_heart_rr), rr);
+                if( sensorHeartRrLabel != null )
+                    sensorHeartRrLabel.setText(rrLabel);
+            }
         }
     };
 
@@ -119,16 +130,19 @@ public class DBPresentStethoscopeDescriptionFragment extends Fragment {
     {
         sensorPresentationLabel = (TextView) view.findViewById(R.id.sensor_presentation_label);
         sensorRecordNumberLabel = (TextView) view.findViewById(R.id.sensor_record_number_label);
-        sensorHeartPulseLabel = (TextView) view.findViewById(R.id.sensor_heart_pulse_label);
+        sensorHeartRrLabel = (TextView) view.findViewById(R.id.sensor_heart_rr_label);
 
         sensorPresentationLabel.setText(sensorLabel);
-        sensorHeartPulseLabel.setText(R.string.label_heart_pulse);
+        sensorHeartRrLabel.setText(R.string.label_heart_rr);
     }
 
     private void init_broadcast_receivers()
     {
         broadcastManager = LocalBroadcastManager.getInstance(appContext);
-        broadcastManager.registerReceiver(receiver, new IntentFilter(DBPresentSensorFragmentAbstract.ACTION_SENSOR_PARAMS));
+        final IntentFilter filter = new IntentFilter();
+        filter.addAction(DBPresentSensorFragmentAbstract.ACTION_SENSOR_PARAMS);
+        filter.addAction(DBPresentStethoscopeFragment.ACTION_COMPUTED_CARDIAC_RR);
+        broadcastManager.registerReceiver(receiver, filter);
     }
 
     private void kill_broadcast_receivers()

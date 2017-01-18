@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.os.ResultReceiver;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,6 +50,12 @@ import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
  * A simple {@link Fragment} subclass.
  */
 public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstract {
+
+    public static final String ACTION_COMPUTED_CARDIAC_RR =
+            "pl.projektorion.krzysztof.blesensortag.fragments.database.Stethoscope.action.COMPUTED_CARDIAC_RR";
+
+    public static final String EXTRA_CARDIAC_RR =
+            "pl.projektorion.krzysztof.blesensortag.fragments.database.Stethoscope.extra.CARDIAC_R";
 
     private Context appContext;
     private View view;
@@ -94,8 +101,12 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
             {
                 final MSignalVector result =
                         resultData.getParcelable(MComputeService.EXTRA_RESULT_DATA);
-                if( result != null && !result.isEmpty() )
+                if( result == null || result.isEmpty() ) return;
                 Log.i("PEAKS", "MEAN R-R: " + result.toInteger().toString());
+                final Intent cardiacRrIntent = new Intent(ACTION_COMPUTED_CARDIAC_RR);
+                final double rr = result.toList().get(0);
+                cardiacRrIntent.putExtra(EXTRA_CARDIAC_RR, rr);
+                LocalBroadcastManager.getInstance(appContext).sendBroadcast(cardiacRrIntent);
             }
         }
     };

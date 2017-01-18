@@ -122,7 +122,7 @@
     <string name="label_no_configuration_provided">Hey, dude! No config, read only&#8230;</string>
 
     <string name="label_total_records">Total records</string>
-    <string name="label_heart_pulse">Heart pulse</string>
+    <string name="label_heart_rr">Heart R-R</string>
 
     <string name="label_stethoscope">Stethoscope</string>
 
