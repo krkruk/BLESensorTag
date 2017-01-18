@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.R;
+import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.database.DBSelectIntentService;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryParcelableListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryWithLimitsListenerInterface;
@@ -334,7 +335,8 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
         return new MAlgorithmExecutor.Build()
                 .setData(new MSignalVector(dataToRecompute))
                 .setAlgorithm(new MAlgorithmPower(2))
-                .setAlgorithm(new MAlgorithmFindPeaks((int) (800.0f / notifyPeriod)))
+                .setAlgorithm(new MAlgorithmFindPeaks((int)
+                        (Constant.CARDIAC_CYCLE_MS/ notifyPeriod)))
                 .setAlgorithm(new MAlgorithmMean(notifyPeriod))
                 .build();
     }

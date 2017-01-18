@@ -11,20 +11,16 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.adapters.MainMenuAdapter;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
-import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmFindPeaks;
-import pl.projektorion.krzysztof.blesensortag.math.MSignalVector;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathExternal;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathInterface;
 
@@ -73,34 +69,6 @@ public class MainActivity extends Activity
         init_main_menu();
         apply_main_menu();
         check_external_storage_permission();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        MSignalVector data = new MSignalVector(Arrays.asList(0.0, 0.0, 10.0, 9.0,
-                                                             0.0, 0.0, 20.0, 100.0,
-                                                            -2.5, 2.0, 1.0, 2.1));
-//        MSignalVector data = new MSignalVector(Arrays.asList(0.0, 0.0, 20.0, 40.0, 30.0, 20.0, -2.0, 35.5));
-        int peak = MAlgorithmFindPeaks.find_peak(data.toList());
-        Log.i("PEAK", "At point: " + peak + " value: " + data.toList().get(peak));
-        MAlgorithmFindPeaks peaker = new MAlgorithmFindPeaks(data, 3);
-        Log.i("PEAKS", "List: "+ peaker.compute().toInteger().toString());
-//        final MAlgorithmExecutor.ResultListener resultListener = new MAlgorithmExecutor.ResultListener() {
-//            @Override
-//            public void onExecuted(MSignalVector result) {
-//                Log.i("RECVDRES", result.toString());
-//            }
-//        };
-//
-//        MAlgorithmExecutor executor = new MAlgorithmExecutor.Build(resultListener)
-//                .setData(data)
-//                .setAlgorithm(new MAlgorithmGaussFilter(1.7f, 5))
-//                .setAlgorithm(new MAlgorithmPower(2))
-//                .setAlgorithm(new MAlgorithmCentralDifference())
-//                .build();
-//
-//        executor.execute();
     }
 
     @Override

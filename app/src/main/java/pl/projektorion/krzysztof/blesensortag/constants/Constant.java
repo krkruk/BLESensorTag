@@ -23,4 +23,6 @@ public interface Constant {
 
     String DB_NAME = "SensorTagDB";
     String DB_APP_DIR = "BLESensorTag";
+
+    double CARDIAC_CYCLE_MS = 800;
 }
