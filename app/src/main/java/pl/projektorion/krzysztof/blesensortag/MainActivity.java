@@ -23,7 +23,7 @@ import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.adapters.MainMenuAdapter;
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
-import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmFindPeaksTrivial;
+import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmFindPeaks;
 import pl.projektorion.krzysztof.blesensortag.math.MSignalVector;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathExternal;
 import pl.projektorion.krzysztof.blesensortag.utils.path.PathInterface;
@@ -82,9 +82,9 @@ public class MainActivity extends Activity
                                                              0.0, 0.0, 20.0, 100.0,
                                                             -2.5, 2.0, 1.0, 2.1));
 //        MSignalVector data = new MSignalVector(Arrays.asList(0.0, 0.0, 20.0, 40.0, 30.0, 20.0, -2.0, 35.5));
-        int peak = MAlgorithmFindPeaksTrivial.find_peak(data.toList());
+        int peak = MAlgorithmFindPeaks.find_peak(data.toList());
         Log.i("PEAK", "At point: " + peak + " value: " + data.toList().get(peak));
-        MAlgorithmFindPeaksTrivial peaker = new MAlgorithmFindPeaksTrivial(data, 3);
+        MAlgorithmFindPeaks peaker = new MAlgorithmFindPeaks(data, 3);
         Log.i("PEAKS", "List: "+ peaker.compute().toInteger().toString());
 //        final MAlgorithmExecutor.ResultListener resultListener = new MAlgorithmExecutor.ResultListener() {
 //            @Override
