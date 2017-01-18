@@ -6,4 +6,6 @@
     <!--Padding for custom Adapters as ListView-->
     <dimen name="padding_vertical">8dp</dimen>
 
+    <dimen name="little_padding_vertical">4dp</dimen>
+
 </resources>

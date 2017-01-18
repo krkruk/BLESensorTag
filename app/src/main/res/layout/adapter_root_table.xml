@@ -6,22 +6,25 @@
     <TextView
         android:id="@+id/root_id"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:textSize="14sp"
         android:paddingTop="@dimen/padding_vertical"
         android:paddingBottom="@dimen/padding_vertical"
-        android:gravity="end"
+        android:gravity="center_vertical|end"
     />
 
     <TextView
         android:id="@+id/root_date"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="9"
-        android:textSize="18sp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/padding_vertical"
         android:paddingBottom="@dimen/padding_vertical"
-        android:gravity="center"
+        android:gravity="center|center_vertical"
     />
+
 </LinearLayout>
