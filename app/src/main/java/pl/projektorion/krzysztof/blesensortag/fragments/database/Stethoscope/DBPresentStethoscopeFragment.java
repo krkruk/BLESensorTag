@@ -42,6 +42,7 @@ import pl.projektorion.krzysztof.blesensortag.math.MSignalVector;
 import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmFindPeaks;
 import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmGaussFilter;
 import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmPower;
+import pl.projektorion.krzysztof.blesensortag.math.algorithms.MAlgorithmMean;
 import pl.projektorion.krzysztof.blesensortag.utils.ServiceDataReceiver;
 
 /**
@@ -93,11 +94,8 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
             {
                 final MSignalVector result =
                         resultData.getParcelable(MComputeService.EXTRA_RESULT_DATA);
-                Log.i("PEAKS", "ECHO peaks: " + result.toInteger().toString());
-                List<Double> values = new ArrayList<>();
-                for( int peak : result.toInteger() )
-                    values.add(dataToRecompute.get(peak) );
-                Log.i("VALUES", "VALUES: " + values.toString());
+                if( result != null && !result.isEmpty() )
+                Log.i("PEAKS", "MEAN R-R: " + result.toInteger().toString());
             }
         }
     };
@@ -326,6 +324,7 @@ public class DBPresentStethoscopeFragment extends DBPresentSensorFragmentAbstrac
                 .setData(new MSignalVector(dataToRecompute))
                 .setAlgorithm(new MAlgorithmPower(2))
                 .setAlgorithm(new MAlgorithmFindPeaks((int) (800.0f / notifyPeriod)))
+                .setAlgorithm(new MAlgorithmMean(notifyPeriod))
                 .build();
     }
 }

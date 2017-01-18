@@ -141,7 +141,6 @@ public class MAlgorithmFindPeaks implements MAlgorithm {
         for( int positives = highestPeak + peakAtExpectRate; positives < size; positives += peakAtExpectRate)
             potential_peaks.add(positives);
         Collections.sort(potential_peaks);
-        Log.i("POTPEAKS", "Potential peaks: " + potential_peaks.toString());
         return potential_peaks;
     }
 
