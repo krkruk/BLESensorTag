@@ -7,7 +7,7 @@
         android:id="@+id/sensor_presentation_label"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="6"
+        android:layout_weight="52"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center"
         />
@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="4"
+        android:layout_weight="48"
         android:orientation="vertical">
 
         <TextView

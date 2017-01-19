@@ -7,7 +7,7 @@
         android:id="@+id/sensor_presentation_label"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="5"
+        android:layout_weight="15"
         android:textSize="16sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -18,7 +18,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:textSize="12sp"
-        android:layout_weight="2"
+        android:layout_weight="10"
         android:gravity="center"
     />
 
@@ -34,7 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:textSize="12sp"
-        android:layout_weight="2"
+        android:layout_weight="7"
         android:gravity="center"
     />
 
