@@ -153,6 +153,9 @@ public class DBSensorDisplayFragment extends Fragment {
             super.onPreExecute();
             context = DBSensorDisplayFragment.this.getActivity().getApplicationContext();
 
+            /*
+             * Create factory for access to the *Param tables
+             */
             DBFactoryParamSelects factoryParamSelects = new DBFactoryParamSelects(rootRecord);
             listeners = factoryParamSelects.getQueryListeners();
         }

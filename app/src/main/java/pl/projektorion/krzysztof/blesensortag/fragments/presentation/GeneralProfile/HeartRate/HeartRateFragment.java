@@ -68,6 +68,12 @@ public class HeartRateFragment extends Fragment
     }
 
     @Override
+    public void onDestroy() {
+        if( observable != null ) observable.deleteObserver(this);
+        super.onDestroy();
+    }
+
+    @Override
     public void update(Observable o, Object arg) {
         observable = o;
 

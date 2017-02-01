@@ -7,6 +7,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Movement.Movem
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.OpticalSensorProfile;
 import pl.projektorion.krzysztof.blesensortag.database.tables.DBTableFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Barometer.DBTableBarometerFactory;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.HeartRate.DBTableHeartRateFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Humidity.DBTableHumidityFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.IRTemperature.DBTableIRTemperatureFactory;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.Movement.DBTableMovementFactory;
@@ -32,5 +33,6 @@ public class DBFactoryTables extends DBTableFactory {
         add( new DBTableMovementFactory() );
         add( new DBTableOpticalSensorFactory() );
         add( new DBTableStethoscopeFactory() );
+        add( new DBTableHeartRateFactory() );
     }
 }

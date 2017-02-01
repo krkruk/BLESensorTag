@@ -6,6 +6,7 @@ import java.util.List;
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBQueryListenerInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Barometer.DBSelectBarometerParam;
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
+import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.HeartRate.DBSelectHeartRateParam;
 import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Humidity.DBSelectHumidityParam;
 import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.IRTemperature.DBSelectIRTemperatureParam;
 import pl.projektorion.krzysztof.blesensortag.database.selects.sensors.Movement.DBSelectMovementParam;
@@ -40,5 +41,6 @@ public class DBFactoryParamSelects {
         queryListeners.add(new DBSelectMovementParam(rootRecord));
         queryListeners.add(new DBSelectOpticalSensorParam(rootRecord));
         queryListeners.add(new DBSelectStethoscopeParam(rootRecord));
+        queryListeners.add(new DBSelectHeartRateParam(rootRecord));
     }
 }

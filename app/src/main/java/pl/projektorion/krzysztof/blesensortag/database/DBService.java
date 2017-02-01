@@ -105,12 +105,21 @@ public class DBService extends Service {
         return this.models != null;
     }
 
+    /**
+     * Set an alternative {@link DBInsertFactory} to the default one {@link DBFactoryInserts}.
+     * To do so, the user has to create a factory that will create the alternative factory.
+     * @param factory {@link DBFactoryForInsertsFactoryInterface}
+     */
     public void setInsertsFactory(DBFactoryForInsertsFactoryInterface factory)
     {
         dbInsertFactoryForFactories = factory;
     }
 
-
+    /**
+     * Set an alternative {@link DBInsertFactory} to the default one {@link DBFactoryParamInserts}.
+     * To do so, the user has to create a factory that will create the alternative factory.
+     * @param factory {@link DBFactoryForInsertsFactoryInterface}
+     */
     public void setInsertParamsFactory(DBFactoryForInsertsFactoryInterface factory)
     {
         dbInsertParamFactoryForFactories = factory;

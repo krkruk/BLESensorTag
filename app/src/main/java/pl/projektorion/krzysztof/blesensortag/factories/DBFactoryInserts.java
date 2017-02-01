@@ -1,5 +1,6 @@
 package pl.projektorion.krzysztof.blesensortag.factories;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.HeartRate.HeartRateProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureProfile;
@@ -8,6 +9,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.
 import pl.projektorion.krzysztof.blesensortag.database.commands.DBRowWriter;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.DBInsertFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Barometer.DBInsertBarometerFactory;
+import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.HeartRate.DBInsertHeartRateFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Humidity.DBInsertHumidityFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.IRTemperature.DBInsertIRTemperatureFactory;
 import pl.projektorion.krzysztof.blesensortag.database.inserts.sensors.Movement.DBInsertMovementFactory;
@@ -41,5 +43,7 @@ public class DBFactoryInserts extends DBInsertFactory {
                 new DBInsertMovementFactory(dbWriter));
         put(OpticalSensorProfile.OPTICAL_SENSOR_DATA,
                 new DBInsertOpticalSensorFactory(dbWriter));
+        put(HeartRateProfile.HEART_RATE_DATA,
+                new DBInsertHeartRateFactory(dbWriter));
     }
 }
