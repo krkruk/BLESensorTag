@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.HeartRate.HeartRateFragment"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/heart_rate_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_heart_rate"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:gravity="center"
+    />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/heart_rate_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+
+</LinearLayout>

@@ -26,6 +26,7 @@ import java.util.UUID;
 import pl.projektorion.krzysztof.blesensortag.R;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.HeartRate.HeartRateProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.ConnectionControl.ConnectionControlReadProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityProfile;
@@ -39,6 +40,7 @@ import pl.projektorion.krzysztof.blesensortag.fragments.BLeFragmentsFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.app.BLeServiceScannerFragment;
 import pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformation.DeviceInformationObservableFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.GAPService.GAPServiceObservableFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.HeartRate.HeartRateObservableFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.BarometricPressure.BarometricPressureObservableFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.ConnectionControl.ConnectionControlObservableFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.Humidity.HumidityObservableFragmentFactory;
@@ -219,6 +221,11 @@ public class BLePresentationFragment extends Fragment {
                 ConnectionControlReadProfile.CONNECTION_CONTROL_SERVICE);
         fragmentFactory.put(ConnectionControlReadProfile.CONNECTION_CONTROL_SERVICE,
                 new ConnectionControlObservableFragmentFactory(connControlModel));
+
+        Observable heartRateModel = (Observable) gattModelService.getModel(
+                HeartRateProfile.HEART_RATE_DATA);
+        fragmentFactory.put(HeartRateProfile.HEART_RATE_SERVICE,
+                new HeartRateObservableFragmentFactory(heartRateModel));
     }
 
     private void negotiate_data_presentation_fragment(UUID serviceUuid)

@@ -127,6 +127,8 @@
 
     <string name="label_stethoscope">Stethoscope</string>
 
+    <string name="label_heart_rate">Heart Rate</string>
+
     <!--axis labels-->
     <string name="axis_acc_x" translatable="false">X [G]</string>
     <string name="axis_acc_y" translatable="false">Y [G]</string>
