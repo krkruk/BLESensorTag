@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag;
+package pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.Movement;
 
 import android.app.Fragment;
 
@@ -10,13 +10,13 @@ import pl.projektorion.krzysztof.blesensortag.fragments.AbstractObservableFragme
  * Created by krzysztof on 07.11.16.
  */
 
-public class HumidityObservableFragmentFactory extends AbstractObservableFragmentFactory {
-    public HumidityObservableFragmentFactory(Observable observable) {
+public class MovementObservableFragmentFactory extends AbstractObservableFragmentFactory {
+    public MovementObservableFragmentFactory(Observable observable) {
         super(observable);
     }
 
     @Override
     protected Fragment create_new_fragment() {
-        return new HumidityFragment();
+        return new MovementFragment();
     }
 }

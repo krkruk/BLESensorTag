@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag;
+package pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.Humidity;
 
 
 import android.graphics.Color;
@@ -14,23 +14,23 @@ import java.util.Observable;
 import java.util.Observer;
 
 import pl.projektorion.krzysztof.blesensortag.R;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.Humidity.HumidityData;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.ProfileData;
 import pl.projektorion.krzysztof.blesensortag.fragments.presentation.DoubleChartFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BarometricPressureFragment extends DoubleChartFragment
-    implements Observer {
+public class HumidityFragment extends DoubleChartFragment
+    implements Observer{
 
     private View view;
+    private static final float FONT_SIZE = 14.5f;
+
     private Observable observable;
     private Handler handler;
 
-    private static final float FONT_SIZE = 14.5f;
-
-    public BarometricPressureFragment() {
+    public HumidityFragment() {
         super();
     }
 
@@ -39,14 +39,14 @@ public class BarometricPressureFragment extends DoubleChartFragment
         observable = o;
         ProfileData data = (ProfileData) arg;
         if( handler == null ) return;
-        final float pressure = (float) data.getValue(BarometricPressureData.ATTRIBUTE_PRESSURE_hPa);
-        final float temperature = (float) data.getValue(BarometricPressureData.ATTRIBUTE_CENTIGRADE);
+        final float temperature = (float) data.getValue(HumidityData.ATTRIBUTE_TEMPERATURE_CELSIUS);
+        final float humidity = (float) data.getValue(HumidityData.ATTRIBUTE_RELATIVE_HUMIDITY);
 
         handler.post(new Runnable() {
             @Override
             public void run() {
-                update_upper_chart(pressure);
-                update_lower_chart(temperature);
+            update_upper_chart(humidity);
+            update_lower_chart(temperature);
             }
         });
     }
@@ -58,7 +58,9 @@ public class BarometricPressureFragment extends DoubleChartFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+//        view = inflater.inflate(R.layout.fragment_humidity, container, false);
         view = super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }
@@ -73,7 +75,7 @@ public class BarometricPressureFragment extends DoubleChartFragment
 
     @Override
     protected String get_upper_title() {
-        return getString(R.string.label_barometric_pressure);
+        return getString(R.string.label_humidity);
     }
 
     @Override
@@ -93,7 +95,7 @@ public class BarometricPressureFragment extends DoubleChartFragment
 
     @Override
     protected String get_upper_measure_unit() {
-        return getString(R.string.label_barometric_pressure_unit);
+        return getString(R.string.label_humidity_unit);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag;
+package pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.BarometricPressure;
 
 import android.app.Fragment;
 

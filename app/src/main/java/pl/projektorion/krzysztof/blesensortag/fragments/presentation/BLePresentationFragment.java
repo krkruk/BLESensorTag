@@ -37,15 +37,15 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.service.BLeGattModelServ
 import pl.projektorion.krzysztof.blesensortag.constants.Constant;
 import pl.projektorion.krzysztof.blesensortag.fragments.BLeFragmentsFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.app.BLeServiceScannerFragment;
-import pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformationObservableFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.GAPServiceObservableFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.BarometricPressureObservableFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.ConnectionControlObservableFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.HumidityObservableFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.IRTemperatureObservableFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.MovementObservableFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.OpticalSensorObservableFragmentFactory;
-import pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.SimpleKeysObservableFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformation.DeviceInformationObservableFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.GAPService.GAPServiceObservableFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.BarometricPressure.BarometricPressureObservableFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.ConnectionControl.ConnectionControlObservableFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.Humidity.HumidityObservableFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.IRTemperature.IRTemperatureObservableFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.Movement.MovementObservableFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.OpticalSensor.OpticalSensorObservableFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.SimpleKeys.SimpleKeysObservableFragmentFactory;
 
 /**
  * A simple {@link Fragment} subclass.

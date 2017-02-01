@@ -1,10 +1,10 @@
-package pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag;
+package pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.BarometricPressure;
 
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.os.Handler;
+import android.app.Fragment;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,38 +14,39 @@ import java.util.Observable;
 import java.util.Observer;
 
 import pl.projektorion.krzysztof.blesensortag.R;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.abstracts.AbstractProfileData;
-import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.IRTemperature.IRTemperatureData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureData;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.notifications.interfaces.ProfileData;
 import pl.projektorion.krzysztof.blesensortag.fragments.presentation.DoubleChartFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class IRTemperatureFragment extends DoubleChartFragment
-    implements Observer{
+public class BarometricPressureFragment extends DoubleChartFragment
+    implements Observer {
 
     private View view;
-
-    private static final float FONT_SIZE = 14.3f;
-
     private Observable observable;
     private Handler handler;
 
-    public IRTemperatureFragment() {}
+    private static final float FONT_SIZE = 14.5f;
+
+    public BarometricPressureFragment() {
+        super();
+    }
 
     @Override
     public void update(Observable o, Object arg) {
         observable = o;
-        AbstractProfileData temperatureData = (AbstractProfileData) arg;
+        ProfileData data = (ProfileData) arg;
         if( handler == null ) return;
-        final float ambientTemp = (float) temperatureData.getValue(IRTemperatureData.ATTRIBUTE_AMBIENT_TEMPERATURE);
-        final float objectTemp = (float) temperatureData.getValue(IRTemperatureData.ATTRIBUTE_OBJECT_TEMPERATURE);
+        final float pressure = (float) data.getValue(BarometricPressureData.ATTRIBUTE_PRESSURE_hPa);
+        final float temperature = (float) data.getValue(BarometricPressureData.ATTRIBUTE_CENTIGRADE);
 
         handler.post(new Runnable() {
             @Override
             public void run() {
-            update_upper_chart(ambientTemp);
-            update_lower_chart(objectTemp);
+                update_upper_chart(pressure);
+                update_lower_chart(temperature);
             }
         });
     }
@@ -54,12 +55,10 @@ public class IRTemperatureFragment extends DoubleChartFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handler = new Handler(Looper.getMainLooper());
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }
@@ -74,32 +73,32 @@ public class IRTemperatureFragment extends DoubleChartFragment
 
     @Override
     protected String get_upper_title() {
-        return getString(R.string.label_ambient_temperature);
+        return getString(R.string.label_barometric_pressure);
     }
 
     @Override
     protected String get_lower_title() {
-        return getString(R.string.label_object_temperature);
+        return getString(R.string.label_temperature);
     }
 
     @Override
     protected int get_upper_chart_color() {
-        return Color.GREEN;
+        return Color.BLUE;
     }
 
     @Override
     protected int get_lower_chart_color() {
-        return Color.GRAY;
+        return Color.RED;
     }
 
     @Override
     protected String get_upper_measure_unit() {
-        return getString(R.string.label_temperature_unit);
+        return getString(R.string.label_barometric_pressure_unit);
     }
 
     @Override
     protected String get_lower_measure_unit() {
-        return get_upper_measure_unit();
+        return getString(R.string.label_temperature_unit);
     }
 
     @Override

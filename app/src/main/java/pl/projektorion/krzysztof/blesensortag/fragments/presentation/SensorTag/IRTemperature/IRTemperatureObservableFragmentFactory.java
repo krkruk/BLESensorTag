@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag;
+package pl.projektorion.krzysztof.blesensortag.fragments.presentation.SensorTag.IRTemperature;
 
 import android.app.Fragment;
 

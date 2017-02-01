@@ -1,4 +1,4 @@
-package pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile;
+package pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformation;
 
 
 import android.os.Bundle;
