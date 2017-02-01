@@ -41,7 +41,8 @@
     <string name="profile_gap_service">GAP Service Profile</string>
     <string name="profile_device_information">Device Information Service Profile</string>
     <string name="profile_connection_control">Connection Control Service Profile</string>
-    <string name="profile_stethoscope">Stethoscope profile</string>
+    <string name="profile_stethoscope">Stethoscope Profile</string>
+    <string name="profile_heart_rate">Heart Rate Profile</string>
 
     <!--Toasts-->
     <string name="toast_ble_not_supported">BLE is not supported. The app is to be closed.</string>

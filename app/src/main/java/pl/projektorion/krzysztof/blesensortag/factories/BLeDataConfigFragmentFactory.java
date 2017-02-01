@@ -1,5 +1,6 @@
 package pl.projektorion.krzysztof.blesensortag.factories;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.HeartRate.HeartRateProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.GenericGattProfileInterface;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.BarometricPressure.BarometricPressureProfile;
@@ -10,6 +11,7 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.SensorTag.OpticalSensor.
 import pl.projektorion.krzysztof.blesensortag.data.BLeAvailableGattProfiles;
 import pl.projektorion.krzysztof.blesensortag.fragments.BLeFragmentsFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.BarometricPressureNotifyConfigFragmentFactory;
+import pl.projektorion.krzysztof.blesensortag.fragments.config.HeartRateNotifyConfigFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.HumidityNotifyConfigFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.IRTemperatureNotifyConfigFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.config.MovementNotifyConfigFragmentFactory;
@@ -69,6 +71,10 @@ public class BLeDataConfigFragmentFactory extends BLeFragmentsFactory {
         buffer = availableGattProfiles.get(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE);
         put(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
                 new OpticalSensorNotifyFragmentFactory(buffer));
+
+        buffer = availableGattProfiles.get(HeartRateProfile.HEART_RATE_SERVICE);
+        put(HeartRateProfile.HEART_RATE_SERVICE,
+                new HeartRateNotifyConfigFragmentFactory(buffer));
     }
 
     /**

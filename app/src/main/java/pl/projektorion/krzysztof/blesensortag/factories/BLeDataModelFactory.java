@@ -6,6 +6,8 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInf
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadModel;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadModelFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.GAPService.GAPServiceReadProfile;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.HeartRate.HeartRateModelNotifyFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.HeartRate.HeartRateProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysModelNotifyFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.SimpleKeys.SimpleKeysProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GenericGattModelFactory;
@@ -45,6 +47,7 @@ public class BLeDataModelFactory extends GenericGattModelFactory {
         put(HumidityProfile.HUMIDITY_SERVICE, new HumidityModelNotifyFactory());
         put(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
                 new OpticalSensorModelNotifyFactory());
+        put(HeartRateProfile.HEART_RATE_SERVICE, new HeartRateModelNotifyFactory());
     }
 
     private void init_read_models()

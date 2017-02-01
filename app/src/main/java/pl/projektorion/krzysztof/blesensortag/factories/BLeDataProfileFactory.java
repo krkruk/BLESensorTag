@@ -1,5 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.factories;
 
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.HeartRate.HeartRateGenericProfileFactory;
+import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.HeartRate.HeartRateProfile;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.interfaces.BLeGattIO;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationGenericProfileFactory;
 import pl.projektorion.krzysztof.blesensortag.bluetooth.GeneralProfile.DeviceInformation.DeviceInformationReadProfile;
@@ -80,6 +82,8 @@ public class BLeDataProfileFactory extends GenericGattProfileFactory {
                 new HumidityGenericProfileFactory(gattIO));
         put(OpticalSensorProfile.OPTICAL_SENSOR_SERVICE,
                 new OpticalSensorGenericProfileFactory(gattIO));
+        put(HeartRateProfile.HEART_RATE_SERVICE,
+                new HeartRateGenericProfileFactory(gattIO));
     }
 
     private void init_readable()

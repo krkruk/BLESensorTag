@@ -95,4 +95,5 @@
     <string name="label_stethoscope">Stetoskop</string>
     <string name="label_stethoscope_sensor">Stetoskop</string>
     <string name="label_heart_rr">R-R</string>
+    <string name="profile_heart_rate">Profil Tętna</string>
 </resources>
