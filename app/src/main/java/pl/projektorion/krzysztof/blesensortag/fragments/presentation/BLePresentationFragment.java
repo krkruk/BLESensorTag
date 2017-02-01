@@ -65,6 +65,7 @@ public class BLePresentationFragment extends Fragment {
     private UUID currentUuidDisplayed;
     private Fragment currentFragment;
 
+
     /**
      * Connection with a bound BLE model service.
      */
@@ -103,6 +104,7 @@ public class BLePresentationFragment extends Fragment {
             final String uuid = intent.getStringExtra(BLeServiceScannerFragment.EXTRA_BLE_SERVICE_UUID);
             final UUID serviceUuid = UUID.fromString(uuid);
             negotiate_data_presentation_fragment(serviceUuid);
+            Log.i("PRESFRAG", "passed negotiate_data_presentation_fragment");
         }
     };
 
@@ -123,6 +125,8 @@ public class BLePresentationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_ble_presentation, container, false);
+        if( currentUuidDisplayed != null )
+            on_create_view_negotiate_fragment(currentUuidDisplayed);
         return view;
     }
 
@@ -242,8 +246,6 @@ public class BLePresentationFragment extends Fragment {
 
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        if( currentFragment != null )
-            ft.remove(currentFragment);
         ft.replace(R.id.present_ble_data, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
@@ -251,4 +253,19 @@ public class BLePresentationFragment extends Fragment {
         currentFragment = fragment;
     }
 
+    private void on_create_view_negotiate_fragment(UUID serviceUuid)
+    {
+        Fragment fragment = fragmentFactory.create(serviceUuid);
+        if( fragment == null )
+            return;
+        currentUuidDisplayed = serviceUuid;
+
+        FragmentManager fm = getChildFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.present_ble_data, fragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
+
+        currentFragment = fragment;
+    }
 }

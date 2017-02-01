@@ -9,6 +9,7 @@ import java.util.List;
 
 import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface;
 import pl.projektorion.krzysztof.blesensortag.database.selects.abstracts.DBSelectSensorCountAbstract;
+import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.HeartRate.DBTableHeartRate;
 import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.HeartRate.DBTableHeartRateParam;
 
 /**
@@ -17,7 +18,7 @@ import pl.projektorion.krzysztof.blesensortag.database.tables.sensors.HeartRate.
 
 public class DBSelectHeartRateCount extends DBSelectSensorCountAbstract {
 
-    private DBSelectHeartRateCountData heartRateCountData;
+    private DBSelectInterface heartRateCountData;
 
     public DBSelectHeartRateCount(DBSelectInterface rootRecord) {
         super(rootRecord);
@@ -26,7 +27,7 @@ public class DBSelectHeartRateCount extends DBSelectSensorCountAbstract {
 
     public DBSelectHeartRateCount(Parcel in) {
         super(in);
-        heartRateCountData = in.readParcelable(DBSelectHeartRateCountData.class.getClassLoader());
+        heartRateCountData = in.readParcelable(DBSelectInterface.class.getClassLoader());
     }
 
     @Override
@@ -37,12 +38,12 @@ public class DBSelectHeartRateCount extends DBSelectSensorCountAbstract {
 
     @Override
     protected String table_name() {
-        return DBTableHeartRateParam.TABLE_NAME;
+        return DBTableHeartRate.TABLE_NAME;
     }
 
     @Override
     protected String grouping_column() {
-        return DBTableHeartRateParam.COLUMN_ROOT_REF;
+        return DBTableHeartRate.COLUMN_ROOT_REF;
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.os.ResultReceiver;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,7 @@ public class DBSelectIntentService extends IntentService {
         try {
             dbReadable.beginTransaction();
             cursor = dbReadable.rawQuery(sensorData.getQuery(), sensorData.getQueryData());
+            Log.i("QUERY", sensorData.getQuery() + " " + sensorData.getQueryData()[0]);
             if (!cursor.moveToFirst())
                 return;
             sensorData.onQueryExecuted(cursor);

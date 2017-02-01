@@ -1,6 +1,7 @@
 package pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformation;
 
 
+import android.content.pm.ProviderInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Fragment;
@@ -22,6 +23,27 @@ import pl.projektorion.krzysztof.blesensortag.bluetooth.reading.ProfileStringDat
  */
 public class DeviceInformationFragment extends Fragment
     implements Observer {
+
+    private static final String EXTRA_SYSTEM_ID =
+            "pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformation.extra.SYSTEM_ID";
+
+    private static final String EXTRA_MODEL_NUMBER =
+            "pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformation.extra.MODEL_NUMBER";
+
+    private static final String EXTRA_SERIAL_NUMBER =
+            "pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformation.extra.SERIAL_NUMBER";
+
+    private static final String EXTRA_FIRMWARE_REV =
+            "pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformation.extra.FIRMWARE_REV";
+
+    private static final String EXTRA_HARDWARE_REV =
+            "pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformation.extra.HARDWARE_REV";
+
+    private static final String EXTRA_SOFTWARE_REV =
+            "pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformation.extra.SOFTWARE_REV";
+
+    private static final String EXTRA_MANUFACTURER =
+            "pl.projektorion.krzysztof.blesensortag.fragments.presentation.GeneralProfile.DeviceInformation.extra.MANUFACTURER";
 
     private View view;
     private TextView labelSystemId;
@@ -76,7 +98,20 @@ public class DeviceInformationFragment extends Fragment
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_device_information, container, false);
         init_widgets();
+        load_saved_instance(savedInstanceState);
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(EXTRA_SYSTEM_ID, labelSystemId.getText().toString());
+        outState.putString(EXTRA_MODEL_NUMBER, labelModelNumber.getText().toString());
+        outState.putString(EXTRA_SERIAL_NUMBER, labelSerialNumber.getText().toString());
+        outState.putString(EXTRA_FIRMWARE_REV, labelFirmwareRev.getText().toString());
+        outState.putString(EXTRA_HARDWARE_REV, labelHardwareRev.getText().toString());
+        outState.putString(EXTRA_SOFTWARE_REV, labelSoftwareRev.getText().toString());
+        outState.putString(EXTRA_MANUFACTURER, labelManufacturer.getText().toString());
     }
 
     @Override
@@ -97,4 +132,15 @@ public class DeviceInformationFragment extends Fragment
         labelManufacturer = (TextView) view.findViewById(R.id.manufacturer_name);
     }
 
+    private void load_saved_instance(Bundle savedInstanceState)
+    {
+        if( savedInstanceState == null ) return;
+        labelSystemId.setText(savedInstanceState.getString(EXTRA_SYSTEM_ID));
+        labelModelNumber.setText(savedInstanceState.getString(EXTRA_MODEL_NUMBER));
+        labelSerialNumber.setText(savedInstanceState.getString(EXTRA_SERIAL_NUMBER));
+        labelFirmwareRev.setText(savedInstanceState.getString(EXTRA_FIRMWARE_REV));
+        labelHardwareRev.setText(savedInstanceState.getString(EXTRA_HARDWARE_REV));
+        labelSoftwareRev.setText(savedInstanceState.getString(EXTRA_SOFTWARE_REV));
+        labelManufacturer.setText(savedInstanceState.getString(EXTRA_MANUFACTURER));
+    }
 }

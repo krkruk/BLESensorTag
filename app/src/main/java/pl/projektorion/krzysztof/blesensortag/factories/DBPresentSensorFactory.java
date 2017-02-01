@@ -10,6 +10,7 @@ import pl.projektorion.krzysztof.blesensortag.database.selects.DBSelectInterface
 import pl.projektorion.krzysztof.blesensortag.fragments.FragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.Barometer.DBPresentBarometerFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.DBPresentNullFragment;
+import pl.projektorion.krzysztof.blesensortag.fragments.database.HeartRate.DBPresentHeartRateFagmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.Humidity.DBPresentHumidityFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.IRTemperature.DBPresentIRTemperatureFragmentFactory;
 import pl.projektorion.krzysztof.blesensortag.fragments.database.Movement.DBPresentMovementFragmentFactory;
@@ -65,6 +66,8 @@ public class DBPresentSensorFactory extends HashMap<String, FragmentFactory> {
                 new DBPresentOpticalSensorFragmentFactory(rootRecord, sensorRecord));
         put(AppContext.getContext().getString(R.string.label_stethoscope_sensor),
                 new DBPresentStethoscopeFragmentFactory(rootRecord, sensorRecord));
+        put(AppContext.getContext().getString(R.string.label_heart_rate),
+                new DBPresentHeartRateFagmentFactory(rootRecord, sensorRecord));
     }
 
 }

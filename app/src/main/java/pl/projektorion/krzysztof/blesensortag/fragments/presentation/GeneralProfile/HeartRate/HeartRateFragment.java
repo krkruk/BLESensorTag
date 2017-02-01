@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,11 +57,13 @@ public class HeartRateFragment extends Fragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init_objects();
+        Log.e("CREATE", "onCreate");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.e("CREATE", "onCreateView");
         view = inflater.inflate(R.layout.fragment_heart_rate, container, false);
         init_widgets();
         configure_plot();
@@ -69,6 +72,7 @@ public class HeartRateFragment extends Fragment
 
     @Override
     public void onDestroy() {
+        Log.e("HRF", "onDestroy");
         if( observable != null ) observable.deleteObserver(this);
         super.onDestroy();
     }
@@ -108,7 +112,7 @@ public class HeartRateFragment extends Fragment
         heartRateChart.getDescription().setTextSize(DESCRIPTION_FONT_SIZE);
 
         heartRateChart.getAxisRight().setEnabled(false);
-        heartRateChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        heartRateChart.getXAxis().setEnabled(false);
         heartRateSet.setDrawCircleHole(false);
         heartRateSet.setDrawCircles(false);
         heartRateSet.setColor(Color.RED);

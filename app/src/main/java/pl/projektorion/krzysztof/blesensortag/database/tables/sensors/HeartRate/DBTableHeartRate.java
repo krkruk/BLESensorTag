@@ -14,7 +14,7 @@ public class DBTableHeartRate implements DBTableInterface {
     public static final String TABLE_NAME = "HeartRate";
     public static final String COLUMN_ID = BaseColumns._ID;
     public static final String COLUMN_ROOT_REF = "ID_RECORD";
-    public static final String COLUMN_HEART_RATE = "Pressure";
+    public static final String COLUMN_HEART_RATE = "HeartRate";
 
     private static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "(" +

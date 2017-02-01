@@ -40,6 +40,9 @@ public class DBSelectHeartRateData implements DBSelectInterface {
             case ATTRIBUTE_HEART_RATE:
                 return heartRate;
 
+            case ATTRIBUTE_CSV_HEADER:
+                return CSV_HEADER;
+
             default:
                 return null;
         }

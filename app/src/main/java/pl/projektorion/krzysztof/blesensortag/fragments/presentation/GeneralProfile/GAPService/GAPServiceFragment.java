@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.app.Fragment;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class GAPServiceFragment extends Fragment
 
     private View view;
     private TextView labelGapDeviceName;
+    private String deviceName;
 
     private Observable observable;
     private Handler handler;
@@ -37,7 +39,7 @@ public class GAPServiceFragment extends Fragment
         ProfileStringData data = (ProfileStringData) arg;
         if( handler == null ) return;
         final String deviceName = data.getValue(GAPServiceData.ATTRIBUTE_DEVICE_NAME);
-
+        this.deviceName = deviceName;
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -50,7 +52,6 @@ public class GAPServiceFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handler = new Handler(Looper.getMainLooper());
-
     }
 
     @Override
